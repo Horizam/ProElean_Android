@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--<color name="colorPrimary">#6200EE</color>
+    <color name="colorPrimaryDark">#3700B3</color>
+    <color name="colorAccent">#03DAC5</color>-->
+
+    <color name="colorPrimary">@color/colorOne</color>
+    <color name="colorPrimaryDark">@color/colorOne</color>
+    <color name="colorAccent">#368FEE</color>
+    <!--<color name="colorButtons">#ff0000</color>-->
+    <!--<color name="colorButtons">#592B5C</color>-->
+    <color name="colorButtons">#F45A2A</color>
+    <color name="colorButtonsClick">#0905EA</color>
+    <color name="colorOnButton">#5956e0</color>
+    <color name="colorOne">#293039 </color>
+    <color name="colorTwo">#ffd9bc</color>
+    <color name="colorThree">#0000ff</color>
+    <color name="colorWhite">#ffffff</color>
+    <color name="colorWhiteMatching">#F1F1F1</color>
+    <color name="colorBlack">#000000</color>
+    <color name="colorGrey">#D3D3D3</color>
+    <color name="colorDarkGrey">#5F5E5E</color>
+    <color name="colorGolden">#F8AE00</color>
+    <color name="colorOrange">#EE881D</color>
+    <color name="colorLightPink">#E088CA</color>
+    <color name="colorLightPurple">#C58DE0</color>
+    <color name="colorMediumBlue">#56A9F6</color>
+    <color name="colorLightBlue">#01C9F7</color>
+    <color name="colorGreenStatus">#357230</color>
+    <color name="colorRedStatus">@color/colorAccent</color>
+    <color name="colorOrangeStatus">#FF5722</color>
+    <color name="color_transparent_black_background">#80000000</color>
+    <color name="glide_slider_indicator_color">@color/colorAccent</color>
+    <color name="colorRed">#E60F0F</color>
+</resources>

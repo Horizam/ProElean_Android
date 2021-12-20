@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:background="@color/colorGrey"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:layout_marginBottom="@dimen/_15sdp"
+        android:text="@string/str_how_do_you_want_to_pay"
+        android:textColor="@color/colorBlack"
+        android:textSize="@dimen/_12ssp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:layout_marginBottom="@dimen/_15sdp"
+        android:gravity="center"
+        android:padding="@dimen/_20sdp"
+        android:text="@string/str_a_3_service_charges"
+        android:textColor="@color/colorBlack"
+        android:textSize="@dimen/_12ssp" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardViewPaypal"
+        android:layout_width="@dimen/_200sdp"
+        android:layout_height="?attr/actionBarSize"
+        android:visibility="gone"
+        app:cardCornerRadius="@dimen/_7sdp"
+        app:strokeColor="@color/colorAccent"
+        app:strokeWidth="@dimen/_1sdp">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/_7sdp"
+            android:contentDescription="@string/content_description"
+            android:gravity="center"
+            android:src="@drawable/img_paypal"
+            android:textSize="@dimen/_14ssp" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardViewPayStack"
+        android:layout_width="@dimen/_200sdp"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_marginTop="@dimen/_15sdp"
+        app:cardCornerRadius="@dimen/_7sdp"
+        app:strokeColor="@color/colorAccent"
+        app:strokeWidth="@dimen/_1sdp">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/_7sdp"
+            android:contentDescription="@string/content_description"
+            android:gravity="center"
+            android:src="@drawable/img_paystack"
+            android:textSize="@dimen/_14ssp" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardViewStripe"
+        android:layout_width="@dimen/_200sdp"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_marginVertical="@dimen/_15sdp"
+        app:cardCornerRadius="@dimen/_7sdp"
+        app:strokeColor="@color/colorAccent"
+        app:strokeWidth="@dimen/_1sdp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/_7sdp"
+            android:contentDescription="@string/content_description"
+            android:gravity="center"
+            android:src="@drawable/img_stripe"
+            android:textSize="@dimen/_14ssp" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+</LinearLayout>

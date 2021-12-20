@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/dialogParent"
+    style="@style/df_dialog_layout">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="0dp"
+        android:gravity="center"
+        app:cardBackgroundColor="@color/colorWhite">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical">
+
+
+            <ImageView
+                android:layout_width="@dimen/_200sdp"
+                android:layout_height="@dimen/_200sdp"
+                android:layout_gravity="center"
+                android:src="@drawable/img_no_internet" />
+
+            <TextView
+                style="@style/homeHeading"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_7sdp"
+                android:text="@string/str_no_internet"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/_16ssp" />
+
+            <TextView
+                android:id="@+id/spinAndWinReward"
+                style="@style/learnhubTitleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/str_please_check_your_connection_status_and_try_again"
+                android:textSize="@dimen/_10ssp"
+                android:textStyle="normal" />
+
+            <Button
+                android:id="@+id/btn_retry"
+                style="@style/New.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_7sdp"
+                android:backgroundTint="@color/colorBlack"
+                android:elevation="@dimen/_10sdp"
+                android:text="@string/str_retry"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/_8ssp"
+                app:layout_constraintBottom_toBottomOf="@id/tv_user_name"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_user_name" />
+
+            <Button
+                android:id="@+id/btn_close"
+                style="@style/New.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:backgroundTint="@color/colorButtons"
+                android:elevation="@dimen/_10sdp"
+                android:text="@string/str_close"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/_8ssp"
+                app:layout_constraintBottom_toBottomOf="@id/tv_user_name"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_user_name" />
+
+
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+</LinearLayout>

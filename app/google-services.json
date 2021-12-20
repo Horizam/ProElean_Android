@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "41257031786",
+    "project_id": "pro-elean",
+    "storage_bucket": "pro-elean.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:41257031786:android:9634c9b0237a6d0465d213",
+        "android_client_info": {
+          "package_name": "com.horizam.pro.elean"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "41257031786-13mj088dfo31sd3bo97bmbcntg42kibc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.horizam.pro.elean",
+            "certificate_hash": "150987f7e4455f7f0feb0a2c1e762383b7a7e924"
+          }
+        },
+        {
+          "client_id": "41257031786-i2urikr50damdfh4r3467dqp7pksshng.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-2vbW-d2ONJOBkOQ0HLzyaX1y42X5who"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "41257031786-i2urikr50damdfh4r3467dqp7pksshng.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

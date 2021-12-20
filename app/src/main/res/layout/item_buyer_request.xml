@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:fillViewport="true"
+    android:background="@drawable/bg_shape_rectangle"
+    android:padding="@dimen/_7sdp"
+    android:layout_marginTop="@dimen/_7sdp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_requests"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/iv_buyer_request"
+            android:layout_width="@dimen/_35sdp"
+            android:layout_height="@dimen/_35sdp"
+            android:contentDescription="@string/content_description"
+            android:src="@drawable/img_profile"
+            app:civ_border_color="@color/colorAccent"
+            app:civ_border_width="@dimen/_1sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_10sdp"
+            android:text="@string/str_username"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/_14ssp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/tv_date"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/iv_buyer_request"
+            app:layout_constraintTop_toTopOf="@id/iv_buyer_request" />
+
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_10sdp"
+            android:text="@string/str_april_17_2020"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="normal"
+            app:layout_constraintBottom_toBottomOf="@id/iv_buyer_request"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/iv_buyer_request"
+            app:layout_constraintTop_toBottomOf="@id/tv_name" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_view_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_13sdp"
+            app:cardBackgroundColor="@color/colorGrey"
+            app:cardCornerRadius="@dimen/_7sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_buyer_request">
+
+            <TextView
+                android:id="@+id/tv_description"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/_7sdp"
+                android:ellipsize="end"
+                android:lines="5"
+                android:maxLines="5"
+                android:text="@string/choose_would_you_like_your_service_delivered"
+                android:textColor="@color/colorBlack" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_view_offers"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_margin="@dimen/_13sdp"
+            app:cardCornerRadius="@dimen/_7sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/card_view_description"
+            app:strokeColor="@color/colorAccent"
+            app:strokeWidth="@dimen/_1sdp">
+
+            <TextView
+                android:id="@+id/tv_offers"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/_7sdp"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="1"
+                android:text="@string/choose_would_you_like_your_service_delivered" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+
+        <TextView
+            android:id="@+id/tv_duration_title"
+            style="@style/LabelStyle"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:text="@string/str_duration"
+            android:textSize="@dimen/_12ssp"
+            android:drawablePadding="@dimen/_7sdp"
+            android:layout_marginStart="@dimen/_13sdp"
+            android:layout_marginTop="@dimen/_25sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/card_view_offers"
+            app:drawableStartCompat="@drawable/ic_time" />
+
+        <TextView
+            android:id="@+id/tv_duration"
+            style="@style/ValueStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/str_3_days"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:layout_marginHorizontal="@dimen/_13sdp"
+            app:layout_constraintStart_toEndOf="@id/tv_duration_title"
+            app:layout_constraintTop_toTopOf="@id/tv_duration_title"
+            app:layout_constraintBottom_toBottomOf="@id/tv_duration_title"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <TextView
+            android:id="@+id/tv_budget_title"
+            style="@style/LabelStyle"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:text="@string/str_budget"
+            android:textSize="@dimen/_12ssp"
+            android:drawablePadding="@dimen/_7sdp"
+            android:layout_marginStart="@dimen/_13sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_duration_title"
+            app:drawableStartCompat="@drawable/ic_budget" />
+
+        <TextView
+            android:id="@+id/tv_budget"
+            style="@style/ValueStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/fiftyDollar"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:layout_marginHorizontal="@dimen/_13sdp"
+            app:layout_constraintStart_toEndOf="@id/tv_budget_title"
+            app:layout_constraintTop_toTopOf="@id/tv_budget_title"
+            app:layout_constraintBottom_toBottomOf="@id/tv_budget_title"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <TextView
+            android:id="@+id/tv_document_title"
+            style="@style/LabelStyle"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:text="@string/str_document"
+            android:textSize="@dimen/_12ssp"
+            android:drawablePadding="@dimen/_7sdp"
+            android:layout_marginStart="@dimen/_13sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            app:drawableTint="@color/colorBlack"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_budget_title"
+            app:drawableStartCompat="@drawable/ic_attachment" />
+
+        <TextView
+            android:id="@+id/tv_document"
+            style="@style/ValueStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/str_no_attachment"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:layout_marginHorizontal="@dimen/_13sdp"
+            app:layout_constraintStart_toEndOf="@id/tv_document_title"
+            app:layout_constraintTop_toTopOf="@id/tv_document_title"
+            app:layout_constraintBottom_toBottomOf="@id/tv_document_title"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <Button
+            android:id="@+id/btn_send_offer"
+            style="@style/New.TextButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:backgroundTint="@color/colorButtons"
+            android:elevation="@dimen/_10sdp"
+            android:text="@string/str_send_offer"
+            android:textColor="@color/colorWhite"
+            app:layout_constraintVertical_bias="1"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_document_title"
+            app:layout_constraintBottom_toTopOf="@id/btn_cancel_offer"/>
+
+        <Button
+            android:id="@+id/btn_cancel_offer"
+            style="@style/New.TextButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_20sdp"
+            android:backgroundTint="@color/colorButtons"
+            android:elevation="@dimen/_10sdp"
+            android:text="@string/str_cancel_offer"
+            android:textColor="@color/colorWhite"
+            app:layout_constraintVertical_bias="1"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_send_offer"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

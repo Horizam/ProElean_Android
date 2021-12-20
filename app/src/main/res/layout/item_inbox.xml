@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@+id/container"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/_2sdp">
+
+    <ImageView
+        android:id="@+id/iv_inbox"
+        android:layout_width="@dimen/_40sdp"
+        android:layout_height="@dimen/_40sdp"
+        android:scaleType="fitXY"
+        tools:ignore="ContentDescription"
+        android:src="@color/colorAccent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_letter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorWhite"
+        android:textSize="@dimen/_14ssp"
+        android:textStyle="normal"
+        android:text="@string/str_name_letter"
+        app:layout_constraintStart_toStartOf="@id/iv_inbox"
+        app:layout_constraintEnd_toEndOf="@id/iv_inbox"
+        app:layout_constraintTop_toTopOf="@id/iv_inbox"
+        app:layout_constraintBottom_toBottomOf="@id/iv_inbox"
+        />
+
+    <TextView
+        android:id="@+id/tv_user_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textColor="@color/colorBlack"
+        android:textSize="@dimen/_12ssp"
+        android:textStyle="bold"
+        android:text="@string/str_username"
+        android:layout_marginHorizontal="@dimen/_10sdp"
+        app:layout_constraintStart_toEndOf="@id/iv_inbox"
+        app:layout_constraintEnd_toStartOf="@id/tv_last_message"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_message"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textColor="@color/colorDarkGrey"
+        android:textSize="@dimen/_10ssp"
+        app:layout_constraintVertical_bias="0"
+        android:layout_marginHorizontal="@dimen/_10sdp"
+        android:text="@string/str_lorem_ipsum_is_simply_dummy_text_of_the_printing_and_typesetting"
+        app:layout_constraintStart_toEndOf="@id/iv_inbox"
+        app:layout_constraintEnd_toStartOf="@id/tv_counter"
+        app:layout_constraintTop_toBottomOf="@id/tv_user_name"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+    <TextView
+        android:id="@+id/tv_last_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorDarkGrey"
+        android:textSize="@dimen/_8ssp"
+        android:text="@string/str_17_12"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        app:layout_constraintStart_toEndOf="@id/tv_user_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_counter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_badge"
+        android:gravity="center"
+        android:minWidth="@dimen/_15sdp"
+        android:textColor="@color/colorWhite"
+        android:visibility="visible"
+        android:text="@string/str_1"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_2sdp"
+        app:layout_constraintStart_toEndOf="@id/tv_message"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_last_message"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

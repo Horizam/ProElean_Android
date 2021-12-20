@@ -1,0 +1,442 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipe_refresh"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardViewDeliveryNote"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_marginHorizontal="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_7sdp"
+                app:cardBackgroundColor="@color/colorAccent"
+                app:cardCornerRadius="@dimen/_5sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:weightSum="3">
+
+                    <TextView
+                        android:id="@+id/tvOrderStatus"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/_3sdp"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:paddingHorizontal="@dimen/_5sdp"
+                        android:text="@string/str_seller_submitted"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="@dimen/_10ssp" />
+
+                    <View
+                        android:layout_width="@dimen/_1sdp"
+                        android:layout_height="match_parent"
+                        android:background="@color/colorWhite" />
+
+                    <TextView
+                        android:id="@+id/tvDownload"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/str_download_source"
+                        android:textColor="@color/colorWhite" />
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:id="@+id/tv_order_title"
+                style="@style/LabelStyle"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_25sdp"
+                android:maxLines="1"
+                android:text="@string/str_order_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cardViewDeliveryNote" />
+
+            <TextView
+                android:id="@+id/tv_order"
+                style="@style/ValueStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_10sdp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                app:layout_constraintBottom_toBottomOf="@id/tv_order_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/tv_order_title"
+                app:layout_constraintTop_toTopOf="@id/tv_order_title"
+                tools:text="@string/str_order_title" />
+
+            <TextView
+                android:id="@+id/tv_description_title"
+                style="@style/LabelStyle"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:maxLines="1"
+                android:text="@string/str_description"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_order" />
+
+            <TextView
+                android:id="@+id/tv_description"
+                style="@style/ValueStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_10sdp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                app:layout_constraintBottom_toBottomOf="@id/tv_description_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/tv_description_title"
+                app:layout_constraintTop_toTopOf="@id/tv_description_title"
+                tools:text="@string/str_lorem_ipsum_is_simply_dummy_text_of_the_printing_and_typesetting" />
+
+            <TextView
+                android:id="@+id/tv_seller_title"
+                style="@style/LabelStyle"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:maxLines="1"
+                android:text="@string/str_seller"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_description" />
+
+            <TextView
+                android:id="@+id/tv_seller"
+                style="@style/ValueStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_10sdp"
+                android:drawablePadding="@dimen/_5sdp"
+                android:ellipsize="end"
+                android:maxLength="25"
+                android:maxLines="1"
+                android:visibility="gone"
+                app:drawableEndCompat="@drawable/ic_chat"
+                app:layout_constraintBottom_toBottomOf="@id/tv_seller_title"
+                app:layout_constraintStart_toEndOf="@id/tv_seller_title"
+                app:layout_constraintTop_toTopOf="@id/tv_seller_title"
+                tools:text="@string/str_seller" />
+
+            <TextView
+                android:id="@+id/tv_buyer_title"
+                style="@style/LabelStyle"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:maxLines="1"
+                android:text="@string/str_buyer"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_seller" />
+
+            <TextView
+                android:id="@+id/tv_buyer"
+                style="@style/ValueStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_10sdp"
+                android:drawablePadding="@dimen/_5sdp"
+                android:ellipsize="end"
+                android:maxLength="25"
+                android:maxLines="1"
+                android:visibility="gone"
+                app:drawableEndCompat="@drawable/ic_chat"
+                app:layout_constraintBottom_toBottomOf="@id/tv_buyer_title"
+                app:layout_constraintStart_toEndOf="@id/tv_buyer_title"
+                app:layout_constraintTop_toTopOf="@id/tv_buyer_title"
+                tools:text="@string/str_buyer" />
+
+            <TextView
+                android:id="@+id/tv_price_title"
+                style="@style/LabelStyle"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:maxLines="1"
+                android:text="@string/price"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_buyer" />
+
+            <TextView
+                android:id="@+id/tv_price"
+                style="@style/ValueStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_10sdp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                app:layout_constraintBottom_toBottomOf="@id/tv_price_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/tv_price_title"
+                app:layout_constraintTop_toTopOf="@id/tv_price_title"
+                tools:text="@string/price" />
+
+            <TextView
+                android:id="@+id/tv_duration_title"
+                style="@style/LabelStyle"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:maxLines="1"
+                android:text="@string/str_duration"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_price" />
+
+            <TextView
+                android:id="@+id/tv_duration"
+                style="@style/ValueStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_10sdp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                app:layout_constraintBottom_toBottomOf="@id/tv_duration_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/tv_duration_title"
+                app:layout_constraintTop_toTopOf="@id/tv_duration_title"
+                tools:text="@string/str_duration" />
+
+            <TextView
+                android:id="@+id/tv_revisions_title"
+                style="@style/LabelStyle"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:maxLines="1"
+                android:text="@string/str_revisions"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_duration" />
+
+            <TextView
+                android:id="@+id/tv_revisions"
+                style="@style/ValueStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_10sdp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                app:layout_constraintBottom_toBottomOf="@id/tv_revisions_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/tv_revisions_title"
+                app:layout_constraintTop_toTopOf="@id/tv_revisions_title"
+                tools:text="@string/str_revisions" />
+
+            <TextView
+                android:id="@+id/tv_delivery_title"
+                style="@style/LabelStyle"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:maxLines="1"
+                android:text="@string/str_delivery_note"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_revisions" />
+
+            <TextView
+                android:id="@+id/tv_delivery"
+                style="@style/ValueStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_10sdp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                app:layout_constraintBottom_toBottomOf="@id/tv_delivery_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/tv_delivery_title"
+                app:layout_constraintTop_toTopOf="@id/tv_delivery_title"
+                tools:text="@string/str_delivery_note" />
+
+            <cn.iwgang.countdownview.CountdownView
+                android:id="@+id/countdown_timer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20sdp"
+                app:isHideTimeBackground="false"
+                app:isShowTimeBgDivisionLine="true"
+                app:timeBgDivisionLineColor="@color/colorWhite"
+                app:timeBgDivisionLineSize="1dp"
+                app:isShowDay="true"
+                app:isShowHour="true"
+                app:isShowMillisecond="false"
+                app:isShowMinute="true"
+                app:isShowSecond="true"
+                app:isTimeTextBold="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_delivery"
+                app:suffixGravity="center"
+                app:suffixDay=":"
+                app:suffixHour=":"
+                app:suffixMillisecond=":"
+                app:suffixMinute=":"
+                app:suffixSecond=""
+                app:suffixTextColor="#000000"
+                app:suffixTextSize="@dimen/_12ssp"
+                app:timeTextColor="@color/colorWhite"
+                app:timeTextSize="22sp"
+                app:timeBgColor="@color/colorDarkGrey"
+                app:timeBgRadius="3dp"
+                app:timeBgSize="40dp"
+                android:visibility="invisible"/>
+
+            <Button
+                android:id="@+id/btn_completed"
+                style="@style/New.TextButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:backgroundTint="@color/colorButtons"
+                android:elevation="0dp"
+                android:text="@string/str_completed"
+                android:textColor="@color/colorWhite"
+                app:layout_constraintBottom_toTopOf="@id/btn_revision"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/countdown_timer"
+                app:layout_constraintVertical_bias="1"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <Button
+                android:id="@+id/btn_revision"
+                style="@style/New.TextButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_20sdp"
+                android:backgroundTint="@color/colorButtons"
+                android:elevation="0dp"
+                android:text="@string/str_revision"
+                android:textColor="@color/colorWhite"
+                app:layout_constraintBottom_toTopOf="@id/btn_resubmit_order"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btn_completed" />
+
+            <Button
+                android:id="@+id/btn_resubmit_order"
+                style="@style/New.TextButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_20sdp"
+                android:backgroundTint="@color/colorButtons"
+                android:elevation="0dp"
+                android:text="@string/str_resubmit_order"
+                android:textColor="@color/colorWhite"
+                app:layout_constraintBottom_toTopOf="@id/btn_dispute"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btn_revision" />
+
+            <Button
+                android:id="@+id/btn_dispute"
+                style="@style/New.TextButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_20sdp"
+                android:backgroundTint="@color/colorButtons"
+                android:elevation="0dp"
+                android:text="@string/str_cancel_and_create_dispute"
+                android:textColor="@color/colorWhite"
+                app:layout_constraintBottom_toTopOf="@id/btn_rate_order"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btn_resubmit_order" />
+
+            <Button
+                android:id="@+id/btn_rate_order"
+                style="@style/New.TextButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_20sdp"
+                android:backgroundTint="@color/colorButtons"
+                android:elevation="0dp"
+                android:text="@string/str_rate_order"
+                android:textColor="@color/colorWhite"
+                app:layout_constraintBottom_toTopOf="@id/btn_agree"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btn_dispute" />
+
+            <Button
+                android:id="@+id/btn_agree"
+                style="@style/New.TextButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_20sdp"
+                android:backgroundTint="@color/colorButtons"
+                android:elevation="0dp"
+                android:text="@string/str_agree"
+                android:textColor="@color/colorWhite"
+                android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@id/btn_cancel_request"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btn_rate_order" />
+
+            <Button
+                android:id="@+id/btn_cancel_request"
+                style="@style/New.TextButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_20sdp"
+                android:backgroundTint="@color/colorButtons"
+                android:elevation="0dp"
+                android:text="@string/str_cancel_request"
+                android:textColor="@color/colorWhite"
+                android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@id/btn_proceed_with_support"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btn_agree" />
+
+            <Button
+                android:id="@+id/btn_proceed_with_support"
+                style="@style/New.TextButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_20sdp"
+                android:layout_marginBottom="@dimen/_25sdp"
+                android:backgroundTint="@color/colorButtons"
+                android:elevation="0dp"
+                android:text="@string/str_proceed_with_support"
+                android:textColor="@color/colorWhite"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btn_cancel_request" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

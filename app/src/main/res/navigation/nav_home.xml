@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_home"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.horizam.pro.elean.ui.main.view.fragments.HomeFragment"
+        android:label="@string/str_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_serviceCategoriesFragment"
+            app:destination="@id/serviceCategoriesFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_featuredGigsDetailsFragment"
+            app:destination="@id/featuredGigsDetailsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_serviceGigsFragment"
+            app:destination="@id/serviceGigsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_messageFragment"
+            app:destination="@id/messagesFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/supportFragment"
+        android:name="com.horizam.pro.elean.ui.main.view.fragments.SupportFragment"
+        android:label="@string/str_support"
+        tools:layout="@layout/fragment_support" />
+
+    <fragment
+        android:id="@+id/notificationsFragment"
+        android:name="com.horizam.pro.elean.ui.main.view.fragments.NotificationsFragment"
+        android:label="@string/str_notifications"
+        tools:layout="@layout/fragment_notifications" />
+
+    <fragment
+        android:id="@+id/savedFragment"
+        android:name="com.horizam.pro.elean.ui.main.view.fragments.SavedFragment"
+        android:label="@string/str_saved"
+        tools:layout="@layout/fragment_saved" >
+        <action
+            android:id="@+id/action_savedFragment_to_gigsDetailsFragment"
+            app:destination="@id/gigDetailsFragment" />
+        <action
+            android:id="@+id/action_savedFragment_to_messagesFragment"
+            app:destination="@id/messagesFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.horizam.pro.elean.ui.main.view.fragments.SettingsFragment"
+        android:label="@string/str_settings"
+        tools:layout="@layout/fragment_settings" >
+        <action
+            android:id="@+id/action_settingsFragment_to_termsFragment"
+            app:destination="@id/termsFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_privacyFragment"
+            app:destination="@id/privacyFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/termsFragment"
+        android:name="com.horizam.pro.elean.ui.main.view.fragments.TermsFragment"
+        android:label="@string/term_of_services"
+        tools:layout="@layout/fragment_terms" >
+        <argument
+            android:name="terms"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/privacyFragment"
+        android:name="com.horizam.pro.elean.ui.main.view.fragments.PrivacyFragment"
+        android:label="@string/privacy_policy"
+        tools:layout="@layout/fragment_privacy" >
+        <argument
+            android:name="policy"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.horizam.pro.elean.ui.main.view.fragments.EditProfileFragment"
+        android:label="@string/edit_profile"
+        tools:layout="@layout/fragment_edit_profile" />
+
+    <fragment
+        android:id="@+id/serviceDetailsFragment"
+        android:name="com.horizam.pro.elean.ui.main.view.fragments.ServiceDetailsFragment"
+        android:label="@string/str_service_details"
+        tools:layout="@layout/fragment_service_details" >
+        <argument
+            android:name="uid"
+            app:argType="string" />
+        <argument
+            android:name="isEditable"
+            app:argType="boolean"
+            android:defaultValue="false" />
+        <action
+            android:id="@+id/action_serviceDetailsFragment_to_updateServiceFragment"
+            app:destination="@id/updateServiceFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/createServiceFragment"
+        android:name="com.horizam.pro.elean.ui.main.view.fragments.CreateServiceFragment"
+        android:label="@string/str_create_service"
+        tools:layout="@layout/fragment_create_service" />
+    <fragment
+        android:id="@+id/updateServiceFragment"
+        android:name="com.horizam.pro.elean.ui.main.view.fragments.UpdateServiceFragment"
+        android:label="@string/str_update_service"
+        tools:layout="@layout/fragment_update_service" >
+        <argument
+            android:name="service"
+            app:argType="com.horizam.pro.elean.data.model.response.ServiceInfo" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/serviceCategoriesFragment"
+        android:name="com.horizam.pro.elean.ui.main.view.fragments.ServiceCategoriesFragment"
+        android:label="@string/str_service_categories"
+        tools:layout="@layout/fragment_service_categories" >
+        <argument
+            android:name="id"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_serviceCategoriesFragment_to_serviceGigsFragment"
+            app:destination="@id/serviceGigsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/featuredGigsDetailsFragment"
+        android:name="com.horizam.pro.elean.ui.main.view.fragments.FeaturedGigsDetailsFragment"
+        android:label="@string/str_gigs_details"
+        tools:layout="@layout/fragment_featured_gig_details" >
+        <argument
+            android:name="uid"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_featuredGigsDetailsFragment_to_messagesFragment"
+            app:destination="@id/messagesFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/serviceGigsFragment"
+        android:name="com.horizam.pro.elean.ui.main.view.fragments.ServiceGigsFragment"
+        android:label="@string/str_service_gigs"
+        tools:layout="@layout/fragment_service_gigs" >
+        <argument
+            android:name="id"
+            app:argType="integer" />
+        <argument
+            android:name="from"
+            app:argType="integer"
+            android:defaultValue="0"/>
+
+        <action
+            android:id="@+id/action_serviceGigsFragment_to_gigDetailsFragment"
+            app:destination="@id/gigDetailsFragment" />
+        <action
+            android:id="@+id/action_serviceGigsFragment_to_messagesFragment"
+            app:destination="@id/messagesFragment" />
+        <argument
+            android:name="query"
+            app:argType="string"
+            android:defaultValue=""/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/gigDetailsFragment"
+        android:name="com.horizam.pro.elean.ui.main.view.fragments.GigDetailsFragment"
+        android:label="@string/str_gigs_details"
+        tools:layout="@layout/fragment_gig_details" >
+        <argument
+            android:name="uid"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_gigDetailsFragment_to_messagesFragment"
+            app:destination="@id/messagesFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/inboxFragment"
+        android:name="com.horizam.pro.elean.ui.main.view.fragments.InboxFragment"
+        android:label="@string/str_inbox"
+        tools:layout="@layout/fragment_inbox" >
+        <action
+            android:id="@+id/action_inboxFragment_to_messagesFragment"
+            app:destination="@id/messagesFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/messagesFragment"
+        android:name="com.horizam.pro.elean.ui.main.view.fragments.MessagesFragment"
+        android:label="@string/str_messages"
+        tools:layout="@layout/fragment_messages" >
+        <argument
+            android:name="id"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_messagesFragment_to_exoPlayerFragment"
+            app:destination="@id/exoPlayerFragment" />
+        <argument
+            android:name="refersGig"
+            app:argType="boolean"
+            android:defaultValue="false" />
+        <argument
+            android:name="messageGig"
+            app:argType="com.horizam.pro.elean.data.model.MessageGig"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/buyerActionsFragment"
+        android:name="com.horizam.pro.elean.ui.main.view.fragments.BuyerActionsFragment"
+        android:label="@string/str_buyer_actions"
+        tools:layout="@layout/fragment_buyer_actions" />
+
+    <fragment
+        android:id="@+id/postJobFragment"
+        android:name="com.horizam.pro.elean.ui.main.view.fragments.PostJobFragment"
+        android:label="@string/str_post_a_job"
+        tools:layout="@layout/fragment_post_job" />
+
+    <fragment
+        android:id="@+id/postedJobsFragment"
+        android:name="com.horizam.pro.elean.ui.main.view.fragments.PostedJobsFragment"
+        android:label="@string/str_jobs"
+        tools:layout="@layout/fragment_posted_jobs" >
+        <action
+            android:id="@+id/action_postedJobsFragment_to_viewOffersFragment"
+            app:destination="@id/viewOffersFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/sellerActionsFragment"
+        android:name="com.horizam.pro.elean.ui.main.view.fragments.SellerActionsFragment"
+        android:label="@string/str_seller_actions"
+        tools:layout="@layout/fragment_seller_actions" />
+
+    <fragment
+        android:id="@+id/buyerRequestsFragment"
+        android:name="com.horizam.pro.elean.ui.main.view.fragments.BuyerRequestsFragment"
+        android:label="@string/str_buyer_requests"
+        tools:layout="@layout/fragment_buyer_requests" >
+        <action
+            android:id="@+id/action_buyerRequestsFragment_to_sellerServicesFragment"
+            app:destination="@id/sellerServicesFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/manageServicesFragment"
+        android:name="com.horizam.pro.elean.ui.main.view.fragments.ManageServicesFragment"
+        android:label="@string/str_manage_services"
+        tools:layout="@layout/fragment_manage_services" >
+        <action
+            android:id="@+id/action_manageServicesFragment_to_serviceDetailsFragment"
+            app:destination="@id/serviceDetailsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/analyticsFragment"
+        android:name="com.horizam.pro.elean.ui.main.view.fragments.AnalyticsFragment"
+        android:label="@string/str_analytics"
+        tools:layout="@layout/fragment_analytics" />
+
+    <fragment
+        android:id="@+id/earningsFragment"
+        android:name="com.horizam.pro.elean.ui.main.view.fragments.EarningsFragment"
+        android:label="@string/str_earnings"
+        tools:layout="@layout/fragment_earnings" />
+
+    <fragment
+        android:id="@+id/sellerServicesFragment"
+        android:name="com.horizam.pro.elean.ui.main.view.fragments.SellerServicesFragment"
+        android:label="@string/str_seller_services"
+        tools:layout="@layout/fragment_seller_services" >
+        <argument
+            android:name="id"
+            app:argType="integer" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/bankDetailsFragment"
+        android:name="com.horizam.pro.elean.ui.main.view.fragments.BankDetailsFragment"
+        android:label="@string/str_bank_details"
+        tools:layout="@layout/fragment_bank_details" />
+
+    <fragment
+        android:id="@+id/viewOffersFragment"
+        android:name="com.horizam.pro.elean.ui.main.view.fragments.ViewOffersFragment"
+        android:label="@string/str_view_offers"
+        tools:layout="@layout/fragment_view_offers" >
+        <argument
+            android:name="id"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_viewOffersFragment_to_messagesFragment"
+            app:destination="@id/messagesFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/userNonFreelancerFragment"
+        android:name="com.horizam.pro.elean.ui.main.view.fragments.UserNonFreelancerFragment"
+        android:label="@string/str_user_profile"
+        tools:layout="@layout/fragment_user_non_freelancer" />
+
+    <fragment
+        android:id="@+id/exoPlayerFragment"
+        android:name="com.horizam.pro.elean.ui.main.view.fragments.ExoPlayerFragment"
+        android:label="@string/str_exo_player"
+        tools:layout="@layout/exo_player_view" >
+        <argument
+            android:name="url"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/becomeFreelancerOneFragment"
+        android:name="com.horizam.pro.elean.ui.main.view.fragments.BecomeFreelancerOneFragment"
+        android:label="@string/str_become_freelancer"
+        tools:layout="@layout/fragment_become_freelancer_one" >
+        <action
+            android:id="@+id/action_becomeFreelancerOneFragment_to_becomeFreelancerTwoFragment"
+            app:destination="@id/becomeFreelancerTwoFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/becomeFreelancerTwoFragment"
+        android:name="com.horizam.pro.elean.ui.main.view.fragments.BecomeFreelancerTwoFragment"
+        android:label="@string/str_become_freelancer"
+        tools:layout="@layout/fragment_become_freelancer_two" >
+        <argument
+            android:name="freelancer"
+            app:argType="com.horizam.pro.elean.data.model.Freelancer" />
+    </fragment>
+    <fragment
+        android:id="@+id/changePasswordFragment"
+        android:name="com.horizam.pro.elean.ui.main.view.fragments.ChangePasswordFragment"
+        android:label="fragment_change_password"
+        tools:layout="@layout/fragment_change_password" />
+
+</navigation>

@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar_layout" />
+
+        <TextView
+            android:id="@+id/tv_area_chart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="@string/str_area_chart"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
+        <View
+            android:id="@+id/view_top"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="@color/colorBlack"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_area_chart" />
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/line_chart"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_200sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/view_top" />
+
+        <View
+            android:id="@+id/view_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorBlack"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/line_chart" />
+
+        <TextView
+            android:id="@+id/tv_total_earnings_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:text="@string/str_total_earnings"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@id/card_total_earnings"
+            app:layout_constraintStart_toStartOf="@id/card_total_earnings"
+            app:layout_constraintTop_toBottomOf="@id/view_bottom" />
+
+        <TextView
+            android:id="@+id/tv_total_completed_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:text="@string/str_total_completed_orders"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@id/card_total_completed_orders"
+            app:layout_constraintStart_toStartOf="@id/card_total_completed_orders"
+            app:layout_constraintTop_toBottomOf="@id/view_bottom" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_total_earnings"
+            android:layout_width="@dimen/_80sdp"
+            android:layout_height="@dimen/_80sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            app:cardBackgroundColor="@color/colorGrey"
+            app:cardCornerRadius="@dimen/_40sdp"
+            app:strokeColor="@color/colorAccent"
+            app:strokeWidth="@dimen/_2sdp"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/card_total_completed_orders"
+            app:layout_constraintTop_toBottomOf="@id/tv_total_earnings_title">
+
+            <TextView
+                android:id="@+id/tv_total_earnings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/fiftyDollar"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/_12ssp" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_total_completed_orders"
+            android:layout_width="@dimen/_80sdp"
+            android:layout_height="@dimen/_80sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            app:cardBackgroundColor="@color/colorGrey"
+            app:cardCornerRadius="@dimen/_40sdp"
+            app:strokeColor="@color/colorAccent"
+            app:strokeWidth="@dimen/_2sdp"
+            app:layout_constraintStart_toEndOf="@id/card_total_earnings"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_total_completed_title">
+
+            <TextView
+                android:id="@+id/tv_total_completed_orders"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/str_12"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/_12ssp" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+            android:id="@+id/tv_avg_selling_price_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:text="@string/str_average_selling_price"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@id/card_avg_selling"
+            app:layout_constraintStart_toStartOf="@id/card_avg_selling"
+            app:layout_constraintTop_toBottomOf="@id/card_total_earnings" />
+
+        <TextView
+            android:id="@+id/tv_earned_month_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:text="@string/str_earned_this_month"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@id/card_earned_month"
+            app:layout_constraintStart_toStartOf="@id/card_earned_month"
+            app:layout_constraintTop_toBottomOf="@id/card_total_earnings" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_avg_selling"
+            android:layout_width="@dimen/_80sdp"
+            android:layout_height="@dimen/_80sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            app:cardBackgroundColor="@color/colorGrey"
+            app:cardCornerRadius="@dimen/_40sdp"
+            app:strokeColor="@color/colorAccent"
+            app:strokeWidth="@dimen/_2sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/card_earned_month"
+            app:layout_constraintTop_toBottomOf="@id/tv_avg_selling_price_title">
+
+            <TextView
+                android:id="@+id/tv_avg_selling"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/fiftyDollar"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/_12ssp" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_earned_month"
+            android:layout_width="@dimen/_80sdp"
+            android:layout_height="@dimen/_80sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            app:cardBackgroundColor="@color/colorGrey"
+            app:cardCornerRadius="@dimen/_40sdp"
+            app:strokeColor="@color/colorAccent"
+            app:strokeWidth="@dimen/_2sdp"
+            app:layout_constraintStart_toEndOf="@id/card_avg_selling"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_earned_month_title">
+
+            <TextView
+                android:id="@+id/tv_earned_month"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/fiftyDollar"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/_12ssp" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

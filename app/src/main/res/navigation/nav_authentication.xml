@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_authentication"
+    app:startDestination="@id/loginFragment">
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.horizam.pro.elean.ui.main.view.fragments.LoginFragment"
+        android:label="@string/str_sign_in"
+        tools:layout="@layout/fragment_login" />
+
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="com.horizam.pro.elean.ui.main.view.fragments.SignUpFragment"
+        android:label="@string/str_sign_up"
+        tools:layout="@layout/fragment_sign_up" >
+        <action
+            android:id="@+id/action_signUpFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/resetPasswordFragment"
+        android:name="com.horizam.pro.elean.ui.main.view.fragments.ResetPasswordFragment"
+        android:label="@string/str_reset_password"
+        tools:layout="@layout/fragment_reset_password" />
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.horizam.pro.elean.ui.main.view.fragments.VisitorTermsConditionsFragment"
+        android:label="@string/str_settings"
+        tools:layout="@layout/fragment_visitor_terms_conditions">
+        <action
+            android:id="@+id/action_settingsFragment_to_termsFragment"
+            app:destination="@id/termsFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_privacyFragment"
+            app:destination="@id/privacyFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/termsFragment"
+        android:name="com.horizam.pro.elean.ui.main.view.fragments.TermsFragment"
+        android:label="@string/term_of_services"
+        tools:layout="@layout/fragment_terms">
+        <argument
+            android:name="terms"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/privacyFragment"
+        android:name="com.horizam.pro.elean.ui.main.view.fragments.PrivacyFragment"
+        android:label="@string/privacy_policy"
+        tools:layout="@layout/fragment_privacy">
+        <argument
+            android:name="policy"
+            app:argType="string" />
+    </fragment>
+
+</navigation>

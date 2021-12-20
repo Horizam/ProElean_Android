@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar_layout"/>
+
+    <TextView
+        android:id="@+id/tv_bank_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:text="@string/str_bank_name"
+        android:textColor="@color/colorBlack"
+        android:textSize="@dimen/_12ssp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"/>
+
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:id="@+id/spinner_bank_name"
+        android:layout_width="0dp"
+        android:background="@drawable/bg_shape_red_corners_rectangle"
+        android:layout_height="@dimen/_30sdp"
+        android:layout_marginHorizontal="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_7sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_bank_name"/>
+
+    <TextView
+        android:id="@+id/tv_bank_code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:text="@string/str_bank_code"
+        android:textColor="@color/colorBlack"
+        android:textSize="@dimen/_12ssp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/spinner_bank_name"/>
+
+    <EditText
+        android:id="@+id/et_bank_code"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_shape_red_corners_rectangle"
+        android:hint="@string/str_bank_code"
+        android:inputType="text"
+        android:enabled="false"
+        android:clickable="false"
+        android:maxLines="1"
+        android:elevation="@dimen/_7sdp"
+        android:padding="@dimen/_5sdp"
+        android:textSize="@dimen/_12ssp"
+        android:layout_marginTop="@dimen/_7sdp"
+        android:layout_marginHorizontal="@dimen/_10sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_bank_code"/>
+
+    <TextView
+        android:id="@+id/tv_account_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:text="@string/str_account_name"
+        android:textColor="@color/colorBlack"
+        android:textSize="@dimen/_12ssp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_bank_code"/>
+
+    <EditText
+        android:id="@+id/et_account_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_shape_red_corners_rectangle"
+        android:hint="@string/str_enter_account_name"
+        android:inputType="text"
+        android:enabled="false"
+        android:clickable="false"
+        android:maxLines="1"
+        android:textSize="@dimen/_12ssp"
+        android:elevation="@dimen/_7sdp"
+        android:padding="@dimen/_5sdp"
+        android:layout_marginTop="@dimen/_7sdp"
+        android:layout_marginHorizontal="@dimen/_10sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_account_name"/>
+
+    <TextView
+        android:id="@+id/tv_account_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:text="@string/str_bank_account_no"
+        android:textColor="@color/colorBlack"
+        android:textSize="@dimen/_12ssp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_account_name"/>
+
+    <EditText
+        android:id="@+id/et_account_number"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_shape_red_corners_rectangle"
+        android:hint="@string/str_enter_account_name"
+        android:inputType="numberDecimal"
+        android:enabled="false"
+        android:clickable="false"
+        android:maxLines="1"
+        android:textSize="@dimen/_12ssp"
+        android:elevation="@dimen/_7sdp"
+        android:padding="@dimen/_5sdp"
+        android:layout_marginTop="@dimen/_7sdp"
+        android:layout_marginHorizontal="@dimen/_10sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_account_number"/>
+
+    <Button
+        android:id="@+id/btn_submit"
+        style="@style/New.TextButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_20sdp"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:backgroundTint="@color/colorButtons"
+        android:elevation="@dimen/_10sdp"
+        android:textAllCaps="false"
+        android:text="@string/str_submit_bank_information"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintVertical_bias="1"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_account_number"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

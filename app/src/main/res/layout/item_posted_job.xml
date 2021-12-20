@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/_5sdp"
+    android:layout_marginHorizontal="@dimen/_5sdp"
+    app:cardCornerRadius="@dimen/_7sdp"
+    app:cardElevation="0dp"
+    app:strokeColor="@color/colorAccent"
+    app:strokeWidth="@dimen/_1sdp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_5sdp">
+
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_7sdp"
+            android:text="@string/date"
+            android:textColor="@color/colorDarkGrey"
+            app:layout_constraintEnd_toStartOf="@id/card_view_status"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_7sdp"
+            android:contentDescription="@string/content_description"
+            android:src="@drawable/ic_close"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/colorDarkGrey" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_view_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_5sdp"
+            app:cardBackgroundColor="@color/colorAccent"
+            app:cardCornerRadius="@dimen/_3sdp"
+            app:layout_constraintEnd_toStartOf="@id/iv_close"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tvStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:paddingVertical="@dimen/_2sdp"
+                android:paddingStart="@dimen/_7sdp"
+                android:paddingEnd="@dimen/_7sdp"
+                android:text="@string/str_unapproved"
+                android:textColor="@color/colorWhite" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_view_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_7sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            app:cardBackgroundColor="@color/colorGrey"
+            app:cardCornerRadius="@dimen/_3sdp"
+            app:contentPadding="@dimen/_3sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_date">
+
+            <TextView
+                android:id="@+id/tv_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_7sdp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@string/str_lorem_ipsum_is_simply_dummy_text_of_the_printing_and_typesetting"
+                android:textColor="@color/colorBlack" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <ImageView
+            android:id="@+id/ivClockCheck"
+            android:layout_width="@dimen/_18sdp"
+            android:layout_height="@dimen/_18sdp"
+            android:layout_marginStart="@dimen/_7sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:contentDescription="@string/content_description"
+            android:src="@drawable/ic_time"
+            app:layout_constraintEnd_toStartOf="@id/tvDurationCheck"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/card_view_description"
+            app:tint="@color/colorDarkGrey" />
+
+        <TextView
+            android:id="@+id/tvDurationCheck"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_7sdp"
+            android:text="@string/str_duration"
+            app:layout_constraintStart_toEndOf="@id/ivClockCheck"
+            app:layout_constraintTop_toBottomOf="@id/ivClockCheck"
+            app:layout_constraintTop_toTopOf="@id/ivClockCheck" />
+
+        <TextView
+            android:id="@+id/tvDuration"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_7sdp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@string/date"
+            android:textColor="@color/colorBlack"
+            app:layout_constraintEnd_toStartOf="@id/view_duration"
+            app:layout_constraintStart_toEndOf="@id/tvDurationCheck"
+            app:layout_constraintTop_toBottomOf="@id/tvDurationCheck"
+            app:layout_constraintTop_toTopOf="@id/tvDurationCheck" />
+
+        <View
+            android:id="@+id/view_duration"
+            android:layout_width="1dp"
+            android:layout_height="@dimen/_20sdp"
+            android:background="@color/colorDarkGrey"
+            app:layout_constraintBottom_toBottomOf="@id/ivClockCheck"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/ivClockCheck" />
+
+        <ImageView
+            android:id="@+id/ivBudgetCheck"
+            android:layout_width="@dimen/_18sdp"
+            android:layout_height="@dimen/_18sdp"
+            android:layout_marginStart="@dimen/_7sdp"
+            android:contentDescription="@string/content_description"
+            android:src="@drawable/ic_budget"
+            app:layout_constraintBottom_toBottomOf="@id/view_duration"
+            app:layout_constraintStart_toEndOf="@id/view_duration"
+            app:layout_constraintTop_toTopOf="@id/view_duration"
+            app:tint="@color/colorDarkGrey" />
+
+        <TextView
+            android:id="@+id/tvBudgetCheck"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_7sdp"
+            android:layout_toEndOf="@id/ivBudgetCheck"
+            android:text="@string/str_budget"
+            app:layout_constraintBottom_toBottomOf="@id/ivBudgetCheck"
+            app:layout_constraintStart_toEndOf="@id/ivBudgetCheck"
+            app:layout_constraintTop_toTopOf="@id/ivBudgetCheck" />
+
+        <TextView
+            android:id="@+id/tvBudgetList"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_7sdp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@string/str_budget"
+            android:textColor="@color/colorBlack"
+            app:layout_constraintBottom_toBottomOf="@id/tvBudgetCheck"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tvBudgetCheck"
+            app:layout_constraintTop_toTopOf="@id/tvBudgetCheck" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_view_offers"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_margin="@dimen/_7sdp"
+            app:cardBackgroundColor="@color/colorGrey"
+            app:cardCornerRadius="@dimen/_3sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ivClockCheck"
+            app:strokeColor="@color/colorDarkGrey"
+            app:strokeWidth="1dp">
+
+            <TextView
+                android:id="@+id/tvOffers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/str_no_offers_yet"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/_12ssp" />
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</com.google.android.material.card.MaterialCardView>

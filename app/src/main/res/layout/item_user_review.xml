@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@+id/container"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/_7sdp">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/iv_review"
+        android:layout_width="@dimen/_35sdp"
+        android:layout_height="@dimen/_35sdp"
+        android:src="@drawable/img_profile"
+        app:civ_border_color="@color/colorAccent"
+        app:civ_border_width="@dimen/_1sdp"
+        android:contentDescription="@string/content_description"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_name_review"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/str_username"
+        android:textColor="@color/colorBlack"
+        android:layout_marginHorizontal="@dimen/_10sdp"
+        app:layout_constraintStart_toEndOf="@id/iv_review"
+        app:layout_constraintEnd_toStartOf="@id/iv_star_review"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/tv_desc_review"/>
+
+    <TextView
+        android:id="@+id/tv_desc_review"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/str_lorem_ipsum_is_simply_dummy_text_of_the_printing_and_typesetting"
+        android:textColor="@color/colorBlack"
+        android:textSize="@dimen/_9ssp"
+        android:maxLines="3"
+        android:ellipsize="end"
+        android:layout_marginVertical="@dimen/_5sdp"
+        android:layout_marginHorizontal="@dimen/_10sdp"
+        app:layout_constraintStart_toEndOf="@id/iv_review"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_name_review"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <ImageView
+        android:id="@+id/iv_star_review"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_rate_star"
+        android:contentDescription="@string/content_description"
+        app:layout_constraintStart_toEndOf="@id/tv_name_review"
+        app:layout_constraintEnd_toStartOf="@id/tv_review_rating"
+        app:layout_constraintTop_toTopOf="@id/tv_name_review"
+        app:layout_constraintBottom_toBottomOf="@id/tv_name_review"
+        app:tint="@color/colorGolden" />
+
+    <TextView
+        android:id="@+id/tv_review_rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/reviews"
+        android:textColor="@color/colorGolden"
+        android:layout_marginHorizontal="@dimen/_10sdp"
+        app:layout_constraintStart_toEndOf="@id/iv_star_review"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/iv_star_review"
+        app:layout_constraintBottom_toBottomOf="@id/iv_star_review"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
