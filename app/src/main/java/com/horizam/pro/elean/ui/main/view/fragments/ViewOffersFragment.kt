@@ -243,15 +243,15 @@ class ViewOffersFragment : Fragment(), OnItemClickListener, ViewOffersHandler, C
     }
 
     override fun <T> deleteItem(item: T) {
-        if (item is Offer) {
-            dialogDelete.show()
-            bindingDeleteDialog.btnYes.setOnClickListener {
-                dialogDelete.dismiss()
-                genericHandler.showProgressBar(true)
-                viewModel.deletePostedJobCall(item.id)
-            }
-            bindingDeleteDialog.btnNo.setOnClickListener { dialogDelete.dismiss() }
-        }
+//        if (item is Offer) {
+//            dialogDelete.show()
+//            bindingDeleteDialog.btnYes.setOnClickListener {
+//                dialogDelete.dismiss()
+//                genericHandler.showProgressBar(true)
+//                viewModel.deletePostedJobCall(item.id)
+//            }
+//            bindingDeleteDialog.btnNo.setOnClickListener { dialogDelete.dismiss() }
+//        }
     }
 
     override fun <T> viewProfile(item: T) {
@@ -264,31 +264,31 @@ class ViewOffersFragment : Fragment(), OnItemClickListener, ViewOffersHandler, C
     }
 
     override fun <T> askQuestion(item: T) {
-        if (item is Offer) {
-            if (prefManager.userId != item.userId) {
-                ViewOffersFragmentDirections.actionViewOffersFragmentToMessagesFragment(item.userId)
-                    .also {
-                        findNavController().navigate(it)
-                    }
-            }
-        }
+//        if (item is Offer) {
+//            if (prefManager.userId != item.userId) {
+//                ViewOffersFragmentDirections.actionViewOffersFragmentToMessagesFragment(item.userId)
+//                    .also {
+//                        findNavController().navigate(it)
+//                    }
+//            }
+//        }
     }
 
     override fun <T> order(item: T) {
-        if (item is Offer) {
-            bindingDeleteDialog.tvTitle.text = getString(R.string.str_are_you_sure_to_place_order)
-            dialogDelete.show()
-            bindingDeleteDialog.btnYes.setOnClickListener {
-                dialogDelete.dismiss()
-                offerId = item.id
-                val checkoutBottomSheet = CheckoutBottomSheet(this)
-                checkoutBottomSheet.show(
-                    requireActivity().supportFragmentManager,
-                    CheckoutBottomSheet.TAG
-                )
-            }
-            bindingDeleteDialog.btnNo.setOnClickListener { dialogDelete.dismiss() }
-        }
+//        if (item is Offer) {
+//            bindingDeleteDialog.tvTitle.text = getString(R.string.str_are_you_sure_to_place_order)
+//            dialogDelete.show()
+//            bindingDeleteDialog.btnYes.setOnClickListener {
+//                dialogDelete.dismiss()
+//                offerId = item.id
+//                val checkoutBottomSheet = CheckoutBottomSheet(this)
+//                checkoutBottomSheet.show(
+//                    requireActivity().supportFragmentManager,
+//                    CheckoutBottomSheet.TAG
+//                )
+//            }
+//            bindingDeleteDialog.btnNo.setOnClickListener { dialogDelete.dismiss() }
+//        }
     }
 
     override fun sendToken(token: String) {

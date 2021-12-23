@@ -19,9 +19,13 @@ class PrefManager(_context: Context) {
     get() = pref.getString(Constants.FCM_TOKEN, "")!!
     set(value) = pref.edit().putString(Constants.FCM_TOKEN, value).apply()
 
-    var userId:Int
-    get() = pref.getInt(Constants.USER_ID, 0)
-    set(value) = pref.edit().putInt(Constants.USER_ID, value).apply()
+    var userId:String
+    get() = pref.getString(Constants.USER_ID, "")!!
+    set(value) = pref.edit().putString(Constants.USER_ID, value).apply()
+
+    var userImage:String
+        get() = pref.getString(Constants.USER_IMAGE , "")!!
+        set(value) = pref.edit().putString(Constants.USER_IMAGE, value).apply()
 
     var isFreelancer:Int
     get() = pref.getInt(Constants.IS_FREELANCER, 0)

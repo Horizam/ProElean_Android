@@ -231,7 +231,7 @@ class BecomeFreelancerTwoFragment : Fragment(), AdapterView.OnItemSelectedListen
     }
 
     private fun setUIData(response: CategoriesCountriesResponse) {
-        languagesArrayList = response.becomeFreelancer.languages
+        languagesArrayList = response.categoriesCountriesData.languages
         availabilityArrayList = arrayListOf("full time", "part time")
         languagesAdapter = ArrayAdapter(
             requireContext(),

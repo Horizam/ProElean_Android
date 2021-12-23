@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
 import com.horizam.pro.elean.data.model.response.FreelancerUserResponse
-import com.horizam.pro.elean.data.model.response.Service_reviews
+import com.horizam.pro.elean.data.model.response.ServiceReviews
 import com.horizam.pro.elean.databinding.FragmentUserReviewsBinding
 import com.horizam.pro.elean.ui.base.ViewModelFactory
 import com.horizam.pro.elean.ui.main.adapter.UserReviewsAdapter
@@ -112,7 +112,7 @@ class ReviewsUserFragment : Fragment(), OnItemClickListener {
     }
 
     override fun <T> onItemClick(item: T) {
-        if (item is Service_reviews) {
+        if (item is ServiceReviews) {
             // add feature
         }
     }

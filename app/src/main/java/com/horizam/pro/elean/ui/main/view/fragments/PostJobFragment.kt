@@ -44,8 +44,8 @@ class PostJobFragment : Fragment(), AdapterView.OnItemSelectedListener {
     private lateinit var categoriesAdapter: ArrayAdapter<SpinnerModel>
     private lateinit var subcategoriesAdapter: ArrayAdapter<SpinnerModel>
     private lateinit var daysAdapter: ArrayAdapter<String>
-    private var categoryId: Int = -1
-    private var subcategoryId: Int = -1
+    private var categoryId: String = ""
+    private var subcategoryId: String = ""
     private var deliveryTime = ""
 
     override fun onAttach(context: Context) {
@@ -98,11 +98,11 @@ class PostJobFragment : Fragment(), AdapterView.OnItemSelectedListener {
                     genericHandler.showMessage(getString(R.string.str_enter_valid_description_length))
                     return
                 }
-                categoryId == -1 -> {
+                categoryId == "" -> {
                     genericHandler.showMessage(getString(R.string.str_enter_valid_category))
                     return
                 }
-                subcategoryId == -1 -> {
+                subcategoryId == "" -> {
                     genericHandler.showMessage(getString(R.string.str_enter_valid_subcategory))
                     return
                 }
@@ -127,14 +127,14 @@ class PostJobFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
     private fun executeApi() {
         genericHandler.showProgressBar(true)
-        val postJobRequest = PostJobRequest(
-            category_id = categoryId,
-            sub_category_id = subcategoryId,
-            description = binding.etDescription.text.toString().trim(),
-            delivery_time = deliveryTime,
-            budget = binding.etPrice.text.toString().toDouble()
-        )
-        viewModel.postJobCall(postJobRequest)
+//        val postJobRequest = PostJobRequest(
+//            category_id = categoryId,
+//            sub_category_id = subcategoryId,
+//            description = binding.etDescription.text.toString().trim(),
+//            delivery_time = deliveryTime,
+//            budget = binding.etPrice.text.toString().toDouble()
+//        )
+//        viewModel.postJobCall(postJobRequest)
     }
 
     private fun setToolbarData() {
@@ -179,7 +179,7 @@ class PostJobFragment : Fragment(), AdapterView.OnItemSelectedListener {
                 is CategoriesDaysResponse -> {
                     setUIData(response)
                 }
-                is SpinnerSubcategoriesResponse -> {
+                is SubcategoriesDataResponse -> {
                     setSpinnerSubcategories(response)
                 }
                 is PostJobResponse -> {
@@ -193,8 +193,8 @@ class PostJobFragment : Fragment(), AdapterView.OnItemSelectedListener {
         }
     }
 
-    private fun setSpinnerSubcategories(response: SpinnerSubcategoriesResponse) {
-        subcategoriesArrayList = response.subcategories.map { spinnerSubcategories ->
+    private fun setSpinnerSubcategories(response: SubcategoriesDataResponse) {
+        subcategoriesArrayList = response.subcategoriesList.map { spinnerSubcategories ->
             SpinnerModel(id = spinnerSubcategories.id, value = spinnerSubcategories.title)
         }
         subcategoriesAdapter = SpinnerAdapter(
@@ -207,24 +207,24 @@ class PostJobFragment : Fragment(), AdapterView.OnItemSelectedListener {
     }
 
     private fun setUIData(response: CategoriesDaysResponse) {
-        categoriesArrayList = response.categories.map { spinnerCategories ->
-            SpinnerModel(id = spinnerCategories.id, value = spinnerCategories.title)
-        }
-        daysArrayList = response.days
-        categoriesAdapter = SpinnerAdapter(
-            requireContext(),
-            android.R.layout.simple_spinner_item, categoriesArrayList
-        ).also {
-            it.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
-            binding.spinnerCategory.adapter = it
-        }
-        daysAdapter = ArrayAdapter(
-            requireContext(),
-            android.R.layout.simple_spinner_item, daysArrayList
-        ).also {
-            it.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
-            binding.spinnerDeliveryTime.adapter = it
-        }
+//        categoriesArrayList = response.categories.map { spinnerCategories ->
+//            SpinnerModel(id = spinnerCategories.id, value = spinnerCategories.title)
+//        }
+//        daysArrayList = response.days
+//        categoriesAdapter = SpinnerAdapter(
+//            requireContext(),
+//            android.R.layout.simple_spinner_item, categoriesArrayList
+//        ).also {
+//            it.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
+//            binding.spinnerCategory.adapter = it
+//        }
+//        daysAdapter = ArrayAdapter(
+//            requireContext(),
+//            android.R.layout.simple_spinner_item, daysArrayList
+//        ).also {
+//            it.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
+//            binding.spinnerDeliveryTime.adapter = it
+//        }
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -232,7 +232,7 @@ class PostJobFragment : Fragment(), AdapterView.OnItemSelectedListener {
             binding.spinnerCategory.id -> {
                 val spinnerModel = parent.selectedItem as SpinnerModel
                 categoryId = spinnerModel.id
-                viewModel.spinnerSubcategoriesCall(spinnerModel.id)
+//                viewModel.spinnerSubcategoriesCall(spinnerModel.id)
             }
             binding.spinnerSubCategory.id -> {
                 val spinnerModel = parent.selectedItem as SpinnerModel
@@ -248,7 +248,7 @@ class PostJobFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
     }
 
-    private val subcategoriesObserver = Observer<Resource<SpinnerSubcategoriesResponse>> {
+    private val subcategoriesObserver = Observer<Resource<SubcategoriesDataResponse>> {
         it?.let { resource ->
             when (resource.status) {
                 Status.SUCCESS -> {

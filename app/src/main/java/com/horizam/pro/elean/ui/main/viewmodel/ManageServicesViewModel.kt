@@ -16,7 +16,7 @@ class ManageServicesViewModel(private val mainRepository: MainRepository) : View
 
 
     private val userServicesRequest = MutableLiveData<String>()
-    private val deleteUserServiceRequest = MutableLiveData<Int>()
+    private val deleteUserServiceRequest = MutableLiveData<String>()
 
     val userServices = userServicesRequest.switchMap {
         liveData(Dispatchers.IO) {
@@ -46,7 +46,7 @@ class ManageServicesViewModel(private val mainRepository: MainRepository) : View
         userServicesRequest.value = request
     }
 
-    fun deleteUserServiceCall(id:Int){
+    fun deleteUserServiceCall(id:String){
         deleteUserServiceRequest.value = id
     }
 

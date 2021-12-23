@@ -222,9 +222,9 @@ class BuyerRequestsFragment : Fragment(), OnItemClickListener, BuyerRequestsHand
 
     override fun <T> sendOffer(item: T) {
         if (item is BuyerRequest) {
-            BuyerRequestsFragmentDirections.actionBuyerRequestsFragmentToSellerServicesFragment(item.id).also {
-                findNavController().navigate(it)
-            }
+//            BuyerRequestsFragmentDirections.actionBuyerRequestsFragmentToSellerServicesFragment(item.id).also {
+//                findNavController().navigate(it)
+//            }
         }
     }
 

@@ -9,7 +9,7 @@ data class SavedGigsResponse(
 )
 
 data class SavedGig (
-    @SerializedName("id") var id : Int,
+    @SerializedName("id") var id : String,
     @SerializedName("s_description") var sDescription : String,
     @SerializedName("description") var description : String,
     @SerializedName("additional_info") var additionalInfo : String,
@@ -17,7 +17,7 @@ data class SavedGig (
     @SerializedName("price") var price : Double,
     @SerializedName("banner") var banner : String,
     @SerializedName("user_image") var userImage : String,
-    @SerializedName("user_id") var userId : Int,
+    @SerializedName("user_id") var userId : String,
     @SerializedName("user_rating") var userRating : Int
 )
 

@@ -33,9 +33,7 @@ import com.horizam.pro.elean.data.model.Image
 import com.horizam.pro.elean.data.model.SpinnerModel
 import com.horizam.pro.elean.data.model.requests.CreateServiceRequest
 import com.horizam.pro.elean.data.model.requests.UpdateServiceRequest
-import com.horizam.pro.elean.data.model.response.CategoriesDaysResponse
-import com.horizam.pro.elean.data.model.response.GeneralResponse
-import com.horizam.pro.elean.data.model.response.SpinnerSubcategoriesResponse
+import com.horizam.pro.elean.data.model.response.*
 import com.horizam.pro.elean.databinding.FragmentUpdateServiceBinding
 import com.horizam.pro.elean.ui.base.ViewModelFactory
 import com.horizam.pro.elean.ui.main.adapter.ImagesAdapter
@@ -68,8 +66,8 @@ class UpdateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
     private lateinit var daysAdapter: ArrayAdapter<String>
     private lateinit var noOfRevisionAdapter: ArrayAdapter<String>
     private val args: UpdateServiceFragmentArgs by navArgs()
-    private var categoryId: Int = -1
-    private var subcategoryId: Int = -1
+    private var categoryId: String = ""
+    private var subcategoryId: String = ""
     private var deliveryTime = ""
     private var noOfRevision = -1
 
@@ -95,13 +93,13 @@ class UpdateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
 
     private fun setData() {
         try {
-            val service = args.service
+            val serviceDetail = args.serviceDetail
             binding.apply {
-                etShortDes.setText(service.s_description)
-                etDescription.setText(service.description)
-                etPrice.setText(service.price.toString())
-                etInfo.setText(service.additional_info)
-                service.serviceMedia.forEach { media ->
+                etShortDes.setText(serviceDetail.s_description)
+                etDescription.setText(serviceDetail.description)
+                etPrice.setText(serviceDetail.price.toString())
+                etInfo.setText(serviceDetail.additional_info)
+                serviceDetail.service_media.forEach { media ->
                     val image = Image(id = 1, path = media.media)
                     imagesArrayList.add(image)
                     adapterImages.addImages(imagesArrayList)
@@ -131,11 +129,11 @@ class UpdateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
                     genericHandler.showMessage(getString(R.string.str_enter_valid_short_description))
                     return
                 }
-                categoryId == -1 -> {
+                categoryId == "" -> {
                     genericHandler.showMessage(getString(R.string.str_enter_valid_category))
                     return
                 }
-                subcategoryId == -1 -> {
+                subcategoryId == "" -> {
                     genericHandler.showMessage(getString(R.string.str_enter_valid_subcategory))
                     return
                 }
@@ -151,7 +149,7 @@ class UpdateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
                     genericHandler.showMessage(getString(R.string.str_enter_valid_delivery_time))
                     return
                 }
-                noOfRevision == -1 ->{
+                noOfRevision == -1 -> {
                     genericHandler.showMessage(getString(R.string.str_enter_a_valid_no_of_Revision))
                     return
                 }
@@ -223,7 +221,7 @@ class UpdateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
                 partMap = map,
                 images = images,
                 deletedImages = deletedImages,
-                id = args.service.id
+                id = args.serviceDetail.id
             )
         )
     }
@@ -264,7 +262,7 @@ class UpdateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
     }
 
     private fun setupObservers() {
-        viewModel.categoriesDays.observe(viewLifecycleOwner, {
+        viewModel.categoriesRevisionDeliveryTimeResponse.observe(viewLifecycleOwner, {
             it?.let { resource ->
                 when (resource.status) {
                     Status.SUCCESS -> {
@@ -290,17 +288,14 @@ class UpdateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
     private fun <T> handleResponse(response: T) {
         try {
             when (response) {
-                is CategoriesDaysResponse -> {
+                is CategoriesCountriesResponse -> {
                     setUIData(response)
                 }
-                is SpinnerSubcategoriesResponse -> {
+                is SubcategoriesDataResponse -> {
                     setSpinnerSubcategories(response)
                 }
-                is GeneralResponse -> {
-                    genericHandler.showMessage(response.message)
-                    if (response.status == Constants.STATUS_OK) {
-                        findNavController().popBackStack()
-                    }
+                is ServiceResponse -> {
+                    findNavController().popBackStack()
                 }
             }
         } catch (e: Exception) {
@@ -308,12 +303,12 @@ class UpdateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
         }
     }
 
-    private fun setSpinnerSubcategories(response: SpinnerSubcategoriesResponse) {
-        subcategoriesArrayList = response.subcategories.map { spinnerSubcategories ->
+    private fun setSpinnerSubcategories(response: SubcategoriesDataResponse) {
+        subcategoriesArrayList = response.subcategoriesList.map { spinnerSubcategories ->
             SpinnerModel(id = spinnerSubcategories.id, value = spinnerSubcategories.title)
         }
         val selectedSubCategoryPosition: Int = subcategoriesArrayList.indexOfFirst {
-            it.id == args.service.subcategoryId
+            it.id == args.serviceDetail.sub_category_id
         }
         subcategoriesAdapter = SpinnerAdapter(
             requireContext(),
@@ -325,21 +320,21 @@ class UpdateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
         }
     }
 
-    private fun setUIData(response: CategoriesDaysResponse) {
-        categoriesArrayList = response.categories.map { spinnerCategories ->
+    private fun setUIData(response: CategoriesCountriesResponse) {
+        categoriesArrayList = response.categoriesCountriesData.categories.map { spinnerCategories ->
             SpinnerModel(id = spinnerCategories.id, value = spinnerCategories.title)
         }
         val selectedCategoryPosition: Int = categoriesArrayList.indexOfFirst {
-            it.id == args.service.categoryId
+            it.id == args.serviceDetail.category_id
         }
-        daysArrayList = response.days
+        daysArrayList = response.categoriesCountriesData.deliveryDays
         val selectedDaysPosition: Int = daysArrayList.indexOfFirst {
-            it == args.service.delivery_time
+            it == args.serviceDetail.delivery_time
         }
 
-        noOfRevisionArrayList = response.noOfRevision
+        noOfRevisionArrayList = response.categoriesCountriesData.revisions
         val selectedRevisionPosition: Int = noOfRevisionArrayList.indexOfFirst {
-            it.toInt() == args.service.noOfRevision
+            it.toInt() == args.serviceDetail.revision
         }
 
         categoriesAdapter = SpinnerAdapter(
@@ -383,7 +378,7 @@ class UpdateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
             binding.spinnerDeliveryTime.id -> {
                 deliveryTime = parent.selectedItem.toString()
             }
-            binding.spinnerNoOfRevision.id ->{
+            binding.spinnerNoOfRevision.id -> {
                 noOfRevision = parent.selectedItem.toString().toInt()
             }
         }
@@ -393,7 +388,7 @@ class UpdateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
 
     }
 
-    private val subcategoriesObserver = Observer<Resource<SpinnerSubcategoriesResponse>> {
+    private val subcategoriesObserver = Observer<Resource<SubcategoriesDataResponse>> {
         it?.let { resource ->
             when (resource.status) {
                 Status.SUCCESS -> {
@@ -413,7 +408,7 @@ class UpdateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
         }
     }
 
-    private val updateServiceObserver = Observer<Resource<GeneralResponse>> {
+    private val updateServiceObserver = Observer<Resource<ServiceResponse>> {
         it?.let { resource ->
             when (resource.status) {
                 Status.SUCCESS -> {

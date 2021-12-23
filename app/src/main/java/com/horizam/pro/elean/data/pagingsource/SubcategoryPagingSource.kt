@@ -11,7 +11,7 @@ import java.io.IOException
 
 class SubcategoryPagingSource(
     private val apiHelper: ApiHelper,
-    private val id: Int,
+    private val id: String,
     private val query: String
 ): PagingSource<Int, Subcategory>() {
 
@@ -21,7 +21,7 @@ class SubcategoryPagingSource(
 
         return try {
             val response = apiHelper.getSubcategories(id,position,query)
-            val subcategories = response.data.subCategoriesList
+            val subcategories = response.subcategoriesList
             LoadResult.Page(
                 data = subcategories,
                 prevKey = if (position == Constants.STARTING_PAGE_INDEX) null else position - 1,

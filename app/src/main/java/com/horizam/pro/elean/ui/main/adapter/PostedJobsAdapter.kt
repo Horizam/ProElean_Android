@@ -14,7 +14,6 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.model.User
-import com.horizam.pro.elean.data.model.response.Gig
 import com.horizam.pro.elean.data.model.response.PostedJob
 import com.horizam.pro.elean.databinding.ItemGigsBinding
 import com.horizam.pro.elean.databinding.ItemPostedJobBinding

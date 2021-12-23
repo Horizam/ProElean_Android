@@ -12,13 +12,13 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.model.User
-import com.horizam.pro.elean.data.model.response.Service_reviews
+import com.horizam.pro.elean.data.model.response.ServiceReviews
 import com.horizam.pro.elean.data.model.response.User_services
 import com.horizam.pro.elean.databinding.ItemUserGigBinding
 import com.horizam.pro.elean.databinding.ItemUserReviewBinding
 import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
 
-class UserReviewsAdapter(val listener: OnItemClickListener) : ListAdapter<Service_reviews, UserReviewsAdapter.DataViewHolder>(COMPARATOR) {
+class UserReviewsAdapter(val listener: OnItemClickListener) : ListAdapter<ServiceReviews, UserReviewsAdapter.DataViewHolder>(COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder {
         val binding = ItemUserReviewBinding.inflate(LayoutInflater.from(parent.context),parent,false)
@@ -44,7 +44,7 @@ class UserReviewsAdapter(val listener: OnItemClickListener) : ListAdapter<Servic
             }
         }
 
-        fun bind(review : Service_reviews) {
+        fun bind(review : ServiceReviews) {
             binding.apply {
                 Glide.with(itemView)
                     .load(Constants.BASE_URL.plus(review.user.image))
@@ -59,12 +59,12 @@ class UserReviewsAdapter(val listener: OnItemClickListener) : ListAdapter<Servic
     }
 
     companion object{
-        private val COMPARATOR = object : DiffUtil.ItemCallback<Service_reviews>(){
-            override fun areItemsTheSame(oldItem: Service_reviews, newItem: Service_reviews): Boolean {
+        private val COMPARATOR = object : DiffUtil.ItemCallback<ServiceReviews>(){
+            override fun areItemsTheSame(oldItem: ServiceReviews, newItem: ServiceReviews): Boolean {
                 return oldItem.id == newItem.id
             }
 
-            override fun areContentsTheSame(oldItem: Service_reviews, newItem: Service_reviews): Boolean {
+            override fun areContentsTheSame(oldItem: ServiceReviews, newItem: ServiceReviews): Boolean {
                 return oldItem == newItem
             }
 

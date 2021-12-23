@@ -11,7 +11,7 @@ import kotlinx.coroutines.Dispatchers
 class BecomeFreelancerViewModel(private val mainRepository: MainRepository) : ViewModel() {
 
     private val spinnerDataRequest = MutableLiveData(DEFAULT_REQUEST)
-    private val spinnerSubcategoriesRequest = MutableLiveData<Int>()
+    private val spinnerSubcategoriesRequest = MutableLiveData<String>()
     private val becomeFreelancerRequest = MutableLiveData<BecomeFreelancerRequest>()
 
     val spinnerData = spinnerDataRequest.switchMap {
@@ -50,7 +50,7 @@ class BecomeFreelancerViewModel(private val mainRepository: MainRepository) : Vi
         }
     }
 
-    fun spinnerSubcategoriesCall(request: Int) {
+    fun spinnerSubcategoriesCall(request: String) {
         spinnerSubcategoriesRequest.value = request
     }
 

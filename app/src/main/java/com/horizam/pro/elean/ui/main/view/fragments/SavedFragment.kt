@@ -25,7 +25,6 @@ import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
 import com.horizam.pro.elean.data.model.requests.FavouriteRequest
 import com.horizam.pro.elean.data.model.response.GeneralResponse
-import com.horizam.pro.elean.data.model.response.Gig
 import com.horizam.pro.elean.data.model.response.SavedGig
 import com.horizam.pro.elean.databinding.DialogDeleteBinding
 import com.horizam.pro.elean.databinding.FragmentSavedBinding
@@ -195,38 +194,38 @@ class SavedFragment : Fragment(), SavedGigsHandler, SwipeRefreshLayout.OnRefresh
     }
 
     override fun <T> addRemoveWishList(item: T) {
-        if (item is SavedGig) {
-            bindingDeleteDialog.tvTitle.text =
-                getString(R.string.str_are_you_sure_to_undo_favourite)
-            dialogDelete.show()
-            bindingDeleteDialog.btnYes.setOnClickListener {
-                dialogDelete.dismiss()
-                genericHandler.showProgressBar(true)
-                viewModel.addToWishlistCall(FavouriteRequest(item.id))
-            }
-            bindingDeleteDialog.btnNo.setOnClickListener { dialogDelete.dismiss() }
-        }
+//        if (item is SavedGig) {
+//            bindingDeleteDialog.tvTitle.text =
+//                getString(R.string.str_are_you_sure_to_undo_favourite)
+//            dialogDelete.show()
+//            bindingDeleteDialog.btnYes.setOnClickListener {
+//                dialogDelete.dismiss()
+//                genericHandler.showProgressBar(true)
+//                viewModel.addToWishlistCall(FavouriteRequest(item.id))
+//            }
+//            bindingDeleteDialog.btnNo.setOnClickListener { dialogDelete.dismiss() }
+//        }
     }
 
     override fun <T> onItemClick(item: T) {
-        if (item is SavedGig) {
-            val uid = item.uuid
-            SavedFragmentDirections.actionSavedFragmentToGigsDetailsFragment(
-                uid = uid
-            ).also {
-                findNavController().navigate(it)
-            }
-        }
+//        if (item is SavedGig) {
+//            val uid = item.uuid
+//            SavedFragmentDirections.actionSavedFragmentToGigsDetailsFragment(
+//                uid = uid
+//            ).also {
+//                findNavController().navigate(it)
+//            }
+//        }
     }
 
     override fun <T> contactSeller(item: T) {
-        if (item is SavedGig) {
-            if (prefManager.userId != item.userId) {
-                SavedFragmentDirections.actionSavedFragmentToMessagesFragment(item.userId).also {
-                    findNavController().navigate(it)
-                }
-            }
-        }
+//        if (item is SavedGig) {
+//            if (prefManager.userId != item.userId) {
+//                SavedFragmentDirections.actionSavedFragmentToMessagesFragment(item.userId).also {
+//                    findNavController().navigate(it)
+//                }
+//            }
+//        }
     }
 
     override fun onRefresh() {

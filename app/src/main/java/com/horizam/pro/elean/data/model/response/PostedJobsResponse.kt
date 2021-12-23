@@ -9,10 +9,10 @@ data class PostedJobsResponse(
 )
 
 data class PostedJob(
-    @SerializedName("id") val id: Int,
-    @SerializedName("user_id") val user_id: Int,
-    @SerializedName("category_id") val category_id: Int,
-    @SerializedName("sub_category_id") val sub_category_id: Int,
+    @SerializedName("id") val id: String,
+    @SerializedName("user_id") val user_id: String,
+    @SerializedName("category_id") val category_id: String,
+    @SerializedName("sub_category_id") val sub_category_id: String,
     @SerializedName("description") val description: String,
     @SerializedName("budget") val budget: Double,
     @SerializedName("created_at") val created_at: String,

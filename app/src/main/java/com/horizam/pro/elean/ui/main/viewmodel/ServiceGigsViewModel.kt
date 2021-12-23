@@ -14,12 +14,12 @@ class ServiceGigsViewModel(
     private val mainRepository: MainRepository
 ) : ViewModel() {
 
-    private val currentSubCategory = MutableLiveData<Int>()
+    private val currentSubCategory = MutableLiveData<String>()
     private val searchGigsRequest = MutableLiveData<SearchGigsRequest>()
     private val addToWishlistRequest = MutableLiveData<FavouriteRequest>()
 
     val sellers = currentSubCategory.switchMap { subcategory ->
-        mainRepository.getSellers(subcategory).cachedIn(viewModelScope)
+        mainRepository.getServicesBySubCategories(subcategory).cachedIn(viewModelScope)
     }
 
     val searchSellers = searchGigsRequest.switchMap { request ->
@@ -43,7 +43,7 @@ class ServiceGigsViewModel(
         }
     }
 
-    fun getSellers(subcategory: Int) {
+    fun getServicesBySubCategories(subcategory: String) {
         currentSubCategory.value = subcategory
     }
     fun searchGigs(request: SearchGigsRequest) {

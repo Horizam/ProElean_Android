@@ -102,25 +102,25 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
     }
 
     private fun getChatDataFromFirebase() {
-        unreadChats = 0
-        inboxReference = db.collection(Constants.FIREBASE_DATABASE_ROOT)
-        inboxReference.whereArrayContains("members", userId)
-            .orderBy("sentAt", Query.Direction.DESCENDING).addSnapshotListener { snapshots, e ->
-                if (e != null) {
-                    Log.w(TAG, "Listen failed.", e)
-                    return@addSnapshotListener
-                }
-                for (dc in snapshots!!.documentChanges) {
-                    val inbox = dc.document.toObject<Inbox>()
-                    for (pos in 0..inbox.membersInfo.size-1) {
-                        if ((inbox.membersInfo[pos].id == userId) && (inbox.membersInfo[pos].hasReadLastMessage == false)) {
-                            unreadChats++
-                            binding.unreadMessageBadge.visibility = View.VISIBLE
-                            binding.unreadMessageBadge.text = unreadChats.toString()
-                        }
-                    }
-                }
-            }
+//        unreadChats = 0
+//        inboxReference = db.collection(Constants.FIREBASE_DATABASE_ROOT)
+//        inboxReference.whereArrayContains("members", userId)
+//            .orderBy("sentAt", Query.Direction.DESCENDING).addSnapshotListener { snapshots, e ->
+//                if (e != null) {
+//                    Log.w(TAG, "Listen failed.", e)
+//                    return@addSnapshotListener
+//                }
+//                for (dc in snapshots!!.documentChanges) {
+//                    val inbox = dc.document.toObject<Inbox>()
+//                    for (pos in 0..inbox.membersInfo.size - 1) {
+//                        if ((inbox.membersInfo[pos].id == userId) && (inbox.membersInfo[pos].hasReadLastMessage == false)) {
+//                            unreadChats++
+//                            binding.unreadMessageBadge.visibility = View.VISIBLE
+//                            binding.unreadMessageBadge.text = unreadChats.toString()
+//                        }
+//                    }
+//                }
+//            }
     }
 
     private fun initDeleteDialog() {
@@ -337,31 +337,26 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
     }
 
     private fun handleHomeResponse(response: HomeDataResponse) {
-        response.data.user.apply {
-            Glide.with(this@HomeActivity)
-                .load(Constants.BASE_URL.plus(this.image))
-                .error(R.drawable.img_profile)
-                .into(binding.ivUser)
-            binding.tvUserName.text = this.name
-            isUserFreelancer = isFreelancer
-            userId = id
-            prefManager.userId = id
-            prefManager.isFreelancer = isFreelancer
-            prefManager.username = name
-            val userMessage = MessageUser(
-                id = id,
-                name = name,
-                photo = image,
-                fcmToken = prefManager.fcmToken
-            )
-            saveUserInfoOnFirestore(userMessage)
-            if (isFreelancer == 0) {
-                binding.llBuyerBecomFreelancer.visibility = View.VISIBLE
-                binding.llBuyerSeller.visibility = View.GONE
-            } else {
-                binding.llBuyerBecomFreelancer.visibility = View.GONE
-                binding.llBuyerSeller.visibility = View.VISIBLE
-            }
+        Glide.with(this@HomeActivity)
+            .load(Constants.BASE_URL.plus(prefManager.userImage))
+            .error(R.drawable.img_profile)
+            .into(binding.ivUser)
+        binding.tvUserName.text = prefManager.username
+        isUserFreelancer = prefManager.isFreelancer
+        userId = prefManager.isFreelancer
+//        val userMessage = MessageUser(
+//            id = id,
+//            name = name,
+//            photo = image,
+//            fcmToken = prefManager.fcmToken
+//        )
+//        saveUserInfoOnFirestore(userMessage)
+        if (isUserFreelancer == 0) {
+            binding.llBuyerBecomFreelancer.visibility = View.VISIBLE
+            binding.llBuyerSeller.visibility = View.GONE
+        } else {
+            binding.llBuyerBecomFreelancer.visibility = View.GONE
+            binding.llBuyerSeller.visibility = View.VISIBLE
         }
     }
 

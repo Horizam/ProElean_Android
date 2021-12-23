@@ -158,7 +158,7 @@ class HomeFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefre
             executeApi()
         }
         binding.autoCompleteTextView.onFocusChangeListener = focusChangeListener
-        binding.autoCompleteTextView.setOnEditorActionListener(editorListener)
+//        binding.autoCompleteTextView.setOnEditorActionListener(editorListener)
         binding.toolbar.ivSecond.setOnClickListener{
             this.findNavController().navigate(R.id.notificationsFragment)
         }
@@ -222,16 +222,16 @@ class HomeFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefre
                 adapterGigs.submitList(it)
                 binding.tvPlaceholderFeaturedGigs.isVisible = it.isEmpty()
             }
-            ads?.let { it ->
-                val adsList: List<SliderItem> = it.map { ad ->
-                    SliderItem(
-                        url = "${Constants.BASE_URL}${ad.banner}",
-                        description = ad.description
-                    )
-                }
-                sliderAdapter?.renewItems(adsList as MutableList<SliderItem>)
-                binding.tvPlaceholderAds.isVisible = it.isEmpty()
-            }
+//            ads?.let { it ->
+//                val adsList: List<SliderItem> = it.map { ad ->
+//                    SliderItem(
+//                        url = "${Constants.BASE_URL}${ad.banner}",
+//                        description = ad.description
+//                    )
+//                }
+//                sliderAdapter?.renewItems(adsList as MutableList<SliderItem>)
+//                binding.tvPlaceholderAds.isVisible = it.isEmpty()
+//            }
         }
     }
 
@@ -250,11 +250,12 @@ class HomeFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefre
             val id = item.id
             val action = HomeFragmentDirections.actionHomeFragmentToServiceCategoriesFragment(id)
             findNavController().navigate(action)
-        } else if (item is FeaturedGig) {
-            val uid = item.uuid
-            val action = HomeFragmentDirections.actionHomeFragmentToFeaturedGigsDetailsFragment(uid)
-            findNavController().navigate(action)
         }
+    //        else if (item is FeaturedGig) {
+//            val uid = item.uuid
+//            val action = HomeFragmentDirections.actionHomeFragmentToFeaturedGigsDetailsFragment(uid)
+//            findNavController().navigate(action)
+//        }
     }
 
     override fun onRefresh() {
@@ -264,23 +265,23 @@ class HomeFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefre
         executeApi()
     }
 
-    private val editorListener = OnEditorActionListener { v, actionId, event ->
-            when (actionId) {
-                EditorInfo.IME_ACTION_SEARCH -> {
-                    hideKeyboard()
-                    val query = binding.autoCompleteTextView.text.toString().trim()
-                    binding.autoCompleteTextView.text.clear()
-                    HomeFragmentDirections.actionHomeFragmentToServiceGigsFragment(
-                        id = 0,
-                        from = 1,
-                        query = query
-                    ).also {
-                        findNavController().navigate(it)
-                    }
-                }
-            }
-            false
-        }
+//    private val editorListener = OnEditorActionListener { v, actionId, event ->
+//            when (actionId) {
+//                EditorInfo.IME_ACTION_SEARCH -> {
+//                    hideKeyboard()
+//                    val query = binding.autoCompleteTextView.text.toString().trim()
+//                    binding.autoCompleteTextView.text.clear()
+//                    HomeFragmentDirections.actionHomeFragmentToServiceGigsFragment(
+//                        id = 0,
+//                        from = 1,
+//                        query = query
+//                    ).also {
+//                        findNavController().navigate(it)
+//                    }
+//                }
+//            }
+//            false
+//        }
 
     private val focusChangeListener = View.OnFocusChangeListener { v, hasFocus ->
         if (!hasFocus) {

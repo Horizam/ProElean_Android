@@ -44,7 +44,7 @@ class FeaturedGigsDetailsFragment : Fragment(), BaseSliderView.OnSliderClickList
     private lateinit var requestOptions: RequestOptions
     private val args: FeaturedGigsDetailsFragmentArgs by navArgs()
     private lateinit var prefManager:PrefManager
-    private var userId:Int = -1
+    private var userId:String = ""
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -98,7 +98,7 @@ class FeaturedGigsDetailsFragment : Fragment(), BaseSliderView.OnSliderClickList
                 executeApi()
             }
             ivUser.setOnClickListener {
-                if (userId == -1){
+                if (userId == ""){
                     return@setOnClickListener
                 }
                 Intent(requireActivity(),UserAboutActivity::class.java).also {
@@ -108,10 +108,10 @@ class FeaturedGigsDetailsFragment : Fragment(), BaseSliderView.OnSliderClickList
             }
             btnContactSeller.setOnClickListener {
                 try {
-                    if (prefManager.userId != userId && userId != -1){
-                        FeaturedGigsDetailsFragmentDirections.actionFeaturedGigsDetailsFragmentToMessagesFragment(userId).also {
-                            findNavController().navigate(it)
-                        }
+                    if (prefManager.userId != userId && userId != ""){
+//                        FeaturedGigsDetailsFragmentDirections.actionFeaturedGigsDetailsFragmentToMessagesFragment(userId).also {
+//                            findNavController().navigate(it)
+//                        }
                     }
                 }catch (e:Exception){
                     genericHandler.showMessage(e.message.toString())

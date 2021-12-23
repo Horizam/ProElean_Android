@@ -6,7 +6,7 @@ data class Inbox(
     val createdBy: Int = 0,
     val title: String = "",
     val lastMessage: String = "",
-    val senderId: Int = 0,
+    val senderId: String = "",
     val sentAt: Long = 0,
     val senderName: String = "",
     val createdAt: Long = 0,
@@ -16,7 +16,7 @@ data class Inbox(
 )
 
 data class MembersInfo(
-    val id: Int = 0,
+    val id: String = "",
     var hasReadLastMessage: Boolean = false,
     var type: String = "",
     var photo: String = "",

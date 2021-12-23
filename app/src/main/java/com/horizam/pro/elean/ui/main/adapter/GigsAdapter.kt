@@ -1,6 +1,5 @@
 package com.horizam.pro.elean.ui.main.adapter
 
-import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -11,16 +10,18 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
-import com.horizam.pro.elean.data.model.response.Gig
+import com.horizam.pro.elean.data.model.response.ServiceDetail
 import com.horizam.pro.elean.databinding.ItemGigsBinding
 import com.horizam.pro.elean.ui.main.callbacks.ContactSellerHandler
 import com.horizam.pro.elean.ui.main.callbacks.FavouriteHandler
 import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
 
-class GigsAdapter(private val listener: OnItemClickListener,
-                  private val favouriteHandler: FavouriteHandler,
-                  private val contactSellerHandler: ContactSellerHandler) :
-    PagingDataAdapter<Gig, GigsAdapter.DataViewHolder>(ITEM_COMPARATOR) {
+class GigsAdapter(
+    private val listener: OnItemClickListener,
+    private val favouriteHandler: FavouriteHandler,
+    private val contactSellerHandler: ContactSellerHandler
+) :
+    PagingDataAdapter<ServiceDetail, GigsAdapter.DataViewHolder>(ITEM_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder {
         val binding =
@@ -68,23 +69,25 @@ class GigsAdapter(private val listener: OnItemClickListener,
             }
         }
 
-        fun bind(gig: Gig) {
+        fun bind(serviceDetail: ServiceDetail) {
             binding.apply {
-                tvTitleGig.text = gig.shortDescription
-                tvDescriptionGig.text = gig.description
-                ratingGig.rating = gig.rating.toFloat()
-                val imageResource:Int = if (gig.favourite==0){
+                tvTitleGig.text = serviceDetail.s_description
+                tvDescriptionGig.text = serviceDetail.description
+                ratingGig.rating = serviceDetail.service_rating.toFloat()
+                val imageResource: Int = if (serviceDetail.favourite == 0) {
                     R.drawable.ic_not_liked
-                }else{
+                } else {
                     R.drawable.ic_liked
                 }
-                setImage("${Constants.BASE_URL}${gig.banner}",ivMain)
-                setImage("${Constants.BASE_URL}${gig.user_image}",ivProfile)
-                setImage(imageResource,ivFavorite)
+                setImage("${Constants.BASE_URL}${serviceDetail.service_media[0].media}", ivMain)
+                if (serviceDetail.service_media.size > 0) {
+                    setImage("${Constants.BASE_URL}${serviceDetail.service_user.image}", ivProfile)
+                }
+                setImage(imageResource, ivFavorite)
             }
         }
 
-        private fun <T>setImage(source: T,imageView:ImageView){
+        private fun <T> setImage(source: T, imageView: ImageView) {
             Glide.with(itemView)
                 .load(source)
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
@@ -94,11 +97,11 @@ class GigsAdapter(private val listener: OnItemClickListener,
     }
 
     companion object {
-        private val ITEM_COMPARATOR = object : DiffUtil.ItemCallback<Gig>() {
-            override fun areItemsTheSame(oldItem: Gig, newItem: Gig) =
+        private val ITEM_COMPARATOR = object : DiffUtil.ItemCallback<ServiceDetail>() {
+            override fun areItemsTheSame(oldItem: ServiceDetail, newItem: ServiceDetail) =
                 oldItem.id == newItem.id
 
-            override fun areContentsTheSame(oldItem: Gig, newItem: Gig) =
+            override fun areContentsTheSame(oldItem: ServiceDetail, newItem: ServiceDetail) =
                 oldItem == newItem
         }
     }

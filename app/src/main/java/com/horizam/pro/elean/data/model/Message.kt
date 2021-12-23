@@ -6,7 +6,7 @@ import kotlinx.android.parcel.Parcelize
 data class Message(
     val attachment: String = "",
     val message: String = "",
-    val senderId: Int = 0,
+    val senderId: String = "",
     val sentAt: Long = 0,
     val attachmentType: Int = 0,
     val id: String = "",
@@ -18,7 +18,7 @@ data class Message(
 
 data class MessageOffer(
     val serviceId: Int = 0,
-    val offerSenderId: Int = 0,
+    val offerSenderId: String = "",
     val status: Int = 0,
     val serviceTitle: String = "",
     val description: String = "",

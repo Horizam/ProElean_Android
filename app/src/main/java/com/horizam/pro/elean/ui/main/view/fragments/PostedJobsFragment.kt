@@ -225,12 +225,12 @@ class PostedJobsFragment : Fragment(), OnItemClickListener, PostedJobsHandler , 
     }
 
     override fun <T> viewOffers(item: T) {
-        if (item is PostedJob) {
-            if (item.offers>0){
-                val action = PostedJobsFragmentDirections.actionPostedJobsFragmentToViewOffersFragment(item.id)
-                findNavController().navigate(action)
-            }
-        }
+//        if (item is PostedJob) {
+//            if (item.offers>0){
+//                val action = PostedJobsFragmentDirections.actionPostedJobsFragmentToViewOffersFragment(item.id)
+//                findNavController().navigate(action)
+//            }
+//        }
     }
 
     override fun onRefresh() {

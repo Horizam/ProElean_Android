@@ -1,9 +1,7 @@
 package com.horizam.pro.elean.ui.main.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -11,17 +9,12 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
-import com.horizam.pro.elean.data.model.User
-import com.horizam.pro.elean.data.model.response.FeaturedGig
-import com.horizam.pro.elean.data.model.response.SavedGig
-import com.horizam.pro.elean.data.model.response.User_services
+import com.horizam.pro.elean.data.model.response.ServiceDetail
 import com.horizam.pro.elean.databinding.ItemManageServiceBinding
-import com.horizam.pro.elean.databinding.ItemServicesAndGigsBinding
 import com.horizam.pro.elean.ui.main.callbacks.ManageServiceHandler
-import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
 
 class ManageServicesAdapter(val listener: ManageServiceHandler) :
-    ListAdapter<User_services, ManageServicesAdapter.DataViewHolder>(COMPARATOR) {
+    ListAdapter<ServiceDetail, ManageServicesAdapter.DataViewHolder>(COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder {
         val binding =
@@ -51,7 +44,7 @@ class ManageServicesAdapter(val listener: ManageServiceHandler) :
             }
         }
 
-        private fun fetchItem(): User_services? {
+        private fun fetchItem(): ServiceDetail? {
             val position = bindingAdapterPosition
             return if (position != RecyclerView.NO_POSITION) {
                 getItem(position)
@@ -60,7 +53,7 @@ class ManageServicesAdapter(val listener: ManageServiceHandler) :
             }
         }
 
-        fun bind(userService: User_services) {
+        fun bind(userService: ServiceDetail) {
             binding.apply {
                 if (!userService.service_media.isNullOrEmpty()) {
                     Glide.with(itemView)
@@ -74,21 +67,21 @@ class ManageServicesAdapter(val listener: ManageServiceHandler) :
                 tvServiceTitle.text = userService.s_description
                 tvDescriptionGigsUser.text = userService.description
                 tvClick.text = userService.total_clicks.toString()
-                tvOrder.text = userService.orders.toString()
+                tvOrder.text = userService.price.toString()
             }
         }
     }
 
 
     companion object {
-        private val COMPARATOR = object : DiffUtil.ItemCallback<User_services>() {
-            override fun areItemsTheSame(oldItem: User_services, newItem: User_services): Boolean {
+        private val COMPARATOR = object : DiffUtil.ItemCallback<ServiceDetail>() {
+            override fun areItemsTheSame(oldItem: ServiceDetail, newItem: ServiceDetail): Boolean {
                 return oldItem.id == newItem.id
             }
 
             override fun areContentsTheSame(
-                oldItem: User_services,
-                newItem: User_services
+                oldItem: ServiceDetail,
+                newItem: ServiceDetail
             ): Boolean {
                 return oldItem == newItem
             }

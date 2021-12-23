@@ -9,7 +9,7 @@ data class Freelancer(
     val username: String,
     val shortDescription: String,
     val description: String,
-    val countryId: Int,
-    val categoryId: Int,
-    val subcategoryId: Int,
+    val countryId: String,
+    val categoryId: String,
+    val subcategoryId: String,
 ): Parcelable

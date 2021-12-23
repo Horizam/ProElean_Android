@@ -9,7 +9,7 @@
         android:id="@+id/homeFragment"
         android:name="com.horizam.pro.elean.ui.main.view.fragments.HomeFragment"
         android:label="@string/str_home"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_serviceCategoriesFragment"
             app:destination="@id/serviceCategoriesFragment" />
@@ -40,7 +40,7 @@
         android:id="@+id/savedFragment"
         android:name="com.horizam.pro.elean.ui.main.view.fragments.SavedFragment"
         android:label="@string/str_saved"
-        tools:layout="@layout/fragment_saved" >
+        tools:layout="@layout/fragment_saved">
         <action
             android:id="@+id/action_savedFragment_to_gigsDetailsFragment"
             app:destination="@id/gigDetailsFragment" />
@@ -53,7 +53,7 @@
         android:id="@+id/settingsFragment"
         android:name="com.horizam.pro.elean.ui.main.view.fragments.SettingsFragment"
         android:label="@string/str_settings"
-        tools:layout="@layout/fragment_settings" >
+        tools:layout="@layout/fragment_settings">
         <action
             android:id="@+id/action_settingsFragment_to_termsFragment"
             app:destination="@id/termsFragment" />
@@ -66,7 +66,7 @@
         android:id="@+id/termsFragment"
         android:name="com.horizam.pro.elean.ui.main.view.fragments.TermsFragment"
         android:label="@string/term_of_services"
-        tools:layout="@layout/fragment_terms" >
+        tools:layout="@layout/fragment_terms">
         <argument
             android:name="terms"
             app:argType="string" />
@@ -76,7 +76,7 @@
         android:id="@+id/privacyFragment"
         android:name="com.horizam.pro.elean.ui.main.view.fragments.PrivacyFragment"
         android:label="@string/privacy_policy"
-        tools:layout="@layout/fragment_privacy" >
+        tools:layout="@layout/fragment_privacy">
         <argument
             android:name="policy"
             app:argType="string" />
@@ -92,14 +92,14 @@
         android:id="@+id/serviceDetailsFragment"
         android:name="com.horizam.pro.elean.ui.main.view.fragments.ServiceDetailsFragment"
         android:label="@string/str_service_details"
-        tools:layout="@layout/fragment_service_details" >
+        tools:layout="@layout/fragment_service_details">
         <argument
-            android:name="uid"
+            android:name="service_detail"
             app:argType="string" />
         <argument
             android:name="isEditable"
-            app:argType="boolean"
-            android:defaultValue="false" />
+            android:defaultValue="false"
+            app:argType="boolean" />
         <action
             android:id="@+id/action_serviceDetailsFragment_to_updateServiceFragment"
             app:destination="@id/updateServiceFragment" />
@@ -114,20 +114,20 @@
         android:id="@+id/updateServiceFragment"
         android:name="com.horizam.pro.elean.ui.main.view.fragments.UpdateServiceFragment"
         android:label="@string/str_update_service"
-        tools:layout="@layout/fragment_update_service" >
+        tools:layout="@layout/fragment_update_service">
         <argument
-            android:name="service"
-            app:argType="com.horizam.pro.elean.data.model.response.ServiceInfo" />
+            android:name="service_detail"
+            app:argType="com.horizam.pro.elean.data.model.response.ServiceDetail" />
     </fragment>
 
     <fragment
         android:id="@+id/serviceCategoriesFragment"
         android:name="com.horizam.pro.elean.ui.main.view.fragments.ServiceCategoriesFragment"
         android:label="@string/str_service_categories"
-        tools:layout="@layout/fragment_service_categories" >
+        tools:layout="@layout/fragment_service_categories">
         <argument
             android:name="id"
-            app:argType="integer" />
+            app:argType="string" />
         <action
             android:id="@+id/action_serviceCategoriesFragment_to_serviceGigsFragment"
             app:destination="@id/serviceGigsFragment" />
@@ -137,7 +137,7 @@
         android:id="@+id/featuredGigsDetailsFragment"
         android:name="com.horizam.pro.elean.ui.main.view.fragments.FeaturedGigsDetailsFragment"
         android:label="@string/str_gigs_details"
-        tools:layout="@layout/fragment_featured_gig_details" >
+        tools:layout="@layout/fragment_featured_gig_details">
         <argument
             android:name="uid"
             app:argType="string" />
@@ -150,14 +150,14 @@
         android:id="@+id/serviceGigsFragment"
         android:name="com.horizam.pro.elean.ui.main.view.fragments.ServiceGigsFragment"
         android:label="@string/str_service_gigs"
-        tools:layout="@layout/fragment_service_gigs" >
+        tools:layout="@layout/fragment_service_gigs">
         <argument
             android:name="id"
-            app:argType="integer" />
+            app:argType="string" />
         <argument
             android:name="from"
-            app:argType="integer"
-            android:defaultValue="0"/>
+            android:defaultValue="0"
+            app:argType="integer" />
 
         <action
             android:id="@+id/action_serviceGigsFragment_to_gigDetailsFragment"
@@ -167,17 +167,17 @@
             app:destination="@id/messagesFragment" />
         <argument
             android:name="query"
-            app:argType="string"
-            android:defaultValue=""/>
+            android:defaultValue=""
+            app:argType="string" />
     </fragment>
 
     <fragment
         android:id="@+id/gigDetailsFragment"
         android:name="com.horizam.pro.elean.ui.main.view.fragments.GigDetailsFragment"
         android:label="@string/str_gigs_details"
-        tools:layout="@layout/fragment_gig_details" >
+        tools:layout="@layout/fragment_gig_details">
         <argument
-            android:name="uid"
+            android:name="service_detail"
             app:argType="string" />
         <action
             android:id="@+id/action_gigDetailsFragment_to_messagesFragment"
@@ -188,7 +188,7 @@
         android:id="@+id/inboxFragment"
         android:name="com.horizam.pro.elean.ui.main.view.fragments.InboxFragment"
         android:label="@string/str_inbox"
-        tools:layout="@layout/fragment_inbox" >
+        tools:layout="@layout/fragment_inbox">
         <action
             android:id="@+id/action_inboxFragment_to_messagesFragment"
             app:destination="@id/messagesFragment" />
@@ -198,7 +198,7 @@
         android:id="@+id/messagesFragment"
         android:name="com.horizam.pro.elean.ui.main.view.fragments.MessagesFragment"
         android:label="@string/str_messages"
-        tools:layout="@layout/fragment_messages" >
+        tools:layout="@layout/fragment_messages">
         <argument
             android:name="id"
             app:argType="integer" />
@@ -207,13 +207,13 @@
             app:destination="@id/exoPlayerFragment" />
         <argument
             android:name="refersGig"
-            app:argType="boolean"
-            android:defaultValue="false" />
+            android:defaultValue="false"
+            app:argType="boolean" />
         <argument
             android:name="messageGig"
+            android:defaultValue="@null"
             app:argType="com.horizam.pro.elean.data.model.MessageGig"
-            app:nullable="true"
-            android:defaultValue="@null" />
+            app:nullable="true" />
     </fragment>
 
     <fragment
@@ -232,7 +232,7 @@
         android:id="@+id/postedJobsFragment"
         android:name="com.horizam.pro.elean.ui.main.view.fragments.PostedJobsFragment"
         android:label="@string/str_jobs"
-        tools:layout="@layout/fragment_posted_jobs" >
+        tools:layout="@layout/fragment_posted_jobs">
         <action
             android:id="@+id/action_postedJobsFragment_to_viewOffersFragment"
             app:destination="@id/viewOffersFragment" />
@@ -248,7 +248,7 @@
         android:id="@+id/buyerRequestsFragment"
         android:name="com.horizam.pro.elean.ui.main.view.fragments.BuyerRequestsFragment"
         android:label="@string/str_buyer_requests"
-        tools:layout="@layout/fragment_buyer_requests" >
+        tools:layout="@layout/fragment_buyer_requests">
         <action
             android:id="@+id/action_buyerRequestsFragment_to_sellerServicesFragment"
             app:destination="@id/sellerServicesFragment" />
@@ -258,7 +258,7 @@
         android:id="@+id/manageServicesFragment"
         android:name="com.horizam.pro.elean.ui.main.view.fragments.ManageServicesFragment"
         android:label="@string/str_manage_services"
-        tools:layout="@layout/fragment_manage_services" >
+        tools:layout="@layout/fragment_manage_services">
         <action
             android:id="@+id/action_manageServicesFragment_to_serviceDetailsFragment"
             app:destination="@id/serviceDetailsFragment" />
@@ -280,7 +280,7 @@
         android:id="@+id/sellerServicesFragment"
         android:name="com.horizam.pro.elean.ui.main.view.fragments.SellerServicesFragment"
         android:label="@string/str_seller_services"
-        tools:layout="@layout/fragment_seller_services" >
+        tools:layout="@layout/fragment_seller_services">
         <argument
             android:name="id"
             app:argType="integer" />
@@ -296,7 +296,7 @@
         android:id="@+id/viewOffersFragment"
         android:name="com.horizam.pro.elean.ui.main.view.fragments.ViewOffersFragment"
         android:label="@string/str_view_offers"
-        tools:layout="@layout/fragment_view_offers" >
+        tools:layout="@layout/fragment_view_offers">
         <argument
             android:name="id"
             app:argType="integer" />
@@ -315,7 +315,7 @@
         android:id="@+id/exoPlayerFragment"
         android:name="com.horizam.pro.elean.ui.main.view.fragments.ExoPlayerFragment"
         android:label="@string/str_exo_player"
-        tools:layout="@layout/exo_player_view" >
+        tools:layout="@layout/exo_player_view">
         <argument
             android:name="url"
             app:argType="string" />
@@ -325,7 +325,7 @@
         android:id="@+id/becomeFreelancerOneFragment"
         android:name="com.horizam.pro.elean.ui.main.view.fragments.BecomeFreelancerOneFragment"
         android:label="@string/str_become_freelancer"
-        tools:layout="@layout/fragment_become_freelancer_one" >
+        tools:layout="@layout/fragment_become_freelancer_one">
         <action
             android:id="@+id/action_becomeFreelancerOneFragment_to_becomeFreelancerTwoFragment"
             app:destination="@id/becomeFreelancerTwoFragment" />
@@ -335,7 +335,7 @@
         android:id="@+id/becomeFreelancerTwoFragment"
         android:name="com.horizam.pro.elean.ui.main.view.fragments.BecomeFreelancerTwoFragment"
         android:label="@string/str_become_freelancer"
-        tools:layout="@layout/fragment_become_freelancer_two" >
+        tools:layout="@layout/fragment_become_freelancer_two">
         <argument
             android:name="freelancer"
             app:argType="com.horizam.pro.elean.data.model.Freelancer" />

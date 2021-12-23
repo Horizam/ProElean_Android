@@ -78,8 +78,8 @@ class OrderMessagesFragment(var order: Order) : Fragment() , MessagesHandler, Cr
     private val args: MessagesFragmentArgs by navArgs()
     private lateinit var genericHandler: GenericHandler
     private var inbox: Inbox? = null
-    private var userId: Int = 0
-    private var myId: Int = 0
+    private var userId: String = ""
+    private var myId: String = ""
     private var myName = ""
     private var inboxCombinedId = ""
     private var myInfo: MessageUser? = null
@@ -201,7 +201,7 @@ class OrderMessagesFragment(var order: Order) : Fragment() , MessagesHandler, Cr
             myId = prefManager.userId
             myName = prefManager.username!!
             inboxCombinedId = generateCombinedId()
-            if (userId != 0 && myId != 0 && inboxCombinedId.isNotEmpty()) {
+            if (userId != "" && myId != "" && inboxCombinedId.isNotEmpty()) {
                 try {
                     getChatUsers()
                 } catch (ex: Exception) {
@@ -261,8 +261,8 @@ class OrderMessagesFragment(var order: Order) : Fragment() , MessagesHandler, Cr
                 }
             }
         }.addOnFailureListener {
-            Log.i(MessagesFragment::class.java.simpleName, it.message.toString())
-            genericHandler.showMessage(it.message.toString())
+//            Log.i(MessagesFragment::class.java.simpleName, it.message.toString())
+//            genericHandler.showMessage(it.message.toString())
         }
     }
 
@@ -684,10 +684,10 @@ class OrderMessagesFragment(var order: Order) : Fragment() , MessagesHandler, Cr
                             dialogFileUpload.dismiss()
                         }
                         val utcMilliseconds = Calendar.getInstance().timeInMillis
-                        sendMessageToFirebase(
-                            uri.toString(), "", myId,
-                            utcMilliseconds, messageType
-                        )
+//                        sendMessageToFirebase(
+//                            uri.toString(), "", myId,
+//                            utcMilliseconds, messageType
+//                        )
                     }
                 }
             }
@@ -736,10 +736,10 @@ class OrderMessagesFragment(var order: Order) : Fragment() , MessagesHandler, Cr
             try {
                 // use local to gmt method for utc if nothing works (also tried Date().time)
                 val utcMilliseconds = Calendar.getInstance().timeInMillis
-                sendMessageToFirebase(
-                    "", binding.etSendMessage.text.toString(),
-                    myId, utcMilliseconds, Constants.MESSAGE_TYPE_TEXT
-                )
+//                sendMessageToFirebase(
+//                    "", binding.etSendMessage.text.toString(),
+//                    myId, utcMilliseconds, Constants.MESSAGE_TYPE_TEXT
+//                )
             } catch (ex: Exception) {
                 disableMessageSend(true)
                 genericHandler.showMessage(ex.message.toString())
@@ -751,10 +751,10 @@ class OrderMessagesFragment(var order: Order) : Fragment() , MessagesHandler, Cr
         try {
             // use local to gmt method for utc if nothing works (also tried Date().time)
             val utcMilliseconds = Calendar.getInstance().timeInMillis
-            sendMessageToFirebase(
-                "", "",
-                myId, utcMilliseconds, Constants.MESSAGE_TYPE_OFFER, offer = offer
-            )
+//            sendMessageToFirebase(
+//                "", "",
+//                myId, utcMilliseconds, Constants.MESSAGE_TYPE_OFFER, offer = offer
+//            )
         } catch (ex: Exception) {
             disableMessageSend(true)
             genericHandler.showMessage(ex.message.toString())
@@ -783,38 +783,38 @@ class OrderMessagesFragment(var order: Order) : Fragment() , MessagesHandler, Cr
     ) {
         val inboxReference = db.collection(Constants.FIREBASE_DATABASE_ORDERS_CONVERSATION).document()
         val members: MutableList<Int> = ArrayList()
-        members.add(myId)
-        members.add(userId)
+//        members.add(myId)
+//        members.add(userId)
         val membersInfo: MutableList<MembersInfo> = ArrayList()
         membersInfo.add(MembersInfo(myId, true, "available"))
         membersInfo.add(MembersInfo(userId, true, "available"))
         // use local to gmt method for utc if nothing works (also tried Date().time)
         val utcMilliseconds = Calendar.getInstance().timeInMillis
-        val inboxModel = Inbox(
-            createdAt = sentAt, sentAt = utcMilliseconds, createdBy = myId,
-            id = inboxReference.id, senderId = myId, members = members, membersInfo = membersInfo,
-            title = "", combinedId = inboxCombinedId
-        )
-        inbox = inboxModel
-        inboxReference.set(inboxModel).addOnSuccessListener {
-            val reference =
-                db.collection(Constants.FIREBASE_DATABASE_ORDERS_CONVERSATION).document(inboxReference.id)
-                    .collection("Messages").document()
-            val deleteMessage: List<Int> = ArrayList()
-            val messageModel = Message(
-                attachment = attachment, message = message, senderId = senderId,
-                sentAt = sentAt, attachmentType = attachmentType, id = reference.id,
-                deleteMessage = deleteMessage, messageOffer = offer, refersGig = referGig,
-//                messageGig = args.messageGig
-            )
-            referGig = false
-            messageSavedOrNot(
-                reference, messageModel, attachmentType, message, senderId,
-                sentAt, inboxReference
-            )
-        }.addOnFailureListener {
-            disableMessageSend(true)
-        }
+//        val inboxModel = Inbox(
+//            createdAt = sentAt, sentAt = utcMilliseconds, createdBy = myId,
+//            id = inboxReference.id, senderId = myId, members = members, membersInfo = membersInfo,
+//            title = "", combinedId = inboxCombinedId
+//        )
+//        inbox = inboxModel
+//        inboxReference.set(inboxModel).addOnSuccessListener {
+//            val reference =
+//                db.collection(Constants.FIREBASE_DATABASE_ORDERS_CONVERSATION).document(inboxReference.id)
+//                    .collection("Messages").document()
+//            val deleteMessage: List<Int> = ArrayList()
+//            val messageModel = Message(
+//                attachment = attachment, message = message, senderId = senderId,
+//                sentAt = sentAt, attachmentType = attachmentType, id = reference.id,
+//                deleteMessage = deleteMessage, messageOffer = offer, refersGig = referGig,
+////                messageGig = args.messageGig
+//            )
+//            referGig = false
+//            messageSavedOrNot(
+//                reference, messageModel, attachmentType, message, senderId,
+//                sentAt, inboxReference
+//            )
+//        }.addOnFailureListener {
+//            disableMessageSend(true)
+//        }
     }
 
     private fun messageSavedOrNot(
@@ -836,16 +836,16 @@ class OrderMessagesFragment(var order: Order) : Fragment() , MessagesHandler, Cr
     }
 
     private fun sendFirebaseNotification(messageModel: Message) {
-        val firebaseNotification = FirebaseNotification(
-            userInfo!!.fcmToken,
-            NotificationMessage(
-                messageModel.senderId,
-                myInfo!!.name,
-                messageModel.message,
-                Constants.TYPE_MESSAGE
-            )
-        )
-        viewModel.sendFirebaseNotificationCall(firebaseNotification)
+//        val firebaseNotification = FirebaseNotification(
+//            userInfo!!.fcmToken,
+//            NotificationMessage(
+//                messageModel.senderId,
+//                myInfo!!.name,
+//                messageModel.message,
+//                Constants.TYPE_MESSAGE
+//            )
+//        )
+//        viewModel.sendFirebaseNotificationCall(firebaseNotification)
     }
 
     private fun addMessageToExistingChat(
@@ -860,24 +860,24 @@ class OrderMessagesFragment(var order: Order) : Fragment() , MessagesHandler, Cr
             .collection("Messages").document()
         val inboxReference = db.collection(Constants.FIREBASE_DATABASE_ORDERS_CONVERSATION).document(inbox!!.id)
         val deleteMessage: List<Int> = ArrayList()
-        val messageModel = Message(
-            attachment = attachment, message = message, senderId = senderId,
-            sentAt = sentAt, attachmentType = attachmentType, id = reference.id,
-            deleteMessage = deleteMessage, messageOffer = offer, refersGig = referGig,
-//            messageGig = args.messageGig
-        )
-        referGig = false
-        reference.set(messageModel).addOnSuccessListener {
-            binding.etSendMessage.setText("")
-            handleDifferentMessages(
-                attachmentType, message, senderId, sentAt, inboxReference,
-                reference
-            )
-            sendFirebaseNotification(messageModel)
-        }.addOnFailureListener { e: Exception ->
-            disableMessageSend(true)
-            genericHandler.showMessage(e.message.toString())
-        }
+//        val messageModel = Message(
+//            attachment = attachment, message = message, senderId = senderId,
+//            sentAt = sentAt, attachmentType = attachmentType, id = reference.id,
+//            deleteMessage = deleteMessage, messageOffer = offer, refersGig = referGig,
+////            messageGig = args.messageGig
+//        )
+//        referGig = false
+//        reference.set(messageModel).addOnSuccessListener {
+//            binding.etSendMessage.setText("")
+//            handleDifferentMessages(
+//                attachmentType, message, senderId, sentAt, inboxReference,
+//                reference
+//            )
+//            sendFirebaseNotification(messageModel)
+//        }.addOnFailureListener { e: Exception ->
+//            disableMessageSend(true)
+//            genericHandler.showMessage(e.message.toString())
+//        }
     }
 
     private fun handleDifferentMessages(

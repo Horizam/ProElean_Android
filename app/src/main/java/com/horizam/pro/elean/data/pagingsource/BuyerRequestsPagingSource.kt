@@ -5,8 +5,6 @@ import androidx.paging.PagingState
 import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.model.response.BuyerRequest
-import com.horizam.pro.elean.data.model.response.Gig
-import com.horizam.pro.elean.data.model.response.Offer
 import retrofit2.HttpException
 import java.io.IOException
 

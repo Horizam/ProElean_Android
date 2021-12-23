@@ -9,9 +9,9 @@ data class FeaturedGigDetailsResponse(
 )
 
 data class Service (
-    @SerializedName("id") val id : Int,
-    @SerializedName("sub_category_id") val sub_category_id : Int,
-    @SerializedName("user_id") val user_id : Int,
+    @SerializedName("id") val id : String,
+    @SerializedName("sub_category_id") val sub_category_id : String,
+    @SerializedName("user_id") val user_id : String,
     @SerializedName("s_description") val s_description : String,
     @SerializedName("description") val description : String,
     @SerializedName("price") val price : Double,
@@ -22,8 +22,8 @@ data class Service (
 )
 
 data class FeatureSubCategory (
-    @SerializedName("id") val id : Int,
+    @SerializedName("id") val id : String,
     @SerializedName("banner") val banner : String,
-    @SerializedName("category_id") val category_id : Int,
+    @SerializedName("category_id") val category_id : String,
     @SerializedName("category") val category : Category
 )

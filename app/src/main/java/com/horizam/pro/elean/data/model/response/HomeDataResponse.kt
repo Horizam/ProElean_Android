@@ -1,41 +1,30 @@
 package com.horizam.pro.elean.data.model.response
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
 data class HomeDataResponse(
-    @SerializedName("status") val status : Int,
-    @SerializedName("message") val message : String,
     @SerializedName("data") val data : HomeData
 )
 
 data class HomeData (
     @SerializedName("categories") val categories : List<Category>?,
-    @SerializedName("user_info") val user : AppUser,
-    @SerializedName("ads") val ads : List<Ads>?,
-    @SerializedName("featgig") val featuredGig : List<FeaturedGig>?
+    @SerializedName("featGigs") val featuredGig : List<FeaturedGig>?
 )
 
-data class AppUser(
-    @SerializedName("id") val id: Int,
-    @SerializedName("isFreelancer") val isFreelancer: Int,
-    @SerializedName("username") val name: String,
-    @SerializedName("image") val image: String
-)
-
+@Parcelize
 data class Category (
-    @SerializedName("id") val id : Int,
+    @SerializedName("id") val id : String,
     @SerializedName("title") val title : String,
     @SerializedName("description") val description : String,
     @SerializedName("banner") val banner : String,
-    @SerializedName("status") val status : Int,
-    @SerializedName("created_at") val created_at : String,
-    @SerializedName("updated_at") val updated_at : String
-)
+): Parcelable
 
 data class FeaturedGig (
-    @SerializedName("id") val id : Int,
-    @SerializedName("user_id") val user_id : Int,
-    @SerializedName("sub_category_id") val sub_category_id : Int,
+    @SerializedName("id") val id : String,
+    @SerializedName("user_id") val user_id : String,
+    @SerializedName("sub_category_id") val sub_category_id : String,
     @SerializedName("s_description") val shortDescription : String,
     @SerializedName("description") val description : String,
     @SerializedName("price") val price : Double,
@@ -51,15 +40,6 @@ data class FeaturedGig (
     @SerializedName("rating") val rating : Int,
     @SerializedName("lat") val lat : Double?,
     @SerializedName("lng") val lng : Double?,
-    @SerializedName("created_at") val created_at : String,
-    @SerializedName("updated_at") val updated_at : String
-)
-
-data class Ads (
-    @SerializedName("id") val id : Int,
-    @SerializedName("user_id") val user_id : Int,
-    @SerializedName("banner") val banner : String,
-    @SerializedName("description") val description : String,
     @SerializedName("created_at") val created_at : String,
     @SerializedName("updated_at") val updated_at : String
 )

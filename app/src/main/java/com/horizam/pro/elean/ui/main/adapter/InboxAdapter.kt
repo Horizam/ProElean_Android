@@ -67,23 +67,23 @@ class InboxAdapter(private val listener: InboxHandler) :
         }
 
         fun bind(inbox: Inbox) {
-            binding.apply {
-                try {
-                    tvMessage.text = inbox.lastMessage
-                    tvLastMessage.text = BaseUtils.getTimeAgo(inbox.sentAt)
-                    tvCounter.isVisible = false
-                    if (myId != 0) {
-                        inbox.membersInfo.first {
-                            it.id != myId
-                        }.also { member ->
-                            tvUserName.text = member.name
-                            checkPhotoEmpty(member)
-                        }
-                    }
-                } catch (exception: Exception) {
-                    Log.i("Exception", exception.message.toString())
-                }
-            }
+//            binding.apply {
+//                try {
+//                    tvMessage.text = inbox.lastMessage
+//                    tvLastMessage.text = BaseUtils.getTimeAgo(inbox.sentAt)
+//                    tvCounter.isVisible = false
+//                    if (myId != 0) {
+//                        inbox.membersInfo.first {
+//                            it.id != myId
+//                        }.also { member ->
+//                            tvUserName.text = member.name
+//                            checkPhotoEmpty(member)
+//                        }
+//                    }
+//                } catch (exception: Exception) {
+//                    Log.i("Exception", exception.message.toString())
+//                }
+//            }
         }
 
         private fun ItemInboxBinding.checkPhotoEmpty(member: MembersInfo) {

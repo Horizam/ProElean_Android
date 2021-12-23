@@ -42,7 +42,7 @@ import java.util.*
 import kotlin.collections.HashMap
 
 
-class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int, Int>) :
+class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int, String>) :
     Fragment(), SwipeRefreshLayout.OnRefreshListener, DeliverOrderFileHandler, RatingHandler,
     DescriptionHandler {
 
@@ -103,16 +103,16 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                         R.string.str_no_delivery_note
                     )
                 when (pair.first) {
-                    Constants.BUYER_USER -> {
-                        setBuyerData(pair)
-                    }
-                    Constants.SELLER_USER -> {
-                        setSellerData(pair)
-                    }
-                    else -> {
-                        genericHandler.showMessage(getString(R.string.str_something_went_wrong))
-                        requireActivity().finish()
-                    }
+//                    Constants.BUYER_USER -> {
+//                        setBuyerData(pair)
+//                    }
+//                    Constants.SELLER_USER -> {
+//                        setSellerData(pair)
+//                    }
+//                    else -> {
+//                        genericHandler.showMessage(getString(R.string.str_something_went_wrong))
+//                        requireActivity().finish()
+//                    }
                 }
             } catch (e: Exception) {
                 genericHandler.showMessage(e.message.toString())

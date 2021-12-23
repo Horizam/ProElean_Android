@@ -3,25 +3,27 @@ package com.horizam.pro.elean.data.model.response
 import com.google.gson.annotations.SerializedName
 
 data class CategoriesCountriesResponse(
-    @SerializedName("status") val status: Int,
-    @SerializedName("message") val message: String,
-    @SerializedName("BecomeFreelancer") val becomeFreelancer: BecomeFreelancer
+    @SerializedName("data") val categoriesCountriesData: CategoriesCountriesData
 )
 
-data class BecomeFreelancer(
-    @SerializedName("categories") val categories: List<SpinnerCategories>,
-    @SerializedName("countries") val countries: List<SpinnerCountries>,
-    @SerializedName("languages") var languages : List<String>
+data class CategoriesCountriesData(
+    @SerializedName("countries") val countries: List<Countries>,
+    @SerializedName("categories") val categories: List<Categories>,
+    @SerializedName("languages") val languages: List<String>,
+    @SerializedName("featGigs") val featGigs: List<String>,
+    @SerializedName("ads") val ads: List<String>,
+    @SerializedName("delivery_days") val deliveryDays: List<String>,
+    @SerializedName("revisions") val revisions: List<String>
 )
 
-data class SpinnerCategories(
-    @SerializedName("id") val id: Int,
+data class Countries(
+    @SerializedName("id") val id: String,
+    @SerializedName("name") val name: String,
+)
+
+data class Categories(
+    @SerializedName("id") val id: String,
     @SerializedName("title") val title: String,
     @SerializedName("banner") val banner: String,
     @SerializedName("description") val description: String
-)
-
-data class SpinnerCountries(
-    @SerializedName("id") val id: Int,
-    @SerializedName("name") val name: String
 )

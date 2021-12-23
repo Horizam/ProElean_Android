@@ -24,7 +24,7 @@ import com.horizam.pro.elean.data.model.SpinnerModel
 import com.horizam.pro.elean.data.model.response.CategoriesCountriesResponse
 import com.horizam.pro.elean.data.model.response.CategoriesDaysResponse
 import com.horizam.pro.elean.data.model.response.PostJobResponse
-import com.horizam.pro.elean.data.model.response.SpinnerSubcategoriesResponse
+import com.horizam.pro.elean.data.model.response.SubcategoriesDataResponse
 import com.horizam.pro.elean.databinding.FragmentBecomeFreelancerOneBinding
 import com.horizam.pro.elean.databinding.FragmentCreateServiceBinding
 import com.horizam.pro.elean.databinding.FragmentLoginBinding
@@ -53,9 +53,9 @@ class BecomeFreelancerOneFragment : Fragment(),AdapterView.OnItemSelectedListene
     private lateinit var categoriesAdapter: ArrayAdapter<SpinnerModel>
     private lateinit var subcategoriesAdapter: ArrayAdapter<SpinnerModel>
     private lateinit var countriesAdapter: ArrayAdapter<SpinnerModel>
-    private var categoryId: Int = -1
-    private var subcategoryId: Int = -1
-    private var countryId: Int = -1
+    private var categoryId: String = ""
+    private var subcategoryId: String = ""
+    private var countryId: String = ""
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -106,15 +106,15 @@ class BecomeFreelancerOneFragment : Fragment(),AdapterView.OnItemSelectedListene
                     genericHandler.showMessage(getString(R.string.str_enter_valid_short_description_length))
                     return
                 }
-                countryId == -1 -> {
+                countryId == "" -> {
                     genericHandler.showMessage(getString(R.string.str_enter_valid_country))
                     return
                 }
-                categoryId == -1 -> {
+                categoryId == "" -> {
                     genericHandler.showMessage(getString(R.string.str_enter_valid_category))
                     return
                 }
-                subcategoryId == -1 -> {
+                subcategoryId == "" -> {
                     genericHandler.showMessage(getString(R.string.str_enter_valid_subcategory))
                     return
                 }
@@ -193,7 +193,7 @@ class BecomeFreelancerOneFragment : Fragment(),AdapterView.OnItemSelectedListene
                 is CategoriesCountriesResponse -> {
                     setUIData(response)
                 }
-                is SpinnerSubcategoriesResponse -> {
+                is SubcategoriesDataResponse -> {
                     setSpinnerSubcategories(response)
                 }
             }
@@ -202,8 +202,8 @@ class BecomeFreelancerOneFragment : Fragment(),AdapterView.OnItemSelectedListene
         }
     }
 
-    private fun setSpinnerSubcategories(response: SpinnerSubcategoriesResponse) {
-        subcategoriesArrayList = response.subcategories.map { spinnerSubcategories ->
+    private fun setSpinnerSubcategories(response: SubcategoriesDataResponse) {
+        subcategoriesArrayList = response.subcategoriesList.map { spinnerSubcategories ->
             SpinnerModel(id = spinnerSubcategories.id, value = spinnerSubcategories.title)
         }
         subcategoriesAdapter = SpinnerAdapter(
@@ -216,10 +216,10 @@ class BecomeFreelancerOneFragment : Fragment(),AdapterView.OnItemSelectedListene
     }
 
     private fun setUIData(response: CategoriesCountriesResponse) {
-        categoriesArrayList = response.becomeFreelancer.categories.map { spinnerCategories ->
+        categoriesArrayList = response.categoriesCountriesData.categories.map { spinnerCategories ->
             SpinnerModel(id = spinnerCategories.id, value = spinnerCategories.title)
         }
-        countriesArrayList = response.becomeFreelancer.countries.map { countries->
+        countriesArrayList = response.categoriesCountriesData.countries.map { countries->
             SpinnerModel(id = countries.id,value = countries.name)
         }
         categoriesAdapter = SpinnerAdapter(
@@ -260,7 +260,7 @@ class BecomeFreelancerOneFragment : Fragment(),AdapterView.OnItemSelectedListene
 
     }
 
-    private val subcategoriesObserver = Observer<Resource<SpinnerSubcategoriesResponse>> {
+    private val subcategoriesObserver = Observer<Resource<SubcategoriesDataResponse>> {
         it?.let { resource ->
             when (resource.status) {
                 Status.SUCCESS -> {

@@ -31,6 +31,7 @@ import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
 import com.horizam.pro.elean.ui.main.view.activities.HomeActivity
 import com.horizam.pro.elean.ui.main.viewmodel.LoginViewModel
 import com.horizam.pro.elean.ui.main.viewmodel.RegisterViewModel
+import com.horizam.pro.elean.utils.BaseUtils
 import com.horizam.pro.elean.utils.BaseUtils.Companion.hideKeyboard
 import com.horizam.pro.elean.utils.PrefManager
 import com.horizam.pro.elean.utils.Status
@@ -59,7 +60,7 @@ class LoginFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentLoginBinding.inflate(layoutInflater,container,false)
+        binding = FragmentLoginBinding.inflate(layoutInflater, container, false)
         initViews()
         getFcmToken()
         //setupViewModel()
@@ -122,7 +123,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun executeApi() {
-        if (prefManager.fcmToken.isEmpty()){
+        if (prefManager.fcmToken.isEmpty()) {
             genericHandler.showMessage("Please try again latter")
             return
         }
@@ -170,11 +171,13 @@ class LoginFragment : Fragment() {
 
     private fun handleResponse(response: LoginResponse) {
         genericHandler.showMessage(response.message)
-        if (response.status == Constants.STATUS_OK){
-            val prefManager = PrefManager(requireContext())
-            prefManager.accessToken = response.token
-            startActivity(Intent(requireActivity(),HomeActivity::class.java))
-            requireActivity().finish()
-        }
+        val prefManager = PrefManager(requireContext())
+        prefManager.accessToken = response.token
+        prefManager.isFreelancer = response.data.isFreelancer
+        prefManager.username = response.data.username
+        prefManager.userImage = response.data.image
+        prefManager.userId = response.data.id
+        startActivity(Intent(requireActivity(), HomeActivity::class.java))
+        requireActivity().finish()
     }
 }

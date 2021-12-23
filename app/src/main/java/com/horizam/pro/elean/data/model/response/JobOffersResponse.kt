@@ -9,7 +9,7 @@ data class JobOffersResponse(
 )
 
 data class Profile(
-    @SerializedName("id") var id: Int,
+    @SerializedName("id") var id: String,
     @SerializedName("name") var name: String,
     @SerializedName("image") var image: String,
     @SerializedName("average_rating") var averageRating: Int,
@@ -17,8 +17,8 @@ data class Profile(
 )
 
 data class Offer(
-    @SerializedName("id") var id: Int,
-    @SerializedName("user_id") var userId: Int,
+    @SerializedName("id") var id: String,
+    @SerializedName("user_id") var userId: String,
     @SerializedName("description") var description: String,
     @SerializedName("price") var price: Double,
     @SerializedName("profile") var profile: Profile

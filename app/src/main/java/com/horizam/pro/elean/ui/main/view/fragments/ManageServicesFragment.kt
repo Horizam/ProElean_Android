@@ -12,19 +12,16 @@ import android.widget.RadioGroup
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.Gson
 import com.horizam.pro.elean.App
 import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
-import com.horizam.pro.elean.data.model.SliderItem
-import com.horizam.pro.elean.data.model.response.GeneralResponse
-import com.horizam.pro.elean.data.model.response.ManageServicesResponse
-import com.horizam.pro.elean.data.model.response.User_services
+import com.horizam.pro.elean.data.model.response.*
 import com.horizam.pro.elean.databinding.DialogDeleteBinding
 import com.horizam.pro.elean.databinding.DialogFilterPostedJobsBinding
 import com.horizam.pro.elean.databinding.FragmentManageServicesBinding
@@ -189,9 +186,7 @@ class ManageServicesFragment : Fragment(), ManageServiceHandler {
 
     private fun handleDeleteResponse(response: GeneralResponse) {
         genericHandler.showMessage(response.message)
-        if (response.status == Constants.STATUS_OK) {
-            viewModel.userServicesCall("")
-        }
+        viewModel.userServicesCall("")
     }
 
     private fun changeViewVisibility(textView: Boolean, button: Boolean, layout: Boolean) {
@@ -200,21 +195,21 @@ class ManageServicesFragment : Fragment(), ManageServiceHandler {
         binding.rvManageServices.isVisible = layout
     }
 
-    private fun handleResponse(response: ManageServicesResponse) {
+    private fun handleResponse(response: ServicesResponse) {
         try {
-            setUIData(response.service)
+            setUIData(response.serviceList)
         } catch (e: Exception) {
             genericHandler.showMessage(e.message.toString())
         }
     }
 
-    private fun setUIData(serviceList: List<User_services>) {
+    private fun setUIData(serviceList: List<ServiceDetail>) {
         adapter.submitList(serviceList)
         binding.tvPlaceholder.isVisible = serviceList.isEmpty()
     }
 
     override fun <T> removeService(item: T) {
-        if (item is User_services) {
+        if (item is ServiceDetail) {
             dialogDelete.show()
             bindingDeleteDialog.btnYes.setOnClickListener {
                 dialogDelete.dismiss()
@@ -226,10 +221,11 @@ class ManageServicesFragment : Fragment(), ManageServiceHandler {
     }
 
     override fun <T> onItemClick(item: T) {
-        if (item is User_services) {
-            val uid = item.uuid
+        if (item is ServiceDetail) {
+            val gson = Gson()
+            val serviceData = gson.toJson(item)
             ManageServicesFragmentDirections.actionManageServicesFragmentToServiceDetailsFragment(
-                uid = uid,
+                serviceDetail = serviceData,
                 isEditable = true
             ).also {
                 findNavController().navigate(it)

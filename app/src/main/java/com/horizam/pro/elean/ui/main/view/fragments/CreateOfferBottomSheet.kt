@@ -164,7 +164,7 @@ class CreateOfferBottomSheet(private val createOfferHandler: CreateOfferHandler)
                     Status.SUCCESS -> {
                         genericHandler.showProgressBar(false)
                         resource.data?.let { response ->
-                            handleResponse(response)
+//                            handleResponse(response)
                         }
                     }
                     Status.ERROR -> {
@@ -232,31 +232,31 @@ class CreateOfferBottomSheet(private val createOfferHandler: CreateOfferHandler)
                 revisions = parent.selectedItem.toString()
             }
             binding.spinnerServices.id -> {
-                try {
-                    val spinnerModel = parent.selectedItem as SpinnerModel
-                    serviceId = spinnerModel.id
-                    if (!servicesArrayList.isNullOrEmpty()){
-                        setServiceImage(serviceId)
-                    }
-                }catch (ex:Exception){
-                    genericHandler.showMessage(ex.message.toString())
-                }
+//                try {
+//                    val spinnerModel = parent.selectedItem as SpinnerModel
+//                    serviceId = spinnerModel.id
+//                    if (!servicesArrayList.isNullOrEmpty()){
+//                        setServiceImage(serviceId)
+//                    }
+//                }catch (ex:Exception){
+//                    genericHandler.showMessage(ex.message.toString())
+//                }
             }
         }
     }
 
     private fun setServiceImage(serviceId: Int) {
-        generalServicesArrayList.first {
-            it.id == serviceId
-        }.also { service ->
-            serviceTitle = service.s_description
-            if (!service.service_media.isNullOrEmpty()){
-                Glide.with(requireContext())
-                    .load(Constants.BASE_URL.plus(service.service_media[0].media))
-                    .error(R.drawable.bg_splash)
-                    .into(binding.ivService)
-            }
-        }
+//        generalServicesArrayList.first {
+//            it.id == serviceId
+//        }.also { service ->
+//            serviceTitle = service.s_description
+//            if (!service.service_media.isNullOrEmpty()){
+//                Glide.with(requireContext())
+//                    .load(Constants.BASE_URL.plus(service.service_media[0].media))
+//                    .error(R.drawable.bg_splash)
+//                    .into(binding.ivService)
+//            }
+//        }
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {

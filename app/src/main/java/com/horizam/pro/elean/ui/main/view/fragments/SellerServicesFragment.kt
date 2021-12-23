@@ -120,7 +120,7 @@ class SellerServicesFragment : Fragment(), OnItemClickListener, SendOfferHandler
                     Status.SUCCESS -> {
                         genericHandler.showProgressBar(false)
                         resource.data?.let { response ->
-                            handleResponse(response)
+//                            handleResponse(response)
                             changeViewVisibility(textView = false, button = false, layout = true)
                         }
                     }
@@ -185,19 +185,19 @@ class SellerServicesFragment : Fragment(), OnItemClickListener, SendOfferHandler
     }
 
     override fun <T> onItemClick(item: T) {
-        if (item is User_services) {
-            val jobId: Int = args.id
-            val sendOfferBottomSheet = SendOfferBottomSheet(this)
-            val bundle = Bundle()
-            bundle.putInt(Constants.USER_SERVICE_ID, item.id)
-            bundle.putInt(Constants.JOB_ID, jobId)
-            bundle.putStringArrayList(Constants.DAYS_LIST, deliveryDaysList)
-            sendOfferBottomSheet.arguments = bundle
-            sendOfferBottomSheet.show(
-                requireActivity().supportFragmentManager,
-                SendOfferBottomSheet.TAG
-            )
-        }
+//        if (item is User_services) {
+//            val jobId: Int = args.id
+//            val sendOfferBottomSheet = SendOfferBottomSheet(this)
+//            val bundle = Bundle()
+//            bundle.putInt(Constants.USER_SERVICE_ID, item.id)
+//            bundle.putInt(Constants.JOB_ID, jobId)
+//            bundle.putStringArrayList(Constants.DAYS_LIST, deliveryDaysList)
+//            sendOfferBottomSheet.arguments = bundle
+//            sendOfferBottomSheet.show(
+//                requireActivity().supportFragmentManager,
+//                SendOfferBottomSheet.TAG
+//            )
+//        }
     }
 
     override fun <T> sendOffer(item: T) {

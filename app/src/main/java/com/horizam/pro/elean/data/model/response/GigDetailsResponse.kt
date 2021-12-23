@@ -13,10 +13,10 @@ data class GigDetailsResponse(
 
 @Parcelize
 data class ServiceInfo(
-    @SerializedName("id") val id: Int,
-    @SerializedName("user_id") val user_id: Int,
-    @SerializedName("category_id") val categoryId: Int,
-    @SerializedName("sub_category_id") val subcategoryId: Int,
+    @SerializedName("id") val id: String,
+    @SerializedName("user_id") val user_id: String,
+    @SerializedName("category_id") val categoryId: String,
+    @SerializedName("sub_category_id") val subcategoryId: String,
     @SerializedName("s_description") val s_description: String,
     @SerializedName("uuid") val uuid: String,
     @SerializedName("description") val description: String,
@@ -36,7 +36,7 @@ data class ServiceInfo(
 
 @Parcelize
 data class GigUser(
-    @SerializedName("id") val id: Int,
+    @SerializedName("id") val id: String,
     @SerializedName("name") val name: String,
     @SerializedName("image") val image: String,
     @SerializedName("is_applied") val isApplied: Int
@@ -44,16 +44,16 @@ data class GigUser(
 
 @Parcelize
 data class ReviewUser(
-    @SerializedName("id") val id: Int,
+    @SerializedName("id") val id: String,
     @SerializedName("name") val name: String,
     @SerializedName("image") val image: String
 ) : Parcelable
 
 @Parcelize
 data class Review(
-    @SerializedName("id") val id: Int,
-    @SerializedName("service_id") val service_id: Int,
-    @SerializedName("user_id") val user_id: Int,
+    @SerializedName("id") val id: String,
+    @SerializedName("service_id") val service_id: String,
+    @SerializedName("user_id") val user_id: String,
     @SerializedName("rating") val rating: Int,
     @SerializedName("description") val description: String,
     @SerializedName("user") val reviewUser: ReviewUser
@@ -61,6 +61,6 @@ data class Review(
 
 @Parcelize
 data class ServiceMedia(
-    @SerializedName("service_id") val service_id: Int,
+    @SerializedName("service_id") val service_id: String,
     @SerializedName("media") val media: String,
 ) : Parcelable

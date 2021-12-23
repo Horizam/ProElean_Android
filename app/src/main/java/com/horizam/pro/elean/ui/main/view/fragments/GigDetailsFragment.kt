@@ -24,11 +24,9 @@ import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
-import com.horizam.pro.elean.data.model.response.GigDetailsResponse
 import com.horizam.pro.elean.data.model.response.ServiceInfo
 import com.horizam.pro.elean.databinding.FragmentGigDetailsBinding
 import com.horizam.pro.elean.ui.base.ViewModelFactory
-import com.horizam.pro.elean.ui.main.adapter.ReviewsAdapter
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
 import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
 import com.horizam.pro.elean.ui.main.view.activities.UserAboutActivity
@@ -37,26 +35,27 @@ import com.horizam.pro.elean.utils.Status
 import java.lang.Exception
 import com.glide.slider.library.animations.DescriptionAnimation
 import com.glide.slider.library.tricks.ViewPagerEx
-import com.horizam.pro.elean.data.model.MessageGig
+import com.google.gson.Gson
+import com.horizam.pro.elean.data.model.response.ServiceDetail
 import com.horizam.pro.elean.utils.PrefManager
 
 
 class GigDetailsFragment : Fragment(), OnItemClickListener,
-    BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener  {
+    BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener {
 
     private lateinit var binding: FragmentGigDetailsBinding
-    private lateinit var adapter: ReviewsAdapter
+
+    //    private lateinit var adapter: ReviewsAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewModel: GigDetailsViewModel
     private lateinit var genericHandler: GenericHandler
-    private lateinit var glideSliderLayout:SliderLayout
+    private lateinit var glideSliderLayout: SliderLayout
     private lateinit var requestOptions: RequestOptions
-    private lateinit var deliveryDaysList:ArrayList<String>
-    private lateinit var prefManager:PrefManager
-    private var gig:ServiceInfo? = null
+    private lateinit var deliveryDaysList: ArrayList<String>
+    private lateinit var prefManager: PrefManager
+    private var gig: ServiceDetail? = null
     private val args: GigDetailsFragmentArgs by navArgs()
-    private var userId:Int = -1
-    private var bundle: Bundle = Bundle()
+    private var userId: String = ""
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -79,16 +78,19 @@ class GigDetailsFragment : Fragment(), OnItemClickListener,
     }
 
     private fun executeApi() {
-        if (viewModel.gigDetails.value?.data == null) {
-            genericHandler.showProgressBar(true)
-            viewModel.gigDetailsCall(args.uid)
-        }
+//        if (viewModel.gigDetails.value?.data == null) {
+//            genericHandler.showProgressBar(true)
+//            viewModel.gigDetailsCall(args.serviceDetail)
+//        }
+        val gson = Gson()
+        val serviceData = gson.fromJson(args.serviceDetail, ServiceDetail::class.java)
+        handleResponse(serviceData)
     }
 
     private fun initViews() {
         prefManager = PrefManager(requireContext())
         deliveryDaysList = ArrayList()
-        adapter = ReviewsAdapter(this)
+//        adapter = ReviewsAdapter(this)
         recyclerView = binding.rvReviews
         requestOptions = RequestOptions().centerCrop()
         setSliderProperties()
@@ -113,7 +115,7 @@ class GigDetailsFragment : Fragment(), OnItemClickListener,
                 (recyclerView.layoutManager as LinearLayoutManager).orientation
             )
         )
-        recyclerView.adapter = adapter
+//        recyclerView.adapter = adapter
     }
 
     private fun setOnClickListeners() {
@@ -121,11 +123,11 @@ class GigDetailsFragment : Fragment(), OnItemClickListener,
             findNavController().popBackStack()
         }
         binding.ivUser.setOnClickListener {
-            if (userId == -1){
+            if (userId == "") {
                 return@setOnClickListener
             }
-            Intent(requireActivity(),UserAboutActivity::class.java).also {
-                it.putExtra("id",userId)
+            Intent(requireActivity(), UserAboutActivity::class.java).also {
+                it.putExtra("id", userId)
                 startActivity(it)
             }
         }
@@ -133,36 +135,36 @@ class GigDetailsFragment : Fragment(), OnItemClickListener,
             executeApi()
         }
         binding.btnCustomOrder.setOnClickListener {
-            val serviceId: String = args.uid
-            if (serviceId.isNotEmpty()){
-                val customOrderBottomSheet = CustomOrderBottomSheet()
-                bundle.putString(Constants.SERVICE_ID,serviceId)
-                bundle.putStringArrayList(Constants.DAYS_LIST,deliveryDaysList)
-                customOrderBottomSheet.arguments = bundle
-                customOrderBottomSheet.show(requireActivity().supportFragmentManager, CustomOrderBottomSheet.TAG)
-            }
+//            val serviceId: String = args.uid
+//            if (serviceId.isNotEmpty()){
+//                val customOrderBottomSheet = CustomOrderBottomSheet()
+//                bundle.putString(Constants.SERVICE_ID,serviceId)
+//                bundle.putStringArrayList(Constants.DAYS_LIST,deliveryDaysList)
+//                customOrderBottomSheet.arguments = bundle
+//                customOrderBottomSheet.show(requireActivity().supportFragmentManager, CustomOrderBottomSheet.TAG)
+//            }
         }
         binding.btnContactSeller.setOnClickListener {
-            try {
-                if (prefManager.userId != userId && userId != -1 && gig != null){
-                    val serviceGig = gig!!
-                    val messageGig = MessageGig(
-                        gigId = serviceGig.id,
-                        gigImage = serviceGig.serviceMedia[0].media,
-                        gigTitle = serviceGig.s_description,
-                        gigUsername = serviceGig.gigUser.name
-                    )
-                    GigDetailsFragmentDirections.actionGigDetailsFragmentToMessagesFragment(
-                        id = userId,
-                        refersGig = true,
-                        messageGig = messageGig
-                    ).also {
-                        findNavController().navigate(it)
-                    }
-                }
-            }catch (e:Exception){
-                genericHandler.showMessage(e.message.toString())
-            }
+//            try {
+//                if (prefManager.userId != userId && userId != "" && gig != null){
+//                    val serviceGig = gig!!
+//                    val messageGig = MessageGig(
+//                        gigId = serviceGig.id,
+//                        gigImage = serviceGig.serviceMedia[0].media,
+//                        gigTitle = serviceGig.s_description,
+//                        gigUsername = serviceGig.gigUser.name
+//                    )
+//                    GigDetailsFragmentDirections.actionGigDetailsFragmentToMessagesFragment(
+//                        id = userId,
+//                        refersGig = true,
+//                        messageGig = messageGig
+//                    ).also {
+//                        findNavController().navigate(it)
+//                    }
+//                }
+//            }catch (e:Exception){
+//                genericHandler.showMessage(e.message.toString())
+//            }
         }
     }
 
@@ -185,7 +187,7 @@ class GigDetailsFragment : Fragment(), OnItemClickListener,
                     Status.SUCCESS -> {
                         genericHandler.showProgressBar(false)
                         resource.data?.let { response ->
-                            handleResponse(response)
+//                            handleResponse(response)
                             changeViewVisibility(textView = false, button = false, layout = true)
                         }
                     }
@@ -209,53 +211,54 @@ class GigDetailsFragment : Fragment(), OnItemClickListener,
         binding.mainLayout.isVisible = layout
     }
 
-    private fun handleResponse(response: GigDetailsResponse) {
+    private fun handleResponse(response: ServiceDetail) {
         try {
-            setUIData(response.serviceInfo)
-            gig = response.serviceInfo
-            if (response.days != null){
-                deliveryDaysList = response.days as ArrayList<String>
-                bundle.putString("service_name" , response.serviceInfo.s_description)
-                bundle.putString("seller_name" , response.serviceInfo.gigUser.name)
-                bundle.putString("price" , response.serviceInfo.price.toString())
-            }
+            changeViewVisibility(textView = false, button = false, layout = true)
+            setUIData(response)
+            gig = response
+//            if (response.days != null){
+//                deliveryDaysList = response.days as ArrayList<String>
+//                bundle.putString("service_name" , response.serviceInfo.s_description)
+//                bundle.putString("seller_name" , response.serviceInfo.gigUser.name)
+//                bundle.putString("price" , response.serviceInfo.price.toString())
+//            }
         } catch (e: Exception) {
             genericHandler.showMessage(e.message.toString())
         }
     }
 
-    private fun setUIData(serviceInfo: ServiceInfo) {
+    private fun setUIData(serviceDetail: ServiceDetail) {
         binding.apply {
-            tvUserName.text = serviceInfo.gigUser.name
-            tvCategoryPrice.text = Constants.CURRENCY.plus(" ").plus(serviceInfo.price.toString())
-            tvServiceDetailTitle.text = serviceInfo.s_description
-            tvCategoryName.text = serviceInfo.category_title
-            tvSubcategoryName.text = serviceInfo.sub_category_title
-            tvServiceDetailDescription.text = serviceInfo.description
-            tvNoOfRevision.text = serviceInfo.noOfRevision.toString()
-            ratingBar.rating = serviceInfo.average_rating.toFloat()
-            noOfRating.text = "(${serviceInfo.reviews.size})"
-            userId = serviceInfo.user_id
+            tvUserName.text = serviceDetail.service_user.name
+            tvCategoryPrice.text = Constants.CURRENCY.plus(" ").plus(serviceDetail.price.toString())
+            tvServiceDetailTitle.text = serviceDetail.s_description
+            tvCategoryName.text = serviceDetail.category.title
+            tvSubcategoryName.text = serviceDetail.sub_category.title
+            tvServiceDetailDescription.text = serviceDetail.description
+            tvNoOfRevision.text = serviceDetail.revision.toString()
+            ratingBar.rating = serviceDetail.service_rating.toFloat()
+            noOfRating.text = "(${serviceDetail.total_reviews})"
+            userId = serviceDetail.user_id
             Glide.with(this@GigDetailsFragment)
-                .load("${Constants.BASE_URL}${serviceInfo.gigUser.image}")
+                .load("${Constants.BASE_URL}${serviceDetail.service_media[0].media}")
                 .placeholder(R.drawable.img_profile)
                 .error(R.drawable.img_profile)
                 .into(ivUser)
-            setImageSlider(serviceInfo)
+//            setImageSlider(serviceInfo)
         }
-        if (serviceInfo.reviews.isEmpty()) {
+        if (serviceDetail.service_reviews.isEmpty()) {
             recyclerView.isVisible = false
             binding.tvPlaceholder.isVisible = true
         } else {
-            adapter.submitList(serviceInfo.reviews)
-            recyclerView.isVisible = true
-            binding.tvPlaceholder.isVisible = false
+//            adapter.submitList(serviceData.service_reviews)
+//            recyclerView.isVisible = true
+//            binding.tvPlaceholder.isVisible = false
         }
     }
 
     private fun setImageSlider(serviceInfo: ServiceInfo) {
         serviceInfo.serviceMedia.let { imagesList ->
-            if (imagesList.isNotEmpty()){
+            if (imagesList.isNotEmpty()) {
                 imagesList.forEach { image ->
                     val defaultSliderView = DefaultSliderView(requireContext())
                     defaultSliderView
@@ -274,7 +277,7 @@ class GigDetailsFragment : Fragment(), OnItemClickListener,
     }
 
     override fun onSliderClick(slider: BaseSliderView?) {
-       // Toast.makeText(requireContext(), slider!!.getBundle().getString("extra") + "", Toast.LENGTH_SHORT).show()
+        // Toast.makeText(requireContext(), slider!!.getBundle().getString("extra") + "", Toast.LENGTH_SHORT).show()
     }
 
     override fun onStop() {
@@ -283,7 +286,7 @@ class GigDetailsFragment : Fragment(), OnItemClickListener,
     }
 
     override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-        
+
     }
 
     override fun onPageSelected(position: Int) {

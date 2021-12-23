@@ -16,23 +16,20 @@ import androidx.navigation.fragment.navArgs
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.Gson
 import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
-import com.horizam.pro.elean.data.model.MessageGig
-import com.horizam.pro.elean.data.model.SpinnerModel
 import com.horizam.pro.elean.data.model.SpinnerPriceModel
-import com.horizam.pro.elean.data.model.requests.FavouriteRequest
 import com.horizam.pro.elean.data.model.requests.SearchGigsRequest
 import com.horizam.pro.elean.data.model.response.GeneralResponse
-import com.horizam.pro.elean.data.model.response.Gig
+import com.horizam.pro.elean.data.model.response.ServiceDetail
 import com.horizam.pro.elean.databinding.FragmentServiceGigsBinding
 import com.horizam.pro.elean.ui.base.ViewModelFactory
 import com.horizam.pro.elean.ui.main.adapter.GigsAdapter
 import com.horizam.pro.elean.ui.main.adapter.MyLoadStateAdapter
 import com.horizam.pro.elean.ui.main.adapter.PriceAdapter
-import com.horizam.pro.elean.ui.main.adapter.SpinnerAdapter
 import com.horizam.pro.elean.ui.main.callbacks.ContactSellerHandler
 import com.horizam.pro.elean.ui.main.callbacks.FavouriteHandler
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
@@ -42,7 +39,6 @@ import com.horizam.pro.elean.utils.BaseUtils.Companion.hideKeyboard
 import com.horizam.pro.elean.utils.PrefManager
 import com.horizam.pro.elean.utils.Resource
 import com.horizam.pro.elean.utils.Status
-import java.lang.Exception
 
 
 class ServiceGigsFragment : Fragment(),OnItemClickListener, FavouriteHandler,
@@ -78,7 +74,7 @@ class ServiceGigsFragment : Fragment(),OnItemClickListener, FavouriteHandler,
     ): View {
         binding = FragmentServiceGigsBinding.inflate(layoutInflater,container,false)
         initViews()
-        //setupViewModel()
+//        setupViewModel()
         setupObservers()
         setRecyclerview()
         setOnClickListeners()
@@ -89,7 +85,7 @@ class ServiceGigsFragment : Fragment(),OnItemClickListener, FavouriteHandler,
     private fun executeApi() {
         if (args.from == Constants.NORMAL_FLOW){
             if (viewModel.sellers.value == null){
-                viewModel.getSellers(args.id)
+                viewModel.getServicesBySubCategories(args.id)
             }
         }else{
             binding.autoCompleteTextView.setText(args.query)
@@ -228,7 +224,7 @@ class ServiceGigsFragment : Fragment(),OnItemClickListener, FavouriteHandler,
             when (resource.status) {
                 Status.SUCCESS -> {
                     genericHandler.showProgressBar(false)
-                    viewModel.getSellers(args.id)
+                    viewModel.getServicesBySubCategories(args.id)
                 }
                 Status.ERROR -> {
                     genericHandler.showProgressBar(false)
@@ -242,41 +238,42 @@ class ServiceGigsFragment : Fragment(),OnItemClickListener, FavouriteHandler,
     }
 
     override fun <T> onItemClick(item: T) {
-        if (item is Gig){
-            val userId = item.uuid
-            val action = ServiceGigsFragmentDirections.actionServiceGigsFragmentToGigDetailsFragment(userId)
+        if (item is ServiceDetail){
+            val gson = Gson()
+            val serviceData = gson.toJson(item)
+            val action = ServiceGigsFragmentDirections.actionServiceGigsFragmentToGigDetailsFragment(serviceData)
             findNavController().navigate(action)
         }
     }
 
     override fun <T> addRemoveWishList(item: T) {
-        if (item is Gig){
-            viewModel.addToWishlistCall(FavouriteRequest(item.id))
-        }
+//        if (item is Gig){
+//            viewModel.addToWishlistCall(FavouriteRequest(item.id))
+//        }
     }
 
     override fun <T> contactSeller(item: T) {
-        if (item is Gig){
-            try {
-                if (prefManager.userId != item.user_id && item.user_id != -1){
-                    val messageGig = MessageGig(
-                        gigId = item.id,
-                        gigImage = item.banner,
-                        gigTitle = item.shortDescription,
-                        gigUsername = item.username
-                    )
-                    ServiceGigsFragmentDirections.actionServiceGigsFragmentToMessagesFragment(
-                        id = item.user_id,
-                        refersGig = true,
-                        messageGig = messageGig
-                    ).also {
-                        findNavController().navigate(it)
-                    }
-                }
-            }catch (e: Exception){
-                genericHandler.showMessage(e.message.toString())
-            }
-        }
+//        if (item is Gig){
+//            try {
+//                if (prefManager.userId != item.user_id && item.user_id != -1){
+//                    val messageGig = MessageGig(
+//                        gigId = item.id,
+//                        gigImage = item.banner,
+//                        gigTitle = item.shortDescription,
+//                        gigUsername = item.username
+//                    )
+//                    ServiceGigsFragmentDirections.actionServiceGigsFragmentToMessagesFragment(
+//                        id = item.user_id,
+//                        refersGig = true,
+//                        messageGig = messageGig
+//                    ).also {
+//                        findNavController().navigate(it)
+//                    }
+//                }
+//            }catch (e: Exception){
+//                genericHandler.showMessage(e.message.toString())
+//            }
+//        }
     }
 
     private val focusChangeListener = View.OnFocusChangeListener { v, hasFocus ->

@@ -30,11 +30,8 @@ import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
 import com.horizam.pro.elean.data.model.Image
 import com.horizam.pro.elean.data.model.SpinnerModel
-import com.horizam.pro.elean.data.model.requests.BecomeFreelancerRequest
 import com.horizam.pro.elean.data.model.requests.CreateServiceRequest
-import com.horizam.pro.elean.data.model.response.CategoriesDaysResponse
-import com.horizam.pro.elean.data.model.response.GeneralResponse
-import com.horizam.pro.elean.data.model.response.SpinnerSubcategoriesResponse
+import com.horizam.pro.elean.data.model.response.*
 import com.horizam.pro.elean.databinding.FragmentCreateServiceBinding
 import com.horizam.pro.elean.ui.base.ViewModelFactory
 import com.horizam.pro.elean.ui.main.adapter.ImagesAdapter
@@ -65,8 +62,8 @@ class CreateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
     private lateinit var subcategoriesAdapter: ArrayAdapter<SpinnerModel>
     private lateinit var daysAdapter: ArrayAdapter<String>
     private lateinit var noOfRevisionAdapter: ArrayAdapter<String>
-    private var categoryId: Int = -1
-    private var subcategoryId: Int = -1
+    private var categoryId: String = ""
+    private var subcategoryId: String = ""
     private var deliveryTime = ""
     private var noOfRevision = -1
 
@@ -112,11 +109,11 @@ class CreateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
                     genericHandler.showMessage(getString(R.string.str_enter_valid_short_description_length))
                     return
                 }
-                categoryId == -1 -> {
+                categoryId == "" -> {
                     genericHandler.showMessage(getString(R.string.str_enter_valid_category))
                     return
                 }
-                subcategoryId == -1 -> {
+                subcategoryId == "" -> {
                     genericHandler.showMessage(getString(R.string.str_enter_valid_subcategory))
                     return
                 }
@@ -241,7 +238,7 @@ class CreateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
     }
 
     private fun setupObservers() {
-        viewModel.categoriesDays.observe(viewLifecycleOwner, {
+        viewModel.categoriesRevisionDeliveryTimeResponse.observe(viewLifecycleOwner, {
             it?.let { resource ->
                 when (resource.status) {
                     Status.SUCCESS -> {
@@ -267,14 +264,13 @@ class CreateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
     private fun <T> handleResponse(response: T) {
         try {
             when (response) {
-                is CategoriesDaysResponse -> {
+                is CategoriesCountriesResponse -> {
                     setUIData(response)
                 }
-                is SpinnerSubcategoriesResponse -> {
+                is SubcategoriesDataResponse -> {
                     setSpinnerSubcategories(response)
                 }
-                is GeneralResponse -> {
-                    genericHandler.showMessage(response.message)
+                is ServiceResponse -> {
                     findNavController().popBackStack()
                     findNavController().navigate(R.id.manageServicesFragment)
                 }
@@ -284,8 +280,8 @@ class CreateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
         }
     }
 
-    private fun setSpinnerSubcategories(response: SpinnerSubcategoriesResponse) {
-        subcategoriesArrayList = response.subcategories.map { spinnerSubcategories ->
+    private fun setSpinnerSubcategories(response: SubcategoriesDataResponse) {
+        subcategoriesArrayList = response.subcategoriesList.map { spinnerSubcategories ->
             SpinnerModel(id = spinnerSubcategories.id, value = spinnerSubcategories.title)
         }
         subcategoriesAdapter = SpinnerAdapter(
@@ -297,12 +293,10 @@ class CreateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
         }
     }
 
-    private fun setUIData(response: CategoriesDaysResponse) {
-        categoriesArrayList = response.categories.map { spinnerCategories ->
+    private fun setUIData(response: CategoriesCountriesResponse) {
+        categoriesArrayList = response.categoriesCountriesData.categories.map { spinnerCategories ->
             SpinnerModel(id = spinnerCategories.id, value = spinnerCategories.title)
         }
-        daysArrayList = response.days
-        noOfRevisionArrayList = response.noOfRevision
         categoriesAdapter = SpinnerAdapter(
             requireContext(),
             android.R.layout.simple_spinner_item, categoriesArrayList
@@ -310,6 +304,8 @@ class CreateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
             it.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
             binding.spinnerCategory.adapter = it
         }
+
+        daysArrayList = response.categoriesCountriesData.deliveryDays
         daysAdapter = ArrayAdapter(
             requireContext(),
             android.R.layout.simple_spinner_item, daysArrayList
@@ -318,6 +314,7 @@ class CreateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
             binding.spinnerDeliveryTime.adapter = it
         }
 
+        noOfRevisionArrayList = response.categoriesCountriesData.revisions
         noOfRevisionAdapter = ArrayAdapter(
             requireContext(),
             android.R.layout.simple_spinner_item, noOfRevisionArrayList
@@ -341,7 +338,7 @@ class CreateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
             binding.spinnerDeliveryTime.id -> {
                 deliveryTime = parent.selectedItem.toString()
             }
-            binding.spinnerNoOfRevision.id ->{
+            binding.spinnerNoOfRevision.id -> {
                 noOfRevision = parent.selectedItem.toString().toInt()
             }
         }
@@ -351,7 +348,7 @@ class CreateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
 
     }
 
-    private val subcategoriesObserver = Observer<Resource<SpinnerSubcategoriesResponse>> {
+    private val subcategoriesObserver = Observer<Resource<SubcategoriesDataResponse>> {
         it?.let { resource ->
             when (resource.status) {
                 Status.SUCCESS -> {
@@ -371,7 +368,7 @@ class CreateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
         }
     }
 
-    private val createServiceObserver = Observer<Resource<GeneralResponse>> {
+    private val createServiceObserver = Observer<Resource<ServiceResponse>> {
         it?.let { resource ->
             when (resource.status) {
                 Status.SUCCESS -> {

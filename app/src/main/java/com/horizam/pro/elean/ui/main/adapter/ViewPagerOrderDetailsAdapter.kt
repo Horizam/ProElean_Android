@@ -13,7 +13,7 @@ internal class ViewPagerOrderDetailsAdapter(
     fragmentActivity: FragmentActivity,
     listFragmentTitles: ArrayList<String>,
     val order: Order,
-    val pair: Pair<Int, Int>
+    val pair: Pair<Int, String>
 ) :
     FragmentStateAdapter(fragmentActivity) {
 

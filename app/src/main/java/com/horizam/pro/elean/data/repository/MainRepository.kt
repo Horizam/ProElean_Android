@@ -36,12 +36,12 @@ class MainRepository(private val apiHelper: ApiHelper) {
     suspend fun getLanguageAndCurrency() = apiHelper.getLanguageAndCurrency()
     suspend fun getNotifications() = apiHelper.getNotifications()
     suspend fun getEarnings() = apiHelper.getEarnings()
-    suspend fun getSpinnerSubcategories(id: Int) = apiHelper.getSpinnerSubcategories(id)
+    suspend fun getSpinnerSubcategories(id: String) = apiHelper.getSpinnerSubcategories(id)
     suspend fun deletePostedJob(id: String) = apiHelper.deletePostedJob(id)
     suspend fun getBuyerOrders(id: Int) = apiHelper.getBuyerOrders(id)
     suspend fun getSellersOrders(id: Int) = apiHelper.getSellersOrders(id)
     suspend fun deleteJobOffer(id: Int) = apiHelper.deleteJobOffer(id)
-    suspend fun deleteUserService(id: Int) = apiHelper.deleteUserService(id)
+    suspend fun deleteUserService(id: String) = apiHelper.deleteUserService(id)
     suspend fun getFreelancerProfile(id: Int) = apiHelper.getFreelancerProfile(id)
     suspend fun getGigDetails(uid:String) = apiHelper.getGigDetails(uid)
     suspend fun getFeaturedGigDetails(uid:String) = apiHelper.getFeaturedGigDetails(uid)
@@ -54,7 +54,7 @@ class MainRepository(private val apiHelper: ApiHelper) {
     suspend fun ratingOrder(request: RatingOrderRequest) = apiHelper.ratingOrder(request)
     suspend fun changePassword(changePasswordRequest: ChangePasswordRequest) = apiHelper.changePassword(changePasswordRequest)
     suspend fun orderByID(request: Int) = apiHelper.orderByID(request)
-    fun getSubcategories(id:Int,query: String) = Pager(
+    fun getSubcategories(id:String,query: String) = Pager(
         config = PagingConfig(
             pageSize = 20,
             maxSize = 100,
@@ -65,7 +65,7 @@ class MainRepository(private val apiHelper: ApiHelper) {
         }
     ).liveData
 
-    fun getSellers(id:Int) = Pager(
+    fun getServicesBySubCategories(id:String) = Pager(
         config = PagingConfig(
             pageSize = 20,
             maxSize = 100,

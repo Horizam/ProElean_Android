@@ -8,29 +8,27 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.glide.slider.library.SliderLayout
 import com.glide.slider.library.animations.DescriptionAnimation
 import com.glide.slider.library.slidertypes.BaseSliderView
 import com.glide.slider.library.slidertypes.DefaultSliderView
 import com.glide.slider.library.tricks.ViewPagerEx
+import com.google.gson.Gson
 import com.horizam.pro.elean.App
 import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
 import com.horizam.pro.elean.data.model.response.GigDetailsResponse
+import com.horizam.pro.elean.data.model.response.ServiceDetail
 import com.horizam.pro.elean.data.model.response.ServiceInfo
-import com.horizam.pro.elean.databinding.FragmentLoginBinding
 import com.horizam.pro.elean.databinding.FragmentServiceDetailsBinding
-import com.horizam.pro.elean.databinding.FragmentSignUpBinding
 import com.horizam.pro.elean.ui.base.ViewModelFactory
 import com.horizam.pro.elean.ui.main.adapter.ReviewsAdapter
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
@@ -49,7 +47,7 @@ class ServiceDetailsFragment : Fragment(), BaseSliderView.OnSliderClickListener,
     private lateinit var glideSliderLayout: SliderLayout
     private lateinit var requestOptions: RequestOptions
     private val args: ServiceDetailsFragmentArgs by navArgs()
-    private var service:ServiceInfo? = null
+    private var service:ServiceDetail? = null
     private lateinit var adapter: ReviewsAdapter
     private lateinit var recyclerView: RecyclerView
 
@@ -66,25 +64,21 @@ class ServiceDetailsFragment : Fragment(), BaseSliderView.OnSliderClickListener,
         setToolbarData()
         initViews()
         setupViewModel()
-        setupObservers()
         setRecyclerview()
         setClickListeners()
-        executeApi()
         return binding.root
     }
 
     override fun onStart() {
         super.onStart()
+        changeViewVisibility(textView = false, button = false, layout = true)
         executeApi()
     }
 
     private fun executeApi() {
-        /*if (viewModel.gigDetails.value?.data == null) {
-            genericHandler.showProgressBar(true)
-            viewModel.gigDetailsCall(args.uid)
-        }*/
-        genericHandler.showProgressBar(true)
-        viewModel.gigDetailsCall(args.uid)
+        val gson = Gson()
+        val serviceDetail = gson.fromJson(args.serviceDetail, ServiceDetail::class.java)
+        handleResponse(serviceDetail)
     }
 
     private fun initViews() {
@@ -146,72 +140,47 @@ class ServiceDetailsFragment : Fragment(), BaseSliderView.OnSliderClickListener,
         ).get(GigDetailsViewModel::class.java)
     }
 
-    private fun setupObservers() {
-        viewModel.gigDetails.observe(viewLifecycleOwner, {
-            it?.let { resource ->
-                when (resource.status) {
-                    Status.SUCCESS -> {
-                        genericHandler.showProgressBar(false)
-                        resource.data?.let { response ->
-                            handleResponse(response)
-                            changeViewVisibility(textView = false, button = false, layout = true)
-                        }
-                    }
-                    Status.ERROR -> {
-                        genericHandler.showProgressBar(false)
-                        genericHandler.showMessage(it.message.toString())
-                        changeViewVisibility(textView = true, button = true, layout = false)
-                    }
-                    Status.LOADING -> {
-                        genericHandler.showProgressBar(true)
-                        changeViewVisibility(textView = false, button = false, layout = false)
-                    }
-                }
-            }
-        })
-    }
-
     private fun changeViewVisibility(textView: Boolean, button: Boolean, layout: Boolean) {
         binding.textViewError.isVisible = textView
         binding.btnRetry.isVisible = button
         binding.mainLayout.isVisible = layout
     }
 
-    private fun handleResponse(response: GigDetailsResponse) {
+    private fun handleResponse(serviceDetail: ServiceDetail) {
         try {
-            setUIData(response.serviceInfo)
+            setUIData(serviceDetail)
         } catch (e: Exception) {
             genericHandler.showMessage(e.message.toString())
         }
     }
 
-    private fun setUIData(serviceInfo: ServiceInfo) {
+    private fun setUIData(serviceDetail: ServiceDetail) {
         binding.apply {
-            tvServiceDetailTitle.text = serviceInfo.s_description
-            tvServiceDetailDescription.text = serviceInfo.description
-            tvPrice.text = Constants.CURRENCY.plus(" ").plus(serviceInfo.price.toString())
-            tvDeliveryTime.text = serviceInfo.delivery_time
-            ratingBar.rating = serviceInfo.average_rating.toFloat()
-            tvRatingValue.text = " (${serviceInfo.reviews.size})"
-            tvCategoryTitle.text = serviceInfo.category_title
-            tvSubcategoryTitle.text = serviceInfo.sub_category_title
-            tvNoOfRevision.text = serviceInfo.noOfRevision.toString()
+            tvServiceDetailTitle.text = serviceDetail.s_description
+            tvServiceDetailDescription.text = serviceDetail.description
+            tvPrice.text = Constants.CURRENCY.plus(" ").plus(serviceDetail.price.toString())
+            tvDeliveryTime.text = serviceDetail.delivery_time
+            ratingBar.rating = serviceDetail.service_rating.toFloat()
+            tvRatingValue.text = " (${serviceDetail.total_reviews})"
+            tvCategoryTitle.text = serviceDetail.category.title
+            tvSubcategoryTitle.text = serviceDetail.sub_category.title
+            tvNoOfRevision.text = serviceDetail.revision.toString()
             btnEditService.isVisible = args.isEditable
-            service = serviceInfo
-            setImageSlider(serviceInfo)
-            if (serviceInfo.reviews.isEmpty()) {
+            service = serviceDetail
+            setImageSlider(serviceDetail)
+            if (serviceDetail.service_reviews.isEmpty()) {
                 recyclerView.isVisible = false
                 binding.tvPlaceholder.isVisible = true
             } else {
-                adapter.submitList(serviceInfo.reviews)
-                recyclerView.isVisible = true
-                binding.tvPlaceholder.isVisible = false
+//                adapter.submitList(serviceDetail.reviews)
+//                recyclerView.isVisible = true
+//                binding.tvPlaceholder.isVisible = false
             }
         }
     }
 
-    private fun setImageSlider(serviceInfo: ServiceInfo) {
-        serviceInfo.serviceMedia.let { imagesList ->
+    private fun setImageSlider(serviceDetail: ServiceDetail) {
+        serviceDetail.service_media.let { imagesList ->
             if (imagesList.isNotEmpty()){
                 imagesList.forEach { image ->
                     val defaultSliderView = DefaultSliderView(requireContext())

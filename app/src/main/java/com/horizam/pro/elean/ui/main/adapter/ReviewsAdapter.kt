@@ -1,23 +1,17 @@
 package com.horizam.pro.elean.ui.main.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.horizam.pro.elean.Constants
-import com.horizam.pro.elean.R
-import com.horizam.pro.elean.data.model.User
-import com.horizam.pro.elean.data.model.response.Category
 import com.horizam.pro.elean.data.model.response.Review
+import com.horizam.pro.elean.data.model.response.ServiceReviews
 import com.horizam.pro.elean.databinding.ItemReviewBinding
 import com.horizam.pro.elean.databinding.ItemServicesAndGigsBinding
 import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
 
-class ReviewsAdapter(val listener: OnItemClickListener) : ListAdapter<Review, ReviewsAdapter.DataViewHolder>(COMPARATOR) {
+class ReviewsAdapter(val listener: OnItemClickListener) : ListAdapter<ServiceReviews, ReviewsAdapter.DataViewHolder>(COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder {
         val binding = ItemReviewBinding.inflate(LayoutInflater.from(parent.context),parent,false)
@@ -43,22 +37,22 @@ class ReviewsAdapter(val listener: OnItemClickListener) : ListAdapter<Review, Re
             }
         }
 
-        fun bind(review: Review) {
+        fun bind(review: ServiceReviews) {
             binding.apply {
                 ratingBarReview.rating = review.rating.toFloat()
-                tvUserName.text = review.reviewUser.name
+                tvUserName.text = review.user.name
                 tvReview.text = review.description
             }
         }
     }
 
     companion object{
-        private val COMPARATOR = object : DiffUtil.ItemCallback<Review>(){
-            override fun areItemsTheSame(oldItem: Review, newItem: Review): Boolean {
+        private val COMPARATOR = object : DiffUtil.ItemCallback<ServiceReviews>(){
+            override fun areItemsTheSame(oldItem: ServiceReviews, newItem: ServiceReviews): Boolean {
                 return oldItem.id == newItem.id
             }
 
-            override fun areContentsTheSame(oldItem: Review, newItem: Review): Boolean {
+            override fun areContentsTheSame(oldItem: ServiceReviews, newItem: ServiceReviews): Boolean {
                 return oldItem == newItem
             }
 

@@ -7,5 +7,5 @@ data class UpdateServiceRequest (
     val partMap: HashMap<String, RequestBody>,
     val images: ArrayList<MultipartBody.Part>,
     val deletedImages: ArrayList<String>,
-    val id:Int
+    val id:String
     )

@@ -12,8 +12,8 @@ class CreateServiceViewModel(private val mainRepository: MainRepository) : ViewM
 
     private val createServiceRequest = MutableLiveData<CreateServiceRequest>()
     private val updateServiceRequest = MutableLiveData<UpdateServiceRequest>()
-    private val spinnerSubcategoriesRequest = MutableLiveData<Int>()
-    private val categoriesDaysRequest = MutableLiveData("getData")
+    private val spinnerSubcategoriesRequest = MutableLiveData<String>()
+    private val spinnerDataRequest = MutableLiveData(DEFAULT_REQUEST)
 
     val createService = createServiceRequest.switchMap {
         liveData(Dispatchers.IO) {
@@ -39,11 +39,11 @@ class CreateServiceViewModel(private val mainRepository: MainRepository) : ViewM
         }
     }
 
-    val categoriesDays = categoriesDaysRequest.switchMap {
+    val categoriesRevisionDeliveryTimeResponse = spinnerDataRequest.switchMap {
         liveData(Dispatchers.IO) {
             emit(Resource.loading(data = null))
             try {
-                emit(Resource.success(data = mainRepository.getCategoriesDays()))
+                emit(Resource.success(data = mainRepository.getCategoriesCountries()))
             } catch (exception: Exception) {
                 val errorMessage = BaseUtils.getError(exception)
                 emit(Resource.error(data = null, message = errorMessage))
@@ -71,8 +71,11 @@ class CreateServiceViewModel(private val mainRepository: MainRepository) : ViewM
         updateServiceRequest.value = request
     }
 
-    fun spinnerSubcategoriesCall(request: Int) {
+    fun spinnerSubcategoriesCall(request: String) {
         spinnerSubcategoriesRequest.value = request
     }
 
+    companion object{
+        const val DEFAULT_REQUEST = "spinnerDataRequest"
+    }
 }

@@ -9,14 +9,14 @@ class ServiceCategoriesViewModel(
     private val mainRepository: MainRepository
 ) : ViewModel() {
 
-    private val currentCategory = MutableLiveData<Int>()
+    private val currentCategory = MutableLiveData<String>()
     private var searchQuery:String = ""
 
     val subcategories = currentCategory.switchMap { category ->
         mainRepository.getSubcategories(category,searchQuery).cachedIn(viewModelScope)
     }
 
-    fun getSubcategories(category: Int,query: String="") {
+    fun getSubcategories(category: String,query: String="") {
         searchQuery = query
         currentCategory.value = category
     }

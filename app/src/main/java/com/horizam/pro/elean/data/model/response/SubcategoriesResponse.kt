@@ -1,31 +1,37 @@
 package com.horizam.pro.elean.data.model.response
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
-data class SubcategoriesResponse(
-    val status : Int,
-    val message : String,
-    val data : SubcategoriesData
-)
+@Parcelize
+data class SubcategoriesResponse (
+    @SerializedName("data") val subcategoriesList : List<Subcategory>,
+    @SerializedName("links") val links : Links,
+    @SerializedName("meta") val meta : Meta
+): Parcelable
 
-data class SubcategoriesData (
+@Parcelize
+data class Subcategory(
+    @SerializedName("id") val id : String,
+    @SerializedName("title") val title : String,
+    @SerializedName("category_id") val category_id : String,
+    @SerializedName("banner") val banner : String
+): Parcelable
+
+@Parcelize
+data class Links (
+    @SerializedName("first") val first : String,
+    @SerializedName("last") val last : String,
+    @SerializedName("prev") val prev : String,
+    @SerializedName("next") val next : String
+): Parcelable
+
+@Parcelize
+data class Meta (
     @SerializedName("current_page") val current_page : Int,
-    @SerializedName("subCategories") val subCategoriesList : List<Subcategory>,
-    @SerializedName("first_page_url") val first_page_url : String,
     @SerializedName("from") val from : Int,
-    @SerializedName("next_page_url") val next_page_url : String,
     @SerializedName("path") val path : String,
     @SerializedName("per_page") val per_page : Int,
-    @SerializedName("prev_page_url") val prev_page_url : String,
     @SerializedName("to") val to : Int
-)
-
-data class Subcategory(
-    val category_id: Int,
-    val created_at: String,
-    val id: Int,
-    val status: String,
-    val banner: String,
-    val title: String,
-    val updated_at: String
-)
+): Parcelable

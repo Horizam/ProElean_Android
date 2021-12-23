@@ -7,6 +7,7 @@ import android.content.pm.ActivityInfo
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
 import com.stripe.android.PaymentConfiguration
+import io.paperdb.Paper
 
 class App : Application() {
 
@@ -15,6 +16,7 @@ class App : Application() {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         context = applicationContext
         setStripeConfig()
+        Paper.init(getApplicationContext());
     }
 
     private fun setStripeConfig() {

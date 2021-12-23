@@ -42,20 +42,20 @@ interface ApiService {
     ): GeneralResponse
 
     @Multipart
-    @POST("services")
+    @POST("seller/services")
     suspend fun createService(
         @PartMap partMap: HashMap<String, RequestBody>,
         @Part images: ArrayList<MultipartBody.Part>
-    ): GeneralResponse
+    ): ServiceResponse
 
     @Multipart
-    @POST("services/{id}")
+    @POST("seller/services/{id}")
     suspend fun updateService(
         @PartMap partMap: HashMap<String, RequestBody>,
         @Part images: ArrayList<MultipartBody.Part>,
         @Part("delete[]") deletedImages: ArrayList<String>,
-        @Path("id") id: Int
-    ): GeneralResponse
+        @Path("id") id: String
+    ): ServiceResponse
 
     @Multipart
     @POST("update_profile")
@@ -67,13 +67,13 @@ interface ApiService {
     @POST("logout")
     suspend fun logout(): GeneralResponse
 
-    @GET("index")
+    @GET("home")
     suspend fun getHomeData(): HomeDataResponse
 
     @GET("categories")
     suspend fun getCategoriesDays(): CategoriesDaysResponse
 
-    @GET("become_freelancer_screen")
+    @GET("countries&categories")
     suspend fun getCategoriesCountries(): CategoriesCountriesResponse
 
     @GET("profile")
@@ -91,18 +91,18 @@ interface ApiService {
     @GET("seller_info/{id}")
     suspend fun getFreelancerProfile(@Path("id") id: Int): FreelancerUserResponse
 
-    @GET("sub_category/{id}")
-    suspend fun getSpinnerSubcategories(@Path("id") id: Int): SpinnerSubcategoriesResponse
+    @GET("subcategories/{id}")
+    suspend fun getSpinnerSubcategories(@Path("id") id: String): SubcategoriesDataResponse
 
     @GET("subcategories/{id}")
     suspend fun getSubcategories(
-        @Path("id") id: Int,
+        @Path("id") id: String,
         @Query("page") page: Int,
         @Query("q") query: String
     ): SubcategoriesResponse
 
-    @GET("categories/{id}/sellers")
-    suspend fun getSellers(@Path("id") id: Int, @Query("page") page: Int): SellersResponse
+    @GET("categories/{id}/services")
+    suspend fun getServicesBySubCategories(@Path("id") id: String, @Query("page") page: Int): ServicesResponse
 
     @GET("search")
     suspend fun searchGigs(
@@ -111,7 +111,7 @@ interface ApiService {
         @Query("filter") filter: String,
         @Query("filter_value") filter_value: String,
         @Query("page") page: Int
-    ): SellersResponse
+    ): ServicesResponse
 
     @GET("job_requests/{id}")
     suspend fun getJobOffers(@Path("id") id: Int, @Query("page") page: Int): JobOffersResponse
@@ -122,8 +122,8 @@ interface ApiService {
         @Query("status") status: String
     ): BuyerRequestsResponse
 
-    @GET("services")
-    suspend fun getManageServices(@Query("status") status: String): ManageServicesResponse
+    @GET("seller/services")
+    suspend fun getManageServices(@Query("status") status: String): ServicesResponse
 
     @GET("get_wishlist")
     suspend fun getSavedGigs(@Query("page") page: Int): SavedGigsResponse
@@ -194,8 +194,8 @@ interface ApiService {
     @DELETE("delete_job_requests/{id}")
     suspend fun deleteJobOffer(@Path("id") id: Int): GeneralResponse
 
-    @DELETE("services/{id}")
-    suspend fun deleteUserService(@Path("id") id: Int): GeneralResponse
+    @DELETE("seller/services/{id}")
+    suspend fun deleteUserService(@Path("id") id: String): GeneralResponse
 
     @DELETE("cancel_offer/{uid}")
     suspend fun cancelBuyerRequests(@Path("uid") uid: String): GeneralResponse

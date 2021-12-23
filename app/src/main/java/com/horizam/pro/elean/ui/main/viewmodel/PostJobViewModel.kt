@@ -14,7 +14,7 @@ import kotlinx.coroutines.Dispatchers
 class PostJobViewModel(private val mainRepository: MainRepository) : ViewModel() {
 
     private val postJobRequest = MutableLiveData<PostJobRequest>()
-    private val spinnerSubcategoriesRequest = MutableLiveData<Int>()
+    private val spinnerSubcategoriesRequest = MutableLiveData<String>()
     private val categoriesDaysRequest = MutableLiveData("getData")
 
     val postJob = postJobRequest.switchMap {
@@ -58,7 +58,6 @@ class PostJobViewModel(private val mainRepository: MainRepository) : ViewModel()
     }
 
     fun spinnerSubcategoriesCall(request: Int) {
-        spinnerSubcategoriesRequest.value = request
+//        spinnerSubcategoriesRequest.value = request
     }
-
 }

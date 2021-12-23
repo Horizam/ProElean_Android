@@ -21,10 +21,10 @@ data class BuyerRequestsData(
 )
 
 data class BuyerRequest(
-    @SerializedName("id") var id: Int,
-    @SerializedName("user_id") var userId: Int,
-    @SerializedName("category_id") var categoryId: Int,
-    @SerializedName("sub_category_id") var subCategoryId: Int,
+    @SerializedName("id") var id: String,
+    @SerializedName("user_id") var userId: String,
+    @SerializedName("category_id") var categoryId: String,
+    @SerializedName("sub_category_id") var subCategoryId: String,
     @SerializedName("description") var description: String,
     @SerializedName("budget") var budget: Double,
     @SerializedName("created_at") var createdAt: String,

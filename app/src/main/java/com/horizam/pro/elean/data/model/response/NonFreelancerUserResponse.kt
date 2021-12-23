@@ -9,7 +9,7 @@ data class NonFreelancerUserResponse(
 )
 
 data class UserProfile (
-    @SerializedName("id") val id : Int,
+    @SerializedName("id") val id : String,
     @SerializedName("name") val name : String,
     @SerializedName("username") val username : String,
     @SerializedName("isFreelancer") val isFreelancer : Int,
