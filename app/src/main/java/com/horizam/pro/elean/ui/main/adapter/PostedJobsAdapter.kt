@@ -72,13 +72,13 @@ class PostedJobsAdapter(private val listener: OnItemClickListener,private val jo
         fun bind(job: PostedJob) {
             binding.apply {
                 tvDescription.text = job.description
-                val (status,color) = getStatusString(job.status)
-                tvStatus.text = status
-                cardViewStatus.setCardBackgroundColor(color)
+//                val (status,color) = getStatusString(job.status)
+//                tvStatus.text = status
+//                cardViewStatus.setCardBackgroundColor(color)
                 tvDuration.text = job.delivery_time
                 tvBudgetList.text = job.budget.toString().plus(Constants.CURRENCY)
                 tvDate.text = job.created_at
-                if (job.offers > 0) {
+                if (job.offers.isNotEmpty()) {
                     tvOffers.text = itemView.context.getString(R.string.str_review_offers)
                         .plus(" ").plus(job.offers.toString())
                 } else {

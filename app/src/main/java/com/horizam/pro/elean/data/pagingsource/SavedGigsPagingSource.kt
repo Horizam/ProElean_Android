@@ -5,25 +5,26 @@ import androidx.paging.PagingState
 import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.model.response.SavedGig
+import com.horizam.pro.elean.data.model.response.ServiceDetail
 import retrofit2.HttpException
 import java.io.IOException
 
 
 class SavedGigsPagingSource(
     private val apiHelper: ApiHelper
-    ): PagingSource<Int, SavedGig>() {
+    ): PagingSource<Int, ServiceDetail>() {
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, SavedGig> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, ServiceDetail> {
 
         val position = params.key ?: Constants.STARTING_PAGE_INDEX
 
         return try {
             val response = apiHelper.getSavedGigs(position)
-            val savedGigs = response.savedGigsData.savedGigList
+            val serviceList = response.serviceList
             LoadResult.Page(
-                data = savedGigs,
+                data = serviceList,
                 prevKey = if (position == Constants.STARTING_PAGE_INDEX) null else position - 1,
-                nextKey = if (savedGigs.isEmpty()) null else position + 1
+                nextKey = if (serviceList.isEmpty()) null else position + 1
             )
         }catch (exception: IOException){
             LoadResult.Error(exception)
@@ -32,7 +33,7 @@ class SavedGigsPagingSource(
         }
     }
 
-    override fun getRefreshKey(state: PagingState<Int, SavedGig>): Int? {
+    override fun getRefreshKey(state: PagingState<Int, ServiceDetail>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
             state.closestPageToPosition(anchorPosition)?.prevKey?.plus(1)
                 ?: state.closestPageToPosition(anchorPosition)?.nextKey?.minus(1)

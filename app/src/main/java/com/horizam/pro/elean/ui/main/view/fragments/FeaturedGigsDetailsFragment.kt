@@ -117,7 +117,7 @@ class FeaturedGigsDetailsFragment : Fragment(), BaseSliderView.OnSliderClickList
                     genericHandler.showMessage(e.message.toString())
                 }
             }
-            btnCustomOrder.setOnClickListener {
+            btnPurchase.setOnClickListener {
                 val serviceId: String = args.uid
                 if (serviceId.isNotEmpty()){
                     val customOrderBottomSheet = CustomOrderBottomSheet()

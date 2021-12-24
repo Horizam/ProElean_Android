@@ -18,6 +18,7 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.gson.Gson
 import com.horizam.pro.elean.App
 import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
@@ -26,6 +27,7 @@ import com.horizam.pro.elean.data.api.RetrofitBuilder
 import com.horizam.pro.elean.data.model.requests.FavouriteRequest
 import com.horizam.pro.elean.data.model.response.GeneralResponse
 import com.horizam.pro.elean.data.model.response.SavedGig
+import com.horizam.pro.elean.data.model.response.ServiceDetail
 import com.horizam.pro.elean.databinding.DialogDeleteBinding
 import com.horizam.pro.elean.databinding.FragmentSavedBinding
 import com.horizam.pro.elean.ui.base.ViewModelFactory
@@ -188,34 +190,33 @@ class SavedFragment : Fragment(), SavedGigsHandler, SwipeRefreshLayout.OnRefresh
 
     private fun handleResponse(response: GeneralResponse) {
         genericHandler.showMessage(response.message)
-        if (response.status == Constants.STATUS_OK) {
-            viewModel.getSavedGigsCall()
-        }
+        viewModel.getSavedGigsCall()
     }
 
     override fun <T> addRemoveWishList(item: T) {
-//        if (item is SavedGig) {
-//            bindingDeleteDialog.tvTitle.text =
-//                getString(R.string.str_are_you_sure_to_undo_favourite)
-//            dialogDelete.show()
-//            bindingDeleteDialog.btnYes.setOnClickListener {
-//                dialogDelete.dismiss()
-//                genericHandler.showProgressBar(true)
-//                viewModel.addToWishlistCall(FavouriteRequest(item.id))
-//            }
-//            bindingDeleteDialog.btnNo.setOnClickListener { dialogDelete.dismiss() }
-//        }
+        if (item is ServiceDetail) {
+            bindingDeleteDialog.tvTitle.text =
+                getString(R.string.str_are_you_sure_to_undo_favourite)
+            dialogDelete.show()
+            bindingDeleteDialog.btnYes.setOnClickListener {
+                dialogDelete.dismiss()
+                genericHandler.showProgressBar(true)
+                viewModel.addToWishlistCall(FavouriteRequest(item.id))
+            }
+            bindingDeleteDialog.btnNo.setOnClickListener { dialogDelete.dismiss() }
+        }
     }
 
     override fun <T> onItemClick(item: T) {
-//        if (item is SavedGig) {
-//            val uid = item.uuid
-//            SavedFragmentDirections.actionSavedFragmentToGigsDetailsFragment(
-//                uid = uid
-//            ).also {
-//                findNavController().navigate(it)
-//            }
-//        }
+
+        if (item is ServiceDetail) {
+            val gson = Gson()
+            SavedFragmentDirections.actionSavedFragmentToGigsDetailsFragment(
+                serviceDetail = gson.toJson(item).toString()
+            ).also {
+                findNavController().navigate(it)
+            }
+        }
     }
 
     override fun <T> contactSeller(item: T) {

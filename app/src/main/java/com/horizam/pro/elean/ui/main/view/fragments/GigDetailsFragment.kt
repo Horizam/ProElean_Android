@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -56,6 +57,8 @@ class GigDetailsFragment : Fragment(), OnItemClickListener,
     private var gig: ServiceDetail? = null
     private val args: GigDetailsFragmentArgs by navArgs()
     private var userId: String = ""
+    private val bundle = Bundle()
+
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -78,13 +81,9 @@ class GigDetailsFragment : Fragment(), OnItemClickListener,
     }
 
     private fun executeApi() {
-//        if (viewModel.gigDetails.value?.data == null) {
-//            genericHandler.showProgressBar(true)
-//            viewModel.gigDetailsCall(args.serviceDetail)
-//        }
         val gson = Gson()
-        val serviceData = gson.fromJson(args.serviceDetail, ServiceDetail::class.java)
-        handleResponse(serviceData)
+        val serviceDetail = gson.fromJson(args.serviceDetail, ServiceDetail::class.java)
+        setData(serviceDetail)
     }
 
     private fun initViews() {
@@ -134,15 +133,18 @@ class GigDetailsFragment : Fragment(), OnItemClickListener,
         binding.btnRetry.setOnClickListener {
             executeApi()
         }
-        binding.btnCustomOrder.setOnClickListener {
-//            val serviceId: String = args.uid
-//            if (serviceId.isNotEmpty()){
-//                val customOrderBottomSheet = CustomOrderBottomSheet()
-//                bundle.putString(Constants.SERVICE_ID,serviceId)
-//                bundle.putStringArrayList(Constants.DAYS_LIST,deliveryDaysList)
-//                customOrderBottomSheet.arguments = bundle
-//                customOrderBottomSheet.show(requireActivity().supportFragmentManager, CustomOrderBottomSheet.TAG)
-//            }
+        binding.btnPurchase.setOnClickListener {
+            val serviceId: String = gig!!.id
+            if (serviceId.isNotEmpty()) {
+                val customOrderBottomSheet = CustomOrderBottomSheet()
+                bundle.putString(Constants.SERVICE_ID, serviceId)
+                bundle.putStringArrayList(Constants.DAYS_LIST, deliveryDaysList)
+                customOrderBottomSheet.arguments = bundle
+                customOrderBottomSheet.show(
+                    requireActivity().supportFragmentManager,
+                    CustomOrderBottomSheet.TAG
+                )
+            }
         }
         binding.btnContactSeller.setOnClickListener {
 //            try {
@@ -211,16 +213,16 @@ class GigDetailsFragment : Fragment(), OnItemClickListener,
         binding.mainLayout.isVisible = layout
     }
 
-    private fun handleResponse(response: ServiceDetail) {
+    private fun setData(serviceDetail: ServiceDetail) {
         try {
             changeViewVisibility(textView = false, button = false, layout = true)
-            setUIData(response)
-            gig = response
+            setUIData(serviceDetail)
+            gig = serviceDetail
 //            if (response.days != null){
 //                deliveryDaysList = response.days as ArrayList<String>
-//                bundle.putString("service_name" , response.serviceInfo.s_description)
-//                bundle.putString("seller_name" , response.serviceInfo.gigUser.name)
-//                bundle.putString("price" , response.serviceInfo.price.toString())
+            bundle.putString("service_name", serviceDetail.s_description)
+            bundle.putString("seller_name", serviceDetail.service_user.name)
+            bundle.putString("price", serviceDetail.price.toString())
 //            }
         } catch (e: Exception) {
             genericHandler.showMessage(e.message.toString())

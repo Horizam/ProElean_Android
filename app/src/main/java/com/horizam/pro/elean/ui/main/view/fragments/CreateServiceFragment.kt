@@ -38,7 +38,7 @@ import com.horizam.pro.elean.ui.main.adapter.ImagesAdapter
 import com.horizam.pro.elean.ui.main.adapter.SpinnerAdapter
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
 import com.horizam.pro.elean.ui.main.callbacks.ImagesHandler
-import com.horizam.pro.elean.ui.main.viewmodel.CreateServiceViewModel
+import com.horizam.pro.elean.ui.main.viewmodel.ManageServicesViewModel
 import com.horizam.pro.elean.utils.*
 import com.horizam.pro.elean.utils.BaseUtils.Companion.hideKeyboard
 import kotlinx.coroutines.launch
@@ -52,7 +52,7 @@ class CreateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
     private lateinit var binding: FragmentCreateServiceBinding
     private lateinit var adapterImages: ImagesAdapter
     private lateinit var imagesArrayList: ArrayList<Image>
-    private lateinit var viewModel: CreateServiceViewModel
+    private lateinit var viewModel: ManageServicesViewModel
     private lateinit var genericHandler: GenericHandler
     private lateinit var categoriesArrayList: List<SpinnerModel>
     private lateinit var subcategoriesArrayList: List<SpinnerModel>
@@ -234,7 +234,7 @@ class CreateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
         viewModel = ViewModelProviders.of(
             this,
             ViewModelFactory(ApiHelper(RetrofitBuilder.apiService))
-        ).get(CreateServiceViewModel::class.java)
+        ).get(ManageServicesViewModel::class.java)
     }
 
     private fun setupObservers() {

@@ -28,8 +28,8 @@ interface ApiService {
     @POST("send_offer")
     suspend fun sendOffer(@Body request: SendOfferRequest): GeneralResponse
 
-    @POST("buyer")
-    suspend fun postJob(@Body request: PostJobRequest): PostJobResponse
+    @POST("buyer/jobs")
+    suspend fun postJob(@Body request: PostJobRequest): PostedJobResponse
 
     @POST("orders")
     suspend fun acceptOrder(@Body request: AcceptOrderRequest): GeneralResponse
@@ -126,9 +126,9 @@ interface ApiService {
     suspend fun getManageServices(@Query("status") status: String): ServicesResponse
 
     @GET("get_wishlist")
-    suspend fun getSavedGigs(@Query("page") page: Int): SavedGigsResponse
+    suspend fun getSavedGigs(@Query("page") page: Int): ServicesResponse
 
-    @GET("buyer")
+    @GET("buyer/jobs")
     suspend fun getPostedJobs(
         @Query("page") page: Int,
         @Query("status") status: String
@@ -143,7 +143,7 @@ interface ApiService {
     @POST("customer_support")
     suspend fun submitQuery(@Body request: SubmitQueryRequest): GeneralResponse
 
-    @POST("custom-order")
+    @POST("buyer/custom_order")
     suspend fun customOrder(@Body request: CustomOrderRequest): GeneralResponse
 
     @POST("chat/order")
@@ -179,7 +179,7 @@ interface ApiService {
         @Part image: MultipartBody.Part,
     ): GeneralResponse
 
-    @DELETE("buyer/{id}")
+    @DELETE("buyer/jobs/{id}")
     suspend fun deletePostedJob(@Path("id") id: String): GeneralResponse
 
     @GET("orders/{id}")

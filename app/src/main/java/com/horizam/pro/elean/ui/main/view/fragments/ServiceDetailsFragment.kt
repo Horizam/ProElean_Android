@@ -172,7 +172,7 @@ class ServiceDetailsFragment : Fragment(), BaseSliderView.OnSliderClickListener,
                 recyclerView.isVisible = false
                 binding.tvPlaceholder.isVisible = true
             } else {
-//                adapter.submitList(serviceDetail.reviews)
+//                adapter.submitList(serviceDetail.service_reviews)
 //                recyclerView.isVisible = true
 //                binding.tvPlaceholder.isVisible = false
             }

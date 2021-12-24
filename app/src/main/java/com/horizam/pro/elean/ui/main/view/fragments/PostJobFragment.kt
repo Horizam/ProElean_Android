@@ -127,14 +127,14 @@ class PostJobFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
     private fun executeApi() {
         genericHandler.showProgressBar(true)
-//        val postJobRequest = PostJobRequest(
-//            category_id = categoryId,
-//            sub_category_id = subcategoryId,
-//            description = binding.etDescription.text.toString().trim(),
-//            delivery_time = deliveryTime,
-//            budget = binding.etPrice.text.toString().toDouble()
-//        )
-//        viewModel.postJobCall(postJobRequest)
+        val postJobRequest = PostJobRequest(
+            category_id = categoryId,
+            sub_category_id = subcategoryId,
+            description = binding.etDescription.text.toString().trim(),
+            delivery_time = deliveryTime,
+            budget = binding.etPrice.text.toString().toDouble()
+        )
+        viewModel.postJobCall(postJobRequest)
     }
 
     private fun setToolbarData() {
@@ -150,7 +150,7 @@ class PostJobFragment : Fragment(), AdapterView.OnItemSelectedListener {
     }
 
     private fun setupObservers() {
-        viewModel.categoriesDays.observe(viewLifecycleOwner, {
+        viewModel.categoriesRevisionDeliveryTimeResponse.observe(viewLifecycleOwner, {
             it?.let { resource ->
                 when (resource.status) {
                     Status.SUCCESS -> {
@@ -176,14 +176,13 @@ class PostJobFragment : Fragment(), AdapterView.OnItemSelectedListener {
     private fun <T> handleResponse(response: T) {
         try {
             when (response) {
-                is CategoriesDaysResponse -> {
+                is CategoriesCountriesResponse -> {
                     setUIData(response)
                 }
                 is SubcategoriesDataResponse -> {
                     setSpinnerSubcategories(response)
                 }
-                is PostJobResponse -> {
-                    genericHandler.showMessage(response.message)
+                is PostedJobResponse -> {
                     findNavController().popBackStack()
                     findNavController().navigate(R.id.postedJobsFragment)
                 }
@@ -206,25 +205,25 @@ class PostJobFragment : Fragment(), AdapterView.OnItemSelectedListener {
         }
     }
 
-    private fun setUIData(response: CategoriesDaysResponse) {
-//        categoriesArrayList = response.categories.map { spinnerCategories ->
-//            SpinnerModel(id = spinnerCategories.id, value = spinnerCategories.title)
-//        }
-//        daysArrayList = response.days
-//        categoriesAdapter = SpinnerAdapter(
-//            requireContext(),
-//            android.R.layout.simple_spinner_item, categoriesArrayList
-//        ).also {
-//            it.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
-//            binding.spinnerCategory.adapter = it
-//        }
-//        daysAdapter = ArrayAdapter(
-//            requireContext(),
-//            android.R.layout.simple_spinner_item, daysArrayList
-//        ).also {
-//            it.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
-//            binding.spinnerDeliveryTime.adapter = it
-//        }
+    private fun setUIData(response: CategoriesCountriesResponse) {
+        categoriesArrayList = response.categoriesCountriesData.categories.map { spinnerCategories ->
+            SpinnerModel(id = spinnerCategories.id, value = spinnerCategories.title)
+        }
+        daysArrayList = response.categoriesCountriesData.deliveryDays
+        categoriesAdapter = SpinnerAdapter(
+            requireContext(),
+            android.R.layout.simple_spinner_item, categoriesArrayList
+        ).also {
+            it.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
+            binding.spinnerCategory.adapter = it
+        }
+        daysAdapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_spinner_item, daysArrayList
+        ).also {
+            it.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
+            binding.spinnerDeliveryTime.adapter = it
+        }
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -232,7 +231,7 @@ class PostJobFragment : Fragment(), AdapterView.OnItemSelectedListener {
             binding.spinnerCategory.id -> {
                 val spinnerModel = parent.selectedItem as SpinnerModel
                 categoryId = spinnerModel.id
-//                viewModel.spinnerSubcategoriesCall(spinnerModel.id)
+                viewModel.spinnerSubcategoriesCall(spinnerModel.id)
             }
             binding.spinnerSubCategory.id -> {
                 val spinnerModel = parent.selectedItem as SpinnerModel
@@ -268,7 +267,7 @@ class PostJobFragment : Fragment(), AdapterView.OnItemSelectedListener {
         }
     }
 
-    private val postJobObserver = Observer<Resource<PostJobResponse>> {
+    private val postJobObserver = Observer<Resource<PostedJobResponse>> {
         it?.let { resource ->
             when (resource.status) {
                 Status.SUCCESS -> {

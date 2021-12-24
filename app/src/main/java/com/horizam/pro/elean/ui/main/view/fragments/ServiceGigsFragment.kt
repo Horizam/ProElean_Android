@@ -22,6 +22,7 @@ import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
 import com.horizam.pro.elean.data.model.SpinnerPriceModel
+import com.horizam.pro.elean.data.model.requests.FavouriteRequest
 import com.horizam.pro.elean.data.model.requests.SearchGigsRequest
 import com.horizam.pro.elean.data.model.response.GeneralResponse
 import com.horizam.pro.elean.data.model.response.ServiceDetail
@@ -247,9 +248,9 @@ class ServiceGigsFragment : Fragment(),OnItemClickListener, FavouriteHandler,
     }
 
     override fun <T> addRemoveWishList(item: T) {
-//        if (item is Gig){
-//            viewModel.addToWishlistCall(FavouriteRequest(item.id))
-//        }
+        if (item is ServiceDetail){
+            viewModel.addToWishlistCall(FavouriteRequest(item.id))
+        }
     }
 
     override fun <T> contactSeller(item: T) {

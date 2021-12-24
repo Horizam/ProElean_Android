@@ -29,11 +29,11 @@ class PostJobViewModel(private val mainRepository: MainRepository) : ViewModel()
         }
     }
 
-    val categoriesDays = categoriesDaysRequest.switchMap {
+    val categoriesRevisionDeliveryTimeResponse = categoriesDaysRequest.switchMap {
         liveData(Dispatchers.IO) {
             emit(Resource.loading(data = null))
             try {
-                emit(Resource.success(data = mainRepository.getCategoriesDays()))
+                emit(Resource.success(data = mainRepository.getCategoriesCountries()))
             } catch (exception: Exception) {
                 val errorMessage = BaseUtils.getError(exception)
                 emit(Resource.error(data = null, message = errorMessage))
@@ -57,7 +57,7 @@ class PostJobViewModel(private val mainRepository: MainRepository) : ViewModel()
         postJobRequest.value = request
     }
 
-    fun spinnerSubcategoriesCall(request: Int) {
-//        spinnerSubcategoriesRequest.value = request
+    fun spinnerSubcategoriesCall(request: String) {
+        spinnerSubcategoriesRequest.value = request
     }
 }

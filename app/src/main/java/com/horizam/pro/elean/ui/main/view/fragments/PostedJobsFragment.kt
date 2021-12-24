@@ -43,7 +43,8 @@ import com.horizam.pro.elean.utils.Resource
 import com.horizam.pro.elean.utils.Status
 
 
-class PostedJobsFragment : Fragment(), OnItemClickListener, PostedJobsHandler , SwipeRefreshLayout.OnRefreshListener {
+class PostedJobsFragment : Fragment(), OnItemClickListener, PostedJobsHandler,
+    SwipeRefreshLayout.OnRefreshListener {
 
     private lateinit var binding: FragmentPostedJobsBinding
     private lateinit var adapterApproved: PostedJobsAdapter
@@ -195,9 +196,7 @@ class PostedJobsFragment : Fragment(), OnItemClickListener, PostedJobsHandler , 
 
     private fun handleResponse(response: GeneralResponse) {
         genericHandler.showMessage(response.message)
-        if (response.status == Constants.STATUS_OK) {
-            exeApi()
-        }
+        exeApi()
     }
 
     private val filterJobs = RadioGroup.OnCheckedChangeListener { radioGroup, checkedId ->
@@ -218,7 +217,7 @@ class PostedJobsFragment : Fragment(), OnItemClickListener, PostedJobsHandler , 
             bindingDeleteDialog.btnYes.setOnClickListener {
                 dialogDelete.dismiss()
                 genericHandler.showProgressBar(true)
-                viewModel.deletePostedJobCall(item.uuid)
+                viewModel.deletePostedJobCall(item.id)
             }
             bindingDeleteDialog.btnNo.setOnClickListener { dialogDelete.dismiss() }
         }

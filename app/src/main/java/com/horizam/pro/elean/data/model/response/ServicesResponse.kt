@@ -5,18 +5,18 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 data class ServicesResponse(
-    @SerializedName("data") val serviceList: List<ServiceDetail>,
+    @SerializedName("data") var serviceList: List<ServiceDetail>,
     @SerializedName("links") val links: Links,
     @SerializedName("meta") val meta: Meta
 )
 
 data class ServiceResponse(
-    @SerializedName("data") val service: ServiceDetail,
+    @SerializedName("data") var service: ServiceDetail,
 )
 
 @Parcelize
 data class ServiceDetail(
-    @SerializedName("id") val id: String,
+    @SerializedName("id") val id: String = "",
     @SerializedName("user_id") val user_id: String,
     @SerializedName("category_id") val category_id: String,
     @SerializedName("sub_category_id") val sub_category_id: String,

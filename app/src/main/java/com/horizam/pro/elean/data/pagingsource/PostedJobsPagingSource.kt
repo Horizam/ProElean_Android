@@ -20,7 +20,7 @@ class PostedJobsPagingSource(
 
         return try {
             val response = apiHelper.getPostedJobs(position,status)
-            val postedJobs = response.postedJobsData.postedJobsList
+            val postedJobs = response.postedJobList
             LoadResult.Page(
                 data = postedJobs,
                 prevKey = if (position == Constants.STARTING_PAGE_INDEX) null else position - 1,
