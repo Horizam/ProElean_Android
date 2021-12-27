@@ -62,7 +62,7 @@ interface ApiService {
     suspend fun updateProfile(
         @PartMap partMap: HashMap<String, RequestBody>,
         @Part image: MultipartBody.Part?
-    ): GeneralResponse
+    ): ProfileInfo
 
     @POST("logout")
     suspend fun logout(): GeneralResponse
@@ -77,7 +77,7 @@ interface ApiService {
     suspend fun getCategoriesCountries(): CategoriesCountriesResponse
 
     @GET("profile")
-    suspend fun getNonFreelancerProfile(): NonFreelancerUserResponse
+    suspend fun getNonFreelancerProfile(): ProfileInfo
 
     @GET("term_condition")
     suspend fun getPrivacyTerms(): PrivacyPolicyResponse
@@ -137,8 +137,8 @@ interface ApiService {
     @GET("service/{uid}")
     suspend fun getGigDetails(@Path("uid") uid: String): GigDetailsResponse
 
-    @GET("featured_service/{uid}")
-    suspend fun getFeaturedGigDetails(@Path("uid") uid: String): FeaturedGigDetailsResponse
+    @GET("seller/services/{uid}")
+    suspend fun getFeaturedGigDetails(@Path("uid") uid: String): ServiceResponse
 
     @POST("customer_support")
     suspend fun submitQuery(@Body request: SubmitQueryRequest): GeneralResponse

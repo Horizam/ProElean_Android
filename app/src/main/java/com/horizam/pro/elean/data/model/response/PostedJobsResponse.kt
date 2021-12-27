@@ -28,5 +28,4 @@ data class PostedJob (
     @SerializedName("total_offers") val total_offers : Int,
     @SerializedName("is_applied") val is_applied : Int,
     @SerializedName("created_at") val created_at : String,
-    @SerializedName("offers") val offers : List<String>
 )

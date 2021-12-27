@@ -73,11 +73,14 @@ class ManageServicesFragment : Fragment(), ManageServiceHandler {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        exeApi()
+    }
+
     private fun exeApi(status: String = "") {
-        if (viewModel.userServices.value == null) {
             genericHandler.showProgressBar(true)
             viewModel.userServicesCall(status)
-        }
     }
 
     private fun initViews() {

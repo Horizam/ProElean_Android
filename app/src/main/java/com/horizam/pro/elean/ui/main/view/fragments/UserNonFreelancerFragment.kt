@@ -22,6 +22,7 @@ import com.horizam.pro.elean.data.api.RetrofitBuilder
 import com.horizam.pro.elean.data.model.SliderItem
 import com.horizam.pro.elean.data.model.response.HomeDataResponse
 import com.horizam.pro.elean.data.model.response.NonFreelancerUserResponse
+import com.horizam.pro.elean.data.model.response.ProfileInfo
 import com.horizam.pro.elean.databinding.FragmentLoginBinding
 import com.horizam.pro.elean.databinding.FragmentSignUpBinding
 import com.horizam.pro.elean.databinding.FragmentUserAboutBinding
@@ -136,7 +137,7 @@ class UserNonFreelancerFragment : Fragment(), OnItemClickListener {
         binding.mainLayout.isVisible = layout
     }
 
-    private fun handleResponse(response: NonFreelancerUserResponse) {
+    private fun handleResponse(response: ProfileInfo) {
         try {
             setUiData(response)
         } catch (e: Exception) {
@@ -144,25 +145,23 @@ class UserNonFreelancerFragment : Fragment(), OnItemClickListener {
         }
     }
 
-    private fun setUiData(response: NonFreelancerUserResponse) {
+    private fun setUiData(profileInfo: ProfileInfo) {
         binding.apply {
-            response.userProfile.let { profile ->
-                Glide.with(this@UserNonFreelancerFragment)
-                    .load(Constants.BASE_URL.plus(profile.image))
-                    .error(R.drawable.img_profile)
-                    .into(binding.ivUser)
-                tvUserName.text = profile.username
-                tvUserRating.text = profile.average_rating.toString()
-                tvRatingNumber.text = "(".plus(profile.total_reviews.toString()).plus(")")
-                tvLocation.text = profile.address
-                tvResponse.text = profile.created_at
-                tvRecentDelivery.text = profile.recent_delivery
-                tvPhone.text = profile.phone
-                tvEmail.text = profile.email
-                tvLanguage.text = profile.user_languages.joinToString(separator = ", ")
-                tvDescAboutUser.text = profile.description
-                adapter.submitList(profile.user_skills)
-            }
+            Glide.with(this@UserNonFreelancerFragment)
+                .load(Constants.BASE_URL.plus(profileInfo.image))
+                .error(R.drawable.img_profile)
+                .into(binding.ivUser)
+            tvUserName.text = profileInfo.username
+            tvUserRating.text = profileInfo.user_rating.toString()
+            tvRatingNumber.text = "(".plus(profileInfo.total_reviews.toString()).plus(")")
+            tvLocation.text = profileInfo.address
+            tvResponse.text = profileInfo.created_at
+            tvRecentDelivery.text = profileInfo.recent_delivery
+            tvPhone.text = profileInfo.phone
+            tvEmail.text = profileInfo.email
+            tvLanguage.text = profileInfo.user_languages.joinToString(separator = ", ")
+            tvDescAboutUser.text = profileInfo.description
+            adapter.submitList(profileInfo.user_skills)
         }
     }
 

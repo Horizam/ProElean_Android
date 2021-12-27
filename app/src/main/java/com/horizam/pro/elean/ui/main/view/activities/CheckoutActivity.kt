@@ -10,6 +10,7 @@ import android.view.WindowManager
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import com.horizam.pro.elean.Constants
@@ -114,7 +115,7 @@ class CheckoutActivity : AppCompatActivity(), CoroutineScope {
             }
             bindingDialogOrderSuccessBinding.btnContinue.setOnClickListener {
                 dialogOrderStatus.dismiss()
-                startActivity(Intent(this@CheckoutActivity,ManageOrdersActivity::class.java))
+                startActivity(Intent(this@CheckoutActivity, ManageOrdersActivity::class.java))
                 finish()
             }
         }

@@ -96,7 +96,7 @@ class AboutUserFragment : Fragment(), OnItemClickListener {
                     .error(R.drawable.img_profile)
                     .into(ivSelectedCategory)
                 tvUserName.text = profile.name
-                tvUserRating.text = profile.average_rating.toString()
+                tvUserRating.text = profile.user_rating.toString()
                 tvRatingNumber.text = "(".plus(profile.total_reviews.toString()).plus(")")
                 tvLocation.text = profile.address
                 tvResponse.text = profile.created_at

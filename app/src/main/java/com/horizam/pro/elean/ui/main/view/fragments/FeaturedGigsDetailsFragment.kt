@@ -25,6 +25,8 @@ import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
 import com.horizam.pro.elean.data.model.response.FeaturedGigDetailsResponse
 import com.horizam.pro.elean.data.model.response.Service
+import com.horizam.pro.elean.data.model.response.ServiceDetail
+import com.horizam.pro.elean.data.model.response.ServiceResponse
 import com.horizam.pro.elean.databinding.FragmentFeaturedGigDetailsBinding
 import com.horizam.pro.elean.ui.base.ViewModelFactory
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
@@ -35,7 +37,8 @@ import com.horizam.pro.elean.utils.Status
 import java.lang.Exception
 
 
-class FeaturedGigsDetailsFragment : Fragment(), BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener {
+class FeaturedGigsDetailsFragment : Fragment(), BaseSliderView.OnSliderClickListener,
+    ViewPagerEx.OnPageChangeListener {
 
     private lateinit var binding: FragmentFeaturedGigDetailsBinding
     private lateinit var viewModel: FeaturedGigDetailsViewModel
@@ -43,8 +46,9 @@ class FeaturedGigsDetailsFragment : Fragment(), BaseSliderView.OnSliderClickList
     private lateinit var glideSliderLayout: SliderLayout
     private lateinit var requestOptions: RequestOptions
     private val args: FeaturedGigsDetailsFragmentArgs by navArgs()
-    private lateinit var prefManager:PrefManager
-    private var userId:String = ""
+    private lateinit var prefManager: PrefManager
+    private var userId: String = ""
+    val bundle = Bundle()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -55,7 +59,7 @@ class FeaturedGigsDetailsFragment : Fragment(), BaseSliderView.OnSliderClickList
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentFeaturedGigDetailsBinding.inflate(layoutInflater,container,false)
+        binding = FragmentFeaturedGigDetailsBinding.inflate(layoutInflater, container, false)
         setToolbarData()
         initViews()
         setupViewModel()
@@ -98,34 +102,36 @@ class FeaturedGigsDetailsFragment : Fragment(), BaseSliderView.OnSliderClickList
                 executeApi()
             }
             ivUser.setOnClickListener {
-                if (userId == ""){
+                if (userId == "") {
                     return@setOnClickListener
                 }
-                Intent(requireActivity(),UserAboutActivity::class.java).also {
-                    it.putExtra("id",userId)
+                Intent(requireActivity(), UserAboutActivity::class.java).also {
+                    it.putExtra("id", userId)
                     startActivity(it)
                 }
             }
             btnContactSeller.setOnClickListener {
                 try {
-                    if (prefManager.userId != userId && userId != ""){
+                    if (prefManager.userId != userId && userId != "") {
 //                        FeaturedGigsDetailsFragmentDirections.actionFeaturedGigsDetailsFragmentToMessagesFragment(userId).also {
 //                            findNavController().navigate(it)
 //                        }
                     }
-                }catch (e:Exception){
+                } catch (e: Exception) {
                     genericHandler.showMessage(e.message.toString())
                 }
             }
             btnPurchase.setOnClickListener {
                 val serviceId: String = args.uid
-                if (serviceId.isNotEmpty()){
+                if (serviceId.isNotEmpty()) {
                     val customOrderBottomSheet = CustomOrderBottomSheet()
-                    val bundle = Bundle()
-                    bundle.putString(Constants.SERVICE_ID,serviceId)
+                    bundle.putString(Constants.SERVICE_ID, serviceId)
                     bundle.putStringArrayList(Constants.DAYS_LIST, arrayListOf("1 day"))
                     customOrderBottomSheet.arguments = bundle
-                    customOrderBottomSheet.show(requireActivity().supportFragmentManager, CustomOrderBottomSheet.TAG)
+                    customOrderBottomSheet.show(
+                        requireActivity().supportFragmentManager,
+                        CustomOrderBottomSheet.TAG
+                    )
                 }
             }
         }
@@ -134,7 +140,8 @@ class FeaturedGigsDetailsFragment : Fragment(), BaseSliderView.OnSliderClickList
 
     private fun setToolbarData() {
         binding.toolbar.ivToolbar.setImageResource(R.drawable.ic_back)
-        binding.toolbar.tvToolbar.text = App.getAppContext()!!.getString(R.string.str_featured_gigs_details)
+        binding.toolbar.tvToolbar.text =
+            App.getAppContext()!!.getString(R.string.str_featured_gigs_details)
     }
 
     private fun setupViewModel() {
@@ -175,34 +182,37 @@ class FeaturedGigsDetailsFragment : Fragment(), BaseSliderView.OnSliderClickList
         binding.mainLayout.isVisible = layout
     }
 
-    private fun handleResponse(response: FeaturedGigDetailsResponse) {
+    private fun handleResponse(response: ServiceResponse) {
         try {
-            setUIData(response.featuredGig)
+            setUIData(response.service)
         } catch (e: Exception) {
             genericHandler.showMessage(e.message.toString())
         }
     }
 
-    private fun setUIData(featuredGig: Service) {
+    private fun setUIData(service: ServiceDetail) {
         binding.apply {
-            tvUserName.text = featuredGig.gigUser.name
-            tvCategoryPrice.text = Constants.CURRENCY.plus(" ").plus(featuredGig.price.toString())
-            tvServiceDetailTitle.text = featuredGig.s_description
-            tvServiceDetailDescription.text = featuredGig.description
-            tvCategoryName.text = featuredGig.sub_category.category.title
-            userId = featuredGig.user_id
+            tvUserName.text = service.service_user.name
+            tvCategoryPrice.text = Constants.CURRENCY.plus(" ").plus(service.price.toString())
+            tvServiceDetailTitle.text = service.s_description
+            tvServiceDetailDescription.text = service.description
+            tvCategoryName.text = service.category.title
+            userId = service.user_id
             Glide.with(this@FeaturedGigsDetailsFragment)
-                .load("${Constants.BASE_URL}${featuredGig.gigUser.image}")
+                .load("${Constants.BASE_URL}${service.service_user.image}")
                 .placeholder(R.drawable.img_profile)
                 .error(R.drawable.img_profile)
                 .into(ivUser)
-            setImageSlider(featuredGig)
+            setImageSlider(service)
+            bundle.putString("service_name", service.s_description)
+            bundle.putString("seller_name", service.service_user.name)
+            bundle.putString("price", service.price.toString())
         }
     }
 
-    private fun setImageSlider(featuredGig: Service) {
-        featuredGig.serviceMedia.let { imagesList ->
-            if (imagesList.isNotEmpty()){
+    private fun setImageSlider(service: ServiceDetail) {
+        service.service_media.let { imagesList ->
+            if (imagesList.isNotEmpty()) {
                 imagesList.forEach { image ->
                     val defaultSliderView = DefaultSliderView(requireContext())
                     defaultSliderView

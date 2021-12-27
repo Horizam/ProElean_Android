@@ -87,7 +87,7 @@ class ReviewsUserFragment : Fragment(), OnItemClickListener {
     private fun handleResponse(response: FreelancerUserResponse) {
         try {
             binding.apply {
-                tvUserRating.text = response.profileInfo.average_rating.toString()
+                tvUserRating.text = response.profileInfo.user_rating.toString()
                 tvRatingNumber.text = "(".plus(response.profileInfo.total_reviews).plus(")")
                 if (response.service_reviews.isNotEmpty()){
                     adapter.submitList(response.service_reviews)

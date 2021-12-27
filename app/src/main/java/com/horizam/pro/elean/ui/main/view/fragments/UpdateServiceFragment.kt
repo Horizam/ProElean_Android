@@ -295,14 +295,14 @@ class UpdateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
                     setSpinnerSubcategories(response)
                 }
                 is ServiceResponse -> {
-                    val userUpdatedService = (response as ServiceResponse).service
-                    val userServices = viewModel.userServices.value!!.data!!.serviceList.toMutableList()
-                    for (pos in 0 until userServices.size) {
-                        if (userServices[pos].id == userUpdatedService.id ) {
-                            userServices[pos] = userUpdatedService
-                            break
-                        }
-                    }
+//                    val userUpdatedService = (response as ServiceResponse).service
+//                    val userServices = viewModel.userServices.value!!.data!!.serviceList.toMutableList()
+//                    for (pos in 0 until userServices.size) {
+//                        if (userServices[pos].id == userUpdatedService.id ) {
+//                            userServices[pos] = userUpdatedService
+//                            break
+//                        }
+//                    }
                     findNavController().popBackStack()
                     findNavController().popBackStack()
                 }

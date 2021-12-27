@@ -78,9 +78,9 @@ class PostedJobsAdapter(private val listener: OnItemClickListener,private val jo
                 tvDuration.text = job.delivery_time
                 tvBudgetList.text = job.budget.toString().plus(Constants.CURRENCY)
                 tvDate.text = job.created_at
-                if (job.offers.isNotEmpty()) {
+                if (job.total_offers > 0) {
                     tvOffers.text = itemView.context.getString(R.string.str_review_offers)
-                        .plus(" ").plus(job.offers.toString())
+                        .plus(" ").plus(job.total_offers.toString())
                 } else {
                     tvOffers.text = itemView.context.getString(R.string.str_no_offers_yet)
                 }

@@ -48,13 +48,13 @@ class HomeGigsAdapter(val listener: OnItemClickListener) : ListAdapter<FeaturedG
         fun bind(featuredGig: FeaturedGig) {
             binding.apply {
                 Glide.with(itemView)
-                    .load("${Constants.BASE_URL}${featuredGig.banner}")
+                    .load("${Constants.BASE_URL}${featuredGig.service_media[0].media}")
                     .centerCrop()
                     .placeholder(R.drawable.img_loading)
                     .error(R.drawable.bg_splash)
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .into(ivService)
-                tvServiceName.text = featuredGig.shortDescription
+                tvServiceName.text = featuredGig.s_description
             }
         }
     }

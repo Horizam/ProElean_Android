@@ -37,6 +37,7 @@ import com.horizam.pro.elean.data.model.requests.FavouriteRequest
 import com.horizam.pro.elean.data.model.requests.UpdateProfileRequest
 import com.horizam.pro.elean.data.model.response.GeneralResponse
 import com.horizam.pro.elean.data.model.response.NonFreelancerUserResponse
+import com.horizam.pro.elean.data.model.response.ProfileInfo
 import com.horizam.pro.elean.databinding.*
 import com.horizam.pro.elean.ui.base.ViewModelFactory
 import com.horizam.pro.elean.ui.main.adapter.SkillsAdapter
@@ -221,7 +222,7 @@ class EditProfileFragment : Fragment() {
         viewModel.updateProfile.observe(viewLifecycleOwner, updateProfileObserver)
     }
 
-    private val updateProfileObserver = Observer<Resource<GeneralResponse>> {
+    private val updateProfileObserver = Observer<Resource<ProfileInfo>> {
         it?.let { resource ->
             when (resource.status) {
                 Status.SUCCESS -> {
@@ -249,32 +250,25 @@ class EditProfileFragment : Fragment() {
 
     private fun <T> handleResponse(response: T) {
         try {
-            if (response is NonFreelancerUserResponse) {
+            if (response is ProfileInfo) {
                 setUiData(response)
-            } else if (response is GeneralResponse) {
-                genericHandler.showMessage(response.message)
-                if (response.status == Constants.STATUS_OK) {
-                    viewModel.profileDataCall()
-                }
             }
         } catch (e: Exception) {
             genericHandler.showMessage(e.message.toString())
         }
     }
 
-    private fun setUiData(response: NonFreelancerUserResponse) {
+    private fun setUiData(profileInfo: ProfileInfo) {
         binding.apply {
-            response.userProfile.let { profile ->
-                Glide.with(this@EditProfileFragment)
-                    .load(Constants.BASE_URL.plus(profile.image))
-                    .error(R.drawable.img_profile)
-                    .placeholder(R.drawable.img_loading)
-                    .into(binding.ivProfile)
-                etFullName.setText(profile.name)
-                etAddress.setText(profile.address)
-                etPhone.setText(profile.phone)
-                //etCarrierNumber.setText(profile.phone)
-            }
+            Glide.with(this@EditProfileFragment)
+                .load(Constants.BASE_URL.plus(profileInfo.image))
+                .error(R.drawable.img_profile)
+                .placeholder(R.drawable.img_loading)
+                .into(binding.ivProfile)
+            etFullName.setText(profileInfo.name)
+            etAddress.setText(profileInfo.address)
+            etPhone.setText(profileInfo.phone)
+            //etCarrierNumber.setText(profile.phone)
         }
     }
 
@@ -367,7 +361,8 @@ class EditProfileFragment : Fragment() {
         // Create an image file name
         val timeStamp: String =
             SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
-        val storageDir: File? = requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        val storageDir: File? =
+            requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         return File.createTempFile(
             "JPEG_${timeStamp}_", /* prefix */
             ".jpg", /* suffix */
@@ -468,7 +463,11 @@ class EditProfileFragment : Fragment() {
             var image: MultipartBody.Part? = null
             if (profileImage.isNotEmpty()) {
                 image =
-                    BaseUtils.compressAndCreateImageData(profileImage, "image", requireContext())
+                    BaseUtils.compressAndCreateImageData(
+                        profileImage,
+                        "image",
+                        requireContext()
+                    )
             }
             val map: HashMap<String, RequestBody> = HashMap()
             map["name"] =
@@ -481,7 +480,10 @@ class EditProfileFragment : Fragment() {
         }
     }
 
-    private fun exeApi(image: MultipartBody.Part?, map: java.util.HashMap<String, RequestBody>) {
+    private fun exeApi(
+        image: MultipartBody.Part?,
+        map: java.util.HashMap<String, RequestBody>
+    ) {
         genericHandler.showProgressBar(true)
         viewModel.updateProfileCall(UpdateProfileRequest(partMap = map, image = image))
     }

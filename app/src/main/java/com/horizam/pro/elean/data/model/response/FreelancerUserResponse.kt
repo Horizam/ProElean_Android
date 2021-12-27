@@ -24,7 +24,7 @@ data class ProfileInfo(
     @SerializedName("email") val email: String,
     @SerializedName("description") val description: String,
     @SerializedName("total_reviews") val total_reviews: Int,
-    @SerializedName("average_rating") val average_rating: Int,
+    @SerializedName("user_rating") val user_rating: Int,
     @SerializedName("recent_delivery") val recent_delivery: String,
     @SerializedName("user_languages") val user_languages: List<String>,
     @SerializedName("user_skills") val user_skills: List<String>

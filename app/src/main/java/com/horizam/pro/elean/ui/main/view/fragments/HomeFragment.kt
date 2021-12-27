@@ -222,16 +222,16 @@ class HomeFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefre
                 adapterGigs.submitList(it)
                 binding.tvPlaceholderFeaturedGigs.isVisible = it.isEmpty()
             }
-//            ads?.let { it ->
-//                val adsList: List<SliderItem> = it.map { ad ->
-//                    SliderItem(
-//                        url = "${Constants.BASE_URL}${ad.banner}",
-//                        description = ad.description
-//                    )
-//                }
-//                sliderAdapter?.renewItems(adsList as MutableList<SliderItem>)
-//                binding.tvPlaceholderAds.isVisible = it.isEmpty()
-//            }
+            ads?.let { it ->
+                val adsList: List<SliderItem> = it.map { ad ->
+                    SliderItem(
+                        url = "${Constants.BASE_URL}${ad.banner}",
+                        description = ""
+                    )
+                }
+                sliderAdapter?.renewItems(adsList as MutableList<SliderItem>)
+                binding.tvPlaceholderAds.isVisible = it.isEmpty()
+            }
         }
     }
 
@@ -251,11 +251,11 @@ class HomeFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefre
             val action = HomeFragmentDirections.actionHomeFragmentToServiceCategoriesFragment(id)
             findNavController().navigate(action)
         }
-    //        else if (item is FeaturedGig) {
-//            val uid = item.uuid
-//            val action = HomeFragmentDirections.actionHomeFragmentToFeaturedGigsDetailsFragment(uid)
-//            findNavController().navigate(action)
-//        }
+            else if (item is FeaturedGig) {
+            val id = item.id
+            val action = HomeFragmentDirections.actionHomeFragmentToFeaturedGigsDetailsFragment(id)
+            findNavController().navigate(action)
+        }
     }
 
     override fun onRefresh() {
