@@ -203,7 +203,7 @@ class EditProfileFragment : Fragment() {
                     Status.SUCCESS -> {
                         genericHandler.showProgressBar(false)
                         resource.data?.let { response ->
-                            handleResponse(response)
+                            handleResponse(response, 0)
                             changeViewVisibility(textView = false, button = false, layout = true)
                         }
                     }
@@ -228,7 +228,7 @@ class EditProfileFragment : Fragment() {
                 Status.SUCCESS -> {
                     genericHandler.showProgressBar(false)
                     resource.data?.let { response ->
-                        handleResponse(response)
+                        handleResponse(response, 1)
                     }
                 }
                 Status.ERROR -> {
@@ -248,10 +248,14 @@ class EditProfileFragment : Fragment() {
         binding.mainLayout.isVisible = layout
     }
 
-    private fun <T> handleResponse(response: T) {
+    private fun <T> handleResponse(response: T, check: Int) {
         try {
             if (response is ProfileInfo) {
                 setUiData(response)
+                if (check == 1) {
+                    genericHandler.showMessage("Profile Successfully Updated")
+                    this.findNavController().popBackStack()
+                }
             }
         } catch (e: Exception) {
             genericHandler.showMessage(e.message.toString())

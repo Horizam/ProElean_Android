@@ -42,7 +42,7 @@ import java.util.*
 import kotlin.collections.HashMap
 
 
-class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int, String>) :
+class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int, Int>) :
     Fragment(), SwipeRefreshLayout.OnRefreshListener, DeliverOrderFileHandler, RatingHandler,
     DescriptionHandler {
 
@@ -85,7 +85,7 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                     if (!order.description.isNullOrEmpty()) order.description else getString(
                         R.string.str_no_description
                     )
-                if (prefManager.userId == order.sellerId) {
+                if (prefManager.userId == order.seller_id) {
                     tvBuyer.text = order.username
                     tvBuyer.isVisible = true
                     tvBuyerTitle.isVisible = true
@@ -96,23 +96,23 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                     tvSellerTitle.isVisible = true
                 }
                 tvPrice.text = order.amount.toString().plus(order.currency)
-                tvDuration.text = order.deliveryTime
+                tvDuration.text = order.delivery_time
                 tvRevisions.text = order.revision.toString()
                 tvDelivery.text =
-                    if (order.deliveryNote.isNotEmpty()) order.deliveryNote else getString(
+                    if (order.delivery_note.isNotEmpty()) order.delivery_note else getString(
                         R.string.str_no_delivery_note
                     )
                 when (pair.first) {
-//                    Constants.BUYER_USER -> {
-//                        setBuyerData(pair)
-//                    }
-//                    Constants.SELLER_USER -> {
-//                        setSellerData(pair)
-//                    }
-//                    else -> {
-//                        genericHandler.showMessage(getString(R.string.str_something_went_wrong))
-//                        requireActivity().finish()
-//                    }
+                    Constants.BUYER_USER -> {
+                        setBuyerData(pair)
+                    }
+                    Constants.SELLER_USER -> {
+                        setSellerData(pair)
+                    }
+                    else -> {
+                        genericHandler.showMessage(getString(R.string.str_something_went_wrong))
+                        requireActivity().finish()
+                    }
                 }
             } catch (e: Exception) {
                 genericHandler.showMessage(e.message.toString())
@@ -205,7 +205,7 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                     )
                 }
                 SellerOrders.Disputed -> {
-                    if (prefManager.userId == order.disputedBy) {
+                    if (prefManager.userId == order.disputed_by) {
                         changeViewsVisibility(
                             deliveryNote = false,
                             btnResubmit = false,
@@ -237,7 +237,7 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
 
     private fun startTimer() {
         val startTime = Date().time
-        val endTime = BaseUtils.getMillisecondsFromUtc(order.endDate)
+        val endTime = BaseUtils.getMillisecondsFromUtc(order.end_date)
         val remainingTime = endTime.minus(startTime)
         binding.countdownTimer.start(remainingTime)
     }
@@ -316,7 +316,7 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                     )
                 }
                 BuyerOrders.Disputed -> {
-                    if (prefManager.userId == order.disputedBy) {
+                    if (prefManager.userId == order.disputed_by) {
                         changeViewsVisibility(
                             deliveryNote = false,
                             btnResubmit = false,
@@ -361,7 +361,7 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
     }
 
     private fun checkRating(): Boolean {
-        return order.isRated == 0
+        return order.is_rated == 0
     }
 
     private fun setOnClickListeners() {
@@ -514,7 +514,7 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                 Intent(requireActivity(), HomeActivity::class.java).also {
                     it.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     it.putExtra("startChat", 0)
-                    it.putExtra("id", order.sellerId)
+                    it.putExtra("id", order.seller_id)
                     startActivity(it)
                 }
             }
@@ -522,7 +522,7 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                 Intent(requireActivity(), HomeActivity::class.java).also {
                     it.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     it.putExtra("startChat", 0)
-                    it.putExtra("id", order.buyerId)
+                    it.putExtra("id", order.buyer_id)
                     startActivity(it)
                 }
             }

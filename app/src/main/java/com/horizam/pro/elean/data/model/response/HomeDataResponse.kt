@@ -10,8 +10,8 @@ data class HomeDataResponse(
 
 data class HomeData(
     @SerializedName("categories") val categories: List<Category>?,
-    @SerializedName("featGigs") val featuredGig: List<FeaturedGig>?,
     @SerializedName("ads") val ads: List<Ads>,
+    @SerializedName("featGigs") val featuredGig: List<FeaturedGig>?
 )
 
 @Parcelize

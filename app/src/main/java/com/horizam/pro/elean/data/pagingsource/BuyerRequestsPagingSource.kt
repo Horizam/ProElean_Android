@@ -20,7 +20,7 @@ class BuyerRequestsPagingSource(
 
         return try {
             val response = apiHelper.getBuyerRequests(position,status)
-            val buyerRequests = response.buyerRequestsData.buyerRequestsList
+            val buyerRequests = response.buyerRequestList
             LoadResult.Page(
                 data = buyerRequests,
                 prevKey = if (position == Constants.STARTING_PAGE_INDEX) null else position - 1,

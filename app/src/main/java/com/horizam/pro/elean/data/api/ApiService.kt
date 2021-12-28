@@ -25,8 +25,8 @@ interface ApiService {
     @POST("forgot_password")
     suspend fun forgotPassword(@Body request: ForgotPasswordRequest): GeneralResponse
 
-    @POST("send_offer")
-    suspend fun sendOffer(@Body request: SendOfferRequest): GeneralResponse
+    @POST("seller/send_offer")
+    suspend fun sendOffer(@Body request: SendOfferRequest): BuyerRequest
 
     @POST("buyer/jobs")
     suspend fun postJob(@Body request: PostJobRequest): PostedJobResponse
@@ -116,7 +116,7 @@ interface ApiService {
     @GET("job_requests/{id}")
     suspend fun getJobOffers(@Path("id") id: Int, @Query("page") page: Int): JobOffersResponse
 
-    @GET("buyer_request")
+    @GET("seller/buyer_requests")
     suspend fun getBuyerRequests(
         @Query("page") page: Int,
         @Query("status") status: String
@@ -149,8 +149,8 @@ interface ApiService {
     @POST("chat/order")
     suspend fun chatOrder(@Body request: ChatOfferRequest): GeneralResponse
 
-    @POST("user_activity")
-    suspend fun orderTimeline(@Body request: OrderTimelineRequest): OrderTimelineResponse
+    @GET("order/{order_no}/activity")
+    suspend fun orderTimeline(@Path("order_no") orderNo: String): OrderTimelineResponse
 
     @POST("store_user_info")
     suspend fun storeUserInfo(@Body request: StoreUserInfoRequest): GeneralResponse
@@ -182,13 +182,13 @@ interface ApiService {
     @DELETE("buyer/jobs/{id}")
     suspend fun deletePostedJob(@Path("id") id: String): GeneralResponse
 
-    @GET("orders/{id}")
+    @GET("buyer/orders/{id}")
     suspend fun getBuyerOrders(@Path("id") id: Int): OrdersResponse
 
     @GET("seller_earning")
     suspend fun getEarnings(): EarningsResponse
 
-    @GET("seller/order/{id}")
+    @GET("seller/orders/{id}")
     suspend fun getSellersOrders(@Path("id") id: Int): OrdersResponse
 
     @DELETE("delete_job_requests/{id}")
@@ -197,7 +197,7 @@ interface ApiService {
     @DELETE("seller/services/{id}")
     suspend fun deleteUserService(@Path("id") id: String): GeneralResponse
 
-    @DELETE("cancel_offer/{uid}")
+    @DELETE("seller/cancel_offer/{uid}")
     suspend fun cancelBuyerRequests(@Path("uid") uid: String): GeneralResponse
 
     @POST("buyer/manage_order")

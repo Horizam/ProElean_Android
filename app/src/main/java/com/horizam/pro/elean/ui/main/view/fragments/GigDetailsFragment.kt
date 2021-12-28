@@ -241,12 +241,14 @@ class GigDetailsFragment : Fragment(), OnItemClickListener,
             ratingBar.rating = serviceDetail.service_rating.toFloat()
             noOfRating.text = "(${serviceDetail.total_reviews})"
             userId = serviceDetail.user_id
-            Glide.with(this@GigDetailsFragment)
-                .load("${Constants.BASE_URL}${serviceDetail.service_media[0].media}")
-                .placeholder(R.drawable.img_profile)
-                .error(R.drawable.img_profile)
-                .into(ivUser)
-//            setImageSlider(serviceInfo)
+            if (serviceDetail.service_media.size > 0) {
+                Glide.with(this@GigDetailsFragment)
+                    .load("${Constants.BASE_URL}${serviceDetail.service_media[0].media}")
+                    .placeholder(R.drawable.img_profile)
+                    .error(R.drawable.img_profile)
+                    .into(ivUser)
+                setImageSlider(serviceDetail)
+            }
         }
         if (serviceDetail.service_reviews.isEmpty()) {
             recyclerView.isVisible = false
@@ -258,8 +260,8 @@ class GigDetailsFragment : Fragment(), OnItemClickListener,
         }
     }
 
-    private fun setImageSlider(serviceInfo: ServiceInfo) {
-        serviceInfo.serviceMedia.let { imagesList ->
+    private fun setImageSlider(serviceDetail: ServiceDetail) {
+        serviceDetail.service_media.let { imagesList ->
             if (imagesList.isNotEmpty()) {
                 imagesList.forEach { image ->
                     val defaultSliderView = DefaultSliderView(requireContext())

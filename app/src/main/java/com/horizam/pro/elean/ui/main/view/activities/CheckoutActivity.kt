@@ -88,9 +88,7 @@ class CheckoutActivity : AppCompatActivity(), CoroutineScope {
 
     private fun handleResponse(response: GeneralResponse) {
         showMessage(response.message)
-        if (response.status == Constants.STATUS_OK) {
-            dialogOrderStatus.show()
-        }
+        dialogOrderStatus.show()
     }
 
     private fun setOnClickListeners() {

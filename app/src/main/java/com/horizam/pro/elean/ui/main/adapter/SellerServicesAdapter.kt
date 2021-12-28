@@ -11,6 +11,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.model.User
+import com.horizam.pro.elean.data.model.response.ServiceDetail
 import com.horizam.pro.elean.data.model.response.User_services
 import com.horizam.pro.elean.databinding.ItemManageServiceBinding
 import com.horizam.pro.elean.databinding.ItemSellerServicesBinding
@@ -19,7 +20,7 @@ import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
 import com.horizam.pro.elean.ui.main.view.fragments.CustomOrderBottomSheet
 
 class SellerServicesAdapter(val listener: OnItemClickListener) :
-    ListAdapter<User_services, SellerServicesAdapter.DataViewHolder>(COMPARATOR) {
+    ListAdapter<ServiceDetail, SellerServicesAdapter.DataViewHolder>(COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder {
         val binding =
@@ -43,7 +44,7 @@ class SellerServicesAdapter(val listener: OnItemClickListener) :
             }
         }
 
-        private fun fetchItem(): User_services? {
+        private fun fetchItem(): ServiceDetail? {
             val position = bindingAdapterPosition
             return if (position != RecyclerView.NO_POSITION) {
                 getItem(position)
@@ -52,7 +53,7 @@ class SellerServicesAdapter(val listener: OnItemClickListener) :
             }
         }
 
-        fun bind(userService: User_services) {
+        fun bind(userService: ServiceDetail) {
             binding.apply {
                 if (!userService.service_media.isNullOrEmpty()) {
                     Glide.with(itemView)
@@ -70,14 +71,14 @@ class SellerServicesAdapter(val listener: OnItemClickListener) :
 
 
     companion object {
-        private val COMPARATOR = object : DiffUtil.ItemCallback<User_services>() {
-            override fun areItemsTheSame(oldItem: User_services, newItem: User_services): Boolean {
+        private val COMPARATOR = object : DiffUtil.ItemCallback<ServiceDetail>() {
+            override fun areItemsTheSame(oldItem: ServiceDetail, newItem: ServiceDetail): Boolean {
                 return oldItem.id == newItem.id
             }
 
             override fun areContentsTheSame(
-                oldItem: User_services,
-                newItem: User_services
+                oldItem: ServiceDetail,
+                newItem: ServiceDetail
             ): Boolean {
                 return oldItem == newItem
             }

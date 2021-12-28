@@ -75,13 +75,17 @@ class BuyerRequestsAdapter(
         fun bind(buyerRequest: BuyerRequest) {
             binding.apply {
                 try {
-                    tvName.text = buyerRequest.user.name
-                    tvDate.text = buyerRequest.createdAt
-                    tvDuration.text = buyerRequest.deliveryTime
+                    tvName.text = buyerRequest.user.username
+                    tvDate.text = buyerRequest.created_at
+                    tvDuration.text = buyerRequest.delivery_time
                     tvDescription.text = buyerRequest.description
-                    tvOffers.text = buyerRequest.offers.toString().plus(" offers sent")
+                    tvOffers.text = buyerRequest.total_offers.toString().plus(" offers sent")
                     tvBudget.text = buyerRequest.budget.toString().plus(Constants.CURRENCY)
-                    tvDocument.text = buyerRequest.cinic
+                    if (buyerRequest.cinic.isEmpty()) {
+                        tvDocument.text = "No Attachment"
+                    } else {
+                        tvDocument.text = buyerRequest.cinic
+                    }
                     setButton(buyerRequest)
                     Glide.with(itemView)
                         .load(Constants.BASE_URL.plus(buyerRequest.user.image))
@@ -94,7 +98,7 @@ class BuyerRequestsAdapter(
         }
 
         private fun setButton(buyerRequest: BuyerRequest) {
-            if (buyerRequest.isApplied == 0) {
+            if (buyerRequest.is_applied == 0) {
                 binding.btnSendOffer.apply {
                     isEnabled = true
                     setBackgroundColor(ContextCompat.getColor(this.context, R.color.colorAccent))
@@ -116,7 +120,7 @@ class BuyerRequestsAdapter(
     companion object {
         private val ITEM_COMPARATOR = object : DiffUtil.ItemCallback<BuyerRequest>() {
             override fun areItemsTheSame(oldItem: BuyerRequest, newItem: BuyerRequest) =
-                oldItem.uuid == newItem.uuid
+                oldItem.id == newItem.id
 
             override fun areContentsTheSame(oldItem: BuyerRequest, newItem: BuyerRequest) =
                 oldItem == newItem

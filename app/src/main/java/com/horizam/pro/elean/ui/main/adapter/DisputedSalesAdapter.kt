@@ -49,7 +49,7 @@ class DisputedSalesAdapter(val listener: OnItemClickListener) :
         fun bind(order: Order) {
             binding.apply {
                 tvUserName.text = order.username
-                tvDate.text = BaseUtils.utcToLocal(order.createdAt)
+                tvDate.text = BaseUtils.utcToLocal(order.created_at)
                 tvDescription.text = order.description
                 tvPrice.text = order.amount.toString().plus(order.currency)
                 tvStatus.text = itemView.context.getString(R.string.str_disputed)

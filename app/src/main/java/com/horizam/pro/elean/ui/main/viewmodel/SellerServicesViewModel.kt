@@ -19,6 +19,7 @@ class SellerServicesViewModel(private val mainRepository: MainRepository) : View
 
     private val userServicesRequest = MutableLiveData<String>()
     private val sendOfferRequest = MutableLiveData<SendOfferRequest>()
+    private val spinnerDataRequest = MutableLiveData(DEFAULT_REQUEST)
 
     val userServices = userServicesRequest.switchMap {
         liveData(Dispatchers.IO) {
@@ -44,6 +45,18 @@ class SellerServicesViewModel(private val mainRepository: MainRepository) : View
         }
     }
 
+    val categoriesRevisionDeliveryTimeResponse = spinnerDataRequest.switchMap {
+        liveData(Dispatchers.IO) {
+            emit(Resource.loading(data = null))
+            try {
+                emit(Resource.success(data = mainRepository.getCategoriesCountries()))
+            } catch (exception: Exception) {
+                val errorMessage = BaseUtils.getError(exception)
+                emit(Resource.error(data = null, message = errorMessage))
+            }
+        }
+    }
+
     fun userServicesCall(request: String) {
         userServicesRequest.value = request
     }
@@ -52,4 +65,7 @@ class SellerServicesViewModel(private val mainRepository: MainRepository) : View
         sendOfferRequest.value = request
     }
 
+    companion object {
+        const val DEFAULT_REQUEST = "spinnerDataRequest"
+    }
 }

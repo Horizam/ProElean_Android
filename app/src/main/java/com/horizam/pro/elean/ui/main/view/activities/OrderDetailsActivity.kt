@@ -121,26 +121,26 @@ class OrderDetailsActivity : AppCompatActivity(), GenericHandler {
             intent.getStringExtra(Constants.ORDER),
             Order::class.java
         )
-//        val pair: Pair<Int, String> = Pair(
-//            intent.getIntExtra(Constants.ORDER_USER_ROLE, -1),
-//            intent.getStringExtra(Constants.ORDER_USER_ACTION, "")
-//        )
-//        viewPagerFragmentAdapter =
-//            ViewPagerOrderDetailsAdapter(this, listFragmentTitles, order, pair)
-//        setData(order)
-//        setTabs()
+        val pair: Pair<Int, Int> = Pair(
+            intent.getIntExtra(Constants.ORDER_USER_ROLE, -1),
+            intent.getIntExtra(Constants.ORDER_USER_ACTION, -1)
+        )
+        viewPagerFragmentAdapter =
+            ViewPagerOrderDetailsAdapter(this, listFragmentTitles, order, pair)
+        setData(order)
+        setTabs()
     }
 
     private fun handleResponse(order: Order) {
         var userRole = 0
-        if(prefManager.userId == order.buyerId){
+        if(prefManager.userId == order.buyer_id){
             userRole = Constants.BUYER_USER
         }else{
             userRole = Constants.SELLER_USER
         }
-        val pair: Pair<Int, String> = Pair(
+        val pair: Pair<Int, Int> = Pair(
             userRole,
-            order.statusId
+            order.status_id
         )
         viewPagerFragmentAdapter =
             ViewPagerOrderDetailsAdapter(this, listFragmentTitles, order, pair)
@@ -149,7 +149,7 @@ class OrderDetailsActivity : AppCompatActivity(), GenericHandler {
     }
 
     private fun setData(order: Order) {
-        binding.tvUserMode.text = if (prefManager.userId == order.sellerId) {
+        binding.tvUserMode.text = if (prefManager.userId == order.seller_id) {
             getString(R.string.str_seller)
         } else {
             getString(R.string.str_buyer)

@@ -20,9 +20,7 @@ import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
 import com.horizam.pro.elean.data.model.requests.SendOfferRequest
-import com.horizam.pro.elean.data.model.response.GeneralResponse
-import com.horizam.pro.elean.data.model.response.ManageServicesResponse
-import com.horizam.pro.elean.data.model.response.User_services
+import com.horizam.pro.elean.data.model.response.*
 import com.horizam.pro.elean.databinding.FragmentSellerServicesBinding
 import com.horizam.pro.elean.ui.base.ViewModelFactory
 import com.horizam.pro.elean.ui.main.adapter.SellerServicesAdapter
@@ -120,7 +118,7 @@ class SellerServicesFragment : Fragment(), OnItemClickListener, SendOfferHandler
                     Status.SUCCESS -> {
                         genericHandler.showProgressBar(false)
                         resource.data?.let { response ->
-//                            handleResponse(response)
+                            handleResponse(response)
                             changeViewVisibility(textView = false, button = false, layout = true)
                         }
                     }
@@ -136,19 +134,37 @@ class SellerServicesFragment : Fragment(), OnItemClickListener, SendOfferHandler
                 }
             }
         })
-        viewModel.sendOffer.observe(viewLifecycleOwner,sendOfferObserver)
+
+        viewModel.categoriesRevisionDeliveryTimeResponse.observe(viewLifecycleOwner, {
+            it?.let { resource ->
+                when (resource.status) {
+                    Status.SUCCESS -> {
+                        genericHandler.showProgressBar(false)
+                        resource.data?.let { response ->
+                            handleDeliveryTimeResponse(response)
+                        }
+                    }
+                    Status.ERROR -> {
+                        genericHandler.showProgressBar(false)
+                        genericHandler.showMessage(it.message.toString())
+                    }
+                    Status.LOADING -> {
+                        genericHandler.showProgressBar(true)
+                    }
+                }
+            }
+        })
+
+        viewModel.sendOffer.observe(viewLifecycleOwner, sendOfferObserver)
     }
 
-    private val sendOfferObserver = Observer<Resource<GeneralResponse>>{
+    private val sendOfferObserver = Observer<Resource<BuyerRequest>> {
         it?.let { resource ->
             when (resource.status) {
                 Status.SUCCESS -> {
                     genericHandler.showProgressBar(false)
                     resource.data?.let { response ->
-                        genericHandler.showMessage(response.message)
-                        if (response.status == Constants.STATUS_OK){
-                            findNavController().popBackStack()
-                        }
+                        findNavController().popBackStack()
                     }
                 }
                 Status.ERROR -> {
@@ -168,40 +184,51 @@ class SellerServicesFragment : Fragment(), OnItemClickListener, SendOfferHandler
         binding.rvUserServices.isVisible = layout
     }
 
-    private fun handleResponse(response: ManageServicesResponse) {
+    private fun handleResponse(serviceResponse: ServicesResponse) {
         try {
-            setUIData(response.service)
-            if (response.days != null) {
-                deliveryDaysList = response.days as ArrayList<String>
+            setUIData(serviceResponse.serviceList)
+//            if (response.days != null) {
+//                deliveryDaysList = response.days as ArrayList<String>
+//            }
+        } catch (e: Exception) {
+            genericHandler.showMessage(e.message.toString())
+        }
+    }
+
+    private fun handleDeliveryTimeResponse(categoriesCountriesResponse: CategoriesCountriesResponse) {
+        try {
+            if (categoriesCountriesResponse.categoriesCountriesData.deliveryDays.isNotEmpty()) {
+                deliveryDaysList =
+                    categoriesCountriesResponse.categoriesCountriesData.deliveryDays as ArrayList<String>
             }
         } catch (e: Exception) {
             genericHandler.showMessage(e.message.toString())
         }
     }
 
-    private fun setUIData(serviceList: List<User_services>) {
+    private fun setUIData(serviceList: List<ServiceDetail>) {
         adapter.submitList(serviceList)
         binding.tvPlaceholder.isVisible = serviceList.isEmpty()
     }
 
     override fun <T> onItemClick(item: T) {
-//        if (item is User_services) {
-//            val jobId: Int = args.id
-//            val sendOfferBottomSheet = SendOfferBottomSheet(this)
-//            val bundle = Bundle()
-//            bundle.putInt(Constants.USER_SERVICE_ID, item.id)
-//            bundle.putInt(Constants.JOB_ID, jobId)
-//            bundle.putStringArrayList(Constants.DAYS_LIST, deliveryDaysList)
-//            sendOfferBottomSheet.arguments = bundle
-//            sendOfferBottomSheet.show(
-//                requireActivity().supportFragmentManager,
-//                SendOfferBottomSheet.TAG
-//            )
-//        }
+        if (item is ServiceDetail) {
+            val jobId: String = args.id
+            val sendOfferBottomSheet = SendOfferBottomSheet(this)
+            val bundle = Bundle()
+            bundle.putString(Constants.USER_SERVICE_ID, item.id)
+            bundle.putString(Constants.JOB_ID, jobId)
+            bundle.putStringArrayList(Constants.DAYS_LIST, deliveryDaysList)
+            sendOfferBottomSheet.arguments = bundle
+            sendOfferBottomSheet.show(
+                requireActivity().supportFragmentManager,
+                SendOfferBottomSheet.TAG
+            )
+        }
     }
 
     override fun <T> sendOffer(item: T) {
-        if (item is SendOfferRequest){
+        if (item is SendOfferRequest) {
             viewModel.sendOfferCall(item)
         }
     }

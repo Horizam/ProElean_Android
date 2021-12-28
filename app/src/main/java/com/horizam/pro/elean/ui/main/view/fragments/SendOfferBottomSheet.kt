@@ -24,8 +24,8 @@ class SendOfferBottomSheet(private val sendOfferHandler: SendOfferHandler) : Bot
     private lateinit var deliveryDaysArrayList: ArrayList<String>
     private lateinit var daysAdapter: ArrayAdapter<String>
     private var deliveryTime = ""
-    private var serviceId = -1
-    private var jobId = -1
+    private var serviceId = ""
+    private var jobId = ""
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -52,8 +52,8 @@ class SendOfferBottomSheet(private val sendOfferHandler: SendOfferHandler) : Bot
 
     private fun initData() {
         arguments?.let {
-            serviceId = it.getInt(Constants.USER_SERVICE_ID)
-            jobId = it.getInt(Constants.JOB_ID)
+            serviceId = it.getString(Constants.USER_SERVICE_ID , "")
+            jobId = it.getString(Constants.JOB_ID , "")
             deliveryDaysArrayList = it.getStringArrayList(Constants.DAYS_LIST)!!
             setDeliveryDays()
         }
@@ -107,11 +107,11 @@ class SendOfferBottomSheet(private val sendOfferHandler: SendOfferHandler) : Bot
                 etPrice.error =
                     "Minimum ${Constants.MINIMUM_ORDER_PRICE}${Constants.CURRENCY} must be entered"
                 return
-            } else if (serviceId == -1) {
+            } else if (serviceId == "") {
                 this@SendOfferBottomSheet.dismiss()
                 genericHandler.showMessage(getString(R.string.str_invalid_service))
                 return
-            }else if (jobId == -1) {
+            }else if (jobId == "") {
                 this@SendOfferBottomSheet.dismiss()
                 genericHandler.showMessage(getString(R.string.str_invalid_job))
                 return

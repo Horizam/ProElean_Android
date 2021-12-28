@@ -17,7 +17,7 @@ class ApiHelper(private val apiService: ApiService) {
     suspend fun sellerActions(sellerHashMap: HashMap<String , Any>) = apiService.sellerActions(sellerHashMap)
     suspend fun sellerActionsWithFile(request: SellerActionRequestMultipart) = apiService.sellerActionsWithFile(request.orderNumber , request.typeUser , request.deliveryNote , request.image)
     suspend fun buyerActions(buyerHashMap: HashMap<String, Any>) = apiService.buyerActions(buyerHashMap)
-    suspend fun orderTimeline(request: OrderTimelineRequest) = apiService.orderTimeline(request)
+    suspend fun orderTimeline(request: OrderTimelineRequest) = apiService.orderTimeline(request.order_no)
     suspend fun storeUserInfo(request: StoreUserInfoRequest) = apiService.storeUserInfo(request)
     suspend fun addRemoveWishlist(request: FavouriteRequest) = apiService.addRemoveWishlist(request)
     suspend fun logout() = apiService.logout()

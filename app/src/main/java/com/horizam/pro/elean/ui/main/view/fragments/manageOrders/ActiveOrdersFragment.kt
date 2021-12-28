@@ -151,11 +151,12 @@ class ActiveOrdersFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout
         }
     }
 
-    private val resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            exeApi()
+    private val resultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                exeApi()
+            }
         }
-    }
 
     override fun onRefresh() {
         if (swipeRefreshLayout.isRefreshing) {

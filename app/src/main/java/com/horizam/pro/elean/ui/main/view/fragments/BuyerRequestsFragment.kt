@@ -64,7 +64,7 @@ class BuyerRequestsFragment : Fragment(), OnItemClickListener, BuyerRequestsHand
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentBuyerRequestsBinding.inflate(layoutInflater,container,false)
+        binding = FragmentBuyerRequestsBinding.inflate(layoutInflater, container, false)
         setToolbarData()
         initViews()
         setupViewModel()
@@ -81,7 +81,7 @@ class BuyerRequestsFragment : Fragment(), OnItemClickListener, BuyerRequestsHand
     }
 
     private fun initViews() {
-        adapter = BuyerRequestsAdapter(this,this)
+        adapter = BuyerRequestsAdapter(this, this)
         recyclerView = binding.rvBuyerRequests
         initDeleteDialog()
         initFilterDialog()
@@ -150,13 +150,14 @@ class BuyerRequestsFragment : Fragment(), OnItemClickListener, BuyerRequestsHand
     private val filterBuyerRequests = RadioGroup.OnCheckedChangeListener { radioGroup, checkedId ->
         dialogFilterBuyerRequests.dismiss()
         val radioButton = radioGroup.findViewById<RadioButton>(checkedId)
-        viewModel.getBuyerRequestsCall(radioButton.text.toString().trim().replace(" ","_"))
+        viewModel.getBuyerRequestsCall(radioButton.text.toString().trim().replace(" ", "_"))
     }
 
     private fun setToolbarData() {
         binding.toolbar.ivToolbar.setImageResource(R.drawable.ic_back)
         binding.toolbar.ivSecond.isVisible = true
-        binding.toolbar.tvToolbar.text = App.getAppContext()!!.getString(R.string.str_buyer_requests)
+        binding.toolbar.tvToolbar.text =
+            App.getAppContext()!!.getString(R.string.str_buyer_requests)
     }
 
     private fun setupViewModel() {
@@ -170,7 +171,7 @@ class BuyerRequestsFragment : Fragment(), OnItemClickListener, BuyerRequestsHand
         viewModel.buyerRequests.observe(viewLifecycleOwner) {
             adapter.submitData(viewLifecycleOwner.lifecycle, it)
         }
-       viewModel.deleteBuyerRequest.observe(viewLifecycleOwner, deleteBuyerRequestObserver)
+        viewModel.deleteBuyerRequest.observe(viewLifecycleOwner, deleteBuyerRequestObserver)
     }
 
     private val deleteBuyerRequestObserver = Observer<Resource<GeneralResponse>> {
@@ -195,9 +196,7 @@ class BuyerRequestsFragment : Fragment(), OnItemClickListener, BuyerRequestsHand
 
     private fun handleResponse(response: GeneralResponse) {
         genericHandler.showMessage(response.message)
-        if (response.status == Constants.STATUS_OK) {
-            exeApi()
-        }
+        exeApi()
     }
 
     override fun <T> onItemClick(item: T) {
@@ -214,7 +213,7 @@ class BuyerRequestsFragment : Fragment(), OnItemClickListener, BuyerRequestsHand
             bindingDeleteDialog.btnYes.setOnClickListener {
                 dialogDelete.dismiss()
                 genericHandler.showProgressBar(true)
-                viewModel.deleteBuyerRequestCall(item.uuid)
+                viewModel.deleteBuyerRequestCall(item.id)
             }
             bindingDeleteDialog.btnNo.setOnClickListener { dialogDelete.dismiss() }
         }
@@ -222,9 +221,10 @@ class BuyerRequestsFragment : Fragment(), OnItemClickListener, BuyerRequestsHand
 
     override fun <T> sendOffer(item: T) {
         if (item is BuyerRequest) {
-//            BuyerRequestsFragmentDirections.actionBuyerRequestsFragmentToSellerServicesFragment(item.id).also {
-//                findNavController().navigate(it)
-//            }
+            BuyerRequestsFragmentDirections.actionBuyerRequestsFragmentToSellerServicesFragment(item.id)
+                .also {
+                    findNavController().navigate(it)
+                }
         }
     }
 

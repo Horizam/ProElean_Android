@@ -99,6 +99,7 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
         onClickRequestPermission()
         saveFcmToken()
         initDeleteDialog()
+        handleHomeResponse()
     }
 
     private fun getChatDataFromFirebase() {
@@ -165,20 +166,20 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
     }
 
     private val locationCallback = object : LocationCallback() {
-        override fun onLocationResult(locationResult: LocationResult) {
-            super.onLocationResult(locationResult)
-            val currentLocation = locationResult.lastLocation
-            val myLocation =
-                MyLocation(lat = currentLocation.latitude, long = currentLocation.longitude)
-            prefManager.location = myLocation
-            val fcmToken = if (prefManager.fcmToken.isNotEmpty()) prefManager.fcmToken else null
-            val storeUserInfoRequest = StoreUserInfoRequest(
-                latitude = currentLocation.latitude,
-                longitude = currentLocation.longitude,
-                device_id = fcmToken
-            )
-            viewModel.storeUserInfoCall(storeUserInfoRequest)
-        }
+//        override fun onLocationResult(locationResult: LocationResult) {
+//            super.onLocationResult(locationResult)
+//            val currentLocation = locationResult.lastLocation
+//            val myLocation =
+//                MyLocation(lat = currentLocation.latitude, long = currentLocation.longitude)
+//            prefManager.location = myLocation
+//            val fcmToken = if (prefManager.fcmToken.isNotEmpty()) prefManager.fcmToken else null
+//            val storeUserInfoRequest = StoreUserInfoRequest(
+//                latitude = currentLocation.latitude,
+//                longitude = currentLocation.longitude,
+//                device_id = fcmToken
+//            )
+//            viewModel.storeUserInfoCall(storeUserInfoRequest)
+//        }
     }
 
     private val requestPermissionLauncher =
@@ -288,34 +289,7 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
                 }
             }
         })
-        observeHomeData()
         viewModel.userInfo.observe(this, storeUserInfoObserver)
-    }
-
-    private fun observeHomeData() {
-        viewModel.homeData.observe(this, {
-            it?.let { resource ->
-                when (resource.status) {
-                    Status.SUCCESS -> {
-                        showProgressBar(false)
-                        resource.data?.let { response ->
-                            try {
-                                handleHomeResponse(response)
-                            } catch (ex: Exception) {
-                                showMessage(ex.message.toString())
-                            }
-                        }
-                    }
-                    Status.ERROR -> {
-                        showProgressBar(false)
-                        showMessage(it.message.toString())
-                    }
-                    Status.LOADING -> {
-                        showProgressBar(true)
-                    }
-                }
-            }
-        })
     }
 
     private val storeUserInfoObserver = Observer<Resource<GeneralResponse>> {
@@ -336,7 +310,7 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
         }
     }
 
-    private fun handleHomeResponse(response: HomeDataResponse) {
+    private fun handleHomeResponse() {
         Glide.with(this@HomeActivity)
             .load(Constants.BASE_URL.plus(prefManager.userImage))
             .error(R.drawable.img_profile)
@@ -344,13 +318,6 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
         binding.tvUserName.text = prefManager.username
         isUserFreelancer = prefManager.isFreelancer
         userId = prefManager.isFreelancer
-//        val userMessage = MessageUser(
-//            id = id,
-//            name = name,
-//            photo = image,
-//            fcmToken = prefManager.fcmToken
-//        )
-//        saveUserInfoOnFirestore(userMessage)
         if (isUserFreelancer == 0) {
             binding.llBuyerBecomFreelancer.visibility = View.VISIBLE
             binding.llBuyerSeller.visibility = View.GONE

@@ -194,8 +194,8 @@ class OrderMessagesFragment(var order: Order) : Fragment() , MessagesHandler, Cr
 
     private fun getData() {
         try {
-            if(prefManager.userId == order.sellerId){
-                userId = order.buyerId
+            if(prefManager.userId == order.seller_id){
+                userId = order.buyer_id
             }
 //            referGig = args.refersGig
             myId = prefManager.userId

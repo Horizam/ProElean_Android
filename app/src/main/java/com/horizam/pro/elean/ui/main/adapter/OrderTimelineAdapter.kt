@@ -48,7 +48,7 @@ class OrderTimelineAdapter(val listener: OnItemClickListener) :
 
         fun bind(action: Action) {
             binding.apply {
-                textTimelineDate.text = BaseUtils.utcToLocal(action.createdAt)
+                textTimelineDate.text = BaseUtils.utcToLocal(action.created_at)
                 textTimelineTitle.text = action.description
             }
         }
@@ -57,7 +57,7 @@ class OrderTimelineAdapter(val listener: OnItemClickListener) :
     companion object {
         private val COMPARATOR = object : DiffUtil.ItemCallback<Action>() {
             override fun areItemsTheSame(oldItem: Action, newItem: Action): Boolean {
-                return oldItem.createdAt == newItem.createdAt
+                return oldItem.created_at == newItem.created_at
             }
 
             override fun areContentsTheSame(oldItem: Action, newItem: Action): Boolean {

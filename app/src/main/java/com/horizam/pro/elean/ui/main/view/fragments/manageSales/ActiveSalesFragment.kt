@@ -58,7 +58,7 @@ class ActiveSalesFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentOrdersGenericBinding.inflate(layoutInflater,container,false)
+        binding = FragmentOrdersGenericBinding.inflate(layoutInflater, container, false)
         initViews()
         setupViewModel()
         setupObservers()
@@ -159,11 +159,12 @@ class ActiveSalesFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.
         }
     }
 
-    private val resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            exeApi()
+    private val resultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                exeApi()
+            }
         }
-    }
 
     override fun onRefresh() {
         if (swipeRefreshLayout.isRefreshing) {

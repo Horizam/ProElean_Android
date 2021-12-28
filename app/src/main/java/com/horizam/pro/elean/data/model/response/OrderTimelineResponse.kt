@@ -3,12 +3,12 @@ package com.horizam.pro.elean.data.model.response
 import com.google.gson.annotations.SerializedName
 
 data class OrderTimelineResponse(
-    @SerializedName("status") var status : Int,
-    @SerializedName("message") var message : String,
-    @SerializedName("activityList") var activityList : List<Action>
+    @SerializedName("data") val actionList : List<Action>,
+    @SerializedName("links") val links : Links,
+    @SerializedName("meta") val meta : Meta
 )
 
 data class Action (
-    @SerializedName("created_at") var createdAt : String,
-    @SerializedName("description") var description : String
+    @SerializedName("description") val description : String,
+    @SerializedName("created_at") val created_at : String
 )

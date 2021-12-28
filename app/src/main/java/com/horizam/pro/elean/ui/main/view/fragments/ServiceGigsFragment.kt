@@ -42,8 +42,8 @@ import com.horizam.pro.elean.utils.Resource
 import com.horizam.pro.elean.utils.Status
 
 
-class ServiceGigsFragment : Fragment(),OnItemClickListener, FavouriteHandler,
-    ContactSellerHandler, AdapterView.OnItemSelectedListener{
+class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
+    ContactSellerHandler, AdapterView.OnItemSelectedListener {
 
     private lateinit var binding: FragmentServiceGigsBinding
     private lateinit var adapter: GigsAdapter
@@ -73,7 +73,7 @@ class ServiceGigsFragment : Fragment(),OnItemClickListener, FavouriteHandler,
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentServiceGigsBinding.inflate(layoutInflater,container,false)
+        binding = FragmentServiceGigsBinding.inflate(layoutInflater, container, false)
         initViews()
 //        setupViewModel()
         setupObservers()
@@ -84,28 +84,31 @@ class ServiceGigsFragment : Fragment(),OnItemClickListener, FavouriteHandler,
     }
 
     private fun executeApi() {
-        if (args.from == Constants.NORMAL_FLOW){
-            if (viewModel.sellers.value == null){
+        if (args.from == Constants.NORMAL_FLOW) {
+            if (viewModel.sellers.value == null) {
                 viewModel.getServicesBySubCategories(args.id)
             }
-        }else{
+        } else {
             binding.autoCompleteTextView.setText(args.query)
-             exeSearch()
+            exeSearch()
         }
     }
 
     private fun initViews() {
         prefManager = PrefManager(requireContext())
-        adapter = GigsAdapter(this,this,this)
+        adapter = GigsAdapter(this, this, this)
         recyclerView = binding.rvServiceGigs
         setPriceSpinner()
     }
 
     private fun setPriceSpinner() {
-        priceArrayList = arrayListOf("5+","5-20","21-50","51-100","101-500","500+")
-        priceValueArrayList = arrayListOf("5","5,20","21,50","51,100","101,500","500")
+        priceArrayList = arrayListOf("5+", "5-20", "21-50", "51-100", "101-500", "500+")
+        priceValueArrayList = arrayListOf("5", "5,20", "21,50", "51,100", "101,500", "500")
         val spinnerList = priceArrayList.map { price ->
-            SpinnerPriceModel(filterValue = priceValueArrayList[priceArrayList.indexOf(price)], value = price)
+            SpinnerPriceModel(
+                filterValue = priceValueArrayList[priceArrayList.indexOf(price)],
+                value = price
+            )
         }
         priceAdapter = PriceAdapter(
             requireContext(),
@@ -217,10 +220,10 @@ class ServiceGigsFragment : Fragment(),OnItemClickListener, FavouriteHandler,
     }
 
     private fun setupFavoritesObservers() {
-        viewModel.makeFavourite.observe(this,makeFavouriteObserver)
+        viewModel.makeFavourite.observe(this, makeFavouriteObserver)
     }
 
-    private val makeFavouriteObserver = Observer<Resource<GeneralResponse>>{
+    private val makeFavouriteObserver = Observer<Resource<GeneralResponse>> {
         it?.let { resource ->
             when (resource.status) {
                 Status.SUCCESS -> {
@@ -239,16 +242,19 @@ class ServiceGigsFragment : Fragment(),OnItemClickListener, FavouriteHandler,
     }
 
     override fun <T> onItemClick(item: T) {
-        if (item is ServiceDetail){
+        if (item is ServiceDetail) {
             val gson = Gson()
             val serviceData = gson.toJson(item)
-            val action = ServiceGigsFragmentDirections.actionServiceGigsFragmentToGigDetailsFragment(serviceData)
+            val action =
+                ServiceGigsFragmentDirections.actionServiceGigsFragmentToGigDetailsFragment(
+                    serviceData
+                )
             findNavController().navigate(action)
         }
     }
 
     override fun <T> addRemoveWishList(item: T) {
-        if (item is ServiceDetail){
+        if (item is ServiceDetail) {
             viewModel.addToWishlistCall(FavouriteRequest(item.id))
         }
     }

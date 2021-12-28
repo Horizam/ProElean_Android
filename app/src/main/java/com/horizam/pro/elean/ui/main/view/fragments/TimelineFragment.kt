@@ -120,7 +120,7 @@ class TimelineFragment(private val orderNo: String) : Fragment(), OnItemClickLis
 
     private fun handleResponse(response: OrderTimelineResponse) {
         try {
-            setUIData(response.activityList)
+            setUIData(response.actionList)
         } catch (e: Exception) {
             genericHandler.showMessage(e.message.toString())
         }
