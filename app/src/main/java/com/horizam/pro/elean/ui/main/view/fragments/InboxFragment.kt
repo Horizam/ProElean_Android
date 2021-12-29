@@ -74,14 +74,14 @@ class InboxFragment : Fragment(), InboxHandler {
     }
 
     private fun getInboxData() {
-//        myId = prefManager.userId
-//        if (myId != ""){
-//            adapter.setMyId(myId)
-//            val query: Query = inboxReference.whereArrayContains("members", myId)
-//                .orderBy("sentAt", Query.Direction.DESCENDING).limit(10)
-//            genericHandler.showProgressBar(true)
-//            viewModel.getInboxCall(query)
-//        }
+        myId = prefManager.userId
+        if (myId != ""){
+            adapter.setMyId(myId)
+            val query: Query = inboxReference.whereArrayContains("members", myId)
+                .orderBy("sentAt", Query.Direction.DESCENDING).limit(10)
+            genericHandler.showProgressBar(true)
+            viewModel.getInboxCall(query)
+        }
     }
 
     private fun setupViewModel() {
@@ -161,13 +161,13 @@ class InboxFragment : Fragment(), InboxHandler {
     }
 
     override fun <T> onItemClick(item: T) {
-//        if (item is Inbox) {
-//            val userId = item.members.first {
-//                it != myId
-//            }
-//            InboxFragmentDirections.actionInboxFragmentToMessagesFragment(userId).also {
-//                findNavController().navigate(it)
-//            }
-//        }
+        if (item is Inbox) {
+            val userId = item.members.first {
+                it != myId
+            }
+            InboxFragmentDirections.actionInboxFragmentToMessagesFragment(userId).also {
+                findNavController().navigate(it)
+            }
+        }
     }
 }

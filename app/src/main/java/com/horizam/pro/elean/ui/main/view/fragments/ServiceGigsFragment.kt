@@ -21,6 +21,7 @@ import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
+import com.horizam.pro.elean.data.model.MessageGig
 import com.horizam.pro.elean.data.model.SpinnerPriceModel
 import com.horizam.pro.elean.data.model.requests.FavouriteRequest
 import com.horizam.pro.elean.data.model.requests.SearchGigsRequest
@@ -260,27 +261,27 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
     }
 
     override fun <T> contactSeller(item: T) {
-//        if (item is Gig){
-//            try {
-//                if (prefManager.userId != item.user_id && item.user_id != -1){
-//                    val messageGig = MessageGig(
-//                        gigId = item.id,
-//                        gigImage = item.banner,
-//                        gigTitle = item.shortDescription,
-//                        gigUsername = item.username
-//                    )
-//                    ServiceGigsFragmentDirections.actionServiceGigsFragmentToMessagesFragment(
-//                        id = item.user_id,
-//                        refersGig = true,
-//                        messageGig = messageGig
-//                    ).also {
-//                        findNavController().navigate(it)
-//                    }
-//                }
-//            }catch (e: Exception){
-//                genericHandler.showMessage(e.message.toString())
-//            }
-//        }
+        if (item is ServiceDetail){
+            try {
+                if (prefManager.userId != item.user_id && item.user_id != ""){
+                    val messageGig = MessageGig(
+                        gigId = item.id,
+                        gigImage = item.service_media[0].media,
+                        gigTitle = item.s_description,
+                        gigUsername = item.service_user.username
+                    )
+                    ServiceGigsFragmentDirections.actionServiceGigsFragmentToMessagesFragment(
+                        id = item.user_id,
+                        refersGig = true,
+                        messageGig = messageGig
+                    ).also {
+                        findNavController().navigate(it)
+                    }
+                }
+            }catch (e: Exception){
+                genericHandler.showMessage(e.message.toString())
+            }
+        }
     }
 
     private val focusChangeListener = View.OnFocusChangeListener { v, hasFocus ->

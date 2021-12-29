@@ -373,7 +373,7 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                 when (pair.first) {
                     Constants.BUYER_USER -> {
                         // Completed order
-                        val hashMap: HashMap<String , Any> = HashMap()
+                        val hashMap: HashMap<String, Any> = HashMap()
                         hashMap["order_no"] = order.orderNo
                         hashMap["type"] = 4
                         viewModel.buyerActionsCall(hashMap)
@@ -451,13 +451,13 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
             btnAgree.setOnClickListener {
                 when (pair.first) {
                     Constants.BUYER_USER -> {
-                        val hashMap: HashMap<String , Any> = HashMap()
+                        val hashMap: HashMap<String, Any> = HashMap()
                         hashMap["order_no"] = order.orderNo
                         hashMap["type"] = 9
                         viewModel.buyerActionsCall(hashMap)
                     }
                     Constants.SELLER_USER -> {
-                        val hashMap: HashMap<String , Any> = HashMap()
+                        val hashMap: HashMap<String, Any> = HashMap()
                         hashMap["order_no"] = order.orderNo
                         hashMap["type"] = 9
                         viewModel.sellerActionsCall(hashMap)
@@ -467,13 +467,13 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
             btnCancelRequest.setOnClickListener {
                 when (pair.first) {
                     Constants.BUYER_USER -> {
-                        val hashMap: HashMap<String , Any> = HashMap()
+                        val hashMap: HashMap<String, Any> = HashMap()
                         hashMap["order_no"] = order.orderNo
                         hashMap["type"] = 8
                         viewModel.buyerActionsCall(hashMap)
                     }
                     Constants.SELLER_USER -> {
-                        val hashMap: HashMap<String , Any> = HashMap()
+                        val hashMap: HashMap<String, Any> = HashMap()
                         hashMap["order_no"] = order.orderNo
                         hashMap["type"] = 8
                         viewModel.sellerActionsCall(hashMap)
@@ -626,11 +626,9 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
     private fun handleResponse(response: GeneralResponse) {
         try {
             genericHandler.showMessage(response.message)
-            if (response.status == Constants.STATUS_OK) {
-                requireActivity().apply {
-                    setResult(Activity.RESULT_OK)
-                    finish()
-                }
+            requireActivity().apply {
+                setResult(Activity.RESULT_OK)
+                finish()
             }
         } catch (e: java.lang.Exception) {
             genericHandler.showMessage(e.message.toString())
@@ -676,7 +674,7 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
     }
 
     override fun getDescription(description: String, userType: Int, type: Int) {
-        val hashMap: HashMap<String , Any> = HashMap()
+        val hashMap: HashMap<String, Any> = HashMap()
         if (userType == Constants.BUYER_USER) {
             if (type == 3) {
                 hashMap["revision_description"] = description
@@ -684,7 +682,7 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                 hashMap["type"] = type
                 viewModel.buyerActionsCall(hashMap)
 
-            }else{
+            } else {
                 hashMap["dispute_description"] = description
                 hashMap["order_no"] = order.orderNo
                 hashMap["type"] = type

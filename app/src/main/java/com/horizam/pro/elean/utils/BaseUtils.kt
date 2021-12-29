@@ -13,7 +13,6 @@ import androidx.fragment.app.Fragment
 import com.google.gson.Gson
 import com.horizam.pro.elean.App
 import com.horizam.pro.elean.data.model.ErrorResponse
-import com.horizam.pro.elean.data.model.response.LoginResponse
 import com.horizam.pro.elean.ui.main.events.LogoutEvent
 import id.zelory.compressor.Compressor
 import kotlinx.coroutines.Dispatchers

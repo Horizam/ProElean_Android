@@ -2,8 +2,8 @@ package com.horizam.pro.elean.data.model
 
 data class Inbox(
     val membersInfo: List<MembersInfo> = ArrayList(),
-    val members: List<Int> = ArrayList(),
-    val createdBy: Int = 0,
+    val members: List<String> = ArrayList(),
+    val createdBy: String = "",
     val title: String = "",
     val lastMessage: String = "",
     val senderId: String = "",

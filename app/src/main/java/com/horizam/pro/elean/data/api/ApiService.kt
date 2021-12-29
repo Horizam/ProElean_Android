@@ -88,8 +88,8 @@ interface ApiService {
     @GET("notification")
     suspend fun getNotifications(): NotificationsResponse
 
-    @GET("seller_info/{id}")
-    suspend fun getFreelancerProfile(@Path("id") id: Int): FreelancerUserResponse
+    @GET("profile")
+    suspend fun getFreelancerProfile(@Query("user") id: String): ProfileInfo
 
     @GET("subcategories/{id}")
     suspend fun getSpinnerSubcategories(@Path("id") id: String): SubcategoriesDataResponse
@@ -146,7 +146,7 @@ interface ApiService {
     @POST("buyer/custom_order")
     suspend fun customOrder(@Body request: CustomOrderRequest): GeneralResponse
 
-    @POST("chat/order")
+    @POST("buyer/chat_order")
     suspend fun chatOrder(@Body request: ChatOfferRequest): GeneralResponse
 
     @GET("order/{order_no}/activity")

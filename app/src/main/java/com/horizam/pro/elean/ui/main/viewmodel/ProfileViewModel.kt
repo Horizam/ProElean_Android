@@ -14,9 +14,9 @@ import kotlinx.coroutines.Dispatchers
 class ProfileViewModel(private val mainRepository: MainRepository) : ViewModel() {
 
     private val profileDataRequest = MutableLiveData(DEFAULT_PROFILE_REQUEST)
-    private val freelancerProfileDataRequest = MutableLiveData<Int>()
+    private val freelancerProfileDataRequest = MutableLiveData<String>()
     private val updateProfileRequest = MutableLiveData<UpdateProfileRequest>()
-
+    private val userServicesRequest = MutableLiveData<String>()
 
     val profileData = profileDataRequest.switchMap {
         liveData(Dispatchers.IO) {
@@ -54,16 +54,32 @@ class ProfileViewModel(private val mainRepository: MainRepository) : ViewModel()
         }
     }
 
+    var userServices = userServicesRequest.switchMap {
+        liveData(Dispatchers.IO) {
+            emit(Resource.loading(data = null))
+            try {
+                emit(Resource.success(data = mainRepository.getManageServices(it)))
+            } catch (exception: Exception) {
+                val errorMessage = BaseUtils.getError(exception)
+                emit(Resource.error(data = null, message = errorMessage))
+            }
+        }
+    }
+
     fun profileDataCall(request: String = "profileDataRequest") {
         profileDataRequest.value = request
     }
 
-    fun freelancerProfileDataCall(request: Int) {
+    fun freelancerProfileDataCall(request: String) {
         freelancerProfileDataRequest.value = request
     }
 
     fun updateProfileCall(request: UpdateProfileRequest) {
         updateProfileRequest.value = request
+    }
+
+    fun userServicesCall(request: String) {
+        userServicesRequest.value = request
     }
 
     companion object{

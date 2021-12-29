@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.horizam.pro.elean.Constants
@@ -17,8 +18,7 @@ import com.horizam.pro.elean.data.api.RetrofitBuilder
 import com.horizam.pro.elean.data.model.MessageOffer
 import com.horizam.pro.elean.data.model.SpinnerModel
 import com.horizam.pro.elean.data.model.requests.SendOfferRequest
-import com.horizam.pro.elean.data.model.response.ManageServicesResponse
-import com.horizam.pro.elean.data.model.response.User_services
+import com.horizam.pro.elean.data.model.response.*
 import com.horizam.pro.elean.databinding.CreateOfferBottomSheetBinding
 import com.horizam.pro.elean.ui.base.ViewModelFactory
 import com.horizam.pro.elean.ui.main.adapter.SpinnerAdapter
@@ -40,14 +40,14 @@ class CreateOfferBottomSheet(private val createOfferHandler: CreateOfferHandler)
     private lateinit var deliveryDaysArrayList: ArrayList<String>
     private lateinit var revisionsArrayList: ArrayList<String>
     private lateinit var servicesArrayList: List<SpinnerModel>
-    private lateinit var generalServicesArrayList: List<User_services>
+    private lateinit var generalServicesArrayList: List<ServiceDetail>
     private lateinit var daysAdapter: ArrayAdapter<String>
     private lateinit var revisonsAdapter: ArrayAdapter<String>
     private lateinit var servicesAdapter: ArrayAdapter<SpinnerModel>
     private lateinit var prefManager: PrefManager
     private var deliveryTime = ""
     private var revisions = ""
-    private var serviceId = -1
+    private var serviceId = ""
     private var serviceTitle = ""
 
     override fun onAttach(context: Context) {
@@ -117,7 +117,7 @@ class CreateOfferBottomSheet(private val createOfferHandler: CreateOfferHandler)
                 etPrice.error =
                     "Minimum ${Constants.MINIMUM_ORDER_PRICE}${Constants.CURRENCY} must be entered"
                 return
-            } else if (serviceId == -1) {
+            } else if (serviceId == "") {
                 this@CreateOfferBottomSheet.dismiss()
                 genericHandler.showMessage(getString(R.string.str_invalid_service))
                 return
@@ -164,7 +164,27 @@ class CreateOfferBottomSheet(private val createOfferHandler: CreateOfferHandler)
                     Status.SUCCESS -> {
                         genericHandler.showProgressBar(false)
                         resource.data?.let { response ->
-//                            handleResponse(response)
+                            handleResponse(response)
+                        }
+                    }
+                    Status.ERROR -> {
+                        genericHandler.showProgressBar(false)
+                        genericHandler.showMessage(it.message.toString())
+                    }
+                    Status.LOADING -> {
+                        genericHandler.showProgressBar(true)
+                    }
+                }
+            }
+        })
+
+        viewModel.categoriesRevisionDeliveryTimeResponse.observe(viewLifecycleOwner, {
+            it?.let { resource ->
+                when (resource.status) {
+                    Status.SUCCESS -> {
+                        genericHandler.showProgressBar(false)
+                        resource.data?.let { response ->
+                            handleResponse(response)
                         }
                     }
                     Status.ERROR -> {
@@ -179,28 +199,25 @@ class CreateOfferBottomSheet(private val createOfferHandler: CreateOfferHandler)
         })
     }
 
-    private fun handleResponse(response: ManageServicesResponse) {
+    private fun <T> handleResponse(response: T) {
         try {
-            setUIData(response)
+            when (response) {
+                is CategoriesCountriesResponse -> {
+                    setRevisionAndDaysData(response)
+                }
+                is ServicesResponse -> {
+                    setServicesData(response)
+                }
+            }
         } catch (e: Exception) {
             genericHandler.showMessage(e.message.toString())
         }
     }
 
-    private fun setUIData(response: ManageServicesResponse) {
-        if (response.days != null){
-            deliveryDaysArrayList = response.days as ArrayList<String>
-            daysAdapter = ArrayAdapter(
-                requireContext(),
-                android.R.layout.simple_spinner_item, deliveryDaysArrayList
-            ).also {
-                it.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
-                binding.spinnerDeliveryTime.adapter = it
-            }
-        }
-        if (response.service != null){
-            generalServicesArrayList = response.service
-            servicesArrayList = response.service.map { spinnerServices ->
+    private fun setServicesData(response: ServicesResponse) {
+        if (response.serviceList.isNotEmpty()) {
+            generalServicesArrayList = response.serviceList
+            servicesArrayList = response.serviceList.map { spinnerServices ->
                 SpinnerModel(id = spinnerServices.id, value = spinnerServices.s_description)
             }
             servicesAdapter = SpinnerAdapter(
@@ -211,8 +228,22 @@ class CreateOfferBottomSheet(private val createOfferHandler: CreateOfferHandler)
                 binding.spinnerServices.adapter = it
             }
         }
-        if (response.revisions != null){
-            revisionsArrayList = response.revisions as ArrayList<String>
+    }
+
+    private fun setRevisionAndDaysData(response: CategoriesCountriesResponse) {
+        if (response.categoriesCountriesData.deliveryDays.isNotEmpty()){
+            deliveryDaysArrayList = response.categoriesCountriesData.deliveryDays as ArrayList<String>
+            daysAdapter = ArrayAdapter(
+                requireContext(),
+                android.R.layout.simple_spinner_item, deliveryDaysArrayList
+            ).also {
+                it.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
+                binding.spinnerDeliveryTime.adapter = it
+            }
+        }
+
+        if (response.categoriesCountriesData.revisions.isNotEmpty()){
+            revisionsArrayList = response.categoriesCountriesData.revisions as ArrayList<String>
             revisonsAdapter = ArrayAdapter(
                 requireContext(),
                 android.R.layout.simple_spinner_item, revisionsArrayList
@@ -232,31 +263,31 @@ class CreateOfferBottomSheet(private val createOfferHandler: CreateOfferHandler)
                 revisions = parent.selectedItem.toString()
             }
             binding.spinnerServices.id -> {
-//                try {
-//                    val spinnerModel = parent.selectedItem as SpinnerModel
-//                    serviceId = spinnerModel.id
-//                    if (!servicesArrayList.isNullOrEmpty()){
-//                        setServiceImage(serviceId)
-//                    }
-//                }catch (ex:Exception){
-//                    genericHandler.showMessage(ex.message.toString())
-//                }
+                try {
+                    val spinnerModel = parent.selectedItem as SpinnerModel
+                    serviceId = spinnerModel.id
+                    if (!servicesArrayList.isNullOrEmpty()){
+                        setServiceImage(serviceId)
+                    }
+                }catch (ex:Exception){
+                    genericHandler.showMessage(ex.message.toString())
+                }
             }
         }
     }
 
-    private fun setServiceImage(serviceId: Int) {
-//        generalServicesArrayList.first {
-//            it.id == serviceId
-//        }.also { service ->
-//            serviceTitle = service.s_description
-//            if (!service.service_media.isNullOrEmpty()){
-//                Glide.with(requireContext())
-//                    .load(Constants.BASE_URL.plus(service.service_media[0].media))
-//                    .error(R.drawable.bg_splash)
-//                    .into(binding.ivService)
-//            }
-//        }
+    private fun setServiceImage(serviceId: String) {
+        generalServicesArrayList.first {
+            it.id == serviceId
+        }.also { service ->
+            serviceTitle = service.s_description
+            if (!service.service_media.isNullOrEmpty()){
+                Glide.with(requireContext())
+                    .load(Constants.BASE_URL.plus(service.service_media[0].media))
+                    .error(R.drawable.bg_splash)
+                    .into(binding.ivService)
+            }
+        }
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {

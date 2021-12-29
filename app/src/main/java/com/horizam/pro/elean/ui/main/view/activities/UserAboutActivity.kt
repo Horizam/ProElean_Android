@@ -15,6 +15,7 @@ import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
 import com.horizam.pro.elean.data.model.response.FreelancerUserResponse
 import com.horizam.pro.elean.data.model.response.GeneralResponse
+import com.horizam.pro.elean.data.model.response.ProfileInfo
 import com.horizam.pro.elean.databinding.ActivityUserAboutBinding
 import com.horizam.pro.elean.ui.base.ViewModelFactory
 import com.horizam.pro.elean.ui.main.adapter.ViewPagerFragmentAdapter
@@ -44,10 +45,10 @@ class UserAboutActivity : AppCompatActivity(), GenericHandler {
     }
 
     private fun executeApi() {
-        val id = intent.getIntExtra("id", -1)
-        if (id != -1) {
+        val id = intent.getStringExtra("id")
+        if (id != "") {
             showProgressBar(true)
-            viewModel.freelancerProfileDataCall(id)
+            viewModel.freelancerProfileDataCall(id!!)
         }
     }
 
@@ -80,7 +81,7 @@ class UserAboutActivity : AppCompatActivity(), GenericHandler {
         })
     }
 
-    private fun handleResponse(response: FreelancerUserResponse) {
+    private fun handleResponse(response: ProfileInfo) {
         //showMessage(response.message)
     }
 

@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
 import com.horizam.pro.elean.data.model.response.FreelancerUserResponse
+import com.horizam.pro.elean.data.model.response.ProfileInfo
 import com.horizam.pro.elean.data.model.response.ServiceReviews
 import com.horizam.pro.elean.databinding.FragmentUserReviewsBinding
 import com.horizam.pro.elean.ui.base.ViewModelFactory
@@ -84,23 +85,23 @@ class ReviewsUserFragment : Fragment(), OnItemClickListener {
         })
     }
 
-    private fun handleResponse(response: FreelancerUserResponse) {
-        try {
-            binding.apply {
-                tvUserRating.text = response.profileInfo.user_rating.toString()
-                tvRatingNumber.text = "(".plus(response.profileInfo.total_reviews).plus(")")
-                if (response.service_reviews.isNotEmpty()){
-                    adapter.submitList(response.service_reviews)
-                    tvPlaceholder.isVisible = false
-                    recyclerView.isVisible = true
-                }else{
-                    tvPlaceholder.isVisible = true
-                    recyclerView.isVisible = false
-                }
-            }
-        } catch (e: Exception) {
-            genericHandler.showMessage(e.message.toString())
-        }
+    private fun handleResponse(profileInfo: ProfileInfo) {
+//        try {
+//            binding.apply {
+//                tvUserRating.text = response.profileInfo.user_rating.toString()
+//                tvRatingNumber.text = "(".plus(response.profileInfo.total_reviews).plus(")")
+//                if (response.service_reviews.isNotEmpty()){
+//                    adapter.submitList(response.service_reviews)
+//                    tvPlaceholder.isVisible = false
+//                    recyclerView.isVisible = true
+//                }else{
+//                    tvPlaceholder.isVisible = true
+//                    recyclerView.isVisible = false
+//                }
+//            }
+//        } catch (e: Exception) {
+//            genericHandler.showMessage(e.message.toString())
+//        }
 
     }
 

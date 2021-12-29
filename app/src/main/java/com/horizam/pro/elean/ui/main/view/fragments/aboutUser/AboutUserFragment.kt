@@ -17,6 +17,7 @@ import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
 import com.horizam.pro.elean.data.model.response.FreelancerUserResponse
+import com.horizam.pro.elean.data.model.response.ProfileInfo
 import com.horizam.pro.elean.databinding.FragmentLoginBinding
 import com.horizam.pro.elean.databinding.FragmentSignUpBinding
 import com.horizam.pro.elean.databinding.FragmentUserAboutBinding
@@ -47,7 +48,7 @@ class AboutUserFragment : Fragment(), OnItemClickListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentUserAboutBinding.inflate(layoutInflater,container,false)
+        binding = FragmentUserAboutBinding.inflate(layoutInflater, container, false)
         setupViewModel()
         setRecyclerview()
         setupObservers()
@@ -76,21 +77,17 @@ class AboutUserFragment : Fragment(), OnItemClickListener {
         })
     }
 
-    private fun handleResponse(response: FreelancerUserResponse) {
+    private fun handleResponse(response: ProfileInfo) {
         try {
-            if (response.status == Constants.STATUS_OK){
-                setUiData(response)
-            }else{
-                genericHandler.showMessage(response.message)
-            }
+            setUiData(response)
         } catch (e: Exception) {
             genericHandler.showMessage(e.message.toString())
         }
     }
 
-    private fun setUiData(response: FreelancerUserResponse) {
+    private fun setUiData(profileInfo: ProfileInfo) {
         binding.apply {
-            response.profileInfo.let { profile ->
+            profileInfo.let { profile ->
                 Glide.with(this@AboutUserFragment)
                     .load(Constants.BASE_URL.plus(profile.image))
                     .error(R.drawable.img_profile)
@@ -101,9 +98,9 @@ class AboutUserFragment : Fragment(), OnItemClickListener {
                 tvLocation.text = profile.address
                 tvResponse.text = profile.created_at
                 tvRecentDelivery.text = profile.recent_delivery
-                if (profile.user_languages.isEmpty()){
+                if (profile.user_languages.isEmpty()) {
                     tvLanguage.text = getString(R.string.str_no_language_available)
-                }else{
+                } else {
                     tvLanguage.text = profile.user_languages.joinToString(separator = ", ")
                 }
                 tvDescAboutUser.text = profile.description
@@ -122,7 +119,8 @@ class AboutUserFragment : Fragment(), OnItemClickListener {
     private fun setRecyclerview() {
         adapter = SkillsAdapter(this)
         recyclerView = binding.rvSkills
-        recyclerView.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
+        recyclerView.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         recyclerView.adapter = adapter
     }
 

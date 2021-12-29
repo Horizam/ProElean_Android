@@ -67,10 +67,6 @@ class HomeFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefre
         drawerHandler = context as DrawerHandler
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -92,13 +88,13 @@ class HomeFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefre
     }
 
     private fun getIntentData() {
-        if (requireActivity().intent.hasExtra("senderId")) {
-            val Id = requireActivity().intent.getIntExtra("senderId", 0)
-            HomeFragmentDirections.actionHomeFragmentToMessageFragment(Id).also {
-                findNavController().navigate(it)
-                requireActivity().intent.removeExtra("senderId")
-            }
-        }
+//        if (requireActivity().intent.hasExtra("senderId")) {
+//            val Id = requireActivity().intent.getIntExtra("senderId", 0)
+//            HomeFragmentDirections.actionHomeFragmentToMessageFragment(Id).also {
+//                findNavController().navigate(it)
+//                requireActivity().intent.removeExtra("senderId")
+//            }
+//        }
     }
 
     private fun initViews() {

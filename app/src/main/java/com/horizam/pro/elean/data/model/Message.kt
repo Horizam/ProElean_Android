@@ -17,7 +17,7 @@ data class Message(
 )
 
 data class MessageOffer(
-    val serviceId: Int = 0,
+    val serviceId: String = "",
     val offerSenderId: String = "",
     val status: Int = 0,
     val serviceTitle: String = "",
@@ -29,7 +29,7 @@ data class MessageOffer(
 
 @Parcelize
 data class MessageGig(
-    val gigId: Int = 0,
+    val gigId: String = "",
     val gigImage: String = "",
     val gigTitle: String = "",
     val gigUsername: String = "",

@@ -85,7 +85,6 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
     private lateinit var job: Job
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main + job
-    private var unreadChats = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -97,31 +96,8 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
         setupObservers()
         setClickListeners()
         onClickRequestPermission()
-        saveFcmToken()
         initDeleteDialog()
-        handleHomeResponse()
-    }
-
-    private fun getChatDataFromFirebase() {
-//        unreadChats = 0
-//        inboxReference = db.collection(Constants.FIREBASE_DATABASE_ROOT)
-//        inboxReference.whereArrayContains("members", userId)
-//            .orderBy("sentAt", Query.Direction.DESCENDING).addSnapshotListener { snapshots, e ->
-//                if (e != null) {
-//                    Log.w(TAG, "Listen failed.", e)
-//                    return@addSnapshotListener
-//                }
-//                for (dc in snapshots!!.documentChanges) {
-//                    val inbox = dc.document.toObject<Inbox>()
-//                    for (pos in 0..inbox.membersInfo.size - 1) {
-//                        if ((inbox.membersInfo[pos].id == userId) && (inbox.membersInfo[pos].hasReadLastMessage == false)) {
-//                            unreadChats++
-//                            binding.unreadMessageBadge.visibility = View.VISIBLE
-//                            binding.unreadMessageBadge.text = unreadChats.toString()
-//                        }
-//                    }
-//                }
-//            }
+        setData()
     }
 
     private fun initDeleteDialog() {
@@ -141,28 +117,6 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
             intent1.putExtra(Constants.ORDER_ID, intent.getStringExtra(Constants.ORDER_ID))
             startActivity(intent1)
         }
-    }
-
-    private fun saveUserInfoOnFirestore(userMessage: MessageUser) {
-        launch {
-            updateUserFirestore(userMessage)
-        }
-    }
-
-    private fun updateUserFirestore(userMessage: MessageUser) {
-        val usersReference = db.collection(Constants.FIREBASE_DATABASE_USERS)
-        usersReference.document(userMessage.id.toString()).set(userMessage)
-            .addOnSuccessListener { documentReference ->
-                //showMessage("DocumentSnapshot added with ID:")
-                getChatDataFromFirebase()
-            }
-            .addOnFailureListener { e ->
-                // showMessage("Error adding document ".plus(e.message.toString()))
-            }
-    }
-
-    private fun saveFcmToken() {
-
     }
 
     private val locationCallback = object : LocationCallback() {
@@ -310,7 +264,7 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
         }
     }
 
-    private fun handleHomeResponse() {
+    private fun setData() {
         Glide.with(this@HomeActivity)
             .load(Constants.BASE_URL.plus(prefManager.userImage))
             .error(R.drawable.img_profile)

@@ -13,6 +13,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.model.User
+import com.horizam.pro.elean.data.model.response.ServiceDetail
 import com.horizam.pro.elean.data.model.response.User_services
 import com.horizam.pro.elean.databinding.ItemSkillBinding
 import com.horizam.pro.elean.databinding.ItemUserGigBinding
@@ -20,7 +21,7 @@ import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
 import com.horizam.pro.elean.ui.main.view.activities.UserAboutActivity
 import com.horizam.pro.elean.ui.main.view.activities.UserGigDetailsActivity
 
-class UserGigsAdapter(val listener: OnItemClickListener) : ListAdapter<User_services, UserGigsAdapter.DataViewHolder>(COMPARATOR) {
+class UserGigsAdapter(val listener: OnItemClickListener) : ListAdapter<ServiceDetail, UserGigsAdapter.DataViewHolder>(COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder {
         val binding = ItemUserGigBinding.inflate(LayoutInflater.from(parent.context),parent,false)
@@ -46,11 +47,11 @@ class UserGigsAdapter(val listener: OnItemClickListener) : ListAdapter<User_serv
             }
         }
 
-        fun bind(service : User_services) {
+        fun bind(service : ServiceDetail) {
             binding.apply {
                 tvDescriptionGigsUser.text = service.s_description
-                tvUserRating.text = service.service_average.toString()
-                tvRatingNumber.text = "(".plus(service.reviews_count).plus(")")
+                tvUserRating.text = service.service_rating.toString()
+                tvRatingNumber.text = "(".plus(service.total_reviews).plus(")")
                 tvPriceGigsUser.text = service.price.toString().plus(Constants.CURRENCY)
                 /*val imageResource:Int = if (gig.favourite==0){
                     R.drawable.ic_not_liked
@@ -75,12 +76,12 @@ class UserGigsAdapter(val listener: OnItemClickListener) : ListAdapter<User_serv
     }
 
     companion object{
-        private val COMPARATOR = object : DiffUtil.ItemCallback<User_services>(){
-            override fun areItemsTheSame(oldItem: User_services, newItem: User_services): Boolean {
+        private val COMPARATOR = object : DiffUtil.ItemCallback<ServiceDetail>(){
+            override fun areItemsTheSame(oldItem: ServiceDetail, newItem: ServiceDetail): Boolean {
                 return oldItem.id == newItem.id
             }
 
-            override fun areContentsTheSame(oldItem: User_services, newItem: User_services): Boolean {
+            override fun areContentsTheSame(oldItem: ServiceDetail, newItem: ServiceDetail): Boolean {
                 return oldItem == newItem
             }
 
