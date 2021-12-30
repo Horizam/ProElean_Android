@@ -12,6 +12,7 @@ data class FreelancerUserResponse(
     @SerializedName("service_reviews") val service_reviews: List<ServiceReviews>
 )
 
+@Parcelize
 data class ProfileInfo(
     @SerializedName("id") val id: String,
     @SerializedName("name") val name: String,
@@ -28,7 +29,7 @@ data class ProfileInfo(
     @SerializedName("recent_delivery") val recent_delivery: String,
     @SerializedName("user_languages") val user_languages: List<String>,
     @SerializedName("user_skills") val user_skills: List<String>
-)
+): Parcelable
 
 @Parcelize
 data class Service_media(
@@ -36,30 +37,16 @@ data class Service_media(
     @SerializedName("id") val id: String,
     @SerializedName("service_id") val service_id: String,
     @SerializedName("media") val media: String
-): Parcelable
+) : Parcelable
 
+@Parcelize
 data class ServiceReviews(
     @SerializedName("id") val id: String,
     @SerializedName("user_id") val user_id: String,
     @SerializedName("rating") val rating: Int,
     @SerializedName("description") val description: String,
-    @SerializedName("user") val user: User
-)
-
-data class User(
-    @SerializedName("id") val id: String,
-    @SerializedName("name") val name: String,
-    @SerializedName("username") val username: String,
-    @SerializedName("image") val image: String,
-    @SerializedName("isFreelancer") val isFreelancer: Int,
-    @SerializedName("address") val address: String,
-    @SerializedName("phone") val phone: Int,
-    @SerializedName("email") val email: String,
-    @SerializedName("description") val description: String,
-    @SerializedName("total_reviews") val total_reviews: Int,
-    @SerializedName("average_rating") val average_rating: Int,
-    @SerializedName("recent_delivery") val recent_delivery: String
-)
+    @SerializedName("user") val user: ProfileInfo
+) : Parcelable
 
 data class User_services(
     @SerializedName("id") val id: String,

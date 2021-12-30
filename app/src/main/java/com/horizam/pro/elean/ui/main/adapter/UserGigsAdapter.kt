@@ -53,16 +53,16 @@ class UserGigsAdapter(val listener: OnItemClickListener) : ListAdapter<ServiceDe
                 tvUserRating.text = service.service_rating.toString()
                 tvRatingNumber.text = "(".plus(service.total_reviews).plus(")")
                 tvPriceGigsUser.text = service.price.toString().plus(Constants.CURRENCY)
-                /*val imageResource:Int = if (gig.favourite==0){
-                    R.drawable.ic_not_liked
-                }else{
-                    R.drawable.ic_liked
-                }*/
+//                val imageResource:Int = if (service.favourite==0){
+//                    R.drawable.ic_not_liked
+//                }else{
+//                    R.drawable.ic_liked
+//                }
                 if (service.service_media.isNotEmpty()){
                     val image = service.service_media[Constants.STARTING_ARRAY_INDEX].media
                     setImage("${Constants.BASE_URL}${image}",ivMain)
                 }
-                //setImage(imageResource,ivStar)
+//                setImage(imageResource,ivStar)
             }
         }
 

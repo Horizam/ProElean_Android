@@ -81,7 +81,7 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
     private lateinit var dialogDelete: Dialog
     private lateinit var bindingDeleteDialog: DialogDeleteBinding
     private var isUserFreelancer: Int = 0
-    private var userId: Int = -1
+    private var userId: String = ""
     private lateinit var job: Job
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main + job
@@ -110,7 +110,7 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
     private fun getData() {
         if (intent.hasExtra("startChat")) {
             val bundle = Bundle()
-            bundle.putInt("id", intent.getIntExtra("id", 0))
+            bundle.putString("id", intent.getStringExtra("id"))
             navController.navigate(R.id.messagesFragment, bundle)
         } else if (intent.hasExtra(Constants.ORDER_ID)) {
             val intent1 = Intent(this, OrderDetailsActivity::class.java)
@@ -271,7 +271,7 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
             .into(binding.ivUser)
         binding.tvUserName.text = prefManager.username
         isUserFreelancer = prefManager.isFreelancer
-        userId = prefManager.isFreelancer
+        userId = prefManager.userId
         if (isUserFreelancer == 0) {
             binding.llBuyerBecomFreelancer.visibility = View.VISIBLE
             binding.llBuyerSeller.visibility = View.GONE

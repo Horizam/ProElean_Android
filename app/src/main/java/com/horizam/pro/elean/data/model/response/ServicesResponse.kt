@@ -37,7 +37,7 @@ data class ServiceDetail(
     @SerializedName("sub_category") val sub_category: Subcategory,
     @SerializedName("service_user") val service_user: ServiceUser,
     @SerializedName("service_media") val service_media: List<Service_media>,
-    @SerializedName("service_reviews") val service_reviews: List<String>
+    @SerializedName("service_reviews") val serviceReviewsList : List<ServiceReviews>
 ): Parcelable
 
 

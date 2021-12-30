@@ -96,7 +96,7 @@ class ViewOfferAdapter(
                         tvDescription.text = offer.description
                     }
                     tvUserName.text = offer.profile.name
-                    ratingBar.rating = offer.profile.averageRating.toFloat()
+                    ratingBar.rating = offer.profile.user_rating.toFloat()
                     btnOrder.text = itemView.context.getString(R.string.str_order_title)
                         .plus("(${offer.price}${Constants.CURRENCY})")
                     Glide.with(itemView)

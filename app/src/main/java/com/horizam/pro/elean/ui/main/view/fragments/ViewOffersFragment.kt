@@ -62,7 +62,7 @@ class ViewOffersFragment : Fragment(), OnItemClickListener, ViewOffersHandler, C
     private lateinit var dialogOrderStatus: Dialog
     private lateinit var bindingDialogOrderSuccessBinding: DialogOrderSuccessBinding
     private val args: ViewOffersFragmentArgs by navArgs()
-    private var offerId: Int = -1
+    private var offerId: String = ""
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -257,42 +257,46 @@ class ViewOffersFragment : Fragment(), OnItemClickListener, ViewOffersHandler, C
     override fun <T> viewProfile(item: T) {
         if (item is Offer) {
             Intent(requireActivity(), UserAboutActivity::class.java).also {
-                it.putExtra("id", item.userId)
+                it.putExtra("id", item.profile.id)
                 startActivity(it)
             }
         }
     }
 
     override fun <T> askQuestion(item: T) {
-//        if (item is Offer) {
-//            if (prefManager.userId != item.userId) {
-//                ViewOffersFragmentDirections.actionViewOffersFragmentToMessagesFragment(item.userId)
-//                    .also {
-//                        findNavController().navigate(it)
-//                    }
-//            }
-//        }
+        if (item is Offer) {
+            if (prefManager.userId != item.id) {
+                ViewOffersFragmentDirections.actionViewOffersFragmentToMessagesFragment(
+                    userName = "",
+                    photo = "",
+                    id = item.id
+                )
+                    .also {
+                        findNavController().navigate(it)
+                    }
+            }
+        }
     }
 
     override fun <T> order(item: T) {
-//        if (item is Offer) {
-//            bindingDeleteDialog.tvTitle.text = getString(R.string.str_are_you_sure_to_place_order)
-//            dialogDelete.show()
-//            bindingDeleteDialog.btnYes.setOnClickListener {
-//                dialogDelete.dismiss()
-//                offerId = item.id
-//                val checkoutBottomSheet = CheckoutBottomSheet(this)
-//                checkoutBottomSheet.show(
-//                    requireActivity().supportFragmentManager,
-//                    CheckoutBottomSheet.TAG
-//                )
-//            }
-//            bindingDeleteDialog.btnNo.setOnClickListener { dialogDelete.dismiss() }
-//        }
+        if (item is Offer) {
+            bindingDeleteDialog.tvTitle.text = getString(R.string.str_are_you_sure_to_place_order)
+            dialogDelete.show()
+            bindingDeleteDialog.btnYes.setOnClickListener {
+                dialogDelete.dismiss()
+                offerId = item.id
+                val checkoutBottomSheet = CheckoutBottomSheet(this)
+                checkoutBottomSheet.show(
+                    requireActivity().supportFragmentManager,
+                    CheckoutBottomSheet.TAG
+                )
+            }
+            bindingDeleteDialog.btnNo.setOnClickListener { dialogDelete.dismiss() }
+        }
     }
 
     override fun sendToken(token: String) {
-        if (offerId != -1) {
+        if (offerId != "") {
             genericHandler.showProgressBar(true)
             val acceptOrderRequest = AcceptOrderRequest(
                 offer_id = offerId,

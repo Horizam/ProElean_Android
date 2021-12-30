@@ -13,7 +13,7 @@ class JobOffersViewModel(
     private val mainRepository: MainRepository
 ) : ViewModel() {
 
-    private val offerIdRequest = MutableLiveData<Int>()
+    private val offerIdRequest = MutableLiveData<String>()
     private val acceptOrderRequest = MutableLiveData<AcceptOrderRequest>()
     private val deleteJobOfferRequest = MutableLiveData<Int>()
 
@@ -45,7 +45,7 @@ class JobOffersViewModel(
         }
     }
 
-    fun getJobOffersCall(id: Int) {
+    fun getJobOffersCall(id: String) {
         offerIdRequest.value = id
     }
 

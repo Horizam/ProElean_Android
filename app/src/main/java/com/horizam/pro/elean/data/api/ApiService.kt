@@ -31,7 +31,7 @@ interface ApiService {
     @POST("buyer/jobs")
     suspend fun postJob(@Body request: PostJobRequest): PostedJobResponse
 
-    @POST("orders")
+    @POST("buyer/offer_order")
     suspend fun acceptOrder(@Body request: AcceptOrderRequest): GeneralResponse
 
     @Multipart
@@ -113,8 +113,8 @@ interface ApiService {
         @Query("page") page: Int
     ): ServicesResponse
 
-    @GET("job_requests/{id}")
-    suspend fun getJobOffers(@Path("id") id: Int, @Query("page") page: Int): JobOffersResponse
+    @GET("buyer/jobs/{id}/offers")
+    suspend fun getJobOffers(@Path("id") id: String, @Query("page") page: Int): JobOffersResponse
 
     @GET("seller/buyer_requests")
     suspend fun getBuyerRequests(
@@ -123,7 +123,14 @@ interface ApiService {
     ): BuyerRequestsResponse
 
     @GET("seller/services")
-    suspend fun getManageServices(@Query("status") status: String): ServicesResponse
+    suspend fun getManageServices(
+        @Query("status") status: String,
+    ): ServicesResponse
+
+    @GET("seller/services")
+    suspend fun getSellerServicesByID(
+        @Query("seller") userID: String,
+    ): ServicesResponse
 
     @GET("get_wishlist")
     suspend fun getSavedGigs(@Query("page") page: Int): ServicesResponse
@@ -134,8 +141,8 @@ interface ApiService {
         @Query("status") status: String
     ): PostedJobsResponse
 
-    @GET("service/{uid}")
-    suspend fun getGigDetails(@Path("uid") uid: String): GigDetailsResponse
+    @GET("seller/services/{uid}")
+    suspend fun getGigDetails(@Path("uid") uid: String): ServiceResponse
 
     @GET("seller/services/{uid}")
     suspend fun getFeaturedGigDetails(@Path("uid") uid: String): ServiceResponse
@@ -171,7 +178,7 @@ interface ApiService {
     ): GeneralResponse
 
     @Multipart
-    @POST("seller/manage_orders")
+    @POST("seller/manage_order")
     suspend fun sellerActionsWithFile(
         @Part("order_no") orderNumber: RequestBody,
         @Part("type") typeUser: RequestBody,

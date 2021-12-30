@@ -59,6 +59,7 @@ import com.horizam.pro.elean.ui.main.callbacks.CheckoutHandler
 import com.horizam.pro.elean.ui.main.callbacks.CreateOfferHandler
 import com.horizam.pro.elean.ui.main.view.activities.ManageOrdersActivity
 import com.horizam.pro.elean.utils.*
+import kotlinx.android.synthetic.main.item_review.*
 
 class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, CheckoutHandler {
 
@@ -101,10 +102,13 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
         binding = FragmentMessagesBinding.inflate(layoutInflater, container, false)
         setToolbarData()
         initViews()
-//        setupViewModel()
+        setupViewModel()
 //        setupObservers()
         getData()
-//        setRecyclerView()
+        setRecyclerView(
+            MessageUser("", "", "", ""),
+            MessageUser("", "", "", ""),
+        )
         setClickListeners()
         return binding.root
     }
@@ -186,6 +190,7 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
     }
 
     private fun getData() {
+        genericHandler.showProgressBar(true)
         try {
             userId = args.id
             referGig = args.refersGig
@@ -199,6 +204,7 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
                 }
             }
         } catch (ex: Exception) {
+            genericHandler.showProgressBar(false)
             genericHandler.showMessage(ex.message.toString())
         }
     }
@@ -208,6 +214,7 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
             .orderBy("sentAt", Query.Direction.DESCENDING)
         query.get().addOnSuccessListener { queryDocumentSnapshots ->
             chatNotExist = queryDocumentSnapshots.size() == 0
+            genericHandler.showProgressBar(false)
             for (documentSnapshot in queryDocumentSnapshots) {
                 inbox = documentSnapshot.toObject(Inbox::class.java)
                 try {
@@ -222,7 +229,8 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
                             inbox!!.membersInfo[0].name,
                             inbox!!.membersInfo[0].photo
                         )
-                        setRecyclerView(myInfo, userInfo)
+                        adapter.setMyInfo(myInfo)
+                        adapter.setUserInfo(userInfo)
                         updateUsersInfo(true)
                     }
                     if (inbox!!.members[0] == myId && inbox!!.members[1] == userId) {
@@ -236,11 +244,12 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
                             inbox!!.membersInfo[1].name,
                             inbox!!.membersInfo[1].photo
                         )
-                        setRecyclerView(myInfo, userInfo)
+                        adapter.setMyInfo(myInfo)
+                        adapter.setUserInfo(userInfo)
                         updateUsersInfo(true)
                     }
-                    updateUsersInfo(true)
                 } catch (ex: Exception) {
+                    genericHandler.showProgressBar(false)
                     genericHandler.showMessage(ex.message.toString())
                 }
             }
@@ -290,6 +299,7 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
     private fun observeMessages(query: Query) {
         query.addSnapshotListener { snapshots, e ->
             if (e != null) {
+                genericHandler.showProgressBar(false)
                 genericHandler.showMessage(e.message.toString())
                 return@addSnapshotListener
             }
@@ -307,6 +317,7 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
                     }
                 }
             }
+            genericHandler.showProgressBar(false)
         }
     }
 
@@ -351,17 +362,7 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
                 }
             }
         })
-        setupViewModel()
         setupObservers()
-    }
-
-    private fun generateCombinedId(): String {
-//        val inboxCombinedId: String = if (userId < myId) {
-//            userId.toString().plus("_").plus(myId)
-//        } else {
-//            myId.toString().plus("_").plus(userId)
-//        }
-        return inboxCombinedId
     }
 
     private fun initViews() {
@@ -770,8 +771,16 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
         members.add(myId)
         members.add(userId)
         val membersInfo: MutableList<MembersInfo> = ArrayList()
-        membersInfo.add(MembersInfo(myId, true, "available"))
-        membersInfo.add(MembersInfo(userId, true, "available"))
+        membersInfo.add(
+            MembersInfo(
+                myId,
+                true,
+                "available",
+                prefManager.userImage,
+                prefManager.username!!
+            )
+        )
+        membersInfo.add(MembersInfo(userId, true, "available", args.photo, args.userName))
         // use local to gmt method for utc if nothing works (also tried Date().time)
         val utcMilliseconds = Calendar.getInstance().timeInMillis
         val inboxModel = Inbox(
@@ -791,7 +800,8 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
                 inbox!!.membersInfo[0].name,
                 inbox!!.membersInfo[0].photo
             )
-            setRecyclerView(myInfo, userInfo)
+            adapter.setMyInfo(myInfo)
+            adapter.setUserInfo(userInfo)
             updateUsersInfo(true)
         }
         inboxReference.set(inboxModel).addOnSuccessListener {
@@ -820,6 +830,7 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
         attachmentType: Int, message: String, senderId: String, sentAt: Long,
         inboxReference: DocumentReference
     ) {
+        disableMessageSend(true)
         reference.set(messageModel).addOnSuccessListener {
             binding.etSendMessage.setText("")
             handleDifferentMessages(

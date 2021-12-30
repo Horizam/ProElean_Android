@@ -116,6 +116,7 @@ class MessageAdapter(val listener: MessagesHandler, myInfo: MessageUser?, userIn
             binding.apply {
                 if (Constants.MESSAGE_TYPE_TEXT == message.attachmentType) {
                     tvSenderMessage.text = message.message
+                    tvSenderNameMessage.text = userInfo!!.name
                     changeViewsVisibility(
                         textMessage = true, image = false, video = false,
                         document = false,offer = false

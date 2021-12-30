@@ -23,5 +23,5 @@ data class BuyerRequest(
     @SerializedName("total_offers") val total_offers : Int,
     @SerializedName("is_applied") val is_applied : Int,
     @SerializedName("created_at") val created_at : String,
-    @SerializedName("user") val user : User
+    @SerializedName("user") val user : Profile
 )

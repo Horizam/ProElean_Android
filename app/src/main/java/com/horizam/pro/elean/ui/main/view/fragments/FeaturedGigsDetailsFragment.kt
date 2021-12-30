@@ -47,6 +47,7 @@ class FeaturedGigsDetailsFragment : Fragment(), BaseSliderView.OnSliderClickList
     private lateinit var requestOptions: RequestOptions
     private val args: FeaturedGigsDetailsFragmentArgs by navArgs()
     private lateinit var prefManager: PrefManager
+    private lateinit var serviceDetail: ServiceDetail
     private var userId: String = ""
     val bundle = Bundle()
 
@@ -113,9 +114,13 @@ class FeaturedGigsDetailsFragment : Fragment(), BaseSliderView.OnSliderClickList
             btnContactSeller.setOnClickListener {
                 try {
                     if (prefManager.userId != userId && userId != "") {
-//                        FeaturedGigsDetailsFragmentDirections.actionFeaturedGigsDetailsFragmentToMessagesFragment(userId).also {
-//                            findNavController().navigate(it)
-//                        }
+                        FeaturedGigsDetailsFragmentDirections.actionFeaturedGigsDetailsFragmentToMessagesFragment(
+                            userName = serviceDetail.service_user.name,
+                            photo = serviceDetail.service_user.image,
+                            id = userId
+                        ).also {
+                            findNavController().navigate(it)
+                        }
                     }
                 } catch (e: Exception) {
                     genericHandler.showMessage(e.message.toString())
@@ -191,6 +196,7 @@ class FeaturedGigsDetailsFragment : Fragment(), BaseSliderView.OnSliderClickList
     }
 
     private fun setUIData(service: ServiceDetail) {
+        serviceDetail = service
         binding.apply {
             tvUserName.text = service.service_user.name
             tvCategoryPrice.text = Constants.CURRENCY.plus(" ").plus(service.price.toString())

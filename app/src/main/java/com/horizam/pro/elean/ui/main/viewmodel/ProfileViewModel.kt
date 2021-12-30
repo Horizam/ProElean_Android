@@ -58,7 +58,7 @@ class ProfileViewModel(private val mainRepository: MainRepository) : ViewModel()
         liveData(Dispatchers.IO) {
             emit(Resource.loading(data = null))
             try {
-                emit(Resource.success(data = mainRepository.getManageServices(it)))
+                emit(Resource.success(data = mainRepository.getSellerServicesByID(it)))
             } catch (exception: Exception) {
                 val errorMessage = BaseUtils.getError(exception)
                 emit(Resource.error(data = null, message = errorMessage))
@@ -82,7 +82,7 @@ class ProfileViewModel(private val mainRepository: MainRepository) : ViewModel()
         userServicesRequest.value = request
     }
 
-    companion object{
+    companion object {
         const val DEFAULT_PROFILE_REQUEST = "profileDataRequest"
     }
 

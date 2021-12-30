@@ -13,7 +13,7 @@ data class Data(
     val username : String,
     val image : String,
     val isFreelancer : Int,
-    val phone : Int,
+    val phone : String,
     val address : String,
     val city : String,
     val rating : Int,

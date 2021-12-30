@@ -45,8 +45,8 @@ class UserAboutActivity : AppCompatActivity(), GenericHandler {
     }
 
     private fun executeApi() {
-        val id = intent.getStringExtra("id")
-        if (id != "") {
+        if (intent.hasExtra("id")) {
+            val id = intent.getStringExtra("id")
             showProgressBar(true)
             viewModel.freelancerProfileDataCall(id!!)
         }

@@ -37,7 +37,9 @@ import java.lang.Exception
 import com.glide.slider.library.animations.DescriptionAnimation
 import com.glide.slider.library.tricks.ViewPagerEx
 import com.google.gson.Gson
+import com.horizam.pro.elean.data.model.MessageGig
 import com.horizam.pro.elean.data.model.response.ServiceDetail
+import com.horizam.pro.elean.ui.main.adapter.ReviewsAdapter
 import com.horizam.pro.elean.utils.PrefManager
 
 
@@ -46,7 +48,7 @@ class GigDetailsFragment : Fragment(), OnItemClickListener,
 
     private lateinit var binding: FragmentGigDetailsBinding
 
-    //    private lateinit var adapter: ReviewsAdapter
+    private lateinit var adapter: ReviewsAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewModel: GigDetailsViewModel
     private lateinit var genericHandler: GenericHandler
@@ -89,7 +91,7 @@ class GigDetailsFragment : Fragment(), OnItemClickListener,
     private fun initViews() {
         prefManager = PrefManager(requireContext())
         deliveryDaysList = ArrayList()
-//        adapter = ReviewsAdapter(this)
+        adapter = ReviewsAdapter(this)
         recyclerView = binding.rvReviews
         requestOptions = RequestOptions().centerCrop()
         setSliderProperties()
@@ -114,7 +116,7 @@ class GigDetailsFragment : Fragment(), OnItemClickListener,
                 (recyclerView.layoutManager as LinearLayoutManager).orientation
             )
         )
-//        recyclerView.adapter = adapter
+        recyclerView.adapter = adapter
     }
 
     private fun setOnClickListeners() {
@@ -147,26 +149,28 @@ class GigDetailsFragment : Fragment(), OnItemClickListener,
             }
         }
         binding.btnContactSeller.setOnClickListener {
-//            try {
-//                if (prefManager.userId != userId && userId != "" && gig != null){
-//                    val serviceGig = gig!!
-//                    val messageGig = MessageGig(
-//                        gigId = serviceGig.id,
-//                        gigImage = serviceGig.serviceMedia[0].media,
-//                        gigTitle = serviceGig.s_description,
-//                        gigUsername = serviceGig.gigUser.name
-//                    )
-//                    GigDetailsFragmentDirections.actionGigDetailsFragmentToMessagesFragment(
-//                        id = userId,
-//                        refersGig = true,
-//                        messageGig = messageGig
-//                    ).also {
-//                        findNavController().navigate(it)
-//                    }
-//                }
-//            }catch (e:Exception){
-//                genericHandler.showMessage(e.message.toString())
-//            }
+            try {
+                if (prefManager.userId != userId && userId != "" && gig != null) {
+                    val serviceGig = gig!!
+                    val messageGig = MessageGig(
+                        gigId = serviceGig.id,
+                        gigImage = serviceGig.service_media[0].media,
+                        gigTitle = serviceGig.s_description,
+                        gigUsername = serviceGig.service_user.name
+                    )
+                    GigDetailsFragmentDirections.actionGigDetailsFragmentToMessagesFragment(
+                        userName = serviceGig.service_user.name,
+                        photo = serviceGig.service_user.image,
+                        id = userId,
+                        refersGig = true,
+                        messageGig = messageGig
+                    ).also {
+                        findNavController().navigate(it)
+                    }
+                }
+            } catch (e: Exception) {
+                genericHandler.showMessage(e.message.toString())
+            }
         }
     }
 
@@ -218,12 +222,9 @@ class GigDetailsFragment : Fragment(), OnItemClickListener,
             changeViewVisibility(textView = false, button = false, layout = true)
             setUIData(serviceDetail)
             gig = serviceDetail
-//            if (response.days != null){
-//                deliveryDaysList = response.days as ArrayList<String>
             bundle.putString("service_name", serviceDetail.s_description)
             bundle.putString("seller_name", serviceDetail.service_user.name)
             bundle.putString("price", serviceDetail.price.toString())
-//            }
         } catch (e: Exception) {
             genericHandler.showMessage(e.message.toString())
         }
@@ -250,13 +251,13 @@ class GigDetailsFragment : Fragment(), OnItemClickListener,
                 setImageSlider(serviceDetail)
             }
         }
-        if (serviceDetail.service_reviews.isEmpty()) {
+        if (serviceDetail.serviceReviewsList.isEmpty()) {
             recyclerView.isVisible = false
             binding.tvPlaceholder.isVisible = true
         } else {
-//            adapter.submitList(serviceData.service_reviews)
-//            recyclerView.isVisible = true
-//            binding.tvPlaceholder.isVisible = false
+            adapter.submitList(serviceDetail.serviceReviewsList)
+            recyclerView.isVisible = true
+            binding.tvPlaceholder.isVisible = false
         }
     }
 

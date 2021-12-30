@@ -75,7 +75,7 @@ class InboxFragment : Fragment(), InboxHandler {
 
     private fun getInboxData() {
         myId = prefManager.userId
-        if (myId != ""){
+        if (myId != "") {
             adapter.setMyId(myId)
             val query: Query = inboxReference.whereArrayContains("members", myId)
                 .orderBy("sentAt", Query.Direction.DESCENDING).limit(10)
@@ -165,7 +165,11 @@ class InboxFragment : Fragment(), InboxHandler {
             val userId = item.members.first {
                 it != myId
             }
-            InboxFragmentDirections.actionInboxFragmentToMessagesFragment(userId).also {
+            InboxFragmentDirections.actionInboxFragmentToMessagesFragment(
+                userName = "",
+                photo = "" ,
+                id = userId
+            ).also {
                 findNavController().navigate(it)
             }
         }

@@ -39,7 +39,7 @@ import java.lang.Exception
 
 
 class ServiceDetailsFragment : Fragment(), BaseSliderView.OnSliderClickListener,
-    ViewPagerEx.OnPageChangeListener , OnItemClickListener {
+    ViewPagerEx.OnPageChangeListener, OnItemClickListener {
 
     private lateinit var binding: FragmentServiceDetailsBinding
     private lateinit var viewModel: GigDetailsViewModel
@@ -47,7 +47,7 @@ class ServiceDetailsFragment : Fragment(), BaseSliderView.OnSliderClickListener,
     private lateinit var glideSliderLayout: SliderLayout
     private lateinit var requestOptions: RequestOptions
     private val args: ServiceDetailsFragmentArgs by navArgs()
-    private var service:ServiceDetail? = null
+    private var service: ServiceDetail? = null
     private lateinit var adapter: ReviewsAdapter
     private lateinit var recyclerView: RecyclerView
 
@@ -60,7 +60,7 @@ class ServiceDetailsFragment : Fragment(), BaseSliderView.OnSliderClickListener,
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentServiceDetailsBinding.inflate(layoutInflater,container,false)
+        binding = FragmentServiceDetailsBinding.inflate(layoutInflater, container, false)
         setToolbarData()
         initViews()
         setupViewModel()
@@ -117,7 +117,9 @@ class ServiceDetailsFragment : Fragment(), BaseSliderView.OnSliderClickListener,
             }
             btnEditService.setOnClickListener {
                 service?.let {
-                    ServiceDetailsFragmentDirections.actionServiceDetailsFragmentToUpdateServiceFragment(it).also { navDirections ->
+                    ServiceDetailsFragmentDirections.actionServiceDetailsFragmentToUpdateServiceFragment(
+                        it
+                    ).also { navDirections ->
                         findNavController().navigate(navDirections)
                     }
                 }
@@ -130,7 +132,8 @@ class ServiceDetailsFragment : Fragment(), BaseSliderView.OnSliderClickListener,
 
     private fun setToolbarData() {
         binding.toolbar.ivToolbar.setImageResource(R.drawable.ic_back)
-        binding.toolbar.tvToolbar.text = App.getAppContext()!!.getString(R.string.str_service_details)
+        binding.toolbar.tvToolbar.text =
+            App.getAppContext()!!.getString(R.string.str_service_details)
     }
 
     private fun setupViewModel() {
@@ -168,20 +171,20 @@ class ServiceDetailsFragment : Fragment(), BaseSliderView.OnSliderClickListener,
             btnEditService.isVisible = args.isEditable
             service = serviceDetail
             setImageSlider(serviceDetail)
-            if (serviceDetail.service_reviews.isEmpty()) {
+            if (serviceDetail.serviceReviewsList.isEmpty()) {
                 recyclerView.isVisible = false
                 binding.tvPlaceholder.isVisible = true
             } else {
-//                adapter.submitList(serviceDetail.service_reviews)
-//                recyclerView.isVisible = true
-//                binding.tvPlaceholder.isVisible = false
+                adapter.submitList(serviceDetail.serviceReviewsList)
+                recyclerView.isVisible = true
+                binding.tvPlaceholder.isVisible = false
             }
         }
     }
 
     private fun setImageSlider(serviceDetail: ServiceDetail) {
         serviceDetail.service_media.let { imagesList ->
-            if (imagesList.isNotEmpty()){
+            if (imagesList.isNotEmpty()) {
                 imagesList.forEach { image ->
                     val defaultSliderView = DefaultSliderView(requireContext())
                     defaultSliderView

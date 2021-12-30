@@ -11,7 +11,7 @@ import java.io.IOException
 
 class JobOffersPagingSource(
     private val apiHelper: ApiHelper,
-    private val id: Int
+    private val id: String
 ): PagingSource<Int, Offer>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Offer> {
@@ -20,7 +20,7 @@ class JobOffersPagingSource(
 
         return try {
             val response = apiHelper.getJobOffers(id,position)
-            val sellers = response.jobOffers.offerList
+            val sellers = response.offerList
             LoadResult.Page(
                 data = sellers,
                 prevKey = if (position == Constants.STARTING_PAGE_INDEX) null else position - 1,

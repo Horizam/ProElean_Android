@@ -29,6 +29,7 @@ class MainRepository(private val apiHelper: ApiHelper) {
     suspend fun logout() = apiHelper.logout()
     suspend fun getHomeData() = apiHelper.getHomeData()
     suspend fun getManageServices(status: String) = apiHelper.getManageServices(status)
+    suspend fun getSellerServicesByID(userID: String) = apiHelper.getSellerServicesByID(userID)
     suspend fun getCategoriesCountries() = apiHelper.getCategoriesCountries()
     suspend fun getCategoriesDays() = apiHelper.getCategoriesDays()
     suspend fun getNonFreelancerProfile() = apiHelper.getNonFreelancerProfile()
@@ -87,7 +88,7 @@ class MainRepository(private val apiHelper: ApiHelper) {
         }
     ).liveData
 
-    fun getJobOffers(id:Int) = Pager(
+    fun getJobOffers(id:String) = Pager(
         config = PagingConfig(
             pageSize = 20,
             maxSize = 100,

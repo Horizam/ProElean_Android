@@ -3,35 +3,33 @@ package com.horizam.pro.elean.data.model.response
 import com.google.gson.annotations.SerializedName
 
 data class JobOffersResponse(
-    @SerializedName("status") var status: Int,
-    @SerializedName("message") var message: String,
-    @SerializedName("jobOffers") var jobOffers: JobOffers
+    @SerializedName("data") val offerList: List<Offer>,
+    @SerializedName("links") val links: Links,
+    @SerializedName("meta") val meta: Meta
 )
 
 data class Profile(
-    @SerializedName("id") var id: String,
-    @SerializedName("name") var name: String,
-    @SerializedName("image") var image: String,
-    @SerializedName("average_rating") var averageRating: Int,
-    @SerializedName("isFreelancer") var isFreelancer: Int,
+    @SerializedName("id") val id: String,
+    @SerializedName("name") val name: String,
+    @SerializedName("username") val username: String,
+    @SerializedName("image") val image: String,
+    @SerializedName("isFreelancer") val isFreelancer: Int,
+    @SerializedName("created_at") val created_at: String,
+    @SerializedName("address") val address: String,
+    @SerializedName("phone") val phone: String,
+    @SerializedName("email") val email: String,
+    @SerializedName("description") val description: String,
+    @SerializedName("total_reviews") val total_reviews: Int,
+    @SerializedName("user_rating") val user_rating: Int,
+    @SerializedName("recent_delivery") val recent_delivery: String,
+    @SerializedName("user_languages") val user_languages: List<String>,
+    @SerializedName("user_skills") val user_skills: List<String>
 )
 
 data class Offer(
-    @SerializedName("id") var id: String,
-    @SerializedName("user_id") var userId: String,
-    @SerializedName("description") var description: String,
-    @SerializedName("price") var price: Double,
-    @SerializedName("profile") var profile: Profile
-)
-
-data class JobOffers(
-    @SerializedName("current_page") var currentPage: Int,
-    @SerializedName("data") var offerList: List<Offer>,
-    @SerializedName("first_page_url") var firstPageUrl: String,
-    @SerializedName("from") var from: Int,
-    @SerializedName("next_page_url") var nextPageUrl: String,
-    @SerializedName("path") var path: String,
-    @SerializedName("per_page") var perPage: Int,
-    @SerializedName("prev_page_url") var prevPageUrl: String,
-    @SerializedName("to") var to: Int
+    @SerializedName("id") val id: String,
+    @SerializedName("description") val description: String,
+    @SerializedName("delivery_time") val delivery_time: String,
+    @SerializedName("price") val price: Int,
+    @SerializedName("profile") val profile: Profile
 )

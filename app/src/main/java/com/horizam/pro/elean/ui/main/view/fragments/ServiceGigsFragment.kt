@@ -271,6 +271,8 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
                         gigUsername = item.service_user.username
                     )
                     ServiceGigsFragmentDirections.actionServiceGigsFragmentToMessagesFragment(
+                        userName = item.service_user.name,
+                        photo = item.service_user.image,
                         id = item.user_id,
                         refersGig = true,
                         messageGig = messageGig

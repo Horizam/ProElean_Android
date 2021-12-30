@@ -17,10 +17,7 @@ import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
-import com.horizam.pro.elean.data.model.response.FreelancerUserResponse
-import com.horizam.pro.elean.data.model.response.ProfileInfo
-import com.horizam.pro.elean.data.model.response.ServicesResponse
-import com.horizam.pro.elean.data.model.response.User_services
+import com.horizam.pro.elean.data.model.response.*
 import com.horizam.pro.elean.databinding.FragmentUserGigsBinding
 import com.horizam.pro.elean.ui.base.ViewModelFactory
 import com.horizam.pro.elean.ui.main.adapter.UserGigsAdapter
@@ -50,7 +47,7 @@ class GigsUserFragment : Fragment(), OnItemClickListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentUserGigsBinding.inflate(layoutInflater,container,false)
+        binding = FragmentUserGigsBinding.inflate(layoutInflater, container, false)
         setupViewModel()
         setupObservers()
         setRecyclerView()
@@ -60,7 +57,7 @@ class GigsUserFragment : Fragment(), OnItemClickListener {
 
     private fun exeApi() {
         val id = requireActivity().intent.getStringExtra("id")
-        viewModel.userServicesCall("")
+        viewModel.userServicesCall(id!!)
     }
 
     private fun setRecyclerView() {
@@ -96,11 +93,11 @@ class GigsUserFragment : Fragment(), OnItemClickListener {
         try {
             binding.apply {
                 servicesResponse.serviceList.let { services ->
-                    if(services.isNotEmpty()){
+                    if (services.isNotEmpty()) {
                         adapter.submitList(services)
                         tvPlaceholder.isVisible = false
                         recyclerView.isVisible = true
-                    }else{
+                    } else {
                         tvPlaceholder.isVisible = true
                         recyclerView.isVisible = false
                     }
@@ -119,9 +116,9 @@ class GigsUserFragment : Fragment(), OnItemClickListener {
     }
 
     override fun <T> onItemClick(item: T) {
-        if (item is User_services){
+        if (item is ServiceDetail) {
             Intent(requireActivity(), UserGigDetailsActivity::class.java).also {
-                it.putExtra("uuid",item.uuid)
+                it.putExtra("uuid", item.id)
                 startActivity(it)
             }
         }

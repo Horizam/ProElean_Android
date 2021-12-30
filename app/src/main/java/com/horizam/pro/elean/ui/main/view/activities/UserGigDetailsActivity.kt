@@ -22,7 +22,9 @@ import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
 import com.horizam.pro.elean.data.model.response.GigDetailsResponse
+import com.horizam.pro.elean.data.model.response.ServiceDetail
 import com.horizam.pro.elean.data.model.response.ServiceInfo
+import com.horizam.pro.elean.data.model.response.UserProfile
 import com.horizam.pro.elean.databinding.ActivityUserGigDetailsBinding
 import com.horizam.pro.elean.ui.base.ViewModelFactory
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
@@ -76,7 +78,7 @@ class UserGigDetailsActivity : AppCompatActivity(), GenericHandler,
                     Status.SUCCESS -> {
                         showProgressBar(false)
                         resource.data?.let { response ->
-                            handleResponse(response)
+                            handleResponse(response.service)
                             changeViewVisibility(textView = false, button = false, layout = true)
                         }
                     }
@@ -100,33 +102,33 @@ class UserGigDetailsActivity : AppCompatActivity(), GenericHandler,
         binding.mainLayout.isVisible = layout
     }
 
-    private fun handleResponse(response: GigDetailsResponse) {
+    private fun handleResponse(serviceDetail: ServiceDetail) {
         try {
-            setUIData(response.serviceInfo)
+            setUIData(serviceDetail)
         } catch (e: Exception) {
             showMessage(e.message.toString())
         }
     }
 
-    private fun setUIData(serviceInfo: ServiceInfo) {
+    private fun setUIData(serviceDetail: ServiceDetail) {
         binding.apply {
-            tvUserName.text = serviceInfo.gigUser.name
-            tvServiceDetailTitle.text = serviceInfo.s_description
-            tvServiceDetailDescription.text = serviceInfo.description
-            tvInfo.text = serviceInfo.additional_info
+            tvUserName.text = serviceDetail.service_user.username
+            tvServiceDetailTitle.text = serviceDetail.s_description
+            tvServiceDetailDescription.text = serviceDetail.description
+            tvInfo.text = serviceDetail.additional_info
             tvDate.visibility = View.GONE
-            ratingBar.rating = serviceInfo.average_rating.toFloat()
+            ratingBar.rating = serviceDetail.service_rating.toFloat()
             Glide.with(this@UserGigDetailsActivity)
-                .load("${Constants.BASE_URL}${serviceInfo.gigUser.image}")
+                .load("${Constants.BASE_URL}${serviceDetail.service_user.image}")
                 .placeholder(R.drawable.img_profile)
                 .error(R.drawable.img_profile)
                 .into(ivUser)
-            setImageSlider(serviceInfo)
+            setImageSlider(serviceDetail)
         }
     }
 
-    private fun setImageSlider(serviceInfo: ServiceInfo) {
-        serviceInfo.serviceMedia.let { imagesList ->
+    private fun setImageSlider(serviceDetail: ServiceDetail) {
+        serviceDetail.service_media.let { imagesList ->
             if (imagesList.isNotEmpty()) {
                 imagesList.forEach { image ->
                     val defaultSliderView = DefaultSliderView(this)

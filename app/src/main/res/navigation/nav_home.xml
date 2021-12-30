@@ -202,6 +202,12 @@
         <argument
             android:name="id"
             app:argType="string" />
+        <argument
+            android:name="userName"
+            app:argType="string" />
+        <argument
+            android:name="photo"
+            app:argType="string" />
         <action
             android:id="@+id/action_messagesFragment_to_exoPlayerFragment"
             app:destination="@id/exoPlayerFragment" />
@@ -299,7 +305,7 @@
         tools:layout="@layout/fragment_view_offers">
         <argument
             android:name="id"
-            app:argType="integer" />
+            app:argType="string" />
         <action
             android:id="@+id/action_viewOffersFragment_to_messagesFragment"
             app:destination="@id/messagesFragment" />
