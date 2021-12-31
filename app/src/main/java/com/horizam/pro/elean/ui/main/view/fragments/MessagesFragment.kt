@@ -78,6 +78,7 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
     private var userId: String = ""     // othere user id (may be seller or may be buyer)
     private var myId: String = ""
     private var myName = ""
+    private var count = 0
     private var inboxCombinedId = ""
     private var myInfo: MessageUser? = null
     private var userInfo: MessageUser? = null
@@ -213,36 +214,41 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
         val query: Query = inboxReference.whereArrayContains("members", myId)
             .orderBy("sentAt", Query.Direction.DESCENDING)
         query.get().addOnSuccessListener { queryDocumentSnapshots ->
-            chatNotExist = queryDocumentSnapshots.size() == 0
+//            chatNotExist = queryDocumentSnapshots.size() == 0
+            count = 0
             genericHandler.showProgressBar(false)
             for (documentSnapshot in queryDocumentSnapshots) {
-                inbox = documentSnapshot.toObject(Inbox::class.java)
+                val inbox1 = documentSnapshot.toObject(Inbox::class.java)
                 try {
-                    if (inbox!!.members[0] == userId && inbox!!.members[1] == myId) {
+                    if (inbox1!!.members[0] == userId && inbox1!!.members[1] == myId) {
+                        inbox = inbox1
+                        count++
                         val myInfo = MessageUser(
-                            inbox!!.membersInfo[1].id,
-                            inbox!!.membersInfo[1].name,
-                            inbox!!.membersInfo[1].photo
+                            inbox1!!.membersInfo[1].id,
+                            inbox1!!.membersInfo[1].name,
+                            inbox1!!.membersInfo[1].photo
                         )
                         val userInfo = MessageUser(
-                            inbox!!.membersInfo[0].id,
-                            inbox!!.membersInfo[0].name,
-                            inbox!!.membersInfo[0].photo
+                            inbox1!!.membersInfo[0].id,
+                            inbox1!!.membersInfo[0].name,
+                            inbox1!!.membersInfo[0].photo
                         )
                         adapter.setMyInfo(myInfo)
                         adapter.setUserInfo(userInfo)
                         updateUsersInfo(true)
                     }
-                    if (inbox!!.members[0] == myId && inbox!!.members[1] == userId) {
+                    if (inbox1!!.members[0] == myId && inbox1!!.members[1] == userId) {
+                        inbox = inbox1
+                        count++
                         val myInfo = MessageUser(
-                            inbox!!.membersInfo[0].id,
-                            inbox!!.membersInfo[0].name,
-                            inbox!!.membersInfo[0].photo
+                            inbox1!!.membersInfo[0].id,
+                            inbox1!!.membersInfo[0].name,
+                            inbox1!!.membersInfo[0].photo
                         )
                         val userInfo = MessageUser(
-                            inbox!!.membersInfo[1].id,
-                            inbox!!.membersInfo[1].name,
-                            inbox!!.membersInfo[1].photo
+                            inbox1!!.membersInfo[1].id,
+                            inbox1!!.membersInfo[1].name,
+                            inbox1!!.membersInfo[1].photo
                         )
                         adapter.setMyInfo(myInfo)
                         adapter.setUserInfo(userInfo)
@@ -426,6 +432,7 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
             }
             ivSend.setOnClickListener {
                 try {
+                    chatNotExist = count == 0
                     hideKeyboard()
                     disableMessageSend(false)
                     validateMessage()
