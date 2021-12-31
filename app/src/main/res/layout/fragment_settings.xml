@@ -22,13 +22,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_12sdp"
+            android:layout_marginEnd="@dimen/_12sdp"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/tv_terms"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_10sdp"
+                android:padding="@dimen/_8sdp"
                 android:gravity="center_vertical"
                 android:text="@string/term_of_services"
                 android:textColor="@color/colorBlack"
@@ -42,9 +43,9 @@
 
             <TextView
                 android:id="@+id/tv_privacy"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_10sdp"
+                android:padding="@dimen/_8sdp"
                 android:gravity="center_vertical"
                 android:text="@string/privacy_policy"
                 android:textColor="@color/colorBlack"
@@ -58,9 +59,9 @@
 
             <TextView
                 android:id="@+id/tv_edit_profile"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_10sdp"
+                android:padding="@dimen/_8sdp"
                 android:gravity="center_vertical"
                 android:text="@string/edit_profile"
                 android:textColor="@color/colorBlack"
@@ -74,9 +75,9 @@
 
             <TextView
                 android:id="@+id/tv_select_currency"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_10sdp"
+                android:padding="@dimen/_8sdp"
                 android:gravity="center_vertical"
                 android:text="@string/str_select_currency"
                 android:textColor="@color/colorBlack"
@@ -90,9 +91,9 @@
 
             <TextView
                 android:id="@+id/tv_select_language"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_10sdp"
+                android:padding="@dimen/_8sdp"
                 android:gravity="center_vertical"
                 android:text="@string/str_select_language"
                 android:textColor="@color/colorBlack"
@@ -106,9 +107,9 @@
 
             <TextView
                 android:id="@+id/tv_change_password"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_10sdp"
+                android:padding="@dimen/_8sdp"
                 android:gravity="center_vertical"
                 android:text="@string/str_change_password"
                 android:textColor="@color/colorBlack"

@@ -236,4 +236,9 @@ class ManageServicesFragment : Fragment(), ManageServiceHandler {
         }
     }
 
+    override fun onStop() {
+        super.onStop()
+        genericHandler.showProgressBar(false)
+    }
+
 }
