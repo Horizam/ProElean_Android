@@ -82,6 +82,7 @@ class GigsAdapter(
                 if (serviceDetail.service_media.size > 0) {
                     setImage("${Constants.BASE_URL}${serviceDetail.service_media[0].media}", ivMain)
                 }
+
                 setImage("${Constants.BASE_URL}${serviceDetail.service_user.image}", ivProfile)
                 setImage(imageResource, ivFavorite)
             }

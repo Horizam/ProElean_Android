@@ -2,6 +2,7 @@ package com.horizam.pro.elean.ui.main.viewmodel
 
 import androidx.lifecycle.*
 import com.horizam.pro.elean.data.model.requests.CreateServiceRequest
+import com.horizam.pro.elean.data.model.requests.FavouriteRequest
 import com.horizam.pro.elean.data.model.requests.LoginRequest
 import com.horizam.pro.elean.data.model.requests.UpdateProfileRequest
 import com.horizam.pro.elean.data.model.response.GeneralResponse
@@ -17,12 +18,25 @@ class ProfileViewModel(private val mainRepository: MainRepository) : ViewModel()
     private val freelancerProfileDataRequest = MutableLiveData<String>()
     private val updateProfileRequest = MutableLiveData<UpdateProfileRequest>()
     private val userServicesRequest = MutableLiveData<String>()
+    private val addToWishlistRequest = MutableLiveData<FavouriteRequest>()
 
     val profileData = profileDataRequest.switchMap {
         liveData(Dispatchers.IO) {
             emit(Resource.loading(data = null))
             try {
                 emit(Resource.success(data = mainRepository.getNonFreelancerProfile()))
+            } catch (exception: Exception) {
+                val errorMessage = BaseUtils.getError(exception)
+                emit(Resource.error(data = null, message = errorMessage))
+            }
+        }
+    }
+
+    val makeFavourite = addToWishlistRequest.switchMap {
+        liveData(Dispatchers.IO) {
+            emit(Resource.loading(data = null))
+            try {
+                emit(Resource.success(data = mainRepository.addRemoveWishlist(it)))
             } catch (exception: Exception) {
                 val errorMessage = BaseUtils.getError(exception)
                 emit(Resource.error(data = null, message = errorMessage))
@@ -80,6 +94,10 @@ class ProfileViewModel(private val mainRepository: MainRepository) : ViewModel()
 
     fun userServicesCall(request: String) {
         userServicesRequest.value = request
+    }
+
+    fun addToWishlistCall(request: FavouriteRequest) {
+        addToWishlistRequest.value = request
     }
 
     companion object {

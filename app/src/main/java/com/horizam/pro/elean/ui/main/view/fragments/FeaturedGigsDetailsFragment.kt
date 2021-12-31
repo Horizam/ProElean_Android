@@ -11,6 +11,7 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.glide.slider.library.SliderLayout
@@ -29,7 +30,9 @@ import com.horizam.pro.elean.data.model.response.ServiceDetail
 import com.horizam.pro.elean.data.model.response.ServiceResponse
 import com.horizam.pro.elean.databinding.FragmentFeaturedGigDetailsBinding
 import com.horizam.pro.elean.ui.base.ViewModelFactory
+import com.horizam.pro.elean.ui.main.adapter.ReviewsAdapter
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
+import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
 import com.horizam.pro.elean.ui.main.view.activities.UserAboutActivity
 import com.horizam.pro.elean.ui.main.viewmodel.FeaturedGigDetailsViewModel
 import com.horizam.pro.elean.utils.PrefManager
@@ -37,17 +40,19 @@ import com.horizam.pro.elean.utils.Status
 import java.lang.Exception
 
 
-class FeaturedGigsDetailsFragment : Fragment(), BaseSliderView.OnSliderClickListener,
+class FeaturedGigsDetailsFragment : Fragment(), OnItemClickListener, BaseSliderView.OnSliderClickListener,
     ViewPagerEx.OnPageChangeListener {
 
     private lateinit var binding: FragmentFeaturedGigDetailsBinding
     private lateinit var viewModel: FeaturedGigDetailsViewModel
+    private lateinit var adapter: ReviewsAdapter
     private lateinit var genericHandler: GenericHandler
     private lateinit var glideSliderLayout: SliderLayout
     private lateinit var requestOptions: RequestOptions
     private val args: FeaturedGigsDetailsFragmentArgs by navArgs()
     private lateinit var prefManager: PrefManager
     private lateinit var serviceDetail: ServiceDetail
+    private lateinit var recyclerView: RecyclerView
     private var userId: String = ""
     val bundle = Bundle()
 
@@ -79,6 +84,8 @@ class FeaturedGigsDetailsFragment : Fragment(), BaseSliderView.OnSliderClickList
 
     private fun initViews() {
         prefManager = PrefManager(requireContext())
+        adapter = ReviewsAdapter(this)
+        recyclerView = binding.rvReviews
         requestOptions = RequestOptions().centerCrop()
         setSliderProperties()
     }
@@ -130,6 +137,9 @@ class FeaturedGigsDetailsFragment : Fragment(), BaseSliderView.OnSliderClickList
                 val serviceId: String = args.uid
                 if (serviceId.isNotEmpty()) {
                     val customOrderBottomSheet = CustomOrderBottomSheet()
+                    bundle.putString("service_name", serviceDetail.s_description)
+                    bundle.putString("seller_name", serviceDetail.service_user.name)
+                    bundle.putString("price", serviceDetail.price.toString())
                     bundle.putString(Constants.SERVICE_ID, serviceId)
                     bundle.putStringArrayList(Constants.DAYS_LIST, arrayListOf("1 day"))
                     customOrderBottomSheet.arguments = bundle
@@ -195,24 +205,35 @@ class FeaturedGigsDetailsFragment : Fragment(), BaseSliderView.OnSliderClickList
         }
     }
 
-    private fun setUIData(service: ServiceDetail) {
-        serviceDetail = service
+    private fun setUIData(serviceDetail: ServiceDetail) {
+        this.serviceDetail = serviceDetail
         binding.apply {
-            tvUserName.text = service.service_user.name
-            tvCategoryPrice.text = Constants.CURRENCY.plus(" ").plus(service.price.toString())
-            tvServiceDetailTitle.text = service.s_description
-            tvServiceDetailDescription.text = service.description
-            tvCategoryName.text = service.category.title
-            userId = service.user_id
-            Glide.with(this@FeaturedGigsDetailsFragment)
-                .load("${Constants.BASE_URL}${service.service_user.image}")
-                .placeholder(R.drawable.img_profile)
-                .error(R.drawable.img_profile)
-                .into(ivUser)
-            setImageSlider(service)
-            bundle.putString("service_name", service.s_description)
-            bundle.putString("seller_name", service.service_user.name)
-            bundle.putString("price", service.price.toString())
+            tvUserName.text = serviceDetail.service_user.name
+            tvCategoryPrice.text = Constants.CURRENCY.plus(" ").plus(serviceDetail.price.toString())
+            tvServiceDetailTitle.text = serviceDetail.s_description
+            tvCategoryName.text = serviceDetail.category.title
+            tvSubcategoryName.text = serviceDetail.sub_category.title
+            tvServiceDetailDescription.text = serviceDetail.description
+            tvNoOfRevision.text = serviceDetail.revision.toString()
+            ratingBar.rating = serviceDetail.service_rating.toFloat()
+            noOfRating.text = "(${serviceDetail.total_reviews})"
+            userId = serviceDetail.user_id
+            if (serviceDetail.service_media.size > 0) {
+                Glide.with(this@FeaturedGigsDetailsFragment)
+                    .load("${Constants.BASE_URL}${serviceDetail.service_media[0].media}")
+                    .placeholder(R.drawable.img_profile)
+                    .error(R.drawable.img_profile)
+                    .into(ivUser)
+                setImageSlider(serviceDetail)
+            }
+        }
+        if (serviceDetail.serviceReviewsList.isEmpty()) {
+            recyclerView.isVisible = false
+            binding.tvPlaceholder.isVisible = true
+        } else {
+            adapter.submitList(serviceDetail.serviceReviewsList)
+            recyclerView.isVisible = true
+            binding.tvPlaceholder.isVisible = false
         }
     }
 
@@ -250,6 +271,10 @@ class FeaturedGigsDetailsFragment : Fragment(), BaseSliderView.OnSliderClickList
     }
 
     override fun onPageScrollStateChanged(state: Int) {
+
+    }
+
+    override fun <T> onItemClick(item: T) {
 
     }
 }

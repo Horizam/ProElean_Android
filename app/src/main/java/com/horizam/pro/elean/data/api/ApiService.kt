@@ -107,7 +107,7 @@ interface ApiService {
     @GET("search")
     suspend fun searchGigs(
         @Query("q") query: String,
-        @Query("distance") distance: String,
+//        @Query("distance") distance: String,
         @Query("filter") filter: String,
         @Query("filter_value") filter_value: String,
         @Query("page") page: Int
@@ -166,7 +166,7 @@ interface ApiService {
     suspend fun addRemoveWishlist(@Body request: FavouriteRequest): GeneralResponse
 
     @FormUrlEncoded
-    @POST("seller/manage_orders")
+    @POST("seller/manage_order")
     suspend fun sellerActions(
         @FieldMap sellerHashMap: HashMap<String, Any>
     ): GeneralResponse

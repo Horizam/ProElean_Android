@@ -17,14 +17,20 @@ import com.horizam.pro.elean.data.model.response.ServiceDetail
 import com.horizam.pro.elean.data.model.response.User_services
 import com.horizam.pro.elean.databinding.ItemSkillBinding
 import com.horizam.pro.elean.databinding.ItemUserGigBinding
+import com.horizam.pro.elean.ui.main.callbacks.FavouriteHandler
 import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
 import com.horizam.pro.elean.ui.main.view.activities.UserAboutActivity
 import com.horizam.pro.elean.ui.main.view.activities.UserGigDetailsActivity
 
-class UserGigsAdapter(val listener: OnItemClickListener) : ListAdapter<ServiceDetail, UserGigsAdapter.DataViewHolder>(COMPARATOR) {
+class UserGigsAdapter(
+    val listener: OnItemClickListener,
+    val favouriteHandler: FavouriteHandler,
+    val userID: String = ""
+) :
+    ListAdapter<ServiceDetail, UserGigsAdapter.DataViewHolder>(COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder {
-        val binding = ItemUserGigBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+        val binding = ItemUserGigBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return DataViewHolder(binding)
     }
 
@@ -38,35 +44,50 @@ class UserGigsAdapter(val listener: OnItemClickListener) : ListAdapter<ServiceDe
         init {
             binding.root.setOnClickListener {
                 val position = bindingAdapterPosition
-                if (position != RecyclerView.NO_POSITION){
+                if (position != RecyclerView.NO_POSITION) {
                     val service = getItem(position)
-                    if (service != null){
+                    if (service != null) {
                         listener.onItemClick(service)
+                    }
+                }
+            }
+
+            binding.ivHeartGigsUser.setOnClickListener {
+                val position = bindingAdapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    val item = getItem(position)
+                    if (item != null) {
+                        favouriteHandler.addRemoveWishList(item)
                     }
                 }
             }
         }
 
-        fun bind(service : ServiceDetail) {
+        fun bind(service: ServiceDetail) {
             binding.apply {
+                if (userID == service.service_user.id) {
+                    ivHeartGigsUser.visibility = View.GONE
+                } else {
+                    ivHeartGigsUser.visibility = View.VISIBLE
+                }
                 tvDescriptionGigsUser.text = service.s_description
                 tvUserRating.text = service.service_rating.toString()
                 tvRatingNumber.text = "(".plus(service.total_reviews).plus(")")
                 tvPriceGigsUser.text = service.price.toString().plus(Constants.CURRENCY)
-//                val imageResource:Int = if (service.favourite==0){
-//                    R.drawable.ic_not_liked
-//                }else{
-//                    R.drawable.ic_liked
-//                }
-                if (service.service_media.isNotEmpty()){
-                    val image = service.service_media[Constants.STARTING_ARRAY_INDEX].media
-                    setImage("${Constants.BASE_URL}${image}",ivMain)
+                val imageResource: Int = if (service.favourite == 0) {
+                    R.drawable.ic_not_liked
+                } else {
+                    R.drawable.ic_liked
                 }
-//                setImage(imageResource,ivStar)
+                if (service.service_media.isNotEmpty()) {
+                    val image = service.service_media[Constants.STARTING_ARRAY_INDEX].media
+                    setImage("${Constants.BASE_URL}${image}", ivMain)
+                }
+                setImage(imageResource, ivHeartGigsUser)
             }
         }
 
-        private fun <T>setImage(source: T,imageView: ImageView){
+        private fun <T> setImage(source: T, imageView: ImageView) {
             Glide.with(itemView)
                 .load(source)
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
@@ -75,13 +96,16 @@ class UserGigsAdapter(val listener: OnItemClickListener) : ListAdapter<ServiceDe
         }
     }
 
-    companion object{
-        private val COMPARATOR = object : DiffUtil.ItemCallback<ServiceDetail>(){
+    companion object {
+        private val COMPARATOR = object : DiffUtil.ItemCallback<ServiceDetail>() {
             override fun areItemsTheSame(oldItem: ServiceDetail, newItem: ServiceDetail): Boolean {
                 return oldItem.id == newItem.id
             }
 
-            override fun areContentsTheSame(oldItem: ServiceDetail, newItem: ServiceDetail): Boolean {
+            override fun areContentsTheSame(
+                oldItem: ServiceDetail,
+                newItem: ServiceDetail
+            ): Boolean {
                 return oldItem == newItem
             }
 

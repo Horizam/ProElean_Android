@@ -52,7 +52,7 @@ class ManageServicesViewModel(private val mainRepository: MainRepository) : View
         userServicesRequest.value = request
     }
 
-    fun deleteUserServiceCall(id:String){
+    fun deleteUserServiceCall(id: String) {
         deleteUserServiceRequest.value = id
     }
 
