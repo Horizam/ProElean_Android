@@ -129,6 +129,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_5sdp"
+                        android:background="?attr/selectableItemBackground"
                         android:drawablePadding="@dimen/_15sdp"
                         android:gravity="center_vertical"
                         android:padding="@dimen/_5sdp"
@@ -136,16 +137,15 @@
                         android:textSize="@dimen/_12ssp"
                         app:drawableStartCompat="@drawable/ic_home"
                         app:drawableTint="@color/colorPrimary"
-                        android:background="?attr/selectableItemBackground"
                         tools:targetApi="m" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_1sdp"
+                        android:background="?attr/selectableItemBackground"
                         android:orientation="horizontal"
-                        android:weightSum="1"
-                        android:background="?attr/selectableItemBackground">
+                        android:weightSum="1">
 
                         <TextView
                             android:id="@+id/nav_inbox"
@@ -153,12 +153,12 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_5sdp"
                             android:layout_weight="0.8"
+                            android:background="?attr/selectableItemBackground"
                             android:drawablePadding="@dimen/_15sdp"
                             android:gravity="center_vertical"
                             android:padding="@dimen/_5sdp"
                             android:text="@string/str_inbox"
                             android:textSize="@dimen/_12ssp"
-                            android:background="?attr/selectableItemBackground"
                             app:drawableStartCompat="@drawable/ic_inbox"
                             app:drawableTint="@color/colorPrimary"
                             tools:targetApi="m" />
@@ -196,11 +196,11 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_5sdp"
                             android:layout_weight="0.8"
+                            android:background="?attr/selectableItemBackground"
                             android:drawablePadding="@dimen/_15sdp"
                             android:gravity="center_vertical"
                             android:padding="@dimen/_5sdp"
                             android:text="@string/str_notifications"
-                            android:background="?attr/selectableItemBackground"
                             android:textSize="@dimen/_12ssp"
                             android:visibility="visible"
                             app:drawableStartCompat="@drawable/ic_notifications"
@@ -232,12 +232,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_5sdp"
+                        android:background="?attr/selectableItemBackground"
                         android:drawablePadding="@dimen/_15sdp"
                         android:gravity="center_vertical"
                         android:padding="@dimen/_5sdp"
                         android:text="@string/str_saved"
                         android:textSize="@dimen/_12ssp"
-                        android:background="?attr/selectableItemBackground"
                         app:drawableStartCompat="@drawable/ic_bookmarks"
                         app:drawableTint="@color/colorPrimary"
                         tools:targetApi="m" />
@@ -285,11 +285,11 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
+                            android:background="?attr/selectableItemBackground"
                             android:gravity="center"
                             android:text="@string/str_buyer"
                             android:textColor="@color/colorPrimary"
                             android:textSize="@dimen/_14ssp"
-                            android:background="?attr/selectableItemBackground"
                             android:textStyle="bold" />
 
                         <View
@@ -302,14 +302,14 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
+                            android:background="?attr/selectableItemBackground"
                             android:ellipsize="end"
                             android:gravity="center"
                             android:maxLines="2"
                             android:text="@string/str_become_freelancer"
                             android:textColor="@color/colorPrimary"
                             android:textSize="@dimen/_14ssp"
-                            android:textStyle="bold"
-                            android:background="?attr/selectableItemBackground"/>
+                            android:textStyle="bold" />
 
                     </LinearLayout>
 
@@ -326,10 +326,10 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
+                            android:background="?attr/selectableItemBackground"
                             android:gravity="center"
                             android:text="@string/str_buyer"
                             android:textColor="@color/colorPrimary"
-                            android:background="?attr/selectableItemBackground"
                             android:textSize="@dimen/_14ssp"
                             android:textStyle="bold" />
 
@@ -343,11 +343,11 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
+                            android:background="?attr/selectableItemBackground"
                             android:gravity="center"
                             android:text="@string/str_seller"
                             android:textColor="@color/colorPrimary"
                             android:textSize="@dimen/_14ssp"
-                            android:background="?attr/selectableItemBackground"
                             android:textStyle="bold" />
 
                     </LinearLayout>
@@ -362,12 +362,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_5sdp"
+                        android:background="?attr/selectableItemBackground"
                         android:drawablePadding="@dimen/_15sdp"
                         android:gravity="center_vertical"
                         android:padding="@dimen/_5sdp"
                         android:text="@string/str_settings"
                         android:textSize="@dimen/_12ssp"
-                        android:background="?attr/selectableItemBackground"
                         app:drawableStartCompat="@drawable/ic_settings"
                         app:drawableTint="@color/colorPrimary"
                         tools:targetApi="m" />
@@ -377,6 +377,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_5sdp"
+                        android:background="?attr/selectableItemBackground"
                         android:drawablePadding="@dimen/_15sdp"
                         android:gravity="center_vertical"
                         android:padding="@dimen/_5sdp"
@@ -384,7 +385,6 @@
                         android:textSize="@dimen/_12ssp"
                         app:drawableStartCompat="@drawable/ic_support_agent"
                         app:drawableTint="@color/colorPrimary"
-                        android:background="?attr/selectableItemBackground"
                         tools:targetApi="m" />
 
                     <TextView
@@ -392,6 +392,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_5sdp"
+                        android:background="?attr/selectableItemBackground"
                         android:drawablePadding="@dimen/_15sdp"
                         android:gravity="center_vertical"
                         android:padding="@dimen/_5sdp"
@@ -400,7 +401,6 @@
                         android:textSize="@dimen/_12ssp"
                         app:drawableStartCompat="@drawable/ic_logout"
                         app:drawableTint="@color/colorAccent"
-                        android:background="?attr/selectableItemBackground"
                         tools:targetApi="m" />
 
                 </LinearLayout>

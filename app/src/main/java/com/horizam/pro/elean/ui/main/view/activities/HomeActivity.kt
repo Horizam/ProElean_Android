@@ -11,7 +11,6 @@ import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
@@ -24,22 +23,14 @@ import com.bumptech.glide.Glide
 import com.google.android.gms.location.*
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
-import com.horizam.pro.elean.data.model.Inbox
-import com.horizam.pro.elean.data.model.MessageUser
-import com.horizam.pro.elean.data.model.MyLocation
-import com.horizam.pro.elean.data.model.requests.StoreUserInfoRequest
 import com.horizam.pro.elean.data.model.response.GeneralResponse
-import com.horizam.pro.elean.data.model.response.HomeDataResponse
 import com.horizam.pro.elean.databinding.ActivityHomeBinding
 import com.horizam.pro.elean.databinding.DialogDeleteBinding
 import com.horizam.pro.elean.ui.base.ViewModelFactory
@@ -48,7 +39,6 @@ import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
 import com.horizam.pro.elean.ui.main.callbacks.LockHandler
 import com.horizam.pro.elean.ui.main.callbacks.UpdateHomeHandler
 import com.horizam.pro.elean.ui.main.events.LogoutEvent
-import com.horizam.pro.elean.ui.main.view.fragments.CheckoutBottomSheet.Companion.TAG
 import com.horizam.pro.elean.ui.main.viewmodel.HomeViewModel
 import com.horizam.pro.elean.utils.BaseUtils
 import com.horizam.pro.elean.utils.PrefManager
@@ -58,11 +48,9 @@ import kotlinx.android.synthetic.main.dialog_delete.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
-import java.lang.Exception
 import java.util.concurrent.TimeUnit
 import kotlin.coroutines.CoroutineContext
 
@@ -77,7 +65,6 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
     private lateinit var viewModel: HomeViewModel
     private lateinit var prefManager: PrefManager
     private lateinit var db: FirebaseFirestore
-    private lateinit var inboxReference: CollectionReference
     private lateinit var dialogDelete: Dialog
     private lateinit var bindingDeleteDialog: DialogDeleteBinding
     private var isUserFreelancer: Int = 0
