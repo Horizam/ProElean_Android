@@ -44,6 +44,7 @@ import com.horizam.pro.elean.data.model.response.Order
 import com.horizam.pro.elean.databinding.DialogChooseAttachmentBinding
 import com.horizam.pro.elean.databinding.DialogFileUploadingBinding
 import com.horizam.pro.elean.databinding.FragmentMessagesBinding
+import com.horizam.pro.elean.databinding.FragmentOrderMessagesBinding
 import com.horizam.pro.elean.ui.base.ViewModelFactory
 import com.horizam.pro.elean.ui.main.adapter.MessageAdapter
 import com.horizam.pro.elean.ui.main.adapter.MyLoadStateAdapter
@@ -65,7 +66,7 @@ import kotlin.collections.ArrayList
 class OrderMessagesFragment(var order: Order) : Fragment(), MessagesHandler, CreateOfferHandler,
     CheckoutHandler {
 
-    private lateinit var binding: FragmentMessagesBinding
+    private lateinit var binding: FragmentOrderMessagesBinding
     private lateinit var adapter: MessageAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var messagesArrayList: ArrayList<Message>
@@ -102,7 +103,7 @@ class OrderMessagesFragment(var order: Order) : Fragment(), MessagesHandler, Cre
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentMessagesBinding.inflate(layoutInflater, container, false)
+        binding = FragmentOrderMessagesBinding.inflate(layoutInflater, container, false)
         initViews()
         setupViewModel()
 //        setupObservers()
