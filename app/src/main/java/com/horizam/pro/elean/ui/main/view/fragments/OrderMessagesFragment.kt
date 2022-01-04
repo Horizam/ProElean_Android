@@ -43,7 +43,7 @@ import com.horizam.pro.elean.data.model.response.GeneralResponse
 import com.horizam.pro.elean.data.model.response.Order
 import com.horizam.pro.elean.databinding.DialogChooseAttachmentBinding
 import com.horizam.pro.elean.databinding.DialogFileUploadingBinding
-import com.horizam.pro.elean.databinding.FragmentOrderMessagesBinding
+import com.horizam.pro.elean.databinding.FragmentMessagesBinding
 import com.horizam.pro.elean.ui.base.ViewModelFactory
 import com.horizam.pro.elean.ui.main.adapter.MessageAdapter
 import com.horizam.pro.elean.ui.main.adapter.MyLoadStateAdapter
@@ -52,9 +52,7 @@ import com.horizam.pro.elean.ui.main.callbacks.CreateOfferHandler
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
 import com.horizam.pro.elean.ui.main.callbacks.MessagesHandler
 import com.horizam.pro.elean.ui.main.view.activities.ManageOrdersActivity
-import com.horizam.pro.elean.ui.main.viewmodel.FirebaseNotification
 import com.horizam.pro.elean.ui.main.viewmodel.MessagesViewModel
-import com.horizam.pro.elean.ui.main.viewmodel.NotificationMessage
 import com.horizam.pro.elean.utils.*
 import com.horizam.pro.elean.utils.BaseUtils.Companion.hideKeyboard
 import com.stfalcon.imageviewer.StfalconImageViewer
@@ -64,9 +62,10 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class OrderMessagesFragment(var order: Order) : Fragment() , MessagesHandler, CreateOfferHandler, CheckoutHandler {
+class OrderMessagesFragment(var order: Order) : Fragment(), MessagesHandler, CreateOfferHandler,
+    CheckoutHandler {
 
-    private lateinit var binding: FragmentOrderMessagesBinding
+    private lateinit var binding: FragmentMessagesBinding
     private lateinit var adapter: MessageAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var messagesArrayList: ArrayList<Message>
@@ -78,12 +77,13 @@ class OrderMessagesFragment(var order: Order) : Fragment() , MessagesHandler, Cr
     private val args: MessagesFragmentArgs by navArgs()
     private lateinit var genericHandler: GenericHandler
     private var inbox: Inbox? = null
-    private var userId: String = ""
+    private var userId: String = ""// othere user id (may be seller or may be buyer)
+    private var userName: String = ""
+    private var userPhoto: String = ""
     private var myId: String = ""
     private var myName = ""
+    private var count = 0
     private var inboxCombinedId = ""
-    private var myInfo: MessageUser? = null
-    private var userInfo: MessageUser? = null
     private var offerMessage: Message? = null
     private lateinit var viewModel: MessagesViewModel
     private var chatNotExist: Boolean = true
@@ -101,18 +101,17 @@ class OrderMessagesFragment(var order: Order) : Fragment() , MessagesHandler, Cr
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        binding = FragmentOrderMessagesBinding.inflate(layoutInflater, container, false)
-
-        setToolbarData()
+    ): View {
+        binding = FragmentMessagesBinding.inflate(layoutInflater, container, false)
         initViews()
-        //setupViewModel()
-        //setupObservers()
+        setupViewModel()
+//        setupObservers()
         getData()
-        //setRecyclerView()
+        setRecyclerView(
+            MessageUser("", "", "", ""),
+            MessageUser("", "", "", ""),
+        )
         setClickListeners()
-
         return binding.root
     }
 
@@ -193,105 +192,65 @@ class OrderMessagesFragment(var order: Order) : Fragment() , MessagesHandler, Cr
     }
 
     private fun getData() {
+        genericHandler.showProgressBar(true)
         try {
-            if(prefManager.userId == order.seller_id){
+            if (order.buyer_id == prefManager.userId) {
                 userId = order.buyer_id
+                userName = order.username
+                userPhoto = order.image
             }
-//            referGig = args.refersGig
+
+            referGig = false
             myId = prefManager.userId
             myName = prefManager.username!!
-            inboxCombinedId = generateCombinedId()
-            if (userId != "" && myId != "" && inboxCombinedId.isNotEmpty()) {
-                try {
-                    getChatUsers()
-                } catch (ex: Exception) {
-                    genericHandler.showMessage(ex.message.toString())
-                }
+            try {
+                checkIfChatExists()
+            } catch (ex: Exception) {
+                genericHandler.showMessage(ex.message.toString())
             }
         } catch (ex: Exception) {
+            genericHandler.showProgressBar(false)
             genericHandler.showMessage(ex.message.toString())
         }
     }
 
-    private fun getChatUsers() {
-        val usersReference = db.collection(Constants.FIREBASE_DATABASE_USERS)
-        usersReference.document(myId.toString()).get().addOnSuccessListener {
-            myInfo = it.toObject(MessageUser::class.java)
-            //adapter.setMyInfo(myInfo!!)
-            getOtherUser()
-        }.addOnFailureListener {
-            genericHandler.showMessage(it.message.toString())
-            findNavController().popBackStack()
-        }
-    }
-
-    private fun getOtherUser() {
-        val usersReference = db.collection(Constants.FIREBASE_DATABASE_USERS)
-        usersReference.document(userId.toString()).get()
-            .addOnSuccessListener {
-                userInfo = it.toObject(MessageUser::class.java)
-                userInfo?.let { user ->
-                    if (user.name.isNotEmpty()) {
-                        binding.toolbar.tvToolbar.text = user.name
-                    }
-                }
-                //adapter.setUserInfo(userInfo!!)
-                if (prefManager.isFreelancer == 1) {
-                    binding.tvCreateOffer.isVisible = true
-                }
-                setRecyclerView()
-                checkIfChatExists()
-            }.addOnFailureListener {
-                genericHandler.showMessage(it.message.toString())
-                findNavController().popBackStack()
-            }
-    }
-
     private fun checkIfChatExists() {
-        val query: Query = inboxReference.whereEqualTo("combinedId", inboxCombinedId)
-            .orderBy("sentAt", Query.Direction.DESCENDING)
-        query.get().addOnSuccessListener { queryDocumentSnapshots ->
-            chatNotExist = queryDocumentSnapshots.size() == 0
-            for (documentSnapshot in queryDocumentSnapshots) {
-                inbox = documentSnapshot.toObject(Inbox::class.java)
-                try {
-                    updateUsersInfo(true)
-                } catch (ex: Exception) {
-                    genericHandler.showMessage(ex.message.toString())
-                }
-            }
+        val chatRef: DocumentReference = inboxReference.document(order.orderNo)
+        chatRef.get().addOnSuccessListener { task ->
+            inbox = task.toObject(Inbox::class.java)
+            updateUsersInfo(true)
         }.addOnFailureListener {
-//            Log.i(MessagesFragment::class.java.simpleName, it.message.toString())
-//            genericHandler.showMessage(it.message.toString())
+            Log.i(MessagesFragment::class.java.simpleName, it.message.toString())
+            genericHandler.showMessage(it.message.toString())
         }
     }
 
     private fun updateUsersInfo(updateMessages: Boolean) {
-        val hashMap = HashMap<String, Any>()
-        val membersInfo: List<MembersInfo> = inbox!!.membersInfo
-        for (i in membersInfo.indices) {
-            membersInfo[i].type = "available"
-            if (membersInfo[i].id == myId) {
-                membersInfo[i].name = myInfo!!.name
-                membersInfo[i].photo = myInfo!!.photo
-                membersInfo[i].hasReadLastMessage = true
-            } else {
-                membersInfo[i].name = userInfo!!.name
-                membersInfo[i].photo = userInfo!!.photo
-            }
+//        val hashMap = HashMap<String, Any>()
+//        val membersInfo: List<MembersInfo> = inbox!!.membersInfo
+//        for (i in membersInfo.indices) {
+//            membersInfo[i].type = "available"
+//            if (membersInfo[i].id == myId) {
+//                membersInfo[i].name = myInfo!!.name
+//                membersInfo[i].photo = myInfo!!.photo
+//                membersInfo[i].hasReadLastMessage = true
+//            } else {
+//                membersInfo[i].name = userInfo!!.name
+//                membersInfo[i].photo = userInfo!!.photo
+//            }
+//        }
+//        hashMap["membersInfo"] = membersInfo
+//        db.collection(Constants.FIREBASE_DATABASE_ORDERS_CONVERSATION).document(inbox!!.id).update(hashMap)
+//            .addOnSuccessListener {
+        if (chatNotExist || updateMessages) {
+            chatNotExist = false
+            fetchMessages()
         }
-        hashMap["membersInfo"] = membersInfo
-        db.collection(Constants.FIREBASE_DATABASE_ORDERS_CONVERSATION).document(inbox!!.id).update(hashMap)
-            .addOnSuccessListener {
-                if (chatNotExist || updateMessages) {
-                    chatNotExist = false
-                    fetchMessages()
-                }
-                disableMessageSend(true)
-            }.addOnFailureListener {
-                disableMessageSend(true)
-                genericHandler.showMessage(it.message.toString())
-            }
+//                disableMessageSend(true)
+//            }.addOnFailureListener {
+//                disableMessageSend(true)
+//                genericHandler.showMessage(it.message.toString())
+//            }
     }
 
     private fun fetchMessages() {
@@ -306,6 +265,7 @@ class OrderMessagesFragment(var order: Order) : Fragment() , MessagesHandler, Cr
     private fun observeMessages(query: Query) {
         query.addSnapshotListener { snapshots, e ->
             if (e != null) {
+                genericHandler.showProgressBar(false)
                 genericHandler.showMessage(e.message.toString())
                 return@addSnapshotListener
             }
@@ -323,28 +283,29 @@ class OrderMessagesFragment(var order: Order) : Fragment() , MessagesHandler, Cr
                     }
                 }
             }
+            genericHandler.showProgressBar(false)
         }
     }
 
     private fun hasReadLastMessage() {
-        val hashMap = HashMap<String, Any>()
-        val membersInfo: List<MembersInfo> = inbox!!.membersInfo
-        for (i in membersInfo.indices) {
-            membersInfo[i].type = "available"
-            if (membersInfo[i].id == myId) {
-                membersInfo[i].name = myInfo!!.name
-                membersInfo[i].photo = myInfo!!.photo
-                membersInfo[i].hasReadLastMessage = true
-            } else {
-                membersInfo[i].name = userInfo!!.name
-                membersInfo[i].photo = userInfo!!.photo
-            }
-        }
-        hashMap["membersInfo"] = membersInfo
-        db.collection(Constants.FIREBASE_DATABASE_ORDERS_CONVERSATION).document(inbox!!.id).update(hashMap)
+//        val hashMap = HashMap<String, Any>()
+//        val membersInfo: List<MembersInfo> = inbox!!.membersInfo
+//        for (i in membersInfo.indices) {
+//            membersInfo[i].type = "available"
+//            if (membersInfo[i].id == myId) {
+//                membersInfo[i].name = myInfo!!.name
+//                membersInfo[i].photo = myInfo!!.photo
+//                membersInfo[i].hasReadLastMessage = true
+//            } else {
+//                membersInfo[i].name = userInfo!!.name
+//                membersInfo[i].photo = userInfo!!.photo
+//            }
+//        }
+//        hashMap["membersInfo"] = membersInfo
+//        db.collection(Constants.FIREBASE_DATABASE_ORDERS_CONVERSATION).document(inbox!!.id).update(hashMap)
     }
 
-    private fun setRecyclerView() {
+    private fun setRecyclerView(myInfo: MessageUser, userInfo: MessageUser) {
         adapter = MessageAdapter(this, myInfo, userInfo)
         val linearLayoutManager = LinearLayoutManager(requireContext()).also { layoutManager ->
             layoutManager.reverseLayout = true
@@ -367,17 +328,7 @@ class OrderMessagesFragment(var order: Order) : Fragment() , MessagesHandler, Cr
                 }
             }
         })
-        setupViewModel()
         setupObservers()
-    }
-
-    private fun generateCombinedId(): String {
-        val inboxCombinedId: String = if (userId < myId) {
-            userId.toString().plus("_").plus(myId).plus(order.orderNo)
-        } else {
-            myId.toString().plus("_").plus(userId).plus(order.orderNo)
-        }
-        return inboxCombinedId
     }
 
     private fun initViews() {
@@ -390,7 +341,6 @@ class OrderMessagesFragment(var order: Order) : Fragment() , MessagesHandler, Cr
         prefManager = PrefManager(requireContext())
         initChooseAttachmentDialog()
         initFileUploadDialog()
-        BaseUtils.CurrentScreen = Constants.MESSAGESCREEN
     }
 
     private fun initFileUploadDialog() {
@@ -436,11 +386,9 @@ class OrderMessagesFragment(var order: Order) : Fragment() , MessagesHandler, Cr
 
     private fun setClickListeners() {
         binding.apply {
-            toolbar.ivToolbar.setOnClickListener {
-                findNavController().popBackStack()
-            }
             ivSend.setOnClickListener {
                 try {
+                    chatNotExist = count == 0
                     hideKeyboard()
                     disableMessageSend(false)
                     validateMessage()
@@ -684,10 +632,10 @@ class OrderMessagesFragment(var order: Order) : Fragment() , MessagesHandler, Cr
                             dialogFileUpload.dismiss()
                         }
                         val utcMilliseconds = Calendar.getInstance().timeInMillis
-//                        sendMessageToFirebase(
-//                            uri.toString(), "", myId,
-//                            utcMilliseconds, messageType
-//                        )
+                        sendMessageToFirebase(
+                            uri.toString(), "", myId,
+                            utcMilliseconds, messageType
+                        )
                     }
                 }
             }
@@ -736,10 +684,10 @@ class OrderMessagesFragment(var order: Order) : Fragment() , MessagesHandler, Cr
             try {
                 // use local to gmt method for utc if nothing works (also tried Date().time)
                 val utcMilliseconds = Calendar.getInstance().timeInMillis
-//                sendMessageToFirebase(
-//                    "", binding.etSendMessage.text.toString(),
-//                    myId, utcMilliseconds, Constants.MESSAGE_TYPE_TEXT
-//                )
+                sendMessageToFirebase(
+                    "", binding.etSendMessage.text.toString(),
+                    myId, utcMilliseconds, Constants.MESSAGE_TYPE_TEXT
+                )
             } catch (ex: Exception) {
                 disableMessageSend(true)
                 genericHandler.showMessage(ex.message.toString())
@@ -751,10 +699,10 @@ class OrderMessagesFragment(var order: Order) : Fragment() , MessagesHandler, Cr
         try {
             // use local to gmt method for utc if nothing works (also tried Date().time)
             val utcMilliseconds = Calendar.getInstance().timeInMillis
-//            sendMessageToFirebase(
-//                "", "",
-//                myId, utcMilliseconds, Constants.MESSAGE_TYPE_OFFER, offer = offer
-//            )
+            sendMessageToFirebase(
+                "", "",
+                myId, utcMilliseconds, Constants.MESSAGE_TYPE_OFFER, offer = offer
+            )
         } catch (ex: Exception) {
             disableMessageSend(true)
             genericHandler.showMessage(ex.message.toString())
@@ -764,7 +712,7 @@ class OrderMessagesFragment(var order: Order) : Fragment() , MessagesHandler, Cr
     private fun sendMessageToFirebase(
         attachment: String,
         message: String,
-        senderId: Int,
+        senderId: String,
         sentAt: Long,
         attachmentType: Int,
         offer: MessageOffer? = null
@@ -779,49 +727,73 @@ class OrderMessagesFragment(var order: Order) : Fragment() , MessagesHandler, Cr
 
     private fun createChatAndAddMessage(
         sentAt: Long, attachment: String, message: String,
-        senderId: Int, attachmentType: Int, offer: MessageOffer?
+        senderId: String, attachmentType: Int, offer: MessageOffer?
     ) {
-        val inboxReference = db.collection(Constants.FIREBASE_DATABASE_ORDERS_CONVERSATION).document()
-        val members: MutableList<Int> = ArrayList()
-//        members.add(myId)
-//        members.add(userId)
+        val inboxReference = db.collection(Constants.FIREBASE_DATABASE_ORDERS_CONVERSATION).document(order.orderNo)
+        val members: MutableList<String> = ArrayList()
+        members.add(myId)
+        members.add(userId)
         val membersInfo: MutableList<MembersInfo> = ArrayList()
-        membersInfo.add(MembersInfo(myId, true, "available"))
-        membersInfo.add(MembersInfo(userId, true, "available"))
+        membersInfo.add(
+            MembersInfo(
+                myId,
+                true,
+                "available",
+                prefManager.userImage,
+                prefManager.username!!
+            )
+        )
+        membersInfo.add(MembersInfo(userId, true, "available", userPhoto , userName))
         // use local to gmt method for utc if nothing works (also tried Date().time)
         val utcMilliseconds = Calendar.getInstance().timeInMillis
-//        val inboxModel = Inbox(
-//            createdAt = sentAt, sentAt = utcMilliseconds, createdBy = myId,
-//            id = inboxReference.id, senderId = myId, members = members, membersInfo = membersInfo,
-//            title = "", combinedId = inboxCombinedId
-//        )
-//        inbox = inboxModel
-//        inboxReference.set(inboxModel).addOnSuccessListener {
-//            val reference =
-//                db.collection(Constants.FIREBASE_DATABASE_ORDERS_CONVERSATION).document(inboxReference.id)
-//                    .collection("Messages").document()
-//            val deleteMessage: List<Int> = ArrayList()
-//            val messageModel = Message(
-//                attachment = attachment, message = message, senderId = senderId,
-//                sentAt = sentAt, attachmentType = attachmentType, id = reference.id,
-//                deleteMessage = deleteMessage, messageOffer = offer, refersGig = referGig,
-////                messageGig = args.messageGig
-//            )
-//            referGig = false
-//            messageSavedOrNot(
-//                reference, messageModel, attachmentType, message, senderId,
-//                sentAt, inboxReference
-//            )
-//        }.addOnFailureListener {
-//            disableMessageSend(true)
-//        }
+        val inboxModel = Inbox(
+            createdAt = sentAt, sentAt = utcMilliseconds, createdBy = myId,
+            id = inboxReference.id, senderId = myId, members = members, membersInfo = membersInfo,
+            title = "", combinedId = inboxCombinedId
+        )
+        inbox = inboxModel
+        if (inbox!!.members[0] == userId && inbox!!.members[1] == myId) {
+            val myInfo = MessageUser(
+                inbox!!.membersInfo[1].id,
+                inbox!!.membersInfo[1].name,
+                inbox!!.membersInfo[1].photo
+            )
+            val userInfo = MessageUser(
+                inbox!!.membersInfo[0].id,
+                inbox!!.membersInfo[0].name,
+                inbox!!.membersInfo[0].photo
+            )
+            adapter.setMyInfo(myInfo)
+            adapter.setUserInfo(userInfo)
+            updateUsersInfo(true)
+        }
+        inboxReference.set(inboxModel).addOnSuccessListener {
+            val reference =
+                db.collection(Constants.FIREBASE_DATABASE_ORDERS_CONVERSATION).document(inboxReference.id)
+                    .collection("Messages").document()
+            val deleteMessage: List<Int> = ArrayList()
+            val messageModel = Message(
+                attachment = attachment, message = message, senderId = senderId,
+                sentAt = sentAt, attachmentType = attachmentType, id = reference.id,
+                deleteMessage = deleteMessage, messageOffer = offer, refersGig = referGig,
+                messageGig = null
+            )
+            referGig = false
+            messageSavedOrNot(
+                reference, messageModel, attachmentType, message, senderId,
+                sentAt, inboxReference
+            )
+        }.addOnFailureListener {
+            disableMessageSend(true)
+        }
     }
 
     private fun messageSavedOrNot(
         reference: DocumentReference, messageModel: Message,
-        attachmentType: Int, message: String, senderId: Int, sentAt: Long,
+        attachmentType: Int, message: String, senderId: String, sentAt: Long,
         inboxReference: DocumentReference
     ) {
+        disableMessageSend(true)
         reference.set(messageModel).addOnSuccessListener {
             binding.etSendMessage.setText("")
             handleDifferentMessages(
@@ -851,7 +823,7 @@ class OrderMessagesFragment(var order: Order) : Fragment() , MessagesHandler, Cr
     private fun addMessageToExistingChat(
         attachment: String,
         message: String,
-        senderId: Int,
+        senderId: String,
         sentAt: Long,
         attachmentType: Int,
         offer: MessageOffer?
@@ -860,28 +832,29 @@ class OrderMessagesFragment(var order: Order) : Fragment() , MessagesHandler, Cr
             .collection("Messages").document()
         val inboxReference = db.collection(Constants.FIREBASE_DATABASE_ORDERS_CONVERSATION).document(inbox!!.id)
         val deleteMessage: List<Int> = ArrayList()
-//        val messageModel = Message(
-//            attachment = attachment, message = message, senderId = senderId,
-//            sentAt = sentAt, attachmentType = attachmentType, id = reference.id,
-//            deleteMessage = deleteMessage, messageOffer = offer, refersGig = referGig,
-////            messageGig = args.messageGig
-//        )
-//        referGig = false
-//        reference.set(messageModel).addOnSuccessListener {
-//            binding.etSendMessage.setText("")
-//            handleDifferentMessages(
-//                attachmentType, message, senderId, sentAt, inboxReference,
-//                reference
-//            )
-//            sendFirebaseNotification(messageModel)
-//        }.addOnFailureListener { e: Exception ->
-//            disableMessageSend(true)
-//            genericHandler.showMessage(e.message.toString())
-//        }
+        val messageModel = Message(
+            attachment = attachment, message = message, senderId = senderId,
+            sentAt = sentAt, attachmentType = attachmentType, id = reference.id,
+            deleteMessage = deleteMessage, messageOffer = offer, refersGig = referGig,
+            messageGig = null
+        )
+        referGig = false
+        reference.set(messageModel).addOnSuccessListener {
+            binding.etSendMessage.setText("")
+            handleDifferentMessages(
+                attachmentType, message, senderId, sentAt, inboxReference,
+                reference
+            )
+            disableMessageSend(true)
+            sendFirebaseNotification(messageModel)
+        }.addOnFailureListener { e: Exception ->
+            disableMessageSend(true)
+            genericHandler.showMessage(e.message.toString())
+        }
     }
 
     private fun handleDifferentMessages(
-        attachmentType: Int, message: String, senderId: Int,
+        attachmentType: Int, message: String, senderId: String,
         sentAt: Long, inboxReference: DocumentReference, reference: DocumentReference
     ) {
         when (attachmentType) {
@@ -913,7 +886,7 @@ class OrderMessagesFragment(var order: Order) : Fragment() , MessagesHandler, Cr
     }
 
     private fun updateLastMessage(
-        lastMessage: String, senderId: Int, senderName: String,
+        lastMessage: String, senderId: String, senderName: String,
         sentAt: Long, id: String, lastMessageId: String
     ) {
         try {
@@ -935,7 +908,7 @@ class OrderMessagesFragment(var order: Order) : Fragment() , MessagesHandler, Cr
     }
 
     private fun createHashMap(
-        lastMessage: String, senderId: Int, senderName: String,
+        lastMessage: String, senderId: String, senderName: String,
         sentAt: Long, lastMessageId: String
     ): HashMap<String, Any> {
         val hashMap = HashMap<String, Any>()
@@ -955,11 +928,6 @@ class OrderMessagesFragment(var order: Order) : Fragment() , MessagesHandler, Cr
         }
         hashMap["membersInfo"] = membersInfo
         return hashMap
-    }
-
-    private fun setToolbarData() {
-        binding.toolbar.ivToolbar.setImageResource(R.drawable.ic_back)
-        binding.toolbar.tvToolbar.text = App.getAppContext()!!.getString(R.string.str_messages)
     }
 
     private fun downloadFile(fileUrl: String, fileType: String) {
@@ -1089,4 +1057,5 @@ class OrderMessagesFragment(var order: Order) : Fragment() , MessagesHandler, Cr
             genericHandler.showMessage(getString(R.string.str_something_went_wrong))
         }
     }
+
 }
