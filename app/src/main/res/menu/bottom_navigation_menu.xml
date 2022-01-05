@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/homeFragment"
+        android:enabled="true"
+        android:icon="@drawable/img_home"
+        android:title="@string/str_home"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/inboxFragment"
+        android:enabled="true"
+        android:icon="@drawable/img_inbox"
+        android:title="@string/str_inbox"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/notificationsFragment"
+        android:enabled="true"
+        android:icon="@drawable/img_notification"
+        android:title="@string/str_notifications"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/savedFragment"
+        android:enabled="true"
+        android:icon="@drawable/img_saved"
+        android:title="@string/str_saved"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/profile_fragment"
+        android:enabled="true"
+        android:icon="@drawable/img_profile_"
+        android:title="@string/str_profile"
+        app:showAsAction="ifRoom" />
+
+</menu>

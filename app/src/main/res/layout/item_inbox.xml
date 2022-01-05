@@ -5,13 +5,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/_2sdp">
+    android:paddingVertical="@dimen/_5sdp"
+    android:background="?attr/selectableItemBackground"
+    android:paddingHorizontal="@dimen/_10sdp">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/iv_inbox"
-        android:layout_width="@dimen/_40sdp"
-        android:layout_height="@dimen/_40sdp"
-        android:scaleType="fitXY"
+        android:layout_width="@dimen/_45sdp"
+        android:layout_height="@dimen/_45sdp"
         tools:ignore="ContentDescription"
         android:src="@color/colorAccent"
         app:layout_constraintStart_toStartOf="parent"
@@ -42,6 +43,7 @@
         android:textSize="@dimen/_12ssp"
         android:textStyle="bold"
         android:text="@string/str_username"
+        android:layout_marginTop="@dimen/_10sdp"
         android:layout_marginHorizontal="@dimen/_10sdp"
         app:layout_constraintStart_toEndOf="@id/iv_inbox"
         app:layout_constraintEnd_toStartOf="@id/tv_last_message"
@@ -71,7 +73,7 @@
         android:textColor="@color/colorDarkGrey"
         android:textSize="@dimen/_8ssp"
         android:text="@string/str_17_12"
-        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_marginTop="@dimen/_12sdp"
         android:layout_marginEnd="@dimen/_10sdp"
         app:layout_constraintStart_toEndOf="@id/tv_user_name"
         app:layout_constraintEnd_toEndOf="parent"

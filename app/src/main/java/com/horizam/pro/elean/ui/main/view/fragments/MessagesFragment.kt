@@ -42,8 +42,6 @@ import com.horizam.pro.elean.databinding.FragmentMessagesBinding
 import com.horizam.pro.elean.ui.base.ViewModelFactory
 import com.horizam.pro.elean.ui.main.adapter.MessageAdapter
 import com.horizam.pro.elean.ui.main.adapter.MyLoadStateAdapter
-import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
-import com.horizam.pro.elean.ui.main.callbacks.MessagesHandler
 import com.horizam.pro.elean.ui.main.viewmodel.MessagesViewModel
 import com.horizam.pro.elean.utils.BaseUtils.Companion.hideKeyboard
 import java.io.File
@@ -55,8 +53,7 @@ import com.stfalcon.imageviewer.StfalconImageViewer
 import com.horizam.pro.elean.data.model.*
 import com.horizam.pro.elean.data.model.requests.ChatOfferRequest
 import com.horizam.pro.elean.data.model.response.GeneralResponse
-import com.horizam.pro.elean.ui.main.callbacks.CheckoutHandler
-import com.horizam.pro.elean.ui.main.callbacks.CreateOfferHandler
+import com.horizam.pro.elean.ui.main.callbacks.*
 import com.horizam.pro.elean.ui.main.view.activities.ManageOrdersActivity
 import com.horizam.pro.elean.utils.*
 import kotlinx.android.synthetic.main.item_review.*
@@ -1105,6 +1102,16 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
         } else {
             genericHandler.showMessage(getString(R.string.str_something_went_wrong))
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        (activity as HideBottomNavigation).hideNavigation()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        (activity as HideBottomNavigation).showNavigation()
     }
 
 }

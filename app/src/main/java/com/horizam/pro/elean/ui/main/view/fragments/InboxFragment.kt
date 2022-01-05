@@ -15,6 +15,7 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
@@ -41,7 +42,7 @@ import com.horizam.pro.elean.utils.PrefManager
 import java.lang.Exception
 
 
-class InboxFragment : Fragment(), InboxHandler {
+class InboxFragment : Fragment(), InboxHandler , SwipeRefreshLayout.OnRefreshListener {
 
     private lateinit var binding: FragmentInboxBinding
     private lateinit var adapter: InboxAdapter
@@ -51,6 +52,7 @@ class InboxFragment : Fragment(), InboxHandler {
     private lateinit var prefManager: PrefManager
     private lateinit var genericHandler: GenericHandler
     private var myId: String = ""
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private lateinit var viewModel: InboxViewModel
 
     override fun onAttach(context: Context) {
@@ -101,6 +103,8 @@ class InboxFragment : Fragment(), InboxHandler {
         recyclerView = binding.rvInbox
         adapter = InboxAdapter(this)
         db = Firebase.firestore
+        swipeRefreshLayout = binding.swipeRefresh
+        swipeRefreshLayout.setOnRefreshListener(this)
         inboxReference = db.collection(Constants.FIREBASE_DATABASE_ROOT)
         prefManager = PrefManager(requireContext())
     }
@@ -173,5 +177,12 @@ class InboxFragment : Fragment(), InboxHandler {
                 findNavController().navigate(it)
             }
         }
+    }
+
+    override fun onRefresh() {
+        if (swipeRefreshLayout.isRefreshing) {
+            swipeRefreshLayout.isRefreshing = false
+        }
+        getInboxData()
     }
 }

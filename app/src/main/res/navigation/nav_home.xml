@@ -351,5 +351,10 @@
         android:name="com.horizam.pro.elean.ui.main.view.fragments.ChangePasswordFragment"
         android:label="fragment_change_password"
         tools:layout="@layout/fragment_change_password" />
+    <fragment
+        android:id="@+id/profile_fragment"
+        android:name="com.horizam.pro.elean.ui.main.view.fragments.manageSales.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
 
 </navigation>

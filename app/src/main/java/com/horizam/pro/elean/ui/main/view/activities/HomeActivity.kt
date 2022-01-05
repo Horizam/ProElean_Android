@@ -18,7 +18,9 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
 import com.bumptech.glide.Glide
 import com.google.android.gms.location.*
 import com.google.android.material.snackbar.Snackbar
@@ -34,10 +36,7 @@ import com.horizam.pro.elean.data.model.response.GeneralResponse
 import com.horizam.pro.elean.databinding.ActivityHomeBinding
 import com.horizam.pro.elean.databinding.DialogDeleteBinding
 import com.horizam.pro.elean.ui.base.ViewModelFactory
-import com.horizam.pro.elean.ui.main.callbacks.DrawerHandler
-import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
-import com.horizam.pro.elean.ui.main.callbacks.LockHandler
-import com.horizam.pro.elean.ui.main.callbacks.UpdateHomeHandler
+import com.horizam.pro.elean.ui.main.callbacks.*
 import com.horizam.pro.elean.ui.main.events.LogoutEvent
 import com.horizam.pro.elean.ui.main.viewmodel.HomeViewModel
 import com.horizam.pro.elean.utils.BaseUtils
@@ -56,7 +55,7 @@ import kotlin.coroutines.CoroutineContext
 
 
 class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHandler,
-    UpdateHomeHandler, CoroutineScope {
+    UpdateHomeHandler, CoroutineScope , HideBottomNavigation {
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locationRequest: LocationRequest
@@ -85,6 +84,7 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
         onClickRequestPermission()
         initDeleteDialog()
         setData()
+        setBottomNavigation()
     }
 
     private fun initDeleteDialog() {
@@ -376,7 +376,7 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
             priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         }
         val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.nav_host_fragment_home) as NavHostFragment
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
     }
 
@@ -442,4 +442,15 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
         super.onDestroy()
     }
 
+    private fun setBottomNavigation() {
+        binding.bottomNav.setupWithNavController(navController)
+    }
+
+    override fun hideNavigation() {
+        binding.bottomNav.visibility = View.GONE
+    }
+
+    override fun showNavigation() {
+        binding.bottomNav.visibility = View.VISIBLE
+    }
 }

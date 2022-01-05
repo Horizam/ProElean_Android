@@ -80,10 +80,10 @@
                     android:layout_margin="@dimen/_10sdp"
                     app:cardCornerRadius="@dimen/_4sdp"
                     app:cardElevation="@dimen/_10sdp"
+                    app:layout_constraintBottom_toTopOf="@id/tv_featured_gigs"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/rv_service_categories"
-                    app:layout_constraintBottom_toTopOf="@id/tv_featured_gigs">
+                    app:layout_constraintTop_toBottomOf="@id/rv_service_categories">
 
                     <com.smarteist.autoimageslider.SliderView
                         android:id="@+id/imageSlider"
@@ -110,13 +110,13 @@
                     android:id="@+id/tv_placeholder_ads"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:elevation="@dimen/_10sdp"
                     android:text="@string/str_no_data_available"
                     android:visibility="gone"
-                    android:elevation="@dimen/_10sdp"
-                    app:layout_constraintStart_toStartOf="@id/cv_ads"
+                    app:layout_constraintBottom_toBottomOf="@id/cv_ads"
                     app:layout_constraintEnd_toEndOf="@id/cv_ads"
-                    app:layout_constraintTop_toTopOf="@id/cv_ads"
-                    app:layout_constraintBottom_toBottomOf="@id/cv_ads"/>
+                    app:layout_constraintStart_toStartOf="@id/cv_ads"
+                    app:layout_constraintTop_toTopOf="@id/cv_ads" />
 
                 <TextView
                     android:id="@+id/tv_featured_gigs"
@@ -127,9 +127,9 @@
                     android:textColor="@color/colorBlack"
                     android:textSize="@dimen/_12ssp"
                     android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@id/rv_featured_gigs"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/cv_ads"
-                    app:layout_constraintBottom_toTopOf="@id/rv_featured_gigs"/>
+                    app:layout_constraintTop_toBottomOf="@id/cv_ads" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_featured_gigs"
@@ -142,11 +142,11 @@
                     android:visibility="visible"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constrainedHeight="true"
+                    app:layout_constraintBottom_toTopOf="@id/view_bottom"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_featured_gigs"
-                    app:layout_constraintBottom_toTopOf="@id/view_bottom"
                     tools:listitem="@layout/item_services_and_gigs" />
 
                 <TextView
@@ -155,10 +155,10 @@
                     android:layout_height="wrap_content"
                     android:text="@string/str_no_data_available"
                     android:visibility="gone"
-                    app:layout_constraintStart_toStartOf="@id/rv_featured_gigs"
+                    app:layout_constraintBottom_toBottomOf="@id/rv_featured_gigs"
                     app:layout_constraintEnd_toEndOf="@id/rv_featured_gigs"
-                    app:layout_constraintTop_toTopOf="@id/rv_featured_gigs"
-                    app:layout_constraintBottom_toBottomOf="@id/rv_featured_gigs"/>
+                    app:layout_constraintStart_toStartOf="@id/rv_featured_gigs"
+                    app:layout_constraintTop_toTopOf="@id/rv_featured_gigs" />
 
                 <View
                     android:id="@+id/view_bottom"
@@ -166,39 +166,12 @@
                     android:layout_height="?attr/actionBarSize"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:background="@color/colorAccent"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/rv_featured_gigs"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintVertical_bias="1" />
-
-                <TextView
-                    android:id="@+id/tv_app_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/app_name"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="@dimen/_14ssp"
-                    app:layout_constraintBottom_toBottomOf="@id/view_bottom"
-                    app:layout_constraintEnd_toStartOf="@id/iv_app"
-                    app:layout_constraintHorizontal_chainStyle="packed"
-                    app:layout_constraintStart_toStartOf="@id/view_bottom"
-                    app:layout_constraintTop_toTopOf="@id/view_bottom" />
-
-                <ImageView
-                    android:id="@+id/iv_app"
-                    android:layout_width="0dp"
-                    android:layout_height="?attr/actionBarSize"
-                    android:layout_toEndOf="@id/tv_app_name"
-                    android:contentDescription="@string/content_description"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/img_logo_white_two_transparent"
-                    app:layout_constraintBottom_toBottomOf="@id/view_bottom"
-                    app:layout_constraintDimensionRatio="1:1"
-                    app:layout_constraintEnd_toEndOf="@id/view_bottom"
-                    app:layout_constraintStart_toEndOf="@id/tv_app_name"
-                    app:layout_constraintTop_toTopOf="@id/view_bottom" />
-
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

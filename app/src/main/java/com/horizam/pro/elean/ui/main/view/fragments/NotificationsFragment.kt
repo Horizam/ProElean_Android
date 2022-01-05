@@ -32,7 +32,7 @@ import com.horizam.pro.elean.utils.Status
 import java.lang.Exception
 
 
-class NotificationsFragment : Fragment(),NotificationsHandler {
+class NotificationsFragment : Fragment(), NotificationsHandler {
 
     private lateinit var binding: FragmentNotificationsBinding
     private lateinit var adapter: NotificationsAdapter
@@ -143,7 +143,7 @@ class NotificationsFragment : Fragment(),NotificationsHandler {
     }
 
     override fun <T> onItemClick(item: T) {
-        if (item is Notification){
+        if (item is Notification) {
 
         }
     }
