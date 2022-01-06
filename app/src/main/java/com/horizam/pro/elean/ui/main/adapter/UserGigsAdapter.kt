@@ -12,15 +12,10 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
-import com.horizam.pro.elean.data.model.User
 import com.horizam.pro.elean.data.model.response.ServiceDetail
-import com.horizam.pro.elean.data.model.response.User_services
-import com.horizam.pro.elean.databinding.ItemSkillBinding
 import com.horizam.pro.elean.databinding.ItemUserGigBinding
 import com.horizam.pro.elean.ui.main.callbacks.FavouriteHandler
 import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
-import com.horizam.pro.elean.ui.main.view.activities.UserAboutActivity
-import com.horizam.pro.elean.ui.main.view.activities.UserGigDetailsActivity
 
 class UserGigsAdapter(
     val listener: OnItemClickListener,

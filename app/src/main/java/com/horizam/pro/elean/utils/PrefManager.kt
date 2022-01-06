@@ -31,6 +31,10 @@ class PrefManager(_context: Context) {
     get() = pref.getInt(Constants.IS_FREELANCER, 0)
     set(value) = pref.edit().putInt(Constants.IS_FREELANCER, value).apply()
 
+    var sellerMode:Int
+        get() = pref.getInt(Constants.IS_FREELANCER, 0)
+        set(value) = pref.edit().putInt(Constants.IS_FREELANCER, value).apply()
+
     var username: String?
     get() = pref.getString(Constants.USER_NAME, "")
     set(value) = pref.edit().putString(Constants.USER_NAME, value).apply()

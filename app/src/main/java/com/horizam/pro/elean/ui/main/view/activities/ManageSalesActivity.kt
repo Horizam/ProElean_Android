@@ -54,8 +54,8 @@ class ManageSalesActivity : AppCompatActivity(), GenericHandler {
     }
 
     private fun initViews() {
-        listFragmentTitles = arrayListOf("Active", "Late" ,"Delivered","Completed","Revision", "Cancel" ,"Disputed")
-        viewPagerFragmentAdapter = ViewPagerManageSalesAdapter(this,listFragmentTitles)
+//        listFragmentTitles = arrayListOf("Active", "Late" ,"Delivered","Completed","Revision", "Cancel" ,"Disputed")
+//        viewPagerFragmentAdapter = ViewPagerManageSalesAdapter(this,listFragmentTitles)
     }
 
     override fun showProgressBar(show: Boolean) {

@@ -9,7 +9,7 @@ import com.horizam.pro.elean.ui.main.view.fragments.aboutUser.ReviewsUserFragmen
 
 
 internal class ViewPagerFragmentAdapter(
-    fragmentActivity: FragmentActivity,
+    fragmentActivity: Fragment,
     listFragmentTitles: ArrayList<String>
 ) :
     FragmentStateAdapter(fragmentActivity) {

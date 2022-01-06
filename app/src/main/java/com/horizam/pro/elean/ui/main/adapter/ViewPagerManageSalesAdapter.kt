@@ -12,7 +12,7 @@ import com.horizam.pro.elean.ui.main.view.fragments.manageSales.*
 
 
 internal class ViewPagerManageSalesAdapter(
-    fragmentActivity: FragmentActivity,
+    fragmentActivity: Fragment,
     listFragmentTitles: ArrayList<String>
 ) :
     FragmentStateAdapter(fragmentActivity) {

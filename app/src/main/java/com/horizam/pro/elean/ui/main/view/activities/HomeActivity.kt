@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Looper
 import android.util.Log
+import android.view.Menu
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -15,6 +16,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.findFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
@@ -55,7 +57,7 @@ import kotlin.coroutines.CoroutineContext
 
 
 class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHandler,
-    UpdateHomeHandler, CoroutineScope , HideBottomNavigation {
+    UpdateHomeHandler, CoroutineScope, HideBottomNavigation, SellerActionModeHandler {
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locationRequest: LocationRequest
@@ -346,14 +348,14 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
     }
 
     private fun navigateToUserProfile() {
-        if (isUserFreelancer == 0) {
-            navController.navigate(R.id.userNonFreelancerFragment)
-        } else {
-            Intent(this, UserAboutActivity::class.java).also {
-                it.putExtra("id", userId)
-                startActivity(it)
-            }
-        }
+//        if (isUserFreelancer == 0) {
+//            navController.navigate(R.id.userNonFreelancerFragment)
+//        } else {
+//            Intent(this, UserAboutActivity::class.java).also {
+//                it.putExtra("id", userId)
+//                startActivity(it)
+//            }
+//        }
     }
 
     override fun openDrawer() {
@@ -444,6 +446,39 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
 
     private fun setBottomNavigation() {
         binding.bottomNav.setupWithNavController(navController)
+        if (prefManager.sellerMode == 1) {
+            setSellerBottomNavigation()
+        } else {
+            setBuyerBottomNavigation()
+        }
+    }
+
+    private fun setBuyerBottomNavigation() {
+        val menu = binding.bottomNav.menu
+        menu.clear()
+        menu.add(Menu.NONE, R.id.homeFragment, Menu.NONE, "Home")
+            .setIcon(R.drawable.img_home)
+        menu.add(Menu.NONE, R.id.inboxFragment, Menu.NONE, "Inbox")
+            .setIcon(R.drawable.img_inbox)
+        menu.add(Menu.NONE, R.id.serviceGigsFragment, Menu.NONE, "Search")
+            .setIcon(R.drawable.img_search)
+        menu.add(Menu.NONE, R.id.orderFragment, Menu.NONE, "Order")
+            .setIcon(R.drawable.img_order)
+        menu.add(Menu.NONE, R.id.profile_fragment, Menu.NONE, "Profile")
+            .setIcon(R.drawable.img_profile_)
+    }
+
+    private fun setSellerBottomNavigation() {
+        val menu = binding.bottomNav.menu
+        menu.clear()
+        menu.add(Menu.NONE, R.id.sellerActionsFragment, Menu.NONE, "Home")
+            .setIcon(R.drawable.img_home)
+        menu.add(Menu.NONE, R.id.inboxFragment, Menu.NONE, "Inbox")
+            .setIcon(R.drawable.img_inbox)
+        menu.add(Menu.NONE, R.id.orderFragment, Menu.NONE, "Order")
+            .setIcon(R.drawable.img_order)
+        menu.add(Menu.NONE, R.id.profile_fragment, Menu.NONE, "Profile")
+            .setIcon(R.drawable.img_profile_)
     }
 
     override fun hideNavigation() {
@@ -452,5 +487,35 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
 
     override fun showNavigation() {
         binding.bottomNav.visibility = View.VISIBLE
+    }
+
+    override fun sellerActionMode(state: Int) {
+        if (state == 0) {
+            val menu = binding.bottomNav.menu
+            menu.clear()
+            menu.add(Menu.NONE, R.id.homeFragment, Menu.NONE, "Home")
+                .setIcon(R.drawable.img_home)
+            menu.add(Menu.NONE, R.id.inboxFragment, Menu.NONE, "Inbox")
+                .setIcon(R.drawable.img_inbox)
+            menu.add(Menu.NONE, R.id.serviceGigsFragment, Menu.NONE, "Search")
+                .setIcon(R.drawable.img_search)
+            menu.add(Menu.NONE, R.id.orderFragment, Menu.NONE, "Order")
+                .setIcon(R.drawable.img_order)
+            menu.add(Menu.NONE, R.id.profile_fragment, Menu.NONE, "Profile")
+                .setIcon(R.drawable.img_profile_)
+            binding.bottomNav.selectedItemId = R.id.profile_fragment
+        } else {
+            val menu = binding.bottomNav.menu
+            menu.clear()
+            menu.add(Menu.NONE, R.id.sellerActionsFragment, Menu.NONE, "Home")
+                .setIcon(R.drawable.img_home)
+            menu.add(Menu.NONE, R.id.inboxFragment, Menu.NONE, "Inbox")
+                .setIcon(R.drawable.img_inbox)
+            menu.add(Menu.NONE, R.id.orderFragment, Menu.NONE, "Order")
+                .setIcon(R.drawable.img_order)
+            menu.add(Menu.NONE, R.id.profile_fragment, Menu.NONE, "Profile")
+                .setIcon(R.drawable.img_profile_)
+            binding.bottomNav.selectedItemId = R.id.profile_fragment
+        }
     }
 }

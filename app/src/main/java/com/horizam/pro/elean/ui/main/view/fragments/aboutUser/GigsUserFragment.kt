@@ -27,7 +27,6 @@ import com.horizam.pro.elean.ui.main.adapter.UserGigsAdapter
 import com.horizam.pro.elean.ui.main.callbacks.FavouriteHandler
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
 import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
-import com.horizam.pro.elean.ui.main.view.activities.UserAboutActivity
 import com.horizam.pro.elean.ui.main.view.activities.UserGigDetailsActivity
 import com.horizam.pro.elean.ui.main.viewmodel.ProfileViewModel
 import com.horizam.pro.elean.utils.PrefManager
@@ -93,8 +92,7 @@ class GigsUserFragment : Fragment(), OnItemClickListener, FavouriteHandler {
     }
 
     private fun exeApi() {
-        val id = requireActivity().intent.getStringExtra("id")
-        viewModel.userServicesCall(id!!)
+        viewModel.userServicesCall(prefManager.userId)
     }
 
     private fun setRecyclerView() {

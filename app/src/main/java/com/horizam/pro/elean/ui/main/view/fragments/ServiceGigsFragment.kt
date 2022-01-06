@@ -229,7 +229,13 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
             when (resource.status) {
                 Status.SUCCESS -> {
                     genericHandler.showProgressBar(false)
-                    viewModel.getServicesBySubCategories(args.id)
+                    if (args.from == Constants.NORMAL_FLOW) {
+                        if (viewModel.sellers.value == null) {
+                            viewModel.getServicesBySubCategories(args.id)
+                        }
+                    } else {
+                        exeSearch()
+                    }
                 }
                 Status.ERROR -> {
                     genericHandler.showProgressBar(false)
@@ -261,9 +267,9 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
     }
 
     override fun <T> contactSeller(item: T) {
-        if (item is ServiceDetail){
+        if (item is ServiceDetail) {
             try {
-                if (prefManager.userId != item.user_id && item.user_id != ""){
+                if (prefManager.userId != item.user_id && item.user_id != "") {
                     val messageGig = MessageGig(
                         gigId = item.id,
                         gigImage = item.service_media[0].media,
@@ -280,7 +286,7 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
                         findNavController().navigate(it)
                     }
                 }
-            }catch (e: Exception){
+            } catch (e: Exception) {
                 genericHandler.showMessage(e.message.toString())
             }
         }

@@ -30,7 +30,6 @@ import com.horizam.pro.elean.databinding.FragmentGigDetailsBinding
 import com.horizam.pro.elean.ui.base.ViewModelFactory
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
 import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
-import com.horizam.pro.elean.ui.main.view.activities.UserAboutActivity
 import com.horizam.pro.elean.ui.main.viewmodel.GigDetailsViewModel
 import com.horizam.pro.elean.utils.Status
 import java.lang.Exception
@@ -124,13 +123,13 @@ class GigDetailsFragment : Fragment(), OnItemClickListener,
             findNavController().popBackStack()
         }
         binding.ivUser.setOnClickListener {
-            if (userId == "") {
-                return@setOnClickListener
-            }
-            Intent(requireActivity(), UserAboutActivity::class.java).also {
-                it.putExtra("id", userId)
-                startActivity(it)
-            }
+//            if (userId == "") {
+//                return@setOnClickListener
+//            }
+//            Intent(requireActivity(), UserAboutActivity::class.java).also {
+//                it.putExtra("id", userId)
+//                startActivity(it)
+//            }
         }
         binding.btnRetry.setOnClickListener {
             executeApi()

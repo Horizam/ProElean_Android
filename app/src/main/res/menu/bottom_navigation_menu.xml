@@ -17,17 +17,17 @@
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/notificationsFragment"
+        android:id="@+id/serviceGigsFragment"
         android:enabled="true"
-        android:icon="@drawable/img_notification"
-        android:title="@string/str_notifications"
+        android:icon="@drawable/img_search"
+        android:title="Search"
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/savedFragment"
+        android:id="@+id/orderFragment"
         android:enabled="true"
-        android:icon="@drawable/img_saved"
-        android:title="@string/str_saved"
+        android:icon="@drawable/img_order"
+        android:title="Order"
         app:showAsAction="ifRoom" />
 
     <item

@@ -13,7 +13,6 @@ import com.horizam.pro.elean.R
 import com.horizam.pro.elean.databinding.FragmentBuyerActionsBinding
 import com.horizam.pro.elean.databinding.FragmentLoginBinding
 import com.horizam.pro.elean.databinding.FragmentSignUpBinding
-import com.horizam.pro.elean.ui.main.view.activities.ManageOrdersActivity
 
 
 class BuyerActionsFragment : Fragment() {
@@ -47,7 +46,7 @@ class BuyerActionsFragment : Fragment() {
             navController.navigate(R.id.postedJobsFragment)
         }
         binding.cardManageOrders.setOnClickListener {
-            startActivity(Intent(requireActivity(),ManageOrdersActivity::class.java))
+//            startActivity(Intent(requireActivity(),ManageOrdersActivity::class.java))
         }
     }
 

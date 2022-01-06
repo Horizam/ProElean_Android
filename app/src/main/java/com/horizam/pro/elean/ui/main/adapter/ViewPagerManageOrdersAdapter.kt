@@ -7,7 +7,7 @@ import com.horizam.pro.elean.ui.main.view.fragments.manageOrders.*
 
 
 internal class ViewPagerManageOrdersAdapter(
-    fragmentActivity: FragmentActivity,
+    fragmentActivity: Fragment,
     listFragmentTitles: ArrayList<String>
 ) :
     FragmentStateAdapter(fragmentActivity) {

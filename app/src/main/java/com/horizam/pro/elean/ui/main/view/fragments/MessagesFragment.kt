@@ -54,7 +54,6 @@ import com.horizam.pro.elean.data.model.*
 import com.horizam.pro.elean.data.model.requests.ChatOfferRequest
 import com.horizam.pro.elean.data.model.response.GeneralResponse
 import com.horizam.pro.elean.ui.main.callbacks.*
-import com.horizam.pro.elean.ui.main.view.activities.ManageOrdersActivity
 import com.horizam.pro.elean.utils.*
 import kotlinx.android.synthetic.main.item_review.*
 
@@ -181,7 +180,7 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
                             "messageOffer.status" to Constants.OFFER_ACCEPTED
                         )
                     ).addOnSuccessListener {
-                        startActivity(Intent(requireActivity(), ManageOrdersActivity::class.java))
+//                        startActivity(Intent(requireActivity(), ManageOrdersActivity::class.java))
                     }
             }
         }

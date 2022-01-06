@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -26,7 +27,9 @@ import com.horizam.pro.elean.ui.main.adapter.NotificationsAdapter
 import com.horizam.pro.elean.ui.main.adapter.SkillsAdapter
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
 import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
+import com.horizam.pro.elean.ui.main.callbacks.SellerActionModeHandler
 import com.horizam.pro.elean.ui.main.viewmodel.ProfileViewModel
+import com.horizam.pro.elean.utils.PrefManager
 import com.horizam.pro.elean.utils.Status
 import java.lang.Exception
 
@@ -38,10 +41,13 @@ class AboutUserFragment : Fragment(), OnItemClickListener {
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewModel: ProfileViewModel
     private lateinit var genericHandler: GenericHandler
+    private lateinit var prefManager: PrefManager
+    private lateinit var sellerActionModeHandler: SellerActionModeHandler
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         genericHandler = context as GenericHandler
+        sellerActionModeHandler = context as SellerActionModeHandler
     }
 
     override fun onCreateView(
@@ -49,10 +55,41 @@ class AboutUserFragment : Fragment(), OnItemClickListener {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentUserAboutBinding.inflate(layoutInflater, container, false)
+        initComponent()
         setupViewModel()
         setRecyclerview()
         setupObservers()
+        setClickListener()
+        executeApi()
         return binding.root
+    }
+
+    private fun setClickListener() {
+        binding.btnPostAJob.setOnClickListener {
+            findNavController().navigate(R.id.postJobFragment)
+        }
+        binding.btnViewPostedJob.setOnClickListener {
+            findNavController().navigate(R.id.postedJobsFragment)
+        }
+
+        binding.switchSellerMode.setOnCheckedChangeListener { compoundButton, b ->
+            if (b){
+                prefManager.sellerMode =  1
+                sellerActionModeHandler.sellerActionMode(1)
+            }else{
+               prefManager.sellerMode = 0
+                sellerActionModeHandler.sellerActionMode(0)
+            }
+        }
+    }
+
+    private fun initComponent() {
+        prefManager = PrefManager(requireContext())
+        binding.switchSellerMode.isChecked = prefManager.sellerMode != 0
+    }
+
+    private fun executeApi() {
+        viewModel.freelancerProfileDataCall(prefManager.userId)
     }
 
     private fun setupObservers() {

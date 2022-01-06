@@ -52,7 +52,6 @@ import com.horizam.pro.elean.ui.main.callbacks.CheckoutHandler
 import com.horizam.pro.elean.ui.main.callbacks.CreateOfferHandler
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
 import com.horizam.pro.elean.ui.main.callbacks.MessagesHandler
-import com.horizam.pro.elean.ui.main.view.activities.ManageOrdersActivity
 import com.horizam.pro.elean.ui.main.viewmodel.MessagesViewModel
 import com.horizam.pro.elean.utils.*
 import com.horizam.pro.elean.utils.BaseUtils.Companion.hideKeyboard
@@ -186,7 +185,7 @@ class OrderMessagesFragment(var order: Order) : Fragment(), MessagesHandler, Cre
                             "messageOffer.status" to Constants.OFFER_ACCEPTED
                         )
                     ).addOnSuccessListener {
-                        startActivity(Intent(requireActivity(), ManageOrdersActivity::class.java))
+//                        startActivity(Intent(requireActivity(), ManageOrdersActivity::class.java))
                     }
             }
         }

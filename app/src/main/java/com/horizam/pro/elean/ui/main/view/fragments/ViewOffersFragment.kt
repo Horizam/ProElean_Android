@@ -40,8 +40,6 @@ import com.horizam.pro.elean.ui.main.callbacks.CheckoutHandler
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
 import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
 import com.horizam.pro.elean.ui.main.callbacks.ViewOffersHandler
-import com.horizam.pro.elean.ui.main.view.activities.ManageOrdersActivity
-import com.horizam.pro.elean.ui.main.view.activities.UserAboutActivity
 import com.horizam.pro.elean.ui.main.viewmodel.JobOffersViewModel
 import com.horizam.pro.elean.ui.main.viewmodel.PostedJobsViewModel
 import com.horizam.pro.elean.utils.PrefManager
@@ -163,7 +161,7 @@ class ViewOffersFragment : Fragment(), OnItemClickListener, ViewOffersHandler, C
         }
         bindingDialogOrderSuccessBinding.btnContinue.setOnClickListener {
             dialogOrderStatus.dismiss()
-            startActivity(Intent(requireActivity(), ManageOrdersActivity::class.java))
+//            startActivity(Intent(requireActivity(), ManageOrdersActivity::class.java))
         }
     }
 
@@ -256,10 +254,10 @@ class ViewOffersFragment : Fragment(), OnItemClickListener, ViewOffersHandler, C
 
     override fun <T> viewProfile(item: T) {
         if (item is Offer) {
-            Intent(requireActivity(), UserAboutActivity::class.java).also {
-                it.putExtra("id", item.profile.id)
-                startActivity(it)
-            }
+//            Intent(requireActivity(), UserAboutActivity::class.java).also {
+//                it.putExtra("id", item.profile.id)
+//                startActivity(it)
+//            }
         }
     }
 
