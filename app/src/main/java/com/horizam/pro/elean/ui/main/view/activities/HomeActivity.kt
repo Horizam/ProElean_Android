@@ -5,6 +5,7 @@ import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.Menu
@@ -490,6 +491,7 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
     }
 
     override fun sellerActionMode(state: Int) {
+        binding.showWhiteScreen.visibility = View.VISIBLE
         if (state == 0) {
             val menu = binding.bottomNav.menu
             menu.clear()
@@ -504,6 +506,9 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
             menu.add(Menu.NONE, R.id.profile_fragment, Menu.NONE, "Profile")
                 .setIcon(R.drawable.img_profile_)
             binding.bottomNav.selectedItemId = R.id.profile_fragment
+            Handler().postDelayed({
+                binding.showWhiteScreen.visibility = View.INVISIBLE
+            }, 500)
         } else {
             val menu = binding.bottomNav.menu
             menu.clear()
@@ -516,6 +521,9 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
             menu.add(Menu.NONE, R.id.profile_fragment, Menu.NONE, "Profile")
                 .setIcon(R.drawable.img_profile_)
             binding.bottomNav.selectedItemId = R.id.profile_fragment
+            Handler().postDelayed({
+                binding.showWhiteScreen.visibility = View.INVISIBLE
+            }, 500)
         }
     }
 }
