@@ -376,6 +376,7 @@ class OrderMessagesFragment(var order: Order) : Fragment(), MessagesHandler, Cre
 
     private fun initViews() {
         //adapter = MessageAdapter(this)
+        binding.tvCreateOffer.visibility = View.VISIBLE
         recyclerView = binding.rvMessages
         db = Firebase.firestore
         firebaseStorage = FirebaseStorage.getInstance()
@@ -719,7 +720,8 @@ class OrderMessagesFragment(var order: Order) : Fragment(), MessagesHandler, Cre
     }
 
     private fun validateMessage() {
-        if (binding.etSendMessage.text.toString().isEmpty()) {
+        val msg = binding.etSendMessage.text.toString().trim()
+        if (msg.isEmpty()) {
             binding.etSendMessage.error = getString(R.string.str_enter_valid_message)
             binding.etSendMessage.requestFocus()
             disableMessageSend(true)

@@ -510,22 +510,22 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                     }
                 }
             }
-            tvSeller.setOnClickListener {
-                Intent(requireActivity(), HomeActivity::class.java).also {
-                    it.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                    it.putExtra("startChat", 0)
-                    it.putExtra("id", order.seller_id)
-                    startActivity(it)
-                }
-            }
-            tvBuyer.setOnClickListener {
-                Intent(requireActivity(), HomeActivity::class.java).also {
-                    it.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                    it.putExtra("startChat", 0)
-                    it.putExtra("id", order.buyer_id)
-                    startActivity(it)
-                }
-            }
+//            tvSeller.setOnClickListener {
+//                Intent(requireActivity(), HomeActivity::class.java).also {
+//                    it.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+//                    it.putExtra("startChat", 0)
+//                    it.putExtra("id", order.seller_id)
+//                    startActivity(it)
+//                }
+//            }
+//            tvBuyer.setOnClickListener {
+//                Intent(requireActivity(), HomeActivity::class.java).also {
+//                    it.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+//                    it.putExtra("startChat", 0)
+//                    it.putExtra("id", order.buyer_id)
+//                    startActivity(it)
+//                }
+//            }
         }
     }
 

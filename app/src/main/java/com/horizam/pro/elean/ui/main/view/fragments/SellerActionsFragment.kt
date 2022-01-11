@@ -82,7 +82,7 @@ class SellerActionsFragment : Fragment(), OnItemClickListener {
     }
 
     private fun initViews() {
-        binding.toolbar.ivToolbar.visibility = View.VISIBLE
+        binding.toolbar.ivToolbar.visibility = View.INVISIBLE
         navController = this.findNavController()
         sellerActionList = ArrayList()
     }

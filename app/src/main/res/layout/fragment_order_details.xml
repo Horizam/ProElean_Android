@@ -138,7 +138,6 @@
                 android:maxLength="25"
                 android:maxLines="1"
                 android:visibility="gone"
-                app:drawableEndCompat="@drawable/ic_chat"
                 app:layout_constraintBottom_toBottomOf="@id/tv_seller_title"
                 app:layout_constraintStart_toEndOf="@id/tv_seller_title"
                 app:layout_constraintTop_toTopOf="@id/tv_seller_title"

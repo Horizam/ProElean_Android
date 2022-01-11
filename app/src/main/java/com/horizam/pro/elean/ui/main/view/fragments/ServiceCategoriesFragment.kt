@@ -141,7 +141,8 @@ class ServiceCategoriesFragment : Fragment(), OnItemClickListener {
             val id = item.id
             val action =
                 ServiceCategoriesFragmentDirections.actionServiceCategoriesFragmentToServiceGigsFragment(
-                    id
+                    id = id ,
+                    from = 0
                 )
             findNavController().navigate(action)
         }
