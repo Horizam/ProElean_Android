@@ -14,6 +14,7 @@ import com.horizam.pro.elean.databinding.FragmentProfileBinding
 import com.horizam.pro.elean.ui.main.adapter.ViewPagerManageOrdersAdapter
 import com.horizam.pro.elean.ui.main.adapter.ViewPagerManageSalesAdapter
 import com.horizam.pro.elean.utils.PrefManager
+import kotlinx.android.synthetic.main.fragment_order.view.*
 
 
 class OrderFragment : Fragment() {
@@ -36,6 +37,7 @@ class OrderFragment : Fragment() {
     }
 
     private fun initViews() {
+        binding.toolbar.iv_toolbar.visibility = View.INVISIBLE
         prefManager = PrefManager(requireContext())
         listFragmentTitles = arrayListOf(
             "Active",

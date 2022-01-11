@@ -100,6 +100,7 @@ class InboxFragment : Fragment(), InboxHandler , SwipeRefreshLayout.OnRefreshLis
     }
 
     private fun initViews() {
+        binding.toolbar.ivToolbar.visibility = View.INVISIBLE
         recyclerView = binding.rvInbox
         adapter = InboxAdapter(this)
         db = Firebase.firestore
