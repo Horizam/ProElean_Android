@@ -726,7 +726,7 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
                 // use local to gmt method for utc if nothing works (also tried Date().time)
                 val utcMilliseconds = Calendar.getInstance().timeInMillis
                 sendMessageToFirebase(
-                    "", binding.etSendMessage.text.toString(),
+                    "", binding.etSendMessage.text.toString().trimStart(),
                     myId, utcMilliseconds, Constants.MESSAGE_TYPE_TEXT
                 )
             } catch (ex: Exception) {
