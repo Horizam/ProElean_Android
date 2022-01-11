@@ -46,6 +46,7 @@
                 android:drawablePadding="@dimen/_5sdp"
                 android:hint="@string/search_hint"
                 android:padding="@dimen/_5sdp"
+                android:maxLines="1"
                 app:layout_constraintBottom_toBottomOf="@id/iv_toolbar"
                 app:layout_constraintEnd_toStartOf="@id/btn_search"
                 app:layout_constraintStart_toEndOf="@id/iv_toolbar"

@@ -112,6 +112,7 @@
             android:paddingHorizontal="@dimen/_10sdp"
             android:paddingVertical="@dimen/_3sdp"
             android:textColor="@color/colorDarkGrey"
+            android:maxLines="5"
             android:textColorHint="@color/colorDarkGrey"
             app:layout_constraintEnd_toStartOf="@id/iv_send"
             app:layout_constraintStart_toStartOf="parent"
