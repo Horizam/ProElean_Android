@@ -716,7 +716,8 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
     }
 
     private fun validateMessage() {
-        if (binding.etSendMessage.text.toString().isEmpty()) {
+        val msg = binding.etSendMessage.text.toString().trim()
+        if (msg.isEmpty()) {
             binding.etSendMessage.error = getString(R.string.str_enter_valid_message)
             binding.etSendMessage.requestFocus()
             disableMessageSend(true)
