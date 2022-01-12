@@ -291,5 +291,6 @@
     <string name="str_current_password">Current Password</string>
     <string name="str_select_file">Select File</string>
     <string name="str_profile">Profile</string>
+    <string name="str_last_active">Last Active</string>
 
 </resources>

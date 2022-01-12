@@ -9,6 +9,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorWhiteMatching"
         android:paddingBottom="@dimen/_20sdp">
 
         <de.hdodenhof.circleimageview.CircleImageView
@@ -29,6 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_10sdp"
             android:textColor="@color/colorBlack"
+            android:textSize="@dimen/_11ssp"
             app:layout_constraintBottom_toTopOf="@id/iv_star"
             app:layout_constraintStart_toEndOf="@id/iv_selected_category"
             app:layout_constraintTop_toTopOf="@id/iv_selected_category"
@@ -53,6 +55,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_3sdp"
             android:gravity="center"
+            android:textSize="@dimen/_10ssp"
             app:layout_constraintBottom_toBottomOf="@id/iv_star"
             app:layout_constraintStart_toEndOf="@id/iv_star"
             app:layout_constraintTop_toTopOf="@id/iv_star"
@@ -65,6 +68,7 @@
             android:layout_marginStart="@dimen/_7sdp"
             android:gravity="center"
             android:textColor="@color/colorBlack"
+            android:textSize="@dimen/_10ssp"
             app:layout_constraintBottom_toBottomOf="@id/tv_user_rating"
             app:layout_constraintStart_toEndOf="@id/tv_user_rating"
             app:layout_constraintTop_toTopOf="@id/tv_user_rating"
@@ -75,10 +79,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_25sdp"
             android:text="@string/user_information"
             android:textColor="@color/colorBlack"
-            android:textStyle="bold"
+            android:textSize="@dimen/_13ssp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/iv_selected_category" />
 
@@ -86,7 +90,7 @@
             android:id="@+id/iv_location"
             android:layout_width="@dimen/_20sdp"
             android:layout_height="@dimen/_20sdp"
-            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginStart="@dimen/_20sdp"
             android:layout_marginTop="@dimen/_15sdp"
             android:contentDescription="@string/content_description"
             android:src="@drawable/ic_location"
@@ -101,37 +105,37 @@
             android:layout_marginStart="@dimen/_7sdp"
             android:text="@string/from"
             android:textColor="@color/colorDarkGrey"
-            android:textSize="@dimen/_12ssp"
+            android:textSize="@dimen/_10ssp"
             app:layout_constraintBottom_toTopOf="@id/tv_location"
             app:layout_constraintStart_toEndOf="@id/iv_location"
             app:layout_constraintTop_toTopOf="@id/iv_location" />
 
         <TextView
             android:id="@+id/tv_location"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_7sdp"
             android:layout_marginEnd="@dimen/_10sdp"
             android:ellipsize="end"
+            android:maxWidth="@dimen/_100sdp"
             android:maxLines="1"
             android:textColor="@color/colorBlack"
-            android:textSize="@dimen/_12ssp"
+            android:textSize="@dimen/_11ssp"
             app:layout_constraintBottom_toBottomOf="@id/iv_location"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/iv_location"
             app:layout_constraintTop_toBottomOf="@id/tvFrom"
-            tools:text="@string/str_lorem_ipsum_is_simply_dummy_text_of_the_printing_and_typesetting" />
+            tools:text="" />
 
         <ImageView
             android:id="@+id/iv_time"
             android:layout_width="@dimen/_20sdp"
             android:layout_height="@dimen/_20sdp"
-            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginStart="@dimen/_120sdp"
             android:layout_marginTop="@dimen/_15sdp"
             android:contentDescription="@string/content_description"
             android:src="@drawable/ic_time"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_location"
+            app:layout_constraintStart_toEndOf="@+id/iv_location"
+            app:layout_constraintTop_toBottomOf="@id/tv_user_info"
             app:tint="@color/colorDarkGrey" />
 
         <TextView
@@ -141,33 +145,33 @@
             android:layout_marginStart="@dimen/_7sdp"
             android:text="@string/str_member_since"
             android:textColor="@color/colorDarkGrey"
-            android:textSize="@dimen/_12ssp"
+            android:textSize="@dimen/_10ssp"
             app:layout_constraintBottom_toTopOf="@id/tv_response"
             app:layout_constraintStart_toEndOf="@id/iv_time"
             app:layout_constraintTop_toTopOf="@id/iv_time" />
 
         <TextView
             android:id="@+id/tv_response"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_7sdp"
             android:layout_marginEnd="@dimen/_10sdp"
             android:ellipsize="end"
+            android:maxWidth="@dimen/_100sdp"
             android:maxLines="1"
             android:textColor="@color/colorBlack"
-            android:textSize="@dimen/_12ssp"
+            android:textSize="@dimen/_11ssp"
             app:layout_constraintBottom_toBottomOf="@id/iv_time"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/iv_time"
             app:layout_constraintTop_toBottomOf="@id/tv_response_time"
-            tools:text="@string/str_lorem_ipsum_is_simply_dummy_text_of_the_printing_and_typesetting" />
+            tools:text="" />
 
         <ImageView
             android:id="@+id/iv_delivery"
             android:layout_width="@dimen/_20sdp"
             android:layout_height="@dimen/_20sdp"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_30sdp"
             android:contentDescription="@string/content_description"
             android:src="@drawable/ic_work"
             app:layout_constraintStart_toStartOf="parent"
@@ -181,33 +185,77 @@
             android:layout_marginStart="@dimen/_7sdp"
             android:text="@string/str_recent_delivery"
             android:textColor="@color/colorDarkGrey"
-            android:textSize="@dimen/_12ssp"
+            android:textSize="@dimen/_10ssp"
             app:layout_constraintBottom_toTopOf="@id/tv_recent_delivery"
             app:layout_constraintStart_toEndOf="@id/iv_delivery"
             app:layout_constraintTop_toTopOf="@id/iv_delivery" />
 
         <TextView
             android:id="@+id/tv_recent_delivery"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_7sdp"
             android:layout_marginEnd="@dimen/_10sdp"
             android:ellipsize="end"
+            android:maxWidth="@dimen/_100sdp"
             android:maxLines="1"
             android:textColor="@color/colorBlack"
-            android:textSize="@dimen/_12ssp"
+            android:textSize="@dimen/_11ssp"
             app:layout_constraintBottom_toBottomOf="@id/iv_delivery"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/iv_delivery"
             app:layout_constraintTop_toBottomOf="@id/tv_recent"
-            tools:text="@string/str_lorem_ipsum_is_simply_dummy_text_of_the_printing_and_typesetting" />
+            tools:text="" />
+
+
+        <ImageView
+            android:id="@+id/iv_last_active"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:layout_marginStart="@dimen/_120sdp"
+            android:layout_marginTop="@dimen/_30sdp"
+            android:contentDescription="@string/content_description"
+            android:src="@drawable/ic_online"
+            app:layout_constraintStart_toEndOf="@id/iv_delivery"
+            app:layout_constraintTop_toBottomOf="@id/tv_response"
+            app:tint="@color/colorDarkGrey" />
+
+        <TextView
+            android:id="@+id/tv_last_active_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_7sdp"
+            android:text="@string/str_last_active"
+            android:textColor="@color/colorDarkGrey"
+            android:textSize="@dimen/_10ssp"
+            app:layout_constraintBottom_toTopOf="@id/tv_recent_delivery"
+            app:layout_constraintStart_toEndOf="@id/iv_last_active"
+            app:layout_constraintTop_toTopOf="@id/iv_last_active" />
+
+        <TextView
+            android:id="@+id/tv_last_active_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_7sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:ellipsize="end"
+            android:maxWidth="@dimen/_100sdp"
+            android:maxLines="1"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/_11ssp"
+            app:layout_constraintBottom_toBottomOf="@id/iv_last_active"
+            app:layout_constraintStart_toEndOf="@id/iv_last_active"
+            app:layout_constraintTop_toBottomOf="@id/tv_last_active_title"
+            tools:text="online" />
+
 
         <View
             android:id="@+id/view"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_1sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:background="@color/colorBlack"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="18dp"
+            android:layout_marginEnd="10dp"
+            android:background="@color/colorGrey"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_recent_delivery" />
@@ -217,8 +265,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginTop="18dp"
             android:text="@string/languages"
+            android:textSize="@dimen/_13ssp"
             android:textColor="@color/colorBlack"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/view" />
@@ -262,8 +311,10 @@
             android:id="@+id/view_desc"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_1sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:background="@color/colorBlack"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="18dp"
+            android:layout_marginEnd="10dp"
+            android:background="@color/colorGrey"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cardViewLang" />
@@ -273,7 +324,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_10sdp"
+            android:layout_marginTop="18dp"
             android:text="@string/str_description"
+            android:textSize="@dimen/_13ssp"
             android:textColor="@color/colorBlack"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/view_desc" />
@@ -285,7 +338,6 @@
             android:layout_marginHorizontal="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_5sdp"
             android:ellipsize="end"
-            android:lines="2"
             android:maxLines="2"
             android:textColor="@color/colorDarkGrey"
             app:layout_constraintEnd_toEndOf="parent"
@@ -297,8 +349,10 @@
             android:id="@+id/view_skill"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_1sdp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="@dimen/_10sdp"
-            android:background="@color/colorBlack"
+            android:layout_marginEnd="10dp"
+            android:background="@color/colorGrey"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_desc_about_user" />
@@ -309,6 +363,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_10sdp"
             android:text="@string/skills"
+            android:visibility="gone"
+            android:textSize="@dimen/_13ssp"
             android:textColor="@color/colorBlack"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/view_skill" />
@@ -320,7 +376,7 @@
             android:layout_marginHorizontal="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_5sdp"
             android:orientation="horizontal"
-            android:visibility="visible"
+            android:visibility="gone"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constrainedHeight="true"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -330,62 +386,56 @@
             app:layout_constraintVertical_bias="0"
             tools:listitem="@layout/item_skill" />
 
-        <LinearLayout
-            android:id="@+id/ll_post"
-            android:layout_width="match_parent"
+         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_seller_actions"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_15sdp"
-            android:orientation="horizontal"
-            android:weightSum="2"
+            android:layout_weight="1"
+            app:cardCornerRadius="@dimen/_5sdp"
+            app:cardElevation="@dimen/_2sdp"
+            android:layout_marginHorizontal="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rv_skills">
+            app:layout_constraintTop_toBottomOf="@+id/rv_skills"
+            app:strokeColor="@color/colorGrey"
+            app:strokeWidth="@dimen/_1sdp">
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_post_a_job"
-                style="@style/New.TextButton"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/_40sdp"
-                android:layout_marginHorizontal="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_20sdp"
-                android:backgroundTint="@color/colorButtons"
-                android:text="@string/str_post_a_job"
-                android:textAllCaps="false"
-                android:textColor="@color/colorWhite"
-                app:cornerRadius="@dimen/_10sdp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_forget_password"
-                android:layout_weight="1"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_buyer_actions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+               />
+        </com.google.android.material.card.MaterialCardView>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_view_posted_job"
-                style="@style/New.TextButton"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/_40sdp"
-                android:layout_marginHorizontal="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_20sdp"
-                android:backgroundTint="@color/colorButtons"
-                android:text="@string/str_view_posted_jobs"
-                android:textAllCaps="false"
-                android:textColor="@color/colorWhite"
-                app:cornerRadius="@dimen/_10sdp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_forget_password"
-                android:layout_weight="1"/>
 
-        </LinearLayout>
-
-        <com.google.android.material.switchmaterial.SwitchMaterial
-            android:id="@+id/switch_seller_mode"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/ll_post"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:background="@drawable/bg_shape_rectangle"
+            android:paddingHorizontal="@dimen/_10sdp"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginHorizontal="@dimen/_15sdp"
-            android:layout_marginTop="@dimen/_15sdp" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/switch_seller_mode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10ssp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:text="Seller Mode"
+                android:textColor="@color/colorBlack"
+                app:layout_constraintEnd_toStartOf="@+id/switch_seller_mode"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

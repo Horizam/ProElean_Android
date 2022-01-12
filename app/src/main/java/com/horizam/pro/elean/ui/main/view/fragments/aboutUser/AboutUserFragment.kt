@@ -17,6 +17,7 @@ import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
+import com.horizam.pro.elean.data.model.SellerActionModel
 import com.horizam.pro.elean.data.model.response.FreelancerUserResponse
 import com.horizam.pro.elean.data.model.response.ProfileInfo
 import com.horizam.pro.elean.databinding.FragmentLoginBinding
@@ -24,6 +25,7 @@ import com.horizam.pro.elean.databinding.FragmentSignUpBinding
 import com.horizam.pro.elean.databinding.FragmentUserAboutBinding
 import com.horizam.pro.elean.ui.base.ViewModelFactory
 import com.horizam.pro.elean.ui.main.adapter.NotificationsAdapter
+import com.horizam.pro.elean.ui.main.adapter.SellerActionAdapter
 import com.horizam.pro.elean.ui.main.adapter.SkillsAdapter
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
 import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
@@ -43,6 +45,9 @@ class AboutUserFragment : Fragment(), OnItemClickListener {
     private lateinit var genericHandler: GenericHandler
     private lateinit var prefManager: PrefManager
     private lateinit var sellerActionModeHandler: SellerActionModeHandler
+    private lateinit var sellerActionAdapter: SellerActionAdapter
+    private lateinit var sellerActionList: ArrayList<SellerActionModel>
+    private lateinit var linearLayoutManager: LinearLayoutManager
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -61,16 +66,41 @@ class AboutUserFragment : Fragment(), OnItemClickListener {
         setupObservers()
         setClickListener()
         executeApi()
+        setAdapter()
         return binding.root
     }
 
+    private fun setAdapter() {
+        setDetailBuyerActionList()
+        sellerActionAdapter = SellerActionAdapter(sellerActionList, this)
+        linearLayoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        binding.rvBuyerActions.layoutManager = linearLayoutManager
+        binding.rvBuyerActions.adapter = sellerActionAdapter
+    }
+
+    private fun setDetailBuyerActionList() {
+        sellerActionList.add(
+            SellerActionModel(
+                title = "Post a Job",
+                image = R.drawable.ic_create_service
+            )
+        )
+        sellerActionList.add(
+            SellerActionModel(
+                title = "View Posted Jobs",
+                image = R.drawable.ic_manage_service
+            )
+        )
+    }
+
     private fun setClickListener() {
-        binding.btnPostAJob.setOnClickListener {
-            findNavController().navigate(R.id.postJobFragment)
-        }
-        binding.btnViewPostedJob.setOnClickListener {
-            findNavController().navigate(R.id.postedJobsFragment)
-        }
+//        binding.btnPostAJob.setOnClickListener {
+//            findNavController().navigate(R.id.postJobFragment)
+//        }
+//        binding.btnViewPostedJob.setOnClickListener {
+//            findNavController().navigate(R.id.postedJobsFragment)
+//        }
 
         binding.switchSellerMode.setOnCheckedChangeListener { compoundButton, b ->
             if (b){
@@ -84,6 +114,7 @@ class AboutUserFragment : Fragment(), OnItemClickListener {
     }
 
     private fun initComponent() {
+        sellerActionList = ArrayList()
         prefManager = PrefManager(requireContext())
         binding.switchSellerMode.isChecked = prefManager.sellerMode != 0
     }
