@@ -1,6 +1,7 @@
 package com.horizam.pro.elean.ui.main.view.fragments.aboutUser
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -30,6 +31,7 @@ import com.horizam.pro.elean.ui.main.adapter.SkillsAdapter
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
 import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
 import com.horizam.pro.elean.ui.main.callbacks.SellerActionModeHandler
+import com.horizam.pro.elean.ui.main.view.activities.ManageSalesActivity
 import com.horizam.pro.elean.ui.main.viewmodel.ProfileViewModel
 import com.horizam.pro.elean.utils.PrefManager
 import com.horizam.pro.elean.utils.Status
@@ -95,19 +97,12 @@ class AboutUserFragment : Fragment(), OnItemClickListener {
     }
 
     private fun setClickListener() {
-//        binding.btnPostAJob.setOnClickListener {
-//            findNavController().navigate(R.id.postJobFragment)
-//        }
-//        binding.btnViewPostedJob.setOnClickListener {
-//            findNavController().navigate(R.id.postedJobsFragment)
-//        }
-
         binding.switchSellerMode.setOnCheckedChangeListener { compoundButton, b ->
-            if (b){
-                prefManager.sellerMode =  1
+            if (b) {
+                prefManager.sellerMode = 1
                 sellerActionModeHandler.sellerActionMode(1)
-            }else{
-               prefManager.sellerMode = 0
+            } else {
+                prefManager.sellerMode = 0
                 sellerActionModeHandler.sellerActionMode(0)
             }
         }
@@ -193,6 +188,15 @@ class AboutUserFragment : Fragment(), OnItemClickListener {
     }
 
     override fun <T> onItemClick(item: T) {
-
+        if (item is Int) {
+            when (item) {
+                0 -> {
+                    findNavController().navigate(R.id.postJobFragment)
+                }
+                1 -> {
+                    findNavController().navigate(R.id.postedJobsFragment)
+                }
+            }
+        }
     }
 }

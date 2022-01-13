@@ -378,6 +378,11 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
         initChooseAttachmentDialog()
         initFileUploadDialog()
         BaseUtils.CurrentScreen = Constants.MESSAGESCREEN
+        if(prefManager.sellerMode == 0){
+            binding.tvCreateOffer.visibility = View.GONE
+        }else{
+            binding.tvCreateOffer.visibility = View.VISIBLE
+        }
     }
 
     private fun initFileUploadDialog() {

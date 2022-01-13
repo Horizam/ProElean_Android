@@ -267,8 +267,8 @@
             android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginTop="18dp"
             android:text="@string/languages"
-            android:textSize="@dimen/_13ssp"
             android:textColor="@color/colorBlack"
+            android:textSize="@dimen/_13ssp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/view" />
 
@@ -326,8 +326,8 @@
             android:layout_margin="@dimen/_10sdp"
             android:layout_marginTop="18dp"
             android:text="@string/str_description"
-            android:textSize="@dimen/_13ssp"
             android:textColor="@color/colorBlack"
+            android:textSize="@dimen/_13ssp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/view_desc" />
 
@@ -363,9 +363,9 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_10sdp"
             android:text="@string/skills"
-            android:visibility="gone"
-            android:textSize="@dimen/_13ssp"
             android:textColor="@color/colorBlack"
+            android:textSize="@dimen/_13ssp"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/view_skill" />
 
@@ -386,28 +386,27 @@
             app:layout_constraintVertical_bias="0"
             tools:listitem="@layout/item_skill" />
 
-         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/card_seller_actions"
-            android:layout_width="0dp"
+        <TextView
+            android:id="@+id/tv_buyer_action"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            app:cardCornerRadius="@dimen/_5sdp"
-            app:cardElevation="@dimen/_2sdp"
+            android:text="Buyer Action"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/_13ssp"
+            app:layout_constraintTop_toBottomOf="@+id/rv_skills"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginHorizontal="@dimen/_10sdp"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_buyer_actions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_10sdp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rv_skills"
-            app:strokeColor="@color/colorGrey"
-            app:strokeWidth="@dimen/_1sdp">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_buyer_actions"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-               />
-        </com.google.android.material.card.MaterialCardView>
-
+            app:layout_constraintTop_toBottomOf="@+id/tv_buyer_action"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
