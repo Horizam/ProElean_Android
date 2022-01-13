@@ -79,13 +79,6 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <TextView
-                        android:id="@+id/tv_personal_balance"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Personal_Balance"
-                        android:textSize="@dimen/_13sdp" />
-
-                    <TextView
                         android:id="@+id/tv_personal_balance_value"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -94,6 +87,13 @@
                         android:textColor="@color/colorBlack"
                         android:textSize="@dimen/_15sdp"
                         android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_personal_balance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Personal_Balance"
+                        android:textSize="@dimen/_13sdp" />
                 </LinearLayout>
 
 
@@ -109,13 +109,6 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <TextView
-                        android:id="@+id/tv_earning_in_december"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Earning in December"
-                        android:textSize="@dimen/_13sdp" />
-
-                    <TextView
                         android:id="@+id/tv_earning_in_december_value"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -124,6 +117,13 @@
                         android:textColor="@color/colorBlack"
                         android:textSize="@dimen/_15sdp"
                         android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_earning_in_december"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Earning in December"
+                        android:textSize="@dimen/_13sdp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -137,13 +137,6 @@
                     app:layout_constraintTop_toBottomOf="@+id/ll_personal_balance">
 
                     <TextView
-                        android:id="@+id/tv_avg_selling_price"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Avg. selling price"
-                        android:textSize="@dimen/_13sdp" />
-
-                    <TextView
                         android:id="@+id/tv_avg_selling_price_value"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -152,6 +145,13 @@
                         android:textColor="@color/colorBlack"
                         android:textSize="@dimen/_15sdp"
                         android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_avg_selling_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Avg. selling price"
+                        android:textSize="@dimen/_13sdp" />
                 </LinearLayout>
 
 
@@ -166,13 +166,6 @@
                     app:layout_constraintTop_toBottomOf="@+id/ll_personal_balance">
 
                     <TextView
-                        android:id="@+id/tv_active_orders"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Active Order"
-                        android:textSize="@dimen/_13sdp" />
-
-                    <TextView
                         android:id="@+id/tv_active_ordersr_value"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -181,6 +174,13 @@
                         android:textColor="@color/colorBlack"
                         android:textSize="@dimen/_15sdp"
                         android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_active_orders"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Active Order"
+                        android:textSize="@dimen/_13sdp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -194,12 +194,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/ll_avg_selling_price">
 
-                    <TextView
-                        android:id="@+id/tv_pending_clearance"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Pending clearance"
-                        android:textSize="@dimen/_13sdp" />
 
                     <TextView
                         android:id="@+id/tv_pending_clearance_value"
@@ -210,6 +204,13 @@
                         android:textColor="@color/colorBlack"
                         android:textSize="@dimen/_15sdp"
                         android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_pending_clearance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Pending clearance"
+                        android:textSize="@dimen/_13sdp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -223,13 +224,6 @@
                     app:layout_constraintTop_toBottomOf="@+id/ll_avg_selling_price">
 
                     <TextView
-                        android:id="@+id/tv_cancelled_orders"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Cancelled orders"
-                        android:textSize="@dimen/_13sdp" />
-
-                    <TextView
                         android:id="@+id/tv_cancelled_orders_value"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -238,6 +232,13 @@
                         android:textColor="@color/colorBlack"
                         android:textSize="@dimen/_15sdp"
                         android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_cancelled_orders"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Cancelled orders"
+                        android:textSize="@dimen/_13sdp" />
                 </LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>

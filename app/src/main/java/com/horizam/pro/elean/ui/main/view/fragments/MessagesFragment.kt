@@ -54,6 +54,8 @@ import com.horizam.pro.elean.data.model.*
 import com.horizam.pro.elean.data.model.requests.ChatOfferRequest
 import com.horizam.pro.elean.data.model.response.GeneralResponse
 import com.horizam.pro.elean.ui.main.callbacks.*
+import com.horizam.pro.elean.ui.main.viewmodel.FirebaseNotificationRequest
+import com.horizam.pro.elean.ui.main.viewmodel.NotificationMessage
 import com.horizam.pro.elean.utils.*
 import kotlinx.android.synthetic.main.item_review.*
 
@@ -136,7 +138,6 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
                 Status.SUCCESS -> {
                     genericHandler.showProgressBar(false)
                     resource.data?.let { response ->
-//                        handleResponse(response)
                     }
                 }
                 Status.ERROR -> {
@@ -854,16 +855,15 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
     }
 
     private fun sendFirebaseNotification(messageModel: Message) {
-//        val firebaseNotification = FirebaseNotification(
-//            userInfo!!.fcmToken,
-//            NotificationMessage(
-//                messageModel.senderId,
-//                myInfo!!.name,
-//                messageModel.message,
-//                Constants.TYPE_MESSAGE
-//            )
-//        )
-//        viewModel.sendFirebaseNotificationCall(firebaseNotification)
+        val notificationMessage = NotificationMessage(
+            message = "i am android developer"
+        )
+        val firebaseNotification = FirebaseNotificationRequest(
+            subject = "testing",
+            receiver_id = userId,
+            data = notificationMessage
+        )
+        viewModel.sendNotificationCall(firebaseNotification)
     }
 
     private fun addMessageToExistingChat(

@@ -4,7 +4,6 @@ import androidx.lifecycle.*
 import androidx.paging.cachedIn
 import com.google.firebase.firestore.Query
 import com.horizam.pro.elean.data.model.requests.ChatOfferRequest
-import com.horizam.pro.elean.data.model.requests.CustomOrderRequest
 import com.horizam.pro.elean.data.repository.MainRepository
 import com.horizam.pro.elean.utils.BaseUtils
 import com.horizam.pro.elean.utils.Resource
@@ -16,7 +15,7 @@ class MessagesViewModel(
 
     private val messagesRequest = MutableLiveData<Query>()
     private val chatOrderRequest = MutableLiveData<ChatOfferRequest>()
-    private val firebaseNotification = MutableLiveData<FirebaseNotification>()
+    private val notification = MutableLiveData<FirebaseNotificationRequest>()
 
 
     val messages = messagesRequest.switchMap { query ->
@@ -35,11 +34,11 @@ class MessagesViewModel(
         }
     }
 
-    val sendNotification = firebaseNotification.switchMap {
+    val sendNotification = notification.switchMap {
         liveData(Dispatchers.IO) {
             emit(Resource.loading(data = null))
             try {
-                emit(Resource.success(data = mainRepository.sendFirebaseNotification(it)))
+                emit(Resource.success(data = mainRepository.sendNotification(it)))
             } catch (exception: Exception) {
                 val errorMessage = BaseUtils.getError(exception)
                 emit(Resource.error(data = null, message = errorMessage))
@@ -55,8 +54,8 @@ class MessagesViewModel(
         chatOrderRequest.value = request
     }
 
-    fun sendFirebaseNotificationCall(request: FirebaseNotification) {
-        firebaseNotification.value = request
+    fun sendNotificationCall(request: FirebaseNotificationRequest) {
+        notification.value = request
     }
 
 }

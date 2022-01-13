@@ -7,7 +7,7 @@ import com.google.firebase.firestore.Query
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.model.requests.*
 import com.horizam.pro.elean.data.pagingsource.*
-import com.horizam.pro.elean.ui.main.viewmodel.FirebaseNotification
+import com.horizam.pro.elean.ui.main.viewmodel.FirebaseNotificationRequest
 
 class MainRepository(private val apiHelper: ApiHelper) {
 
@@ -51,7 +51,7 @@ class MainRepository(private val apiHelper: ApiHelper) {
     suspend fun createService(request: CreateServiceRequest) = apiHelper.createService(request)
     suspend fun updateService(request: UpdateServiceRequest) = apiHelper.updateService(request)
     suspend fun updateProfile(request: UpdateProfileRequest) = apiHelper.updateProfile(request)
-    suspend fun sendFirebaseNotification(firebaseNotification: FirebaseNotification) = apiHelper.sendFirebaseNotification(firebaseNotification)
+    suspend fun sendNotification(notificationRequest: FirebaseNotificationRequest) = apiHelper.sendNotification(notificationRequest)
     suspend fun ratingOrder(request: RatingOrderRequest) = apiHelper.ratingOrder(request)
     suspend fun changePassword(changePasswordRequest: ChangePasswordRequest) = apiHelper.changePassword(changePasswordRequest)
     suspend fun orderByID(request: Int) = apiHelper.orderByID(request)

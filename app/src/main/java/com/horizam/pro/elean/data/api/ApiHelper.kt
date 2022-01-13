@@ -1,7 +1,7 @@
 package com.horizam.pro.elean.data.api
 
 import com.horizam.pro.elean.data.model.requests.*
-import com.horizam.pro.elean.ui.main.viewmodel.FirebaseNotification
+import com.horizam.pro.elean.ui.main.viewmodel.FirebaseNotificationRequest
 
 class ApiHelper(private val apiService: ApiService) {
 
@@ -55,9 +55,8 @@ class ApiHelper(private val apiService: ApiService) {
     suspend fun ratingOrder(request: RatingOrderRequest) = apiService.ratingOrder(request)
     suspend fun changePassword(changePasswordRequest: ChangePasswordRequest) = apiService.changePassword(changePasswordRequest)
     suspend fun orderByID(request: Int) = apiService.orderByID(request)
-    suspend fun sendFirebaseNotification(firebaseNotification: FirebaseNotification) =
+    suspend fun sendNotification(notificationRequest: FirebaseNotificationRequest) =
         apiService.sendFirebaseNotification(
-            "https://fcm.googleapis.com/fcm/send",
-            firebaseNotification
+            notificationRequest
         )
 }

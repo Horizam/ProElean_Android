@@ -2,7 +2,7 @@ package com.horizam.pro.elean.data.api
 
 import com.horizam.pro.elean.data.model.requests.*
 import com.horizam.pro.elean.data.model.response.*
-import com.horizam.pro.elean.ui.main.viewmodel.FirebaseNotification
+import com.horizam.pro.elean.ui.main.viewmodel.FirebaseNotificationRequest
 import retrofit2.http.*
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -102,7 +102,10 @@ interface ApiService {
     ): SubcategoriesResponse
 
     @GET("categories/{id}/services")
-    suspend fun getServicesBySubCategories(@Path("id") id: String, @Query("page") page: Int): ServicesResponse
+    suspend fun getServicesBySubCategories(
+        @Path("id") id: String,
+        @Query("page") page: Int
+    ): ServicesResponse
 
     @GET("search")
     suspend fun searchGigs(
@@ -216,13 +219,10 @@ interface ApiService {
     @GET("get_order/{id}")
     suspend fun orderByID(@Path("id") orderId: Int): OrderResponse
 
-    @Headers(
-        "authorization:key=AAAACZscWGo:APA91bFaEgC97RCJ7cLWT75xnjuBGFe12IfUSNvedfoZjzyEY5tahwSRjpGG94aprnH8EFjx5CIqNE0d3fepm5pHRut6T6xkotvRvbN4Exoduzo8uS594-q7kymeoKq9lAAuTMdLqmtn",
-        "content-type:application/json"
-    )
-    @POST
+
+    @POST("sendNotifications")
     suspend fun sendFirebaseNotification(
-        @Url url: String?, @Body rootModel: FirebaseNotification?
+        @Body rootModel: FirebaseNotificationRequest?
     ): GeneralResponse
 
 }
