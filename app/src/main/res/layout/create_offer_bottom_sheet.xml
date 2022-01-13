@@ -31,17 +31,23 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_service_categories" />
 
-            <androidx.appcompat.widget.AppCompatSpinner
-                android:id="@+id/spinner_services"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAlignment="viewEnd"
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_30sdp"
                 android:layout_marginStart="@dimen/_10sdp"
+                android:background="@drawable/bg_spinner"
                 app:layout_constraintBottom_toBottomOf="@id/tv_delivery_time"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/tv_delivery_time"
-                app:layout_constraintTop_toTopOf="@id/tv_delivery_time" />
+                app:layout_constraintTop_toTopOf="@id/tv_delivery_time">
 
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/spinner_services"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="viewEnd" />
+
+            </RelativeLayout>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -54,14 +60,14 @@
                 android:id="@+id/iv_service"
                 android:layout_width="@dimen/_50sdp"
                 android:layout_height="@dimen/_50sdp"
-                android:src="@drawable/bg_splash"
-                android:scaleType="centerCrop"
-                android:layout_marginBottom="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_7sdp"
-                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/bg_splash"
+                app:layout_constraintBottom_toBottomOf="@id/text_field_info"
                 app:layout_constraintEnd_toStartOf="@id/text_field_info"
-                app:layout_constraintTop_toTopOf="@id/text_field_info"
-                app:layout_constraintBottom_toBottomOf="@id/text_field_info"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/text_field_info" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/text_field_info"
@@ -73,10 +79,10 @@
                 app:counterEnabled="true"
                 app:counterMaxLength="300"
                 app:endIconMode="clear_text"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/iv_service"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent">
+                app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_info"
@@ -119,7 +125,8 @@
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/linear_layout_delivery_time"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/_40sdp"
+            android:padding="@dimen/_2sdp"
             android:layout_marginHorizontal="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_5sdp"
             android:orientation="horizontal">
@@ -132,29 +139,40 @@
                 android:text="@string/str_delivery_days"
                 android:textColor="@color/colorBlack"
                 android:textSize="@dimen/_14ssp"
+                android:layout_marginTop="@dimen/_7sdp"
                 android:textStyle="normal"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_service_categories" />
 
-            <androidx.appcompat.widget.AppCompatSpinner
-                android:id="@+id/spinner_delivery_time"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAlignment="viewEnd"
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_28sdp"
                 android:layout_marginStart="@dimen/_10sdp"
                 app:layout_constraintBottom_toBottomOf="@id/tv_delivery_time"
                 app:layout_constraintEnd_toEndOf="parent"
+                android:background="@drawable/bg_spinner"
+                android:layout_marginTop="@dimen/_1sdp"
                 app:layout_constraintStart_toEndOf="@id/tv_delivery_time"
-                app:layout_constraintTop_toTopOf="@id/tv_delivery_time" />
+                app:layout_constraintTop_toTopOf="@id/tv_delivery_time">
+
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/spinner_delivery_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:textAlignment="viewEnd" />
+
+            </RelativeLayout>
 
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/_40sdp"
             android:layout_marginHorizontal="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_5sdp"
+            android:padding="@dimen/_2sdp"
             android:orientation="horizontal"
             android:visibility="visible">
 
@@ -166,21 +184,29 @@
                 android:text="@string/str_revisions"
                 android:textColor="@color/colorBlack"
                 android:textSize="@dimen/_14ssp"
+                android:layout_marginTop="@dimen/_7sdp"
                 android:textStyle="normal"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_service_categories" />
 
-            <androidx.appcompat.widget.AppCompatSpinner
-                android:id="@+id/spinner_revisions"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAlignment="viewEnd"
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_30sdp"
                 android:layout_marginStart="@dimen/_10sdp"
                 app:layout_constraintBottom_toBottomOf="@id/tv_delivery_time"
                 app:layout_constraintEnd_toEndOf="parent"
+                android:background="@drawable/bg_spinner"
+                android:layout_marginTop="@dimen/_1sdp"
                 app:layout_constraintStart_toEndOf="@id/tv_delivery_time"
-                app:layout_constraintTop_toTopOf="@id/tv_delivery_time" />
+                app:layout_constraintTop_toTopOf="@id/tv_delivery_time">
 
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/spinner_revisions"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:textAlignment="viewEnd" />
+            </RelativeLayout>
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <Button

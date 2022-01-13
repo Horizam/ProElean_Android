@@ -73,7 +73,7 @@ class CreateOfferBottomSheet(private val createOfferHandler: CreateOfferHandler)
     private fun initViews() {
         prefManager = PrefManager(requireContext())
         servicesArrayList = ArrayList()
-        revisionsArrayList = arrayListOf("1","2","3")
+        revisionsArrayList = arrayListOf("1", "2", "3")
         generalServicesArrayList = ArrayList()
         deliveryDaysArrayList = ArrayList()
         binding.spinnerDeliveryTime.onItemSelectedListener = this
@@ -125,7 +125,7 @@ class CreateOfferBottomSheet(private val createOfferHandler: CreateOfferHandler)
                 this@CreateOfferBottomSheet.dismiss()
                 genericHandler.showMessage(getString(R.string.str_enter_valid_delivery_time))
                 return
-            }else if (revisions.isEmpty()) {
+            } else if (revisions.isEmpty()) {
                 this@CreateOfferBottomSheet.dismiss()
                 genericHandler.showMessage(getString(R.string.str_enter_valid_revisions))
                 return
@@ -231,8 +231,9 @@ class CreateOfferBottomSheet(private val createOfferHandler: CreateOfferHandler)
     }
 
     private fun setRevisionAndDaysData(response: CategoriesCountriesResponse) {
-        if (response.categoriesCountriesData.deliveryDays.isNotEmpty()){
-            deliveryDaysArrayList = response.categoriesCountriesData.deliveryDays as ArrayList<String>
+        if (response.categoriesCountriesData.deliveryDays.isNotEmpty()) {
+            deliveryDaysArrayList =
+                response.categoriesCountriesData.deliveryDays as ArrayList<String>
             daysAdapter = ArrayAdapter(
                 requireContext(),
                 android.R.layout.simple_spinner_item, deliveryDaysArrayList
@@ -242,7 +243,7 @@ class CreateOfferBottomSheet(private val createOfferHandler: CreateOfferHandler)
             }
         }
 
-        if (response.categoriesCountriesData.revisions.isNotEmpty()){
+        if (response.categoriesCountriesData.revisions.isNotEmpty()) {
             revisionsArrayList = response.categoriesCountriesData.revisions as ArrayList<String>
             revisonsAdapter = ArrayAdapter(
                 requireContext(),
@@ -266,10 +267,10 @@ class CreateOfferBottomSheet(private val createOfferHandler: CreateOfferHandler)
                 try {
                     val spinnerModel = parent.selectedItem as SpinnerModel
                     serviceId = spinnerModel.id
-                    if (!servicesArrayList.isNullOrEmpty()){
+                    if (!servicesArrayList.isNullOrEmpty()) {
                         setServiceImage(serviceId)
                     }
-                }catch (ex:Exception){
+                } catch (ex: Exception) {
                     genericHandler.showMessage(ex.message.toString())
                 }
             }
@@ -281,7 +282,7 @@ class CreateOfferBottomSheet(private val createOfferHandler: CreateOfferHandler)
             it.id == serviceId
         }.also { service ->
             serviceTitle = service.s_description
-            if (!service.service_media.isNullOrEmpty()){
+            if (!service.service_media.isNullOrEmpty()) {
                 Glide.with(requireContext())
                     .load(Constants.BASE_URL.plus(service.service_media[0].media))
                     .error(R.drawable.bg_splash)

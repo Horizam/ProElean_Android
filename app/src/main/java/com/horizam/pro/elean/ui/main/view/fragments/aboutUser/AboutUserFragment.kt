@@ -112,6 +112,12 @@ class AboutUserFragment : Fragment(), OnItemClickListener {
         sellerActionList = ArrayList()
         prefManager = PrefManager(requireContext())
         binding.switchSellerMode.isChecked = prefManager.sellerMode != 0
+        if(prefManager.sellerMode == 0){
+
+        }else{
+//            binding,
+            binding.rvBuyerActions.visibility = View.GONE
+        }
     }
 
     private fun executeApi() {

@@ -102,7 +102,7 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
             val bundle = Bundle()
             bundle.putString("id", intent.getStringExtra("id"))
             navController.navigate(R.id.messagesFragment, bundle)
-        } else if (intent.hasExtra(Constants.ORDER_ID)) {
+        }  else if (intent.hasExtra(Constants.ORDER_ID)) {
             val intent1 = Intent(this, OrderDetailsActivity::class.java)
             intent1.putExtra(Constants.ORDER_ID, intent.getStringExtra(Constants.ORDER_ID))
             startActivity(intent1)
@@ -467,6 +467,8 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
             .setIcon(R.drawable.img_order)
         menu.add(Menu.NONE, R.id.profile_fragment, Menu.NONE, "Profile")
             .setIcon(R.drawable.img_profile_)
+        binding.bottomNav.selectedItemId = R.id.homeFragment
+        setStartDestinationBuyer()
     }
 
     private fun setSellerBottomNavigation() {
@@ -480,6 +482,28 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
             .setIcon(R.drawable.img_order)
         menu.add(Menu.NONE, R.id.profile_fragment, Menu.NONE, "Profile")
             .setIcon(R.drawable.img_profile_)
+        binding.bottomNav.selectedItemId = R.id.sellerActionsFragment
+        setStartDestinationSeller()
+    }
+
+    private fun setStartDestinationSeller() {
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navController = navHostFragment.navController
+        val navGraph = navController.navInflater.inflate(R.navigation.nav_home)
+        navGraph.startDestination = R.id.sellerActionsFragment
+        navController.graph = navGraph
+        binding.bottomNav.setupWithNavController(navController)
+    }
+
+    private fun setStartDestinationBuyer() {
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navController = navHostFragment.navController
+        val navGraph = navController.navInflater.inflate(R.navigation.nav_home)
+        navGraph.startDestination = R.id.homeFragment
+        navController.graph = navGraph
+        binding.bottomNav.setupWithNavController(navController)
     }
 
     override fun hideNavigation() {
@@ -505,10 +529,11 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
                 .setIcon(R.drawable.img_order)
             menu.add(Menu.NONE, R.id.profile_fragment, Menu.NONE, "Profile")
                 .setIcon(R.drawable.img_profile_)
-            binding.bottomNav.selectedItemId = R.id.profile_fragment
             Handler().postDelayed({
                 binding.showWhiteScreen.visibility = View.INVISIBLE
             }, 500)
+            setStartDestinationBuyer()
+            binding.bottomNav.selectedItemId = R.id.profile_fragment
         } else {
             val menu = binding.bottomNav.menu
             menu.clear()
@@ -520,10 +545,11 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
                 .setIcon(R.drawable.img_order)
             menu.add(Menu.NONE, R.id.profile_fragment, Menu.NONE, "Profile")
                 .setIcon(R.drawable.img_profile_)
-            binding.bottomNav.selectedItemId = R.id.profile_fragment
             Handler().postDelayed({
                 binding.showWhiteScreen.visibility = View.INVISIBLE
-            }, 500)
+            }, 200)
+            setStartDestinationSeller()
+            binding.bottomNav.selectedItemId = R.id.profile_fragment
         }
     }
 }

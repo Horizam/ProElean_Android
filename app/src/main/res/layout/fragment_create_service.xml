@@ -7,16 +7,16 @@
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/toolbar_layout"/>
+        layout="@layout/toolbar_layout" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:fillViewport="true"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -77,24 +77,31 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_service_categories" />
 
-            <androidx.appcompat.widget.AppCompatSpinner
-                android:id="@+id/spinner_category"
+            <RelativeLayout
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/_28sdp"
+                android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
+                android:background="@drawable/bg_spinner"
                 android:textAlignment="viewEnd"
-                app:layout_constraintStart_toEndOf="@id/tv_categories"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/tv_categories"
                 app:layout_constraintBottom_toBottomOf="@id/tv_categories"
-                />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/tv_categories"
+                app:layout_constraintTop_toTopOf="@id/tv_categories">
+
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/spinner_category"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </RelativeLayout>
 
             <TextView
                 android:id="@+id/tv_sub_categories"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_13sdp"
                 android:maxLines="1"
                 android:paddingVertical="@dimen/_7sdp"
                 android:text="@string/str_subcategories"
@@ -104,17 +111,22 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_categories" />
 
-            <androidx.appcompat.widget.AppCompatSpinner
-                android:id="@+id/spinner_sub_category"
+            <RelativeLayout
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_height="@dimen/_28sdp"
+                android:layout_marginHorizontal="@dimen/_10sdp"
+                android:background="@drawable/bg_spinner"
                 android:textAlignment="viewEnd"
-                app:layout_constraintStart_toEndOf="@id/tv_sub_categories"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/tv_sub_categories"
                 app:layout_constraintBottom_toBottomOf="@id/tv_sub_categories"
-                />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/tv_sub_categories"
+                app:layout_constraintTop_toTopOf="@id/tv_sub_categories">
+
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/spinner_sub_category"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
 
             <TextView
                 android:id="@+id/tv_child_categories"
@@ -138,11 +150,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/_10sdp"
                 android:visibility="gone"
-                app:layout_constraintStart_toEndOf="@id/tv_child_categories"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/tv_child_categories"
                 app:layout_constraintBottom_toBottomOf="@id/tv_child_categories"
-                />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/tv_child_categories"
+                app:layout_constraintTop_toTopOf="@id/tv_child_categories" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/text_field_description"
@@ -163,11 +174,11 @@
                     android:id="@+id/et_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="start"
                     android:inputType="textMultiLine"
-                    android:maxLength="200"
                     android:lines="5"
-                    android:maxLines="5"
-                    android:gravity="start"/>
+                    android:maxLength="200"
+                    android:maxLines="5" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -203,10 +214,10 @@
                 android:layout_marginHorizontal="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_7sdp"
                 android:hint="@string/str_delivery_days"
+                android:visibility="gone"
                 app:counterEnabled="true"
                 app:counterMaxLength="10"
                 app:endIconMode="clear_text"
-                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/text_field_price">
@@ -235,16 +246,28 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/text_field_price" />
 
-            <androidx.appcompat.widget.AppCompatSpinner
-                android:id="@+id/spinner_delivery_time"
+
+            <RelativeLayout
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/_28sdp"
+                android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
+                android:background="@drawable/bg_spinner"
                 android:textAlignment="viewEnd"
                 app:layout_constraintBottom_toBottomOf="@id/tv_delivery_time"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/tv_delivery_time"
-                app:layout_constraintTop_toTopOf="@id/tv_delivery_time" />
+                app:layout_constraintTop_toTopOf="@id/tv_delivery_time">
+
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/spinner_delivery_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:textAlignment="viewEnd"
+                    android:layout_centerVertical="true" />
+
+            </RelativeLayout>
 
             <TextView
                 android:id="@+id/tv_no_of_revision"
@@ -261,16 +284,27 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_delivery_time" />
 
-            <androidx.appcompat.widget.AppCompatSpinner
-                android:id="@+id/spinner_no_of_revision"
+            <RelativeLayout
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/_28sdp"
+                android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
+                android:background="@drawable/bg_spinner"
                 android:textAlignment="viewEnd"
                 app:layout_constraintBottom_toBottomOf="@id/tv_no_of_revision"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/tv_no_of_revision"
-                app:layout_constraintTop_toTopOf="@id/tv_no_of_revision" />
+                app:layout_constraintTop_toTopOf="@id/tv_no_of_revision">
+
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/spinner_no_of_revision"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:textAlignment="viewEnd"
+                    android:layout_centerVertical="true" />
+
+            </RelativeLayout>
 
             <TextView
                 android:id="@+id/tv_service_banners"
@@ -292,17 +326,16 @@
                 android:id="@+id/rv_images"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="visible"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                android:orientation="horizontal"
-                android:background="@android:color/transparent"
-                tools:listitem="@layout/item_image"
                 android:layout_marginHorizontal="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_5sdp"
-                app:layout_constraintStart_toStartOf="parent"
+                android:background="@android:color/transparent"
+                android:orientation="horizontal"
+                android:visibility="visible"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_service_banners"
-                />
+                tools:listitem="@layout/item_image" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/text_field_info"
@@ -323,11 +356,11 @@
                     android:id="@+id/et_info"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="start"
                     android:inputType="textMultiLine"
-                    android:maxLength="200"
                     android:lines="5"
-                    android:maxLines="5"
-                    android:gravity="start"/>
+                    android:maxLength="200"
+                    android:maxLines="5" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -338,15 +371,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_20sdp"
                 android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_20sdp"
                 android:backgroundTint="@color/colorButtons"
                 android:elevation="@dimen/_10sdp"
                 android:text="@string/str_publish"
                 android:textColor="@color/colorWhite"
-                android:layout_marginBottom="@dimen/_20sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/text_field_info"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintTop_toBottomOf="@id/text_field_info" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

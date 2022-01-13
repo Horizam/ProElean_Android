@@ -95,6 +95,13 @@ class HomeFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefre
 //                requireActivity().intent.removeExtra("senderId")
 //            }
 //        }
+
+        if (requireActivity().intent.hasExtra("order")) {
+            if (requireActivity().intent.getIntExtra("order", 0) == 1) {
+                this.findNavController().navigate(R.id.orderFragment)
+            }
+            requireActivity().intent.removeExtra("order")
+        }
     }
 
     private fun initViews() {
@@ -107,7 +114,7 @@ class HomeFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefre
         binding.toolbar.ivSecond.setImageResource(R.drawable.ic_notifications)
         binding.toolbar.ivSecond.visibility = View.VISIBLE
         binding.toolbar.rlNoOfNotification.visibility = View.VISIBLE
-        binding.toolbar.ivSale.visibility = View.VISIBLE
+        binding.toolbar.ivSale.visibility = View.GONE
     }
 
     private fun setRecyclerViews() {
@@ -155,7 +162,7 @@ class HomeFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefre
         }
         binding.autoCompleteTextView.onFocusChangeListener = focusChangeListener
         binding.autoCompleteTextView.setOnEditorActionListener(editorListener)
-        binding.toolbar.ivSecond.setOnClickListener{
+        binding.toolbar.ivSecond.setOnClickListener {
             this.findNavController().navigate(R.id.notificationsFragment)
         }
         binding.toolbar.ivSale.setOnClickListener {
@@ -246,8 +253,7 @@ class HomeFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefre
             val id = item.id
             val action = HomeFragmentDirections.actionHomeFragmentToServiceCategoriesFragment(id)
             findNavController().navigate(action)
-        }
-            else if (item is FeaturedGig) {
+        } else if (item is FeaturedGig) {
             val id = item.id
             val action = HomeFragmentDirections.actionHomeFragmentToFeaturedGigsDetailsFragment(id)
             findNavController().navigate(action)
@@ -262,22 +268,22 @@ class HomeFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefre
     }
 
     private val editorListener = OnEditorActionListener { v, actionId, event ->
-            when (actionId) {
-                EditorInfo.IME_ACTION_SEARCH -> {
-                    hideKeyboard()
-                    val query = binding.autoCompleteTextView.text.toString().trim()
-                    binding.autoCompleteTextView.text.clear()
-                    HomeFragmentDirections.actionHomeFragmentToServiceGigsFragment(
-                        id = "",
-                        from = 1,
-                        query = query
-                    ).also {
-                        findNavController().navigate(it)
-                    }
+        when (actionId) {
+            EditorInfo.IME_ACTION_SEARCH -> {
+                hideKeyboard()
+                val query = binding.autoCompleteTextView.text.toString().trim()
+                binding.autoCompleteTextView.text.clear()
+                HomeFragmentDirections.actionHomeFragmentToServiceGigsFragment(
+                    id = "",
+                    from = 1,
+                    query = query
+                ).also {
+                    findNavController().navigate(it)
                 }
             }
-            false
         }
+        false
+    }
 
     private val focusChangeListener = View.OnFocusChangeListener { v, hasFocus ->
         if (!hasFocus) {

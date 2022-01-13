@@ -56,12 +56,6 @@ class SellerActionsFragment : Fragment(), OnItemClickListener {
         )
         sellerActionList.add(
             SellerActionModel(
-                title = "Manage Sales",
-                image = R.drawable.ic_manage_service
-            )
-        )
-        sellerActionList.add(
-            SellerActionModel(
                 title = "Buyer Requests",
                 image = R.drawable.ic_buyer_request
             )
@@ -126,21 +120,19 @@ class SellerActionsFragment : Fragment(), OnItemClickListener {
                     navController.navigate(R.id.createServiceFragment)
                 }
                 1 -> {
-                    startActivity(Intent(requireActivity(), ManageSalesActivity::class.java))
-                }
-                2 -> {
                     navController.navigate(R.id.buyerRequestsFragment)
                 }
-                3 -> {
+                2 -> {
                     navController.navigate(R.id.manageServicesFragment)
                 }
-                4 -> {
+                3 -> {
                     navController.navigate(R.id.analyticsFragment)
                 }
-                5 -> {
+                4 -> {
                     navController.navigate(R.id.earningsFragment)
                 }
             }
         }
     }
+
 }
