@@ -966,10 +966,10 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
         val membersInfo: List<MembersInfo> = inbox!!.membersInfo
         for (i in membersInfo.indices) {
             membersInfo[i].type = "available"
-            if (membersInfo[i].id != myId) {
-                membersInfo[i].hasReadLastMessage = false
-            } else {
+            if (membersInfo[i].id == myId) {
                 membersInfo[i].hasReadLastMessage = true
+            } else {
+                membersInfo[i].hasReadLastMessage = false
             }
         }
         hashMap["membersInfo"] = membersInfo

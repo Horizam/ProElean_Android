@@ -1,5 +1,6 @@
 package com.horizam.pro.elean.ui.main.adapter
 
+import android.graphics.Typeface
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -69,6 +70,15 @@ class InboxAdapter(private val listener: InboxHandler) :
         fun bind(inbox: Inbox) {
             binding.apply {
                 try {
+                    for(memberInfo in inbox.membersInfo){
+                        if(memberInfo.id == myId){
+                            if(memberInfo.hasReadLastMessage){
+                                 tvMessage.typeface = Typeface.DEFAULT
+                            }else{
+                                tvMessage.typeface = Typeface.DEFAULT_BOLD
+                            }
+                        }
+                    }
                     tvMessage.text = inbox.lastMessage
                     tvLastMessage.text = BaseUtils.getTimeAgo(inbox.sentAt)
                     tvCounter.isVisible = false

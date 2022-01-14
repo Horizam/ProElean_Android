@@ -11,8 +11,8 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/iv_inbox"
-        android:layout_width="@dimen/_45sdp"
-        android:layout_height="@dimen/_45sdp"
+        android:layout_width="@dimen/_55sdp"
+        android:layout_height="@dimen/_55sdp"
         tools:ignore="ContentDescription"
         android:src="@color/colorAccent"
         app:layout_constraintStart_toStartOf="parent"
@@ -40,7 +40,7 @@
         android:ellipsize="end"
         android:singleLine="true"
         android:textColor="@color/colorBlack"
-        android:textSize="@dimen/_12ssp"
+        android:textSize="@dimen/_13ssp"
         android:textStyle="bold"
         android:text="@string/str_username"
         android:layout_marginTop="@dimen/_10sdp"
@@ -56,7 +56,7 @@
         android:ellipsize="end"
         android:singleLine="true"
         android:textColor="@color/colorDarkGrey"
-        android:textSize="@dimen/_10ssp"
+        android:textSize="@dimen/_12ssp"
         app:layout_constraintVertical_bias="0"
         android:layout_marginHorizontal="@dimen/_10sdp"
         android:text="@string/str_lorem_ipsum_is_simply_dummy_text_of_the_printing_and_typesetting"
