@@ -33,6 +33,7 @@ import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
 import com.horizam.pro.elean.ui.main.callbacks.SellerActionModeHandler
 import com.horizam.pro.elean.ui.main.view.activities.ManageSalesActivity
 import com.horizam.pro.elean.ui.main.viewmodel.ProfileViewModel
+import com.horizam.pro.elean.utils.BaseUtils
 import com.horizam.pro.elean.utils.PrefManager
 import com.horizam.pro.elean.utils.Status
 import java.lang.Exception
@@ -112,11 +113,12 @@ class AboutUserFragment : Fragment(), OnItemClickListener {
         sellerActionList = ArrayList()
         prefManager = PrefManager(requireContext())
         binding.switchSellerMode.isChecked = prefManager.sellerMode != 0
-        if(prefManager.sellerMode == 0){
+        if (prefManager.sellerMode == 0) {
 
-        }else{
+        } else {
 //            binding,
             binding.rvBuyerActions.visibility = View.GONE
+            binding.tvBuyerAction.visibility = View.GONE
         }
     }
 
@@ -197,12 +199,21 @@ class AboutUserFragment : Fragment(), OnItemClickListener {
         if (item is Int) {
             when (item) {
                 0 -> {
-                    findNavController().navigate(R.id.postJobFragment)
+                    findNavController().navigate(
+                        R.id.postJobFragment,
+                        null,
+                        BaseUtils.animationOpenScreen()
+                    )
                 }
                 1 -> {
-                    findNavController().navigate(R.id.postedJobsFragment)
+                    findNavController().navigate(
+                        R.id.postedJobsFragment,
+                        null,
+                        BaseUtils.animationOpenScreen()
+                    )
                 }
             }
         }
     }
+
 }

@@ -33,4 +33,5 @@
     <color name="color_transparent_black_background">#80000000</color>
     <color name="glide_slider_indicator_color">@color/colorAccent</color>
     <color name="colorRed">#E60F0F</color>
+    <color name="white_grey_color">#BFBEBE</color>
 </resources>

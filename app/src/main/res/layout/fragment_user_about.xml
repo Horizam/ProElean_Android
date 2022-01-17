@@ -390,7 +390,7 @@
             android:id="@+id/tv_buyer_action"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Buyer Action"
+            android:text="Buying"
             android:textColor="@color/colorBlack"
             android:textSize="@dimen/_13ssp"
             app:layout_constraintTop_toBottomOf="@+id/rv_skills"

@@ -49,6 +49,8 @@ import java.lang.Exception
 import java.util.*
 import kotlin.collections.ArrayList
 import android.view.WindowManager
+import android.widget.Toast
+import com.horizam.pro.elean.Constants.Companion.FIREBASE_DATABASE_ROOT
 import com.stfalcon.imageviewer.StfalconImageViewer
 import com.horizam.pro.elean.data.model.*
 import com.horizam.pro.elean.data.model.requests.ChatOfferRequest
@@ -306,11 +308,21 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
                 genericHandler.showMessage(e.message.toString())
                 return@addSnapshotListener
             }
-
+            var messageCount = 0
+            var size = 0
+            for(item in snapshots!!.documentChanges){
+                if(item.type == DocumentChange.Type.ADDED){
+                    size++
+                }
+            }
             for (dc in snapshots!!.documentChanges) {
                 when (dc.type) {
                     DocumentChange.Type.ADDED -> {
+                        messageCount++
                         adapter.refresh()
+                        if (size == messageCount) {
+                            setMessageRead()
+                        }
                     }
                     DocumentChange.Type.MODIFIED -> {
                         adapter.refresh()
@@ -322,6 +334,38 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
             }
             genericHandler.showProgressBar(false)
         }
+    }
+
+    private fun setMessageRead() {
+        var membersInfo = MembersInfo()
+        for (item in inbox!!.membersInfo) {
+            if (item.id == myId) {
+                membersInfo = item
+            }
+        }
+        membersInfo.hasReadLastMessage = false
+        db.collection(FIREBASE_DATABASE_ROOT).document(inbox!!.id)
+            .update("membersInfo", FieldValue.arrayRemove(membersInfo))
+            .addOnCompleteListener { removeTask ->
+                if (removeTask.isSuccessful) {
+                    membersInfo.hasReadLastMessage = true
+                    db.collection(FIREBASE_DATABASE_ROOT).document(inbox!!.id)
+                        .update("membersInfo", FieldValue.arrayUnion(membersInfo))
+                        .addOnCompleteListener { addTask ->
+                            if (addTask.isSuccessful) {
+                                Log.wtf("mytag", "Update complete.")
+                            } else {
+                                addTask.exception!!.message.let {
+                                    Log.wtf("mytag", "update failed + $it")
+                                }
+                            }
+                        }
+                } else {
+                    removeTask.exception!!.message.let {
+                        Log.wtf("mytag", "delete failed + $it")
+                    }
+                }
+            }
     }
 
     private fun hasReadLastMessage() {

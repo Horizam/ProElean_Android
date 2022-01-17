@@ -13,6 +13,9 @@ class ViewModelFactory(private val apiHelper: ApiHelper) : ViewModelProvider.Fac
             modelClass.isAssignableFrom(MainViewModel::class.java) -> {
                 MainViewModel(MainRepository(apiHelper)) as T
             }
+            modelClass.isAssignableFrom(SellerViewModel::class.java) -> {
+                SellerViewModel(MainRepository(apiHelper)) as T
+            }
             modelClass.isAssignableFrom(RegisterViewModel::class.java) -> {
                 RegisterViewModel(MainRepository(apiHelper)) as T
             }

@@ -57,6 +57,7 @@ object RetrofitBuilder {
             .addInterceptor { chain ->
                 val newRequest: Request = chain.request().newBuilder()
                     .addHeader("Authorization", "Bearer ${manager.accessToken}")
+                    .addHeader("Accept" , "application/json")
                     .build()
                 chain.proceed(newRequest)
             }

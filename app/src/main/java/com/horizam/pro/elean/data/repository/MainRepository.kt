@@ -55,6 +55,7 @@ class MainRepository(private val apiHelper: ApiHelper) {
     suspend fun ratingOrder(request: RatingOrderRequest) = apiHelper.ratingOrder(request)
     suspend fun changePassword(changePasswordRequest: ChangePasswordRequest) = apiHelper.changePassword(changePasswordRequest)
     suspend fun orderByID(request: Int) = apiHelper.orderByID(request)
+    suspend fun getSellerData() = apiHelper.getSellerData()
     fun getSubcategories(id:String,query: String) = Pager(
         config = PagingConfig(
             pageSize = 20,

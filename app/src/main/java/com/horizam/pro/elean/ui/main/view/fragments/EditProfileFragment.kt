@@ -42,6 +42,7 @@ import com.horizam.pro.elean.databinding.*
 import com.horizam.pro.elean.ui.base.ViewModelFactory
 import com.horizam.pro.elean.ui.main.adapter.SkillsAdapter
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
+import com.horizam.pro.elean.ui.main.callbacks.UpdateProfileHandler
 import com.horizam.pro.elean.ui.main.viewmodel.ProfileViewModel
 import com.horizam.pro.elean.utils.*
 import com.horizam.pro.elean.utils.BaseUtils.Companion.hideKeyboard
@@ -64,11 +65,14 @@ class EditProfileFragment : Fragment() {
     private lateinit var viewModel: ProfileViewModel
     private lateinit var genericHandler: GenericHandler
     private lateinit var dialogChooseImage: Dialog
+    private lateinit var prefManager: PrefManager
+    private lateinit var updateProfileHandler: UpdateProfileHandler
     private lateinit var bindingChooseImageDialog: DialogChoosePictureBinding
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         genericHandler = context as GenericHandler
+        updateProfileHandler = context as UpdateProfileHandler
     }
 
     override fun onCreateView(
@@ -86,6 +90,7 @@ class EditProfileFragment : Fragment() {
 
     private fun initViews() {
         profileImage = ""
+        prefManager = PrefManager(requireContext())
         initChooseImageDialog()
     }
 
@@ -254,6 +259,8 @@ class EditProfileFragment : Fragment() {
                 setUiData(response)
                 if (check == 1) {
                     genericHandler.showMessage("Profile Successfully Updated")
+                    prefManager.userImage = response.image
+                    updateProfileHandler.updateProfile()
                     this.findNavController().popBackStack()
                 }
             }

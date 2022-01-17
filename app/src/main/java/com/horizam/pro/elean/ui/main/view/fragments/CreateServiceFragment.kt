@@ -301,7 +301,7 @@ class CreateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
             requireContext(),
             android.R.layout.simple_spinner_item, categoriesArrayList
         ).also {
-            it.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
+            it.setDropDownViewResource(R.layout.spin_item)
             binding.spinnerCategory.adapter = it
         }
 

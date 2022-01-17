@@ -1,5 +1,6 @@
 package com.horizam.pro.elean.utils
 
+import android.R
 import android.app.Activity
 import android.content.Context
 import android.media.MediaScannerConnection
@@ -10,6 +11,8 @@ import android.text.format.DateUtils
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavOptions
+import androidx.navigation.navOptions
 import com.google.gson.Gson
 import com.horizam.pro.elean.App
 import com.horizam.pro.elean.data.model.ErrorResponse
@@ -28,6 +31,11 @@ import java.net.URLConnection
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
+import android.text.Spannable
+
+import android.text.style.ForegroundColorSpan
+
+import android.text.SpannableString
 
 
 class BaseUtils {
@@ -227,5 +235,13 @@ class BaseUtils {
             return fileSizeInKB / 1024
         }
 
+        fun animationOpenScreen(): NavOptions {
+            return navOptions { // Use the Kotlin DSL for building NavOptions
+                anim {
+                    enter = R.animator.fade_in
+                    exit = R.animator.fade_out
+                }
+            }
+        }
     }
 }

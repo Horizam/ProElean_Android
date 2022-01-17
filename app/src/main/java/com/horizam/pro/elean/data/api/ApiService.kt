@@ -130,6 +130,10 @@ interface ApiService {
         @Query("status") status: String,
     ): ServicesResponse
 
+    @GET("seller/getEarnings")
+    suspend fun getSellerData(
+    ): SellerDataModel
+
     @GET("seller/services")
     suspend fun getSellerServicesByID(
         @Query("seller") userID: String,

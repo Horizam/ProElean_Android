@@ -55,6 +55,7 @@ class ApiHelper(private val apiService: ApiService) {
     suspend fun ratingOrder(request: RatingOrderRequest) = apiService.ratingOrder(request)
     suspend fun changePassword(changePasswordRequest: ChangePasswordRequest) = apiService.changePassword(changePasswordRequest)
     suspend fun orderByID(request: Int) = apiService.orderByID(request)
+    suspend fun getSellerData() = apiService.getSellerData()
     suspend fun sendNotification(notificationRequest: FirebaseNotificationRequest) =
         apiService.sendFirebaseNotification(
             notificationRequest

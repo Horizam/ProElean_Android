@@ -58,7 +58,8 @@ import kotlin.coroutines.CoroutineContext
 
 
 class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHandler,
-    UpdateHomeHandler, CoroutineScope, HideBottomNavigation, SellerActionModeHandler {
+    UpdateHomeHandler, CoroutineScope, HideBottomNavigation, SellerActionModeHandler,
+    UpdateProfileHandler {
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locationRequest: LocationRequest
@@ -97,12 +98,13 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
         dialogDelete.setContentView(bindingDeleteDialog.root)
     }
 
+
     private fun getData() {
         if (intent.hasExtra("startChat")) {
             val bundle = Bundle()
             bundle.putString("id", intent.getStringExtra("id"))
             navController.navigate(R.id.messagesFragment, bundle)
-        }  else if (intent.hasExtra(Constants.ORDER_ID)) {
+        } else if (intent.hasExtra(Constants.ORDER_ID)) {
             val intent1 = Intent(this, OrderDetailsActivity::class.java)
             intent1.putExtra(Constants.ORDER_ID, intent.getStringExtra(Constants.ORDER_ID))
             startActivity(intent1)
@@ -551,5 +553,9 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
             setStartDestinationSeller()
             binding.bottomNav.selectedItemId = R.id.profile_fragment
         }
+    }
+
+    override fun updateProfile() {
+        setData()
     }
 }
