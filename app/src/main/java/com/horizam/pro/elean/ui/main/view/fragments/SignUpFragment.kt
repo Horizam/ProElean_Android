@@ -149,9 +149,7 @@ class SignUpFragment : Fragment() {
 
     private fun handleResponse(response: RegisterResponse) {
         genericHandler.showMessage(response.message)
-        if (response.status == Constants.STATUS_OK) {
-            findNavController().popBackStack()
-        }
+        findNavController().popBackStack()
     }
 
 }
