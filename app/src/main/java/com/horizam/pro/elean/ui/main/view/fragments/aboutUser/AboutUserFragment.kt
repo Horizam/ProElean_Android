@@ -154,7 +154,7 @@ class AboutUserFragment : Fragment(), OnItemClickListener {
                 Glide.with(this@AboutUserFragment)
                     .load(Constants.BASE_URL.plus(profile.image))
                     .error(R.drawable.img_profile)
-                    .into(ivSelectedCategory)
+                    .into(ivUser)
                 tvUserName.text = profile.name
                 tvUserRating.text = profile.user_rating.toString()
                 tvRatingNumber.text = "(".plus(profile.total_reviews.toString()).plus(")")

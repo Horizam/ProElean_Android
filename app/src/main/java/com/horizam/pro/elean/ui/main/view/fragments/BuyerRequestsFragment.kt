@@ -187,7 +187,7 @@ class BuyerRequestsFragment : Fragment(), OnItemClickListener, BuyerRequestsHand
     }
 
     private fun handleResponse(response: GeneralResponse) {
-        genericHandler.showErrorMessage(response.message)
+        genericHandler.showSuccessMessage(response.message)
         exeApi()
     }
 

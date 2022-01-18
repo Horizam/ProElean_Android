@@ -163,7 +163,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun handleResponse(response: LoginResponse) {
-        genericHandler.showErrorMessage(response.message)
+        genericHandler.showSuccessMessage(response.message)
         val prefManager = PrefManager(requireContext())
         prefManager.accessToken = response.token
         prefManager.isFreelancer = response.data.isFreelancer
