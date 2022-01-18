@@ -8,9 +8,10 @@
     <color name="colorPrimary">@color/colorOne</color>
     <color name="colorPrimaryDark">@color/colorOne</color>
     <color name="colorAccent">#368FEE</color>
-    <!--<color name="colorButtons">#ff0000</color>-->
-    <!--<color name="colorButtons">#592B5C</color>-->
-    <color name="colorButtons">#F45A2A</color>
+<!--    <color name="colorButtons">#ff0000</color>-->
+<!--    <color name="colorButtons">#592B5C</color>-->
+<!--    <color name="colorButtons">#F45A2A</color>-->
+    <color name="colorButtons">#368FEE</color>
     <color name="colorButtonsClick">#0905EA</color>
     <color name="colorOnButton">#5956e0</color>
     <color name="colorOne">#293039 </color>
@@ -34,4 +35,7 @@
     <color name="glide_slider_indicator_color">@color/colorAccent</color>
     <color name="colorRed">#E60F0F</color>
     <color name="white_grey_color">#BFBEBE</color>
+    <color name="color_red">#FF0000</color>
+    <color name="color_green">#008000</color>
+
 </resources>

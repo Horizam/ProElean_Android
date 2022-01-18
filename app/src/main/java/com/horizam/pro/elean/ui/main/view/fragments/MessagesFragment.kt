@@ -49,7 +49,6 @@ import java.lang.Exception
 import java.util.*
 import kotlin.collections.ArrayList
 import android.view.WindowManager
-import android.widget.Toast
 import com.horizam.pro.elean.Constants.Companion.FIREBASE_DATABASE_ROOT
 import com.stfalcon.imageviewer.StfalconImageViewer
 import com.horizam.pro.elean.data.model.*
@@ -144,7 +143,7 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
                 }
                 Status.ERROR -> {
                     genericHandler.showProgressBar(false)
-                    genericHandler.showMessage(it.message.toString())
+                    genericHandler.showErrorMessage(it.message.toString())
                 }
                 Status.LOADING -> {
                     genericHandler.showProgressBar(false)
@@ -164,7 +163,7 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
                 }
                 Status.ERROR -> {
                     genericHandler.showProgressBar(false)
-                    genericHandler.showMessage(it.message.toString())
+                    genericHandler.showErrorMessage(it.message.toString())
                 }
                 Status.LOADING -> {
                     genericHandler.showProgressBar(true)
@@ -174,7 +173,7 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
     }
 
     private fun handleResponse(response: GeneralResponse) {
-        genericHandler.showMessage(response.message)
+        genericHandler.showErrorMessage(response.message)
         if (response.status == Constants.STATUS_OK) {
             if (offerMessage != null) {
                 db.collection(Constants.FIREBASE_DATABASE_ROOT).document(inbox!!.id)
@@ -200,12 +199,12 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
                 try {
                     checkIfChatExists()
                 } catch (ex: Exception) {
-                    genericHandler.showMessage(ex.message.toString())
+                    genericHandler.showErrorMessage(ex.message.toString())
                 }
             }
         } catch (ex: Exception) {
             genericHandler.showProgressBar(false)
-            genericHandler.showMessage(ex.message.toString())
+            genericHandler.showErrorMessage(ex.message.toString())
         }
     }
 
@@ -255,12 +254,12 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
                     }
                 } catch (ex: Exception) {
                     genericHandler.showProgressBar(false)
-                    genericHandler.showMessage(ex.message.toString())
+                    genericHandler.showErrorMessage(ex.message.toString())
                 }
             }
         }.addOnFailureListener {
             Log.i(MessagesFragment::class.java.simpleName, it.message.toString())
-            genericHandler.showMessage(it.message.toString())
+            genericHandler.showErrorMessage(it.message.toString())
         }
     }
 
@@ -305,7 +304,7 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
         query.addSnapshotListener { snapshots, e ->
             if (e != null) {
                 genericHandler.showProgressBar(false)
-                genericHandler.showMessage(e.message.toString())
+                genericHandler.showErrorMessage(e.message.toString())
                 return@addSnapshotListener
             }
             var messageCount = 0
@@ -484,7 +483,7 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
                     validateMessage()
                 } catch (ex: Exception) {
                     disableMessageSend(true)
-                    genericHandler.showMessage(ex.message.toString())
+                    genericHandler.showErrorMessage(ex.message.toString())
                 }
             }
             btnRetry.setOnClickListener {
@@ -554,7 +553,7 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
                     val file = File(filePath)
                     handleFiles(file)
                 } else {
-                    genericHandler.showMessage(getString(R.string.str_choose_valid_file))
+                    genericHandler.showErrorMessage(getString(R.string.str_choose_valid_file))
                 }
 
             }
@@ -571,7 +570,7 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
                 uploadDocumentToStorage(file)
             }
             else -> {
-                genericHandler.showMessage(getString(R.string.str_choose_valid_file))
+                genericHandler.showErrorMessage(getString(R.string.str_choose_valid_file))
             }
         }
     }
@@ -585,7 +584,7 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
                 getContent.launch("*/*")
             } else {
                 Log.i("Permission: ", "Denied")
-                genericHandler.showMessage(
+                genericHandler.showErrorMessage(
                     getString(R.string.permission_required)
                         .plus(". ").plus(R.string.str_please_enable)
                 )
@@ -643,7 +642,7 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
                 resultLauncher.launch(imageIntent)
             } else {
                 Log.i("Permission: ", "Denied")
-                genericHandler.showMessage(
+                genericHandler.showErrorMessage(
                     getString(R.string.permission_required)
                         .plus(". ").plus(getString(R.string.str_please_enable))
                 )
@@ -657,10 +656,10 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
                     try {
                         handlePickerResult(result.data!!)
                     } catch (e: Exception) {
-                        genericHandler.showMessage(e.message.toString())
+                        genericHandler.showErrorMessage(e.message.toString())
                     }
                 } else {
-                    genericHandler.showMessage("Invalid data")
+                    genericHandler.showErrorMessage("Invalid data")
                 }
             }
         }
@@ -680,7 +679,7 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
             if (!imagePath.isNullOrEmpty()) {
                 uploadImageToStorage(imagePath)
             } else {
-                genericHandler.showMessage("Choose valid image")
+                genericHandler.showErrorMessage("Choose valid image")
             }
         }
     }
@@ -707,7 +706,7 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
     private fun uploadFile(file: File, storagePath: String, messageType: Int) {
         val ext: String = file.extension
         if (ext.isEmpty()) {
-            genericHandler.showMessage(getString(R.string.str_something_went_wrong))
+            genericHandler.showErrorMessage(getString(R.string.str_something_went_wrong))
             return
         }
         val storageReference = firebaseStorage.reference.child("$storagePath.$ext")
@@ -738,7 +737,7 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
             bindingFileUploadDialog.progressBar.progress = progress.toInt()
             bindingFileUploadDialog.tvFileProgress.text = progress.toInt().toString().plus("%")
         }.addOnFailureListener { e ->
-            genericHandler.showMessage(e.message.toString())
+            genericHandler.showErrorMessage(e.message.toString())
             if (dialogFileUpload.isShowing) {
                 dialogFileUpload.dismiss()
             }
@@ -781,7 +780,7 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
                 )
             } catch (ex: Exception) {
                 disableMessageSend(true)
-                genericHandler.showMessage(ex.message.toString())
+                genericHandler.showErrorMessage(ex.message.toString())
             }
         }
     }
@@ -796,7 +795,7 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
             )
         } catch (ex: Exception) {
             disableMessageSend(true)
-            genericHandler.showMessage(ex.message.toString())
+            genericHandler.showErrorMessage(ex.message.toString())
         }
     }
 
@@ -894,7 +893,7 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
             sendFirebaseNotification(messageModel)
         }.addOnFailureListener { e: Exception ->
             disableMessageSend(true)
-            genericHandler.showMessage(e.message.toString())
+            genericHandler.showErrorMessage(e.message.toString())
         }
     }
 
@@ -939,7 +938,7 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
             sendFirebaseNotification(messageModel)
         }.addOnFailureListener { e: Exception ->
             disableMessageSend(true)
-            genericHandler.showMessage(e.message.toString())
+            genericHandler.showErrorMessage(e.message.toString())
         }
     }
 
@@ -989,11 +988,11 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
                     updateUsersInfo(false)
                 }.addOnFailureListener {
                     disableMessageSend(true)
-                    genericHandler.showMessage(it.message.toString())
+                    genericHandler.showErrorMessage(it.message.toString())
                 }
         } catch (ex: Exception) {
             disableMessageSend(true)
-            genericHandler.showMessage(ex.message.toString())
+            genericHandler.showErrorMessage(ex.message.toString())
         }
     }
 
@@ -1040,7 +1039,7 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
         downloadFileReference.getFile(localFile).addOnSuccessListener {
             BaseUtils.scanFile(requireContext(), localFile, fileType)
             NotificationUtils.createNotification(requireContext(), "$uniqueId.$fileType")
-            genericHandler.showMessage(getString(R.string.str_file_downloaded).plus(" at $rootPath"))
+            genericHandler.showErrorMessage(getString(R.string.str_file_downloaded).plus(" at $rootPath"))
             if (dialogFileUpload.isShowing) {
                 dialogFileUpload.dismiss()
             }
@@ -1055,7 +1054,7 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
             bindingFileUploadDialog.progressBar.progress = progress.toInt()
             bindingFileUploadDialog.tvFileProgress.text = progress.toInt().toString().plus("%")
         }.addOnFailureListener { exception ->
-            genericHandler.showMessage(exception.message.toString())
+            genericHandler.showErrorMessage(exception.message.toString())
             if (dialogFileUpload.isShowing) {
                 dialogFileUpload.dismiss()
             }
@@ -1123,7 +1122,7 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
                     }
                 }
             } catch (ex: Exception) {
-                genericHandler.showMessage(ex.message.toString())
+                genericHandler.showErrorMessage(ex.message.toString())
             }
         }
     }
@@ -1149,7 +1148,7 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
                 viewModel.chatOrderCall(chatOfferRequest)
             }
         } else {
-            genericHandler.showMessage(getString(R.string.str_something_went_wrong))
+            genericHandler.showErrorMessage(getString(R.string.str_something_went_wrong))
         }
     }
 

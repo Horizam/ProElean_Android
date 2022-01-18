@@ -125,4 +125,7 @@ dependencies {
     implementation 'com.github.iwgang:countdownview:2.1.6'
     // paper db
     implementation 'io.paperdb:paperdb:2.7.1'
+    //
+    implementation 'com.squareup.okhttp3:okhttp:4.3.1'
+    implementation 'com.pixplicity.sharp:library:1.1.0'
 }

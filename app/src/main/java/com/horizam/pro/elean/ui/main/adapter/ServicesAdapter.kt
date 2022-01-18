@@ -14,10 +14,12 @@ import com.horizam.pro.elean.databinding.ItemServicesAndGigsBinding
 import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
 
 
-class ServicesAdapter(val listener: OnItemClickListener) : ListAdapter<Category,ServicesAdapter.DataViewHolder>(COMPARATOR) {
+class ServicesAdapter(val listener: OnItemClickListener) :
+    ListAdapter<Category, ServicesAdapter.DataViewHolder>(COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder {
-        val binding = ItemServicesAndGigsBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+        val binding =
+            ItemServicesAndGigsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return DataViewHolder(binding)
     }
 
@@ -31,9 +33,9 @@ class ServicesAdapter(val listener: OnItemClickListener) : ListAdapter<Category,
         init {
             binding.root.setOnClickListener {
                 val position = bindingAdapterPosition
-                if (position!=RecyclerView.NO_POSITION){
+                if (position != RecyclerView.NO_POSITION) {
                     val category = getItem(position)
-                    if (category!=null){
+                    if (category != null) {
                         listener.onItemClick(category)
                     }
                 }
@@ -42,8 +44,9 @@ class ServicesAdapter(val listener: OnItemClickListener) : ListAdapter<Category,
 
         fun bind(category: Category) {
             binding.apply {
+//                    .load("${Constants.BASE_URL}${category.banner}")
                 Glide.with(itemView)
-                    .load("${Constants.BASE_URL}${category.banner}")
+                    .load(category.banner)
                     .centerCrop()
                     .placeholder(R.drawable.img_loading)
                     .error(R.drawable.ic_error)
@@ -54,8 +57,8 @@ class ServicesAdapter(val listener: OnItemClickListener) : ListAdapter<Category,
         }
     }
 
-    companion object{
-        private val COMPARATOR = object : DiffUtil.ItemCallback<Category>(){
+    companion object {
+        private val COMPARATOR = object : DiffUtil.ItemCallback<Category>() {
             override fun areItemsTheSame(oldItem: Category, newItem: Category): Boolean {
                 return oldItem.id == newItem.id
             }

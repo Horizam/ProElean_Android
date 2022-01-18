@@ -2,7 +2,6 @@ package com.horizam.pro.elean.ui.main.view.fragments
 
 import android.app.Dialog
 import android.content.Context
-import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,8 +10,6 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,23 +17,19 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.gson.Gson
 import com.horizam.pro.elean.App
-import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
 import com.horizam.pro.elean.data.model.requests.FavouriteRequest
 import com.horizam.pro.elean.data.model.response.GeneralResponse
-import com.horizam.pro.elean.data.model.response.SavedGig
 import com.horizam.pro.elean.data.model.response.ServiceDetail
 import com.horizam.pro.elean.databinding.DialogDeleteBinding
 import com.horizam.pro.elean.databinding.FragmentSavedBinding
 import com.horizam.pro.elean.ui.base.ViewModelFactory
-import com.horizam.pro.elean.ui.main.adapter.BuyerRequestsAdapter
 import com.horizam.pro.elean.ui.main.adapter.MyLoadStateAdapter
 import com.horizam.pro.elean.ui.main.adapter.SavedAdapter
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
 import com.horizam.pro.elean.ui.main.callbacks.SavedGigsHandler
-import com.horizam.pro.elean.ui.main.viewmodel.BuyerRequestsViewModel
 import com.horizam.pro.elean.ui.main.viewmodel.SavedViewModel
 import com.horizam.pro.elean.utils.PrefManager
 import com.horizam.pro.elean.utils.Resource
@@ -179,7 +172,7 @@ class SavedFragment : Fragment(), SavedGigsHandler, SwipeRefreshLayout.OnRefresh
                 }
                 Status.ERROR -> {
                     genericHandler.showProgressBar(false)
-                    genericHandler.showMessage(it.message.toString())
+                    genericHandler.showErrorMessage(it.message.toString())
                 }
                 Status.LOADING -> {
                     genericHandler.showProgressBar(true)
@@ -189,7 +182,7 @@ class SavedFragment : Fragment(), SavedGigsHandler, SwipeRefreshLayout.OnRefresh
     }
 
     private fun handleResponse(response: GeneralResponse) {
-        genericHandler.showMessage(response.message)
+        genericHandler.showErrorMessage(response.message)
         viewModel.getSavedGigsCall()
     }
 

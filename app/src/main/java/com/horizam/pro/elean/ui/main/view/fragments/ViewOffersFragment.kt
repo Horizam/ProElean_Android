@@ -2,7 +2,6 @@ package com.horizam.pro.elean.ui.main.view.fragments
 
 import android.app.Dialog
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,11 +11,9 @@ import android.view.WindowManager
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.paging.LoadState
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.horizam.pro.elean.App
@@ -29,19 +26,15 @@ import com.horizam.pro.elean.data.model.response.GeneralResponse
 import com.horizam.pro.elean.data.model.response.Offer
 import com.horizam.pro.elean.databinding.DialogDeleteBinding
 import com.horizam.pro.elean.databinding.DialogOrderSuccessBinding
-import com.horizam.pro.elean.databinding.FragmentNotificationsBinding
 import com.horizam.pro.elean.databinding.FragmentViewOffersBinding
 import com.horizam.pro.elean.ui.base.ViewModelFactory
 import com.horizam.pro.elean.ui.main.adapter.MyLoadStateAdapter
-import com.horizam.pro.elean.ui.main.adapter.NotificationsAdapter
-import com.horizam.pro.elean.ui.main.adapter.PostedJobsAdapter
 import com.horizam.pro.elean.ui.main.adapter.ViewOfferAdapter
 import com.horizam.pro.elean.ui.main.callbacks.CheckoutHandler
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
 import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
 import com.horizam.pro.elean.ui.main.callbacks.ViewOffersHandler
 import com.horizam.pro.elean.ui.main.viewmodel.JobOffersViewModel
-import com.horizam.pro.elean.ui.main.viewmodel.PostedJobsViewModel
 import com.horizam.pro.elean.utils.PrefManager
 import com.horizam.pro.elean.utils.Resource
 import com.horizam.pro.elean.utils.Status
@@ -196,7 +189,7 @@ class ViewOffersFragment : Fragment(), OnItemClickListener, ViewOffersHandler, C
                 }
                 Status.ERROR -> {
                     genericHandler.showProgressBar(false)
-                    genericHandler.showMessage(it.message.toString())
+                    genericHandler.showErrorMessage(it.message.toString())
                 }
                 Status.LOADING -> {
                     genericHandler.showProgressBar(true)
@@ -216,7 +209,7 @@ class ViewOffersFragment : Fragment(), OnItemClickListener, ViewOffersHandler, C
                 }
                 Status.ERROR -> {
                     genericHandler.showProgressBar(false)
-                    genericHandler.showMessage(it.message.toString())
+                    genericHandler.showErrorMessage(it.message.toString())
                 }
                 Status.LOADING -> {
                     genericHandler.showProgressBar(true)
@@ -230,7 +223,7 @@ class ViewOffersFragment : Fragment(), OnItemClickListener, ViewOffersHandler, C
             dialogOrderStatus.show()
             exeApi()
         }else{
-            genericHandler.showMessage(response.message)
+            genericHandler.showErrorMessage(response.message)
         }
     }
 

@@ -17,17 +17,14 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.fragment.app.findFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.bumptech.glide.Glide
 import com.google.android.gms.location.*
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -148,7 +145,7 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
                 }
             } else {
                 Log.i("Permission: ", "Denied")
-                showMessage(
+                showErrorMessage(
                     getString(R.string.permission_required)
                         .plus(". Please enable it settings")
                 )
@@ -227,7 +224,7 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
                     }
                     Status.ERROR -> {
                         showProgressBar(false)
-                        showMessage(it.message.toString())
+                        showErrorMessage(it.message.toString())
                     }
                     Status.LOADING -> {
                         showProgressBar(true)
@@ -247,7 +244,7 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
                 }
                 Status.ERROR -> {
                     showProgressBar(false)
-                    showMessage(it.message.toString())
+                    showErrorMessage(it.message.toString())
                 }
                 Status.LOADING -> {
                     showProgressBar(true)
@@ -274,7 +271,7 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
     }
 
     private fun handleResponse(response: GeneralResponse) {
-        showMessage(response.message)
+        showErrorMessage(response.message)
         logout()
     }
 
@@ -401,11 +398,15 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
         binding.progressLayout.isVisible = show
     }
 
-    override fun showMessage(message: String) {
+    override fun showErrorMessage(message: String) {
         Snackbar.make(
             findViewById(android.R.id.content),
             message, Snackbar.LENGTH_LONG
         ).show()
+    }
+
+    override fun showSuccessMessage(message: String) {
+        TODO("Not yet implemented")
     }
 
     override fun showNoInternet(show: Boolean) {

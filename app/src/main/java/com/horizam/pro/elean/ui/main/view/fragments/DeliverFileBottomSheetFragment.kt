@@ -2,7 +2,6 @@ package com.horizam.pro.elean.ui.main.view.fragments
 
 import android.Manifest
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -78,7 +77,7 @@ class DeliverFileBottomSheetFragment(
                 if (result.data != null) {
                     handlePickerResult(result.data!!)
                 } else {
-                    genericHandler.showMessage("Invalid data")
+                    genericHandler.showErrorMessage("Invalid data")
                 }
             }
         }
@@ -157,7 +156,7 @@ class DeliverFileBottomSheetFragment(
                 resultLauncher.launch(imageIntent)
             } else {
                 Log.i("Permission: ", "Denied")
-                genericHandler.showMessage(
+                genericHandler.showErrorMessage(
                     getString(R.string.permission_required)
                         .plus(". Please enable it settings")
                 )

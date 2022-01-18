@@ -1,7 +1,6 @@
 package com.horizam.pro.elean.ui.main.view.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,7 +33,7 @@ class RatingBottomSheet(var ratingHandler: RatingHandler , var genericHandler: G
             if(description.length < 10){
                 binding.etDescription.error = getString(R.string.str_description_is_too_short)
             }else if(rating <= 0.0){
-                genericHandler.showMessage("please rate your experience")
+                genericHandler.showErrorMessage("please rate your experience")
             }else{
                 ratingHandler.getRatingData(rating , description)
             }

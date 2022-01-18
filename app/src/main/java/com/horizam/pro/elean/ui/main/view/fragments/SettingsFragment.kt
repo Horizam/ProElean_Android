@@ -18,7 +18,6 @@ import com.horizam.pro.elean.data.model.response.PrivacyPolicyResponse
 import com.horizam.pro.elean.databinding.FragmentSettingsBinding
 import com.horizam.pro.elean.ui.base.ViewModelFactory
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
-import com.horizam.pro.elean.ui.main.viewmodel.SellerOrdersViewModel
 import com.horizam.pro.elean.ui.main.viewmodel.SettingsViewModel
 import com.horizam.pro.elean.utils.Status
 
@@ -131,7 +130,7 @@ class SettingsFragment : Fragment() {
                     }
                     Status.ERROR -> {
                         genericHandler.showProgressBar(false)
-                        genericHandler.showMessage(it.message.toString())
+                        genericHandler.showErrorMessage(it.message.toString())
                     }
                     Status.LOADING -> {
                         genericHandler.showProgressBar(true)
@@ -151,7 +150,7 @@ class SettingsFragment : Fragment() {
                     }
                     Status.ERROR -> {
                         genericHandler.showProgressBar(false)
-                        genericHandler.showMessage(it.message.toString())
+                        genericHandler.showErrorMessage(it.message.toString())
                     }
                     Status.LOADING -> {
                         genericHandler.showProgressBar(true)

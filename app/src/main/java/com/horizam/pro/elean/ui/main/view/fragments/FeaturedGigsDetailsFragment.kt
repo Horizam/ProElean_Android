@@ -1,7 +1,6 @@
 package com.horizam.pro.elean.ui.main.view.fragments
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -24,8 +23,6 @@ import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
-import com.horizam.pro.elean.data.model.response.FeaturedGigDetailsResponse
-import com.horizam.pro.elean.data.model.response.Service
 import com.horizam.pro.elean.data.model.response.ServiceDetail
 import com.horizam.pro.elean.data.model.response.ServiceResponse
 import com.horizam.pro.elean.databinding.FragmentFeaturedGigDetailsBinding
@@ -129,7 +126,7 @@ class FeaturedGigsDetailsFragment : Fragment(), OnItemClickListener, BaseSliderV
                         }
                     }
                 } catch (e: Exception) {
-                    genericHandler.showMessage(e.message.toString())
+                    genericHandler.showErrorMessage(e.message.toString())
                 }
             }
             btnPurchase.setOnClickListener {
@@ -178,7 +175,7 @@ class FeaturedGigsDetailsFragment : Fragment(), OnItemClickListener, BaseSliderV
                     }
                     Status.ERROR -> {
                         genericHandler.showProgressBar(false)
-                        genericHandler.showMessage(it.message.toString())
+                        genericHandler.showErrorMessage(it.message.toString())
                         changeViewVisibility(textView = true, button = true, layout = false)
                     }
                     Status.LOADING -> {
@@ -200,7 +197,7 @@ class FeaturedGigsDetailsFragment : Fragment(), OnItemClickListener, BaseSliderV
         try {
             setUIData(response.service)
         } catch (e: Exception) {
-            genericHandler.showMessage(e.message.toString())
+            genericHandler.showErrorMessage(e.message.toString())
         }
     }
 

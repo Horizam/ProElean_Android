@@ -109,15 +109,15 @@ class SendOfferBottomSheet(private val sendOfferHandler: SendOfferHandler) : Bot
                 return
             } else if (serviceId == "") {
                 this@SendOfferBottomSheet.dismiss()
-                genericHandler.showMessage(getString(R.string.str_invalid_service))
+                genericHandler.showErrorMessage(getString(R.string.str_invalid_service))
                 return
             }else if (jobId == "") {
                 this@SendOfferBottomSheet.dismiss()
-                genericHandler.showMessage(getString(R.string.str_invalid_job))
+                genericHandler.showErrorMessage(getString(R.string.str_invalid_job))
                 return
             } else if (deliveryTime.isEmpty()) {
                 this@SendOfferBottomSheet.dismiss()
-                genericHandler.showMessage(getString(R.string.str_enter_valid_delivery_time))
+                genericHandler.showErrorMessage(getString(R.string.str_enter_valid_delivery_time))
                 return
             } else {
                 this@SendOfferBottomSheet.dismiss()

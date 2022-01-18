@@ -3,25 +3,21 @@ package com.horizam.pro.elean.ui.main.view.fragments
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
-import android.text.format.DateUtils
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
 import android.widget.RadioGroup
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.horizam.pro.elean.App
-import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
@@ -31,14 +27,12 @@ import com.horizam.pro.elean.databinding.DialogDeleteBinding
 import com.horizam.pro.elean.databinding.DialogFilterPostedJobsBinding
 import com.horizam.pro.elean.databinding.FragmentPostedJobsBinding
 import com.horizam.pro.elean.ui.base.ViewModelFactory
-import com.horizam.pro.elean.ui.main.adapter.GigsAdapter
 import com.horizam.pro.elean.ui.main.adapter.MyLoadStateAdapter
 import com.horizam.pro.elean.ui.main.adapter.PostedJobsAdapter
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
 import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
 import com.horizam.pro.elean.ui.main.callbacks.PostedJobsHandler
 import com.horizam.pro.elean.ui.main.viewmodel.PostedJobsViewModel
-import com.horizam.pro.elean.ui.main.viewmodel.ServiceGigsViewModel
 import com.horizam.pro.elean.utils.Resource
 import com.horizam.pro.elean.utils.Status
 
@@ -185,7 +179,7 @@ class PostedJobsFragment : Fragment(), OnItemClickListener, PostedJobsHandler,
                 }
                 Status.ERROR -> {
                     genericHandler.showProgressBar(false)
-                    genericHandler.showMessage(it.message.toString())
+                    genericHandler.showErrorMessage(it.message.toString())
                 }
                 Status.LOADING -> {
                     genericHandler.showProgressBar(true)
@@ -195,7 +189,7 @@ class PostedJobsFragment : Fragment(), OnItemClickListener, PostedJobsHandler,
     }
 
     private fun handleResponse(response: GeneralResponse) {
-        genericHandler.showMessage(response.message)
+        genericHandler.showErrorMessage(response.message)
         exeApi()
     }
 

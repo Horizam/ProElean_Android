@@ -17,7 +17,6 @@ import com.horizam.pro.elean.data.model.response.GeneralResponse
 import com.horizam.pro.elean.databinding.FragmentChangePasswordBinding
 import com.horizam.pro.elean.ui.base.ViewModelFactory
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
-import com.horizam.pro.elean.ui.main.viewmodel.SellerOrdersViewModel
 import com.horizam.pro.elean.ui.main.viewmodel.SettingsViewModel
 import com.horizam.pro.elean.utils.BaseUtils.Companion.hideKeyboard
 import com.horizam.pro.elean.utils.Status
@@ -61,7 +60,7 @@ class ChangePasswordFragment : Fragment() {
                     }
                     Status.ERROR -> {
                         genericHandler.showProgressBar(false)
-                        genericHandler.showMessage(it.message.toString())
+                        genericHandler.showErrorMessage(it.message.toString())
                     }
                     Status.LOADING -> {
                         genericHandler.showProgressBar(true)
@@ -73,7 +72,7 @@ class ChangePasswordFragment : Fragment() {
 
     private fun handleResponse(response: GeneralResponse) {
         hideKeyboard()
-        genericHandler.showMessage(response.message)
+        genericHandler.showErrorMessage(response.message)
         navController.popBackStack()
     }
 
@@ -97,7 +96,7 @@ class ChangePasswordFragment : Fragment() {
 
     private fun checkValidation(currentPassword: String, newPassword: String, confirmNewPassword: String) {
         if(newPassword != confirmNewPassword){
-            genericHandler.showMessage("New Password and Confirm New Password Mismatched")
+            genericHandler.showErrorMessage("New Password and Confirm New Password Mismatched")
         }else{
             val changePasswordRequest = ChangePasswordRequest(currentPassword , newPassword , confirmNewPassword)
             exeChangePasswordApi(changePasswordRequest)

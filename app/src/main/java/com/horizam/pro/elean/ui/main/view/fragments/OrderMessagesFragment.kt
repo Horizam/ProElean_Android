@@ -32,7 +32,6 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
-import com.horizam.pro.elean.App
 import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.api.ApiHelper
@@ -43,7 +42,6 @@ import com.horizam.pro.elean.data.model.response.GeneralResponse
 import com.horizam.pro.elean.data.model.response.Order
 import com.horizam.pro.elean.databinding.DialogChooseAttachmentBinding
 import com.horizam.pro.elean.databinding.DialogFileUploadingBinding
-import com.horizam.pro.elean.databinding.FragmentMessagesBinding
 import com.horizam.pro.elean.databinding.FragmentOrderMessagesBinding
 import com.horizam.pro.elean.ui.base.ViewModelFactory
 import com.horizam.pro.elean.ui.main.adapter.MessageAdapter
@@ -146,7 +144,7 @@ class OrderMessagesFragment(var order: Order) : Fragment(), MessagesHandler, Cre
                 }
                 Status.ERROR -> {
                     genericHandler.showProgressBar(false)
-                    genericHandler.showMessage(it.message.toString())
+                    genericHandler.showErrorMessage(it.message.toString())
                 }
                 Status.LOADING -> {
                     genericHandler.showProgressBar(false)
@@ -166,7 +164,7 @@ class OrderMessagesFragment(var order: Order) : Fragment(), MessagesHandler, Cre
                 }
                 Status.ERROR -> {
                     genericHandler.showProgressBar(false)
-                    genericHandler.showMessage(it.message.toString())
+                    genericHandler.showErrorMessage(it.message.toString())
                 }
                 Status.LOADING -> {
                     genericHandler.showProgressBar(true)
@@ -176,7 +174,7 @@ class OrderMessagesFragment(var order: Order) : Fragment(), MessagesHandler, Cre
     }
 
     private fun handleResponse(response: GeneralResponse) {
-        genericHandler.showMessage(response.message)
+        genericHandler.showErrorMessage(response.message)
         if (response.status == Constants.STATUS_OK) {
             if (offerMessage != null) {
                 db.collection(Constants.FIREBASE_DATABASE_ORDERS_CONVERSATION).document(inbox!!.id)
@@ -205,11 +203,11 @@ class OrderMessagesFragment(var order: Order) : Fragment(), MessagesHandler, Cre
             try {
                 checkIfChatExists()
             } catch (ex: Exception) {
-                genericHandler.showMessage(ex.message.toString())
+                genericHandler.showErrorMessage(ex.message.toString())
             }
         } catch (ex: Exception) {
             genericHandler.showProgressBar(false)
-            genericHandler.showMessage(ex.message.toString())
+            genericHandler.showErrorMessage(ex.message.toString())
         }
     }
 
@@ -258,12 +256,12 @@ class OrderMessagesFragment(var order: Order) : Fragment(), MessagesHandler, Cre
                     }
                 } catch (ex: Exception) {
                     genericHandler.showProgressBar(false)
-                    genericHandler.showMessage(ex.message.toString())
+                    genericHandler.showErrorMessage(ex.message.toString())
                 }
             }
         }.addOnFailureListener {
             Log.i(MessagesFragment::class.java.simpleName, it.message.toString())
-            genericHandler.showMessage(it.message.toString())
+            genericHandler.showErrorMessage(it.message.toString())
         }
     }
 
@@ -309,7 +307,7 @@ class OrderMessagesFragment(var order: Order) : Fragment(), MessagesHandler, Cre
         query.addSnapshotListener { snapshots, e ->
             if (e != null) {
                 genericHandler.showProgressBar(false)
-                genericHandler.showMessage(e.message.toString())
+                genericHandler.showErrorMessage(e.message.toString())
                 return@addSnapshotListener
             }
 
@@ -438,7 +436,7 @@ class OrderMessagesFragment(var order: Order) : Fragment(), MessagesHandler, Cre
                     validateMessage()
                 } catch (ex: Exception) {
                     disableMessageSend(true)
-                    genericHandler.showMessage(ex.message.toString())
+                    genericHandler.showErrorMessage(ex.message.toString())
                 }
             }
             btnRetry.setOnClickListener {
@@ -508,7 +506,7 @@ class OrderMessagesFragment(var order: Order) : Fragment(), MessagesHandler, Cre
                     val file = File(filePath)
                     handleFiles(file)
                 } else {
-                    genericHandler.showMessage(getString(R.string.str_choose_valid_file))
+                    genericHandler.showErrorMessage(getString(R.string.str_choose_valid_file))
                 }
 
             }
@@ -525,7 +523,7 @@ class OrderMessagesFragment(var order: Order) : Fragment(), MessagesHandler, Cre
                 uploadDocumentToStorage(file)
             }
             else -> {
-                genericHandler.showMessage(getString(R.string.str_choose_valid_file))
+                genericHandler.showErrorMessage(getString(R.string.str_choose_valid_file))
             }
         }
     }
@@ -539,7 +537,7 @@ class OrderMessagesFragment(var order: Order) : Fragment(), MessagesHandler, Cre
                 getContent.launch("*/*")
             } else {
                 Log.i("Permission: ", "Denied")
-                genericHandler.showMessage(
+                genericHandler.showErrorMessage(
                     getString(R.string.permission_required)
                         .plus(". ").plus(R.string.str_please_enable)
                 )
@@ -597,7 +595,7 @@ class OrderMessagesFragment(var order: Order) : Fragment(), MessagesHandler, Cre
                 resultLauncher.launch(imageIntent)
             } else {
                 Log.i("Permission: ", "Denied")
-                genericHandler.showMessage(
+                genericHandler.showErrorMessage(
                     getString(R.string.permission_required)
                         .plus(". ").plus(getString(R.string.str_please_enable))
                 )
@@ -611,10 +609,10 @@ class OrderMessagesFragment(var order: Order) : Fragment(), MessagesHandler, Cre
                     try {
                         handlePickerResult(result.data!!)
                     } catch (e: Exception) {
-                        genericHandler.showMessage(e.message.toString())
+                        genericHandler.showErrorMessage(e.message.toString())
                     }
                 } else {
-                    genericHandler.showMessage("Invalid data")
+                    genericHandler.showErrorMessage("Invalid data")
                 }
             }
         }
@@ -634,7 +632,7 @@ class OrderMessagesFragment(var order: Order) : Fragment(), MessagesHandler, Cre
             if (!imagePath.isNullOrEmpty()) {
                 uploadImageToStorage(imagePath)
             } else {
-                genericHandler.showMessage("Choose valid image")
+                genericHandler.showErrorMessage("Choose valid image")
             }
         }
     }
@@ -661,7 +659,7 @@ class OrderMessagesFragment(var order: Order) : Fragment(), MessagesHandler, Cre
     private fun uploadFile(file: File, storagePath: String, messageType: Int) {
         val ext: String = file.extension
         if (ext.isEmpty()) {
-            genericHandler.showMessage(getString(R.string.str_something_went_wrong))
+            genericHandler.showErrorMessage(getString(R.string.str_something_went_wrong))
             return
         }
         val storageReference = firebaseStorage.reference.child("$storagePath.$ext")
@@ -692,7 +690,7 @@ class OrderMessagesFragment(var order: Order) : Fragment(), MessagesHandler, Cre
             bindingFileUploadDialog.progressBar.progress = progress.toInt()
             bindingFileUploadDialog.tvFileProgress.text = progress.toInt().toString().plus("%")
         }.addOnFailureListener { e ->
-            genericHandler.showMessage(e.message.toString())
+            genericHandler.showErrorMessage(e.message.toString())
             if (dialogFileUpload.isShowing) {
                 dialogFileUpload.dismiss()
             }
@@ -735,7 +733,7 @@ class OrderMessagesFragment(var order: Order) : Fragment(), MessagesHandler, Cre
                 )
             } catch (ex: Exception) {
                 disableMessageSend(true)
-                genericHandler.showMessage(ex.message.toString())
+                genericHandler.showErrorMessage(ex.message.toString())
             }
         }
     }
@@ -750,7 +748,7 @@ class OrderMessagesFragment(var order: Order) : Fragment(), MessagesHandler, Cre
             )
         } catch (ex: Exception) {
             disableMessageSend(true)
-            genericHandler.showMessage(ex.message.toString())
+            genericHandler.showErrorMessage(ex.message.toString())
         }
     }
 
@@ -850,7 +848,7 @@ class OrderMessagesFragment(var order: Order) : Fragment(), MessagesHandler, Cre
             sendFirebaseNotification(messageModel)
         }.addOnFailureListener { e: Exception ->
             disableMessageSend(true)
-            genericHandler.showMessage(e.message.toString())
+            genericHandler.showErrorMessage(e.message.toString())
         }
     }
 
@@ -898,7 +896,7 @@ class OrderMessagesFragment(var order: Order) : Fragment(), MessagesHandler, Cre
             sendFirebaseNotification(messageModel)
         }.addOnFailureListener { e: Exception ->
             disableMessageSend(true)
-            genericHandler.showMessage(e.message.toString())
+            genericHandler.showErrorMessage(e.message.toString())
         }
     }
 
@@ -949,11 +947,11 @@ class OrderMessagesFragment(var order: Order) : Fragment(), MessagesHandler, Cre
                     updateUsersInfo(false)
                 }.addOnFailureListener {
                     disableMessageSend(true)
-                    genericHandler.showMessage(it.message.toString())
+                    genericHandler.showErrorMessage(it.message.toString())
                 }
         } catch (ex: Exception) {
             disableMessageSend(true)
-            genericHandler.showMessage(ex.message.toString())
+            genericHandler.showErrorMessage(ex.message.toString())
         }
     }
 
@@ -995,7 +993,7 @@ class OrderMessagesFragment(var order: Order) : Fragment(), MessagesHandler, Cre
         downloadFileReference.getFile(localFile).addOnSuccessListener {
             BaseUtils.scanFile(requireContext(), localFile, fileType)
             NotificationUtils.createNotification(requireContext(), "$uniqueId.$fileType")
-            genericHandler.showMessage(getString(R.string.str_file_downloaded).plus(" at $rootPath"))
+            genericHandler.showErrorMessage(getString(R.string.str_file_downloaded).plus(" at $rootPath"))
             if (dialogFileUpload.isShowing) {
                 dialogFileUpload.dismiss()
             }
@@ -1010,7 +1008,7 @@ class OrderMessagesFragment(var order: Order) : Fragment(), MessagesHandler, Cre
             bindingFileUploadDialog.progressBar.progress = progress.toInt()
             bindingFileUploadDialog.tvFileProgress.text = progress.toInt().toString().plus("%")
         }.addOnFailureListener { exception ->
-            genericHandler.showMessage(exception.message.toString())
+            genericHandler.showErrorMessage(exception.message.toString())
             if (dialogFileUpload.isShowing) {
                 dialogFileUpload.dismiss()
             }
@@ -1079,7 +1077,7 @@ class OrderMessagesFragment(var order: Order) : Fragment(), MessagesHandler, Cre
                     }
                 }
             } catch (ex: Exception) {
-                genericHandler.showMessage(ex.message.toString())
+                genericHandler.showErrorMessage(ex.message.toString())
             }
         }
     }
@@ -1105,7 +1103,7 @@ class OrderMessagesFragment(var order: Order) : Fragment(), MessagesHandler, Cre
                 viewModel.chatOrderCall(chatOfferRequest)
             }
         } else {
-            genericHandler.showMessage(getString(R.string.str_something_went_wrong))
+            genericHandler.showErrorMessage(getString(R.string.str_something_went_wrong))
         }
     }
 

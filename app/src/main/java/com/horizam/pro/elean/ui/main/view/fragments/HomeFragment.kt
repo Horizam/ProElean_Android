@@ -7,11 +7,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -38,12 +35,10 @@ import com.horizam.pro.elean.utils.Status
 import com.smarteist.autoimageslider.SliderAnimations
 import com.smarteist.autoimageslider.SliderView
 import java.lang.Exception
-import android.widget.Toast
 
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView.OnEditorActionListener
 import com.horizam.pro.elean.ui.main.view.activities.ManageSalesActivity
-import com.horizam.pro.elean.ui.main.view.activities.OrderDetailsActivity
 
 
 class HomeFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
@@ -190,7 +185,7 @@ class HomeFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefre
                     }
                     Status.ERROR -> {
                         genericHandler.showProgressBar(false)
-                        genericHandler.showMessage(it.message.toString())
+                        genericHandler.showErrorMessage(it.message.toString())
                         changeViewVisibility(textView = true, button = true, layout = false)
                     }
                     Status.LOADING -> {
@@ -212,7 +207,7 @@ class HomeFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefre
         try {
             setUiData(response)
         } catch (e: Exception) {
-            genericHandler.showMessage(e.message.toString())
+            genericHandler.showErrorMessage(e.message.toString())
         }
     }
 

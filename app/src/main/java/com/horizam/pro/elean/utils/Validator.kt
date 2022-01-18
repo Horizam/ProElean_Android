@@ -97,7 +97,7 @@ class Validator {
             return valid
         }
 
-        private fun setError(data: Any, error: String?) {
+        fun setError(data: Any, error: String?) {
             if (data is EditText) {
                 if (data.parent.parent is TextInputLayout) {
                     (data.parent.parent as TextInputLayout).error = error

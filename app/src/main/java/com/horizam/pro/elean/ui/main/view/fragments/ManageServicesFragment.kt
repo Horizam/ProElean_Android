@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.horizam.pro.elean.App
-import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
@@ -155,7 +154,7 @@ class ManageServicesFragment : Fragment(), ManageServiceHandler {
                     }
                     Status.ERROR -> {
                         genericHandler.showProgressBar(false)
-                        genericHandler.showMessage(it.message.toString())
+                        genericHandler.showErrorMessage(it.message.toString())
                         changeViewVisibility(textView = true, button = true, layout = false)
                     }
                     Status.LOADING -> {
@@ -178,7 +177,7 @@ class ManageServicesFragment : Fragment(), ManageServiceHandler {
                 }
                 Status.ERROR -> {
                     genericHandler.showProgressBar(false)
-                    genericHandler.showMessage(it.message.toString())
+                    genericHandler.showErrorMessage(it.message.toString())
                 }
                 Status.LOADING -> {
                     genericHandler.showProgressBar(true)
@@ -188,7 +187,7 @@ class ManageServicesFragment : Fragment(), ManageServiceHandler {
     }
 
     private fun handleDeleteResponse(response: GeneralResponse) {
-        genericHandler.showMessage(response.message)
+        genericHandler.showErrorMessage(response.message)
         viewModel.userServicesCall("")
     }
 
@@ -202,7 +201,7 @@ class ManageServicesFragment : Fragment(), ManageServiceHandler {
         try {
             setUIData(response.serviceList)
         } catch (e: Exception) {
-            genericHandler.showMessage(e.message.toString())
+            genericHandler.showErrorMessage(e.message.toString())
         }
     }
 

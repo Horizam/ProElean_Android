@@ -57,7 +57,7 @@ class OrderDetailsActivity : AppCompatActivity(), GenericHandler {
                     }
                     Status.ERROR -> {
                         genericHandler.showProgressBar(false)
-                        genericHandler.showMessage(it.message.toString())
+                        genericHandler.showErrorMessage(it.message.toString())
                     }
                     Status.LOADING -> {
                         genericHandler.showProgressBar(true)
@@ -160,11 +160,14 @@ class OrderDetailsActivity : AppCompatActivity(), GenericHandler {
         binding.progressLayout.isVisible = show
     }
 
-    override fun showMessage(message: String) {
+    override fun showErrorMessage(message: String) {
         Snackbar.make(
             findViewById(android.R.id.content),
             message, Snackbar.LENGTH_LONG
         ).show()
+    }
+
+    override fun showSuccessMessage(message: String) {
     }
 
     override fun showNoInternet(show: Boolean) {

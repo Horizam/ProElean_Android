@@ -97,19 +97,19 @@ class BecomeFreelancerTwoFragment : Fragment(), AdapterView.OnItemSelectedListen
         binding.apply {
             when {
                 languageString.isEmpty() -> {
-                    genericHandler.showMessage(getString(R.string.str_enter_valid_language))
+                    genericHandler.showErrorMessage(getString(R.string.str_enter_valid_language))
                     return
                 }
                 cnicPath.isEmpty() -> {
-                    genericHandler.showMessage(getString(R.string.str_enter_valid_cnic))
+                    genericHandler.showErrorMessage(getString(R.string.str_enter_valid_cnic))
                     return
                 }
                 BaseUtils.getFileSize(cnicPath) >= 2 -> {
-                    genericHandler.showMessage(getString(R.string.str_enter_valid_cnic_size))
+                    genericHandler.showErrorMessage(getString(R.string.str_enter_valid_cnic_size))
                     return
                 }
                 availabilityString.isEmpty() -> {
-                    genericHandler.showMessage(getString(R.string.str_enter_valid_availability))
+                    genericHandler.showErrorMessage(getString(R.string.str_enter_valid_availability))
                     return
                 }
                 else -> {
@@ -182,7 +182,7 @@ class BecomeFreelancerTwoFragment : Fragment(), AdapterView.OnItemSelectedListen
                     }
                     Status.ERROR -> {
                         genericHandler.showProgressBar(false)
-                        genericHandler.showMessage(it.message.toString())
+                        genericHandler.showErrorMessage(it.message.toString())
                     }
                     Status.LOADING -> {
                         genericHandler.showProgressBar(true)
@@ -204,7 +204,7 @@ class BecomeFreelancerTwoFragment : Fragment(), AdapterView.OnItemSelectedListen
                 }
                 Status.ERROR -> {
                     genericHandler.showProgressBar(false)
-                    genericHandler.showMessage(it.message.toString())
+                    genericHandler.showErrorMessage(it.message.toString())
                 }
                 Status.LOADING -> {
                     genericHandler.showProgressBar(true)
@@ -221,12 +221,12 @@ class BecomeFreelancerTwoFragment : Fragment(), AdapterView.OnItemSelectedListen
                 }
                 is GeneralResponse -> {
                     updateHomeHandler.callHomeApi()
-                    genericHandler.showMessage(response.message)
+                    genericHandler.showErrorMessage(response.message)
                     findNavController().popBackStack(R.id.homeFragment, false)
                 }
             }
         } catch (e: Exception) {
-            genericHandler.showMessage(e.message.toString())
+            genericHandler.showErrorMessage(e.message.toString())
         }
     }
 
@@ -273,7 +273,7 @@ class BecomeFreelancerTwoFragment : Fragment(), AdapterView.OnItemSelectedListen
                 getContent.launch("*/*")
             } else {
                 Log.i("Permission: ", "Denied")
-                genericHandler.showMessage(
+                genericHandler.showErrorMessage(
                     getString(R.string.permission_required)
                         .plus(". ").plus(getString(R.string.str_please_enable))
                 )
@@ -291,7 +291,7 @@ class BecomeFreelancerTwoFragment : Fragment(), AdapterView.OnItemSelectedListen
                     cnicPath = filePath
                     //genericHandler.showMessage(BaseUtils.isImageFile(cnicPath).toString())
                 } else {
-                    genericHandler.showMessage(getString(R.string.str_choose_valid_document))
+                    genericHandler.showErrorMessage(getString(R.string.str_choose_valid_document))
                 }
             }
         }

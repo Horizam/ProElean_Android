@@ -21,16 +21,11 @@ import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
-import com.horizam.pro.elean.data.model.response.GigDetailsResponse
 import com.horizam.pro.elean.data.model.response.ServiceDetail
-import com.horizam.pro.elean.data.model.response.ServiceInfo
-import com.horizam.pro.elean.data.model.response.UserProfile
 import com.horizam.pro.elean.databinding.ActivityUserGigDetailsBinding
 import com.horizam.pro.elean.ui.base.ViewModelFactory
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
-import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
 import com.horizam.pro.elean.ui.main.viewmodel.GigDetailsViewModel
-import com.horizam.pro.elean.ui.main.viewmodel.ProfileViewModel
 import com.horizam.pro.elean.utils.Status
 import java.lang.Exception
 
@@ -84,7 +79,7 @@ class UserGigDetailsActivity : AppCompatActivity(), GenericHandler,
                     }
                     Status.ERROR -> {
                         showProgressBar(false)
-                        showMessage(it.message.toString())
+                        showErrorMessage(it.message.toString())
                         changeViewVisibility(textView = true, button = true, layout = false)
                     }
                     Status.LOADING -> {
@@ -106,7 +101,7 @@ class UserGigDetailsActivity : AppCompatActivity(), GenericHandler,
         try {
             setUIData(serviceDetail)
         } catch (e: Exception) {
-            showMessage(e.message.toString())
+            showErrorMessage(e.message.toString())
         }
     }
 
@@ -184,11 +179,14 @@ class UserGigDetailsActivity : AppCompatActivity(), GenericHandler,
         binding.progressLayout.isVisible = show
     }
 
-    override fun showMessage(message: String) {
+    override fun showErrorMessage(message: String) {
         Snackbar.make(
             findViewById(android.R.id.content),
             message, Snackbar.LENGTH_LONG
         ).show()
+    }
+
+    override fun showSuccessMessage(message: String) {
     }
 
     override fun showNoInternet(show: Boolean) {

@@ -25,13 +25,11 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.horizam.pro.elean.App
-import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
 import com.horizam.pro.elean.data.model.Image
 import com.horizam.pro.elean.data.model.SpinnerModel
-import com.horizam.pro.elean.data.model.requests.CreateServiceRequest
 import com.horizam.pro.elean.data.model.requests.UpdateServiceRequest
 import com.horizam.pro.elean.data.model.response.*
 import com.horizam.pro.elean.databinding.FragmentUpdateServiceBinding
@@ -106,7 +104,7 @@ class UpdateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
                 }
             }
         } catch (exception: Exception) {
-            genericHandler.showMessage(exception.message.toString())
+            genericHandler.showErrorMessage(exception.message.toString())
         }
     }
 
@@ -126,39 +124,39 @@ class UpdateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
         binding.apply {
             when {
                 etShortDes.editableText.trim().isEmpty() -> {
-                    genericHandler.showMessage(getString(R.string.str_enter_valid_short_description))
+                    genericHandler.showErrorMessage(getString(R.string.str_enter_valid_short_description))
                     return
                 }
                 categoryId == "" -> {
-                    genericHandler.showMessage(getString(R.string.str_enter_valid_category))
+                    genericHandler.showErrorMessage(getString(R.string.str_enter_valid_category))
                     return
                 }
                 subcategoryId == "" -> {
-                    genericHandler.showMessage(getString(R.string.str_enter_valid_subcategory))
+                    genericHandler.showErrorMessage(getString(R.string.str_enter_valid_subcategory))
                     return
                 }
                 etDescription.editableText.trim().isEmpty() -> {
-                    genericHandler.showMessage(getString(R.string.str_enter_valid_description))
+                    genericHandler.showErrorMessage(getString(R.string.str_enter_valid_description))
                     return
                 }
                 etPrice.editableText.trim().isEmpty() -> {
-                    genericHandler.showMessage(getString(R.string.str_enter_valid_price))
+                    genericHandler.showErrorMessage(getString(R.string.str_enter_valid_price))
                     return
                 }
                 deliveryTime.isEmpty() -> {
-                    genericHandler.showMessage(getString(R.string.str_enter_valid_delivery_time))
+                    genericHandler.showErrorMessage(getString(R.string.str_enter_valid_delivery_time))
                     return
                 }
                 noOfRevision == -1 -> {
-                    genericHandler.showMessage(getString(R.string.str_enter_a_valid_no_of_Revision))
+                    genericHandler.showErrorMessage(getString(R.string.str_enter_a_valid_no_of_Revision))
                     return
                 }
                 imagesArrayList.isEmpty() -> {
-                    genericHandler.showMessage(getString(R.string.str_enter_valid_images))
+                    genericHandler.showErrorMessage(getString(R.string.str_enter_valid_images))
                     return
                 }
                 etInfo.editableText.trim().isEmpty() -> {
-                    genericHandler.showMessage(getString(R.string.str_enter_valid_info))
+                    genericHandler.showErrorMessage(getString(R.string.str_enter_valid_info))
                     return
                 }
                 else -> {
@@ -273,7 +271,7 @@ class UpdateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
                     }
                     Status.ERROR -> {
                         genericHandler.showProgressBar(false)
-                        genericHandler.showMessage(it.message.toString())
+                        genericHandler.showErrorMessage(it.message.toString())
                     }
                     Status.LOADING -> {
                         genericHandler.showProgressBar(true)
@@ -308,7 +306,7 @@ class UpdateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
                 }
             }
         } catch (e: Exception) {
-            genericHandler.showMessage(e.message.toString())
+            genericHandler.showErrorMessage(e.message.toString())
         }
     }
 
@@ -408,7 +406,7 @@ class UpdateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
                 }
                 Status.ERROR -> {
                     genericHandler.showProgressBar(false)
-                    genericHandler.showMessage(it.message.toString())
+                    genericHandler.showErrorMessage(it.message.toString())
                 }
                 Status.LOADING -> {
                     genericHandler.showProgressBar(true)
@@ -428,7 +426,7 @@ class UpdateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
                 }
                 Status.ERROR -> {
                     genericHandler.showProgressBar(false)
-                    genericHandler.showMessage(it.message.toString())
+                    genericHandler.showErrorMessage(it.message.toString())
                 }
                 Status.LOADING -> {
                     genericHandler.showProgressBar(true)
@@ -507,7 +505,7 @@ class UpdateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
                 if (result.data != null) {
                     handlePickerResult(result.data!!)
                 } else {
-                    genericHandler.showMessage("Invalid data")
+                    genericHandler.showErrorMessage("Invalid data")
                 }
             }
         }
@@ -536,7 +534,7 @@ class UpdateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
                 imagesArrayList.add(image)
                 adapterImages.addImages(imagesArrayList)
             } else {
-                genericHandler.showMessage("Choose valid images")
+                genericHandler.showErrorMessage("Choose valid images")
             }
         }
     }
@@ -555,7 +553,7 @@ class UpdateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
                 resultLauncher.launch(imageIntent)
             } else {
                 Log.i("Permission: ", "Denied")
-                genericHandler.showMessage(
+                genericHandler.showErrorMessage(
                     getString(R.string.permission_required)
                         .plus(". Please enable it settings")
                 )

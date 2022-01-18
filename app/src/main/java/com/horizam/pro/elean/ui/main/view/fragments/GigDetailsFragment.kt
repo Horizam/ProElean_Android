@@ -1,13 +1,11 @@
 package com.horizam.pro.elean.ui.main.view.fragments
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -25,7 +23,6 @@ import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
-import com.horizam.pro.elean.data.model.response.ServiceInfo
 import com.horizam.pro.elean.databinding.FragmentGigDetailsBinding
 import com.horizam.pro.elean.ui.base.ViewModelFactory
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
@@ -168,7 +165,7 @@ class GigDetailsFragment : Fragment(), OnItemClickListener,
                     }
                 }
             } catch (e: Exception) {
-                genericHandler.showMessage(e.message.toString())
+                genericHandler.showErrorMessage(e.message.toString())
             }
         }
     }
@@ -198,7 +195,7 @@ class GigDetailsFragment : Fragment(), OnItemClickListener,
                     }
                     Status.ERROR -> {
                         genericHandler.showProgressBar(false)
-                        genericHandler.showMessage(it.message.toString())
+                        genericHandler.showErrorMessage(it.message.toString())
                         changeViewVisibility(textView = true, button = true, layout = false)
                     }
                     Status.LOADING -> {
@@ -225,7 +222,7 @@ class GigDetailsFragment : Fragment(), OnItemClickListener,
             bundle.putString("seller_name", serviceDetail.service_user.name)
             bundle.putString("price", serviceDetail.price.toString())
         } catch (e: Exception) {
-            genericHandler.showMessage(e.message.toString())
+            genericHandler.showErrorMessage(e.message.toString())
         }
     }
 

@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.horizam.pro.elean.Constants
@@ -17,7 +16,6 @@ import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
 import com.horizam.pro.elean.data.model.MessageOffer
 import com.horizam.pro.elean.data.model.SpinnerModel
-import com.horizam.pro.elean.data.model.requests.SendOfferRequest
 import com.horizam.pro.elean.data.model.response.*
 import com.horizam.pro.elean.databinding.CreateOfferBottomSheetBinding
 import com.horizam.pro.elean.ui.base.ViewModelFactory
@@ -119,15 +117,15 @@ class CreateOfferBottomSheet(private val createOfferHandler: CreateOfferHandler)
                 return
             } else if (serviceId == "") {
                 this@CreateOfferBottomSheet.dismiss()
-                genericHandler.showMessage(getString(R.string.str_invalid_service))
+                genericHandler.showErrorMessage(getString(R.string.str_invalid_service))
                 return
             } else if (deliveryTime.isEmpty()) {
                 this@CreateOfferBottomSheet.dismiss()
-                genericHandler.showMessage(getString(R.string.str_enter_valid_delivery_time))
+                genericHandler.showErrorMessage(getString(R.string.str_enter_valid_delivery_time))
                 return
             } else if (revisions.isEmpty()) {
                 this@CreateOfferBottomSheet.dismiss()
-                genericHandler.showMessage(getString(R.string.str_enter_valid_revisions))
+                genericHandler.showErrorMessage(getString(R.string.str_enter_valid_revisions))
                 return
             } else {
                 this@CreateOfferBottomSheet.dismiss()
@@ -169,7 +167,7 @@ class CreateOfferBottomSheet(private val createOfferHandler: CreateOfferHandler)
                     }
                     Status.ERROR -> {
                         genericHandler.showProgressBar(false)
-                        genericHandler.showMessage(it.message.toString())
+                        genericHandler.showErrorMessage(it.message.toString())
                     }
                     Status.LOADING -> {
                         genericHandler.showProgressBar(true)
@@ -189,7 +187,7 @@ class CreateOfferBottomSheet(private val createOfferHandler: CreateOfferHandler)
                     }
                     Status.ERROR -> {
                         genericHandler.showProgressBar(false)
-                        genericHandler.showMessage(it.message.toString())
+                        genericHandler.showErrorMessage(it.message.toString())
                     }
                     Status.LOADING -> {
                         genericHandler.showProgressBar(true)
@@ -210,7 +208,7 @@ class CreateOfferBottomSheet(private val createOfferHandler: CreateOfferHandler)
                 }
             }
         } catch (e: Exception) {
-            genericHandler.showMessage(e.message.toString())
+            genericHandler.showErrorMessage(e.message.toString())
         }
     }
 
@@ -271,7 +269,7 @@ class CreateOfferBottomSheet(private val createOfferHandler: CreateOfferHandler)
                         setServiceImage(serviceId)
                     }
                 } catch (ex: Exception) {
-                    genericHandler.showMessage(ex.message.toString())
+                    genericHandler.showErrorMessage(ex.message.toString())
                 }
             }
         }

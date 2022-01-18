@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
-import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
@@ -74,17 +73,17 @@ class SignUpFragment : Fragment() {
         } else if (!Validator.isValidEmail(etEmail)) {
             return
         } else if (etUsername.text!!.length < 5) {
-            genericHandler.showMessage("username must be al least 5 chracter")
+            genericHandler.showErrorMessage("username must be al least 5 chracter")
             return
         } else if (!Validator.isValidPassword(etPassword)) {
             return
         } else if (etPassword.text.toString().trim() !=
             etConfirmPassword.text.toString().trim()
         ) {
-            genericHandler.showMessage(getString(R.string.str_password_not_matched))
+            genericHandler.showErrorMessage(getString(R.string.str_password_not_matched))
             return
         } else if (!cbTermsAndConditions.isChecked) {
-            genericHandler.showMessage("Please accept ${getString(R.string.str_terms_and_conditions)}")
+            genericHandler.showErrorMessage("Please accept ${getString(R.string.str_terms_and_conditions)}")
             return
         } else {
             val referralCode = etReferral.text.toString().trim()
@@ -92,7 +91,7 @@ class SignUpFragment : Fragment() {
                 if (BaseUtils.isNumber(referralCode)) {
                     executeApi(referralCode)
                 } else {
-                    genericHandler.showMessage("Referral code must be numeric")
+                    genericHandler.showErrorMessage("Referral code must be numeric")
                 }
             } else {
                 executeApi()
@@ -137,7 +136,7 @@ class SignUpFragment : Fragment() {
                     }
                     Status.ERROR -> {
                         genericHandler.showProgressBar(false)
-                        genericHandler.showMessage(it.message.toString())
+                        genericHandler.showErrorMessage(it.message.toString())
                     }
                     Status.LOADING -> {
                         genericHandler.showProgressBar(true)
@@ -148,7 +147,7 @@ class SignUpFragment : Fragment() {
     }
 
     private fun handleResponse(response: RegisterResponse) {
-        genericHandler.showMessage(response.message)
+        genericHandler.showErrorMessage(response.message)
         findNavController().popBackStack()
     }
 

@@ -62,11 +62,14 @@ class ManageSalesActivity : AppCompatActivity(), GenericHandler {
         binding.progressLayout.isVisible = show
     }
 
-    override fun showMessage(message: String) {
+    override fun showErrorMessage(message: String) {
         Snackbar.make(
             findViewById(android.R.id.content),
             message, Snackbar.LENGTH_LONG
         ).show()
+    }
+
+    override fun showSuccessMessage(message: String) {
     }
 
     override fun showNoInternet(show: Boolean) {

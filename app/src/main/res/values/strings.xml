@@ -7,7 +7,7 @@
     <string name="str_password">Password</string>
     <string name="str_forgot_password">Forgot Password?</string>
     <string name="str_sign_in">Sign In</string>
-    <string name="str_don_t_have_an_account">Don\'t have an account?</string>
+    <string name="str_don_t_have_an_account">Don\'t have account?</string>
     <string name="str_sign_up">Sign Up</string>
     <string name="str_full_name">Full Name</string>
     <string name="str_phone">Phone</string>
@@ -292,5 +292,6 @@
     <string name="str_select_file">Select File</string>
     <string name="str_profile">Profile</string>
     <string name="str_last_active">Last Active</string>
+    <string name="str_country_1">country 1</string>
 
 </resources>

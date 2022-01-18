@@ -12,12 +12,10 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.gson.Gson
 import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
-import com.horizam.pro.elean.data.model.SpinnerModel
 import com.horizam.pro.elean.data.model.requests.CustomOrderRequest
 import com.horizam.pro.elean.databinding.DialogCustomOrderBinding
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
 import com.horizam.pro.elean.ui.main.view.activities.CheckoutActivity
-import com.horizam.pro.elean.utils.BaseUtils
 
 class CustomOrderBottomSheet : BottomSheetDialogFragment(), AdapterView.OnItemSelectedListener {
 
@@ -110,7 +108,7 @@ class CustomOrderBottomSheet : BottomSheetDialogFragment(), AdapterView.OnItemSe
                 return
             }*/ else if (serviceId.isEmpty()) {
                 this@CustomOrderBottomSheet.dismiss()
-                genericHandler.showMessage(getString(R.string.str_invalid_service))
+                genericHandler.showErrorMessage(getString(R.string.str_invalid_service))
                 return
             } /*else if (deliveryTime.isEmpty()) {
                 this@CustomOrderBottomSheet.dismiss()

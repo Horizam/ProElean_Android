@@ -12,32 +12,24 @@ import android.widget.RadioGroup
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.horizam.pro.elean.App
-import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
 import com.horizam.pro.elean.data.model.response.BuyerRequest
 import com.horizam.pro.elean.data.model.response.GeneralResponse
-import com.horizam.pro.elean.data.model.response.PostedJob
 import com.horizam.pro.elean.databinding.*
 import com.horizam.pro.elean.ui.base.ViewModelFactory
 import com.horizam.pro.elean.ui.main.adapter.BuyerRequestsAdapter
 import com.horizam.pro.elean.ui.main.adapter.MyLoadStateAdapter
-import com.horizam.pro.elean.ui.main.adapter.NotificationsAdapter
-import com.horizam.pro.elean.ui.main.adapter.PostedJobsAdapter
 import com.horizam.pro.elean.ui.main.callbacks.BuyerRequestsHandler
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
 import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
 import com.horizam.pro.elean.ui.main.viewmodel.BuyerRequestsViewModel
-import com.horizam.pro.elean.ui.main.viewmodel.PostedJobsViewModel
 import com.horizam.pro.elean.utils.Resource
 import com.horizam.pro.elean.utils.Status
 
@@ -185,7 +177,7 @@ class BuyerRequestsFragment : Fragment(), OnItemClickListener, BuyerRequestsHand
                 }
                 Status.ERROR -> {
                     genericHandler.showProgressBar(false)
-                    genericHandler.showMessage(it.message.toString())
+                    genericHandler.showErrorMessage(it.message.toString())
                 }
                 Status.LOADING -> {
                     genericHandler.showProgressBar(true)
@@ -195,7 +187,7 @@ class BuyerRequestsFragment : Fragment(), OnItemClickListener, BuyerRequestsHand
     }
 
     private fun handleResponse(response: GeneralResponse) {
-        genericHandler.showMessage(response.message)
+        genericHandler.showErrorMessage(response.message)
         exeApi()
     }
 

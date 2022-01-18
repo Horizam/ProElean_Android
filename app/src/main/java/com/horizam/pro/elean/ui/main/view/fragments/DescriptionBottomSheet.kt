@@ -47,7 +47,7 @@ class DescriptionBottomSheet(var fragment: OrderDetailsFragment , var userType: 
 
     private fun validateData() {
         if(binding.etDescription.length() < 10){
-            genericHandler.showMessage("Description is too short")
+            genericHandler.showErrorMessage("Description is too short")
         }else{
             descriptionHandler.getDescription(binding.etDescription.text.toString() , userType , type)
             hideKeyboard()

@@ -100,7 +100,7 @@ class TimelineFragment(private val orderNo: String) : Fragment(), OnItemClickLis
                     }
                     Status.ERROR -> {
                         genericHandler.showProgressBar(false)
-                        genericHandler.showMessage(it.message.toString())
+                        genericHandler.showErrorMessage(it.message.toString())
                         changeViewVisibility(textView = true, button = true, layout = false)
                     }
                     Status.LOADING -> {
@@ -122,7 +122,7 @@ class TimelineFragment(private val orderNo: String) : Fragment(), OnItemClickLis
         try {
             setUIData(response.actionList)
         } catch (e: Exception) {
-            genericHandler.showMessage(e.message.toString())
+            genericHandler.showErrorMessage(e.message.toString())
         }
     }
 

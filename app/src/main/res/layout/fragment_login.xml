@@ -5,28 +5,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
     <ImageView
-        android:id="@+id/iv_back"
-        android:layout_width="@dimen/_25sdp"
-        android:layout_height="@dimen/_25sdp"
-        android:layout_margin="@dimen/_15sdp"
-        android:src="@drawable/ic_back"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/ic_signin_top"
+        />
+
+
+    <ImageView
+        android:id="@+id/tv_welcome"
+        android:layout_width="@dimen/_170sdp"
+        android:layout_height="@dimen/_170sdp"
+        android:layout_marginTop="@dimen/_25sdp"
+        android:src="@drawable/img_logo_white_two_transparent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tv_welcome"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/str_welcome"
-        android:textColor="@color/colorBlack"
-        android:textSize="@dimen/_22ssp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.07"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.15" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/text_field_email"
@@ -34,14 +32,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/_20sdp"
-        android:layout_marginTop="@dimen/_20sdp"
+        android:layout_marginTop="@dimen/_5sdp"
         android:hint="@string/str_email"
+        app:boxCornerRadiusBottomEnd="@dimen/_10sdp"
+        app:boxCornerRadiusBottomStart="@dimen/_10sdp"
+        app:boxCornerRadiusTopEnd="@dimen/_10sdp"
+        app:boxCornerRadiusTopStart="@dimen/_10sdp"
         app:counterEnabled="true"
         app:counterMaxLength="30"
         app:endIconMode="clear_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_welcome">
+        app:layout_constraintTop_toBottomOf="@+id/tv_welcome"
+        app:startIconDrawable="@drawable/ic_email">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_email"
@@ -60,12 +63,17 @@
         android:layout_marginHorizontal="@dimen/_20sdp"
         android:layout_marginTop="@dimen/_1sdp"
         android:hint="@string/str_password"
+        app:boxCornerRadiusBottomEnd="@dimen/_10sdp"
+        app:boxCornerRadiusBottomStart="@dimen/_10sdp"
+        app:boxCornerRadiusTopEnd="@dimen/_10sdp"
+        app:boxCornerRadiusTopStart="@dimen/_10sdp"
         app:counterEnabled="true"
         app:counterMaxLength="20"
         app:endIconMode="password_toggle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_field_email">
+        app:layout_constraintTop_toBottomOf="@+id/text_field_email"
+        app:startIconDrawable="@drawable/ic_lock">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_password"
@@ -91,41 +99,55 @@
         style="@style/New.TextButton"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_40sdp"
-        android:layout_marginHorizontal="@dimen/_40sdp"
-        android:layout_marginTop="@dimen/_20sdp"
+        android:layout_marginHorizontal="@dimen/_30sdp"
+        android:layout_marginTop="@dimen/_15sdp"
         android:backgroundTint="@color/colorButtons"
         android:text="@string/str_sign_in"
         android:textAllCaps="false"
         android:textColor="@color/colorWhite"
-        app:cornerRadius="@dimen/_50sdp"
+        app:cornerRadius="@dimen/_20sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_forget_password" />
 
-    <TextView
-        android:id="@+id/tv_no_account"
+    <LinearLayout
+        android:id="@+id/ll_create_new_account"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:layout_marginTop="@dimen/_10sdp"
-        android:text="@string/str_don_t_have_an_account"
-        android:textSize="@dimen/_12ssp"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_login" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_login">
 
-    <TextView
-        android:id="@+id/tv_sign_up"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:padding="@dimen/_5sdp"
-        android:text="@string/str_sign_up"
-        android:textColor="@color/colorBlack"
-        android:textSize="@dimen/_12ssp"
-        android:textStyle="bold"
+        <TextView
+            android:id="@+id/tv_no_account"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/str_don_t_have_an_account"
+            android:textSize="@dimen/_11ssp" />
+
+        <TextView
+            android:id="@+id/tv_sign_up"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="@dimen/_5sdp"
+            android:text="create a new account"
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/_12ssp" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ll_create_new_account"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_no_account" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@drawable/ic_signin_bottom"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

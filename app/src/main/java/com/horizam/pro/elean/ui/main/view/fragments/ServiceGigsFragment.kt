@@ -239,7 +239,7 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
                 }
                 Status.ERROR -> {
                     genericHandler.showProgressBar(false)
-                    genericHandler.showMessage(it.message.toString())
+                    genericHandler.showErrorMessage(it.message.toString())
                 }
                 Status.LOADING -> {
                     genericHandler.showProgressBar(true)
@@ -287,7 +287,7 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
                     }
                 }
             } catch (e: Exception) {
-                genericHandler.showMessage(e.message.toString())
+                genericHandler.showErrorMessage(e.message.toString())
             }
         }
     }

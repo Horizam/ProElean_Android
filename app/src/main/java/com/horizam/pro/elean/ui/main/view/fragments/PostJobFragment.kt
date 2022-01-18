@@ -8,10 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.horizam.pro.elean.App
 import com.horizam.pro.elean.Constants
@@ -25,7 +23,6 @@ import com.horizam.pro.elean.databinding.FragmentPostJobBinding
 import com.horizam.pro.elean.ui.base.ViewModelFactory
 import com.horizam.pro.elean.ui.main.adapter.SpinnerAdapter
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
-import com.horizam.pro.elean.ui.main.viewmodel.GigDetailsViewModel
 import com.horizam.pro.elean.ui.main.viewmodel.PostJobViewModel
 import com.horizam.pro.elean.utils.BaseUtils.Companion.hideKeyboard
 import com.horizam.pro.elean.utils.Resource
@@ -91,31 +88,31 @@ class PostJobFragment : Fragment(), AdapterView.OnItemSelectedListener {
         binding.apply {
             when {
                 etDescription.editableText.trim().isEmpty() -> {
-                    genericHandler.showMessage(getString(R.string.str_enter_valid_description))
+                    genericHandler.showErrorMessage(getString(R.string.str_enter_valid_description))
                     return
                 }
                 etDescription.editableText.trim().length < 20 -> {
-                    genericHandler.showMessage(getString(R.string.str_enter_valid_description_length))
+                    genericHandler.showErrorMessage(getString(R.string.str_enter_valid_description_length))
                     return
                 }
                 categoryId == "" -> {
-                    genericHandler.showMessage(getString(R.string.str_enter_valid_category))
+                    genericHandler.showErrorMessage(getString(R.string.str_enter_valid_category))
                     return
                 }
                 subcategoryId == "" -> {
-                    genericHandler.showMessage(getString(R.string.str_enter_valid_subcategory))
+                    genericHandler.showErrorMessage(getString(R.string.str_enter_valid_subcategory))
                     return
                 }
                 deliveryTime.isEmpty() -> {
-                    genericHandler.showMessage(getString(R.string.str_enter_valid_delivery_time))
+                    genericHandler.showErrorMessage(getString(R.string.str_enter_valid_delivery_time))
                     return
                 }
                 etPrice.editableText.trim().isEmpty() -> {
-                    genericHandler.showMessage(getString(R.string.str_enter_valid_price))
+                    genericHandler.showErrorMessage(getString(R.string.str_enter_valid_price))
                     return
                 }
                 etPrice.text.toString().toDouble() < Constants.MINIMUM_ORDER_PRICE -> {
-                    genericHandler.showMessage("Minimum ${Constants.MINIMUM_ORDER_PRICE}${Constants.CURRENCY} must be entered")
+                    genericHandler.showErrorMessage("Minimum ${Constants.MINIMUM_ORDER_PRICE}${Constants.CURRENCY} must be entered")
                     return
                 }
                 else -> {
@@ -161,7 +158,7 @@ class PostJobFragment : Fragment(), AdapterView.OnItemSelectedListener {
                     }
                     Status.ERROR -> {
                         genericHandler.showProgressBar(false)
-                        genericHandler.showMessage(it.message.toString())
+                        genericHandler.showErrorMessage(it.message.toString())
                     }
                     Status.LOADING -> {
                         genericHandler.showProgressBar(true)
@@ -188,7 +185,7 @@ class PostJobFragment : Fragment(), AdapterView.OnItemSelectedListener {
                 }
             }
         } catch (e: Exception) {
-            genericHandler.showMessage(e.message.toString())
+            genericHandler.showErrorMessage(e.message.toString())
         }
     }
 
@@ -258,7 +255,7 @@ class PostJobFragment : Fragment(), AdapterView.OnItemSelectedListener {
                 }
                 Status.ERROR -> {
                     genericHandler.showProgressBar(false)
-                    genericHandler.showMessage(it.message.toString())
+                    genericHandler.showErrorMessage(it.message.toString())
                 }
                 Status.LOADING -> {
                     genericHandler.showProgressBar(true)
@@ -278,7 +275,7 @@ class PostJobFragment : Fragment(), AdapterView.OnItemSelectedListener {
                 }
                 Status.ERROR -> {
                     genericHandler.showProgressBar(false)
-                    genericHandler.showMessage(it.message.toString())
+                    genericHandler.showErrorMessage(it.message.toString())
                 }
                 Status.LOADING -> {
                     genericHandler.showProgressBar(true)

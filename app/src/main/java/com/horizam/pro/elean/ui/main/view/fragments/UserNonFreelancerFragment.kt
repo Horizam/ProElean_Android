@@ -8,9 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -19,22 +17,12 @@ import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
-import com.horizam.pro.elean.data.model.SliderItem
-import com.horizam.pro.elean.data.model.response.HomeDataResponse
-import com.horizam.pro.elean.data.model.response.NonFreelancerUserResponse
 import com.horizam.pro.elean.data.model.response.ProfileInfo
-import com.horizam.pro.elean.databinding.FragmentLoginBinding
-import com.horizam.pro.elean.databinding.FragmentSignUpBinding
-import com.horizam.pro.elean.databinding.FragmentUserAboutBinding
 import com.horizam.pro.elean.databinding.FragmentUserNonFreelancerBinding
 import com.horizam.pro.elean.ui.base.ViewModelFactory
-import com.horizam.pro.elean.ui.main.adapter.NotificationsAdapter
 import com.horizam.pro.elean.ui.main.adapter.SkillsAdapter
-import com.horizam.pro.elean.ui.main.callbacks.DrawerHandler
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
-import com.horizam.pro.elean.ui.main.callbacks.LockHandler
 import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
-import com.horizam.pro.elean.ui.main.viewmodel.HomeViewModel
 import com.horizam.pro.elean.ui.main.viewmodel.ProfileViewModel
 import com.horizam.pro.elean.utils.Status
 import java.lang.Exception
@@ -119,7 +107,7 @@ class UserNonFreelancerFragment : Fragment(), OnItemClickListener {
                     }
                     Status.ERROR -> {
                         genericHandler.showProgressBar(false)
-                        genericHandler.showMessage(it.message.toString())
+                        genericHandler.showErrorMessage(it.message.toString())
                         changeViewVisibility(textView = true, button = true, layout = false)
                     }
                     Status.LOADING -> {
@@ -141,7 +129,7 @@ class UserNonFreelancerFragment : Fragment(), OnItemClickListener {
         try {
             setUiData(response)
         } catch (e: Exception) {
-            genericHandler.showMessage(e.message.toString())
+            genericHandler.showErrorMessage(e.message.toString())
         }
     }
 

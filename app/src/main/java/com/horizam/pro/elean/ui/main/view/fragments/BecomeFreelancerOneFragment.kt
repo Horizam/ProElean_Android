@@ -10,11 +10,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.horizam.pro.elean.App
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.api.ApiHelper
@@ -22,27 +18,21 @@ import com.horizam.pro.elean.data.api.RetrofitBuilder
 import com.horizam.pro.elean.data.model.Freelancer
 import com.horizam.pro.elean.data.model.SpinnerModel
 import com.horizam.pro.elean.data.model.response.CategoriesCountriesResponse
-import com.horizam.pro.elean.data.model.response.CategoriesDaysResponse
-import com.horizam.pro.elean.data.model.response.PostJobResponse
 import com.horizam.pro.elean.data.model.response.SubcategoriesDataResponse
 import com.horizam.pro.elean.databinding.FragmentBecomeFreelancerOneBinding
-import com.horizam.pro.elean.databinding.FragmentCreateServiceBinding
-import com.horizam.pro.elean.databinding.FragmentLoginBinding
-import com.horizam.pro.elean.databinding.FragmentSignUpBinding
 import com.horizam.pro.elean.ui.base.ViewModelFactory
-import com.horizam.pro.elean.ui.main.adapter.ImagesAdapter
-import com.horizam.pro.elean.ui.main.adapter.NotificationsAdapter
 import com.horizam.pro.elean.ui.main.adapter.SpinnerAdapter
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
+import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
 import com.horizam.pro.elean.ui.main.viewmodel.BecomeFreelancerViewModel
-import com.horizam.pro.elean.ui.main.viewmodel.PostJobViewModel
 import com.horizam.pro.elean.utils.BaseUtils.Companion.hideKeyboard
 import com.horizam.pro.elean.utils.Resource
 import com.horizam.pro.elean.utils.Status
+import kotlinx.android.synthetic.main.fragment_become_freelancer_one.*
 import java.lang.Exception
 
 
-class BecomeFreelancerOneFragment : Fragment(),AdapterView.OnItemSelectedListener {
+class BecomeFreelancerOneFragment : Fragment(), AdapterView.OnItemSelectedListener , OnItemClickListener {
 
     private lateinit var binding: FragmentBecomeFreelancerOneBinding
     private lateinit var viewModel: BecomeFreelancerViewModel
@@ -66,7 +56,7 @@ class BecomeFreelancerOneFragment : Fragment(),AdapterView.OnItemSelectedListene
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentBecomeFreelancerOneBinding.inflate(layoutInflater,container,false)
+        binding = FragmentBecomeFreelancerOneBinding.inflate(layoutInflater, container, false)
         setToolbarData()
         initViews()
         setupViewModel()
@@ -84,6 +74,12 @@ class BecomeFreelancerOneFragment : Fragment(),AdapterView.OnItemSelectedListene
                 hideKeyboard()
                 validateData()
             }
+            tvCountry.setOnClickListener {
+                val selectCountryBottomSheet = SelectCountryBottomSheet(countriesArrayList , (this@BecomeFreelancerOneFragment as OnItemClickListener))
+                selectCountryBottomSheet.show(
+                    requireActivity().supportFragmentManager, ""
+                )
+            }
         }
     }
 
@@ -99,31 +95,31 @@ class BecomeFreelancerOneFragment : Fragment(),AdapterView.OnItemSelectedListene
                     return
                 }*/
                 etShortDes.editableText.trim().isEmpty() -> {
-                    genericHandler.showMessage(getString(R.string.str_enter_valid_short_description))
+                    genericHandler.showErrorMessage(getString(R.string.str_enter_valid_short_description))
                     return
                 }
                 etShortDes.editableText.trim().length < 15 -> {
-                    genericHandler.showMessage(getString(R.string.str_enter_valid_short_description_length))
+                    genericHandler.showErrorMessage(getString(R.string.str_enter_valid_short_description_length))
                     return
                 }
                 countryId == "" -> {
-                    genericHandler.showMessage(getString(R.string.str_enter_valid_country))
+                    genericHandler.showErrorMessage(getString(R.string.str_enter_valid_country))
                     return
                 }
                 categoryId == "" -> {
-                    genericHandler.showMessage(getString(R.string.str_enter_valid_category))
+                    genericHandler.showErrorMessage(getString(R.string.str_enter_valid_category))
                     return
                 }
                 subcategoryId == "" -> {
-                    genericHandler.showMessage(getString(R.string.str_enter_valid_subcategory))
+                    genericHandler.showErrorMessage(getString(R.string.str_enter_valid_subcategory))
                     return
                 }
                 etDescription.editableText.trim().isEmpty() -> {
-                    genericHandler.showMessage(getString(R.string.str_enter_valid_description))
+                    genericHandler.showErrorMessage(getString(R.string.str_enter_valid_description))
                     return
                 }
                 etDescription.editableText.trim().length < 20 -> {
-                    genericHandler.showMessage(getString(R.string.str_enter_valid_description_length))
+                    genericHandler.showErrorMessage(getString(R.string.str_enter_valid_description_length))
                     return
                 }
                 else -> {
@@ -136,7 +132,9 @@ class BecomeFreelancerOneFragment : Fragment(),AdapterView.OnItemSelectedListene
                         subcategoryId = subcategoryId
                     )
                     val action = BecomeFreelancerOneFragmentDirections
-                        .actionBecomeFreelancerOneFragmentToBecomeFreelancerTwoFragment(freelancerData)
+                        .actionBecomeFreelancerOneFragmentToBecomeFreelancerTwoFragment(
+                            freelancerData
+                        )
                     findNavController().navigate(action)
                 }
             }
@@ -149,12 +147,13 @@ class BecomeFreelancerOneFragment : Fragment(),AdapterView.OnItemSelectedListene
         countriesArrayList = ArrayList()
         binding.spinnerCategory.onItemSelectedListener = this
         binding.spinnerSubCategory.onItemSelectedListener = this
-        binding.spinnerCountry.onItemSelectedListener = this
+//        binding.spinnerCountry.onItemSelectedListener = this
     }
 
     private fun setToolbarData() {
         binding.toolbar.ivToolbar.setImageResource(R.drawable.ic_back)
-        binding.toolbar.tvToolbar.text = App.getAppContext()!!.getString(R.string.str_become_freelancer)
+        binding.toolbar.tvToolbar.text =
+            App.getAppContext()!!.getString(R.string.str_become_freelancer)
     }
 
     private fun setupViewModel() {
@@ -176,7 +175,7 @@ class BecomeFreelancerOneFragment : Fragment(),AdapterView.OnItemSelectedListene
                     }
                     Status.ERROR -> {
                         genericHandler.showProgressBar(false)
-                        genericHandler.showMessage(it.message.toString())
+                        genericHandler.showErrorMessage(it.message.toString())
                     }
                     Status.LOADING -> {
                         genericHandler.showProgressBar(true)
@@ -198,7 +197,7 @@ class BecomeFreelancerOneFragment : Fragment(),AdapterView.OnItemSelectedListene
                 }
             }
         } catch (e: Exception) {
-            genericHandler.showMessage(e.message.toString())
+            genericHandler.showErrorMessage(e.message.toString())
         }
     }
 
@@ -219,8 +218,8 @@ class BecomeFreelancerOneFragment : Fragment(),AdapterView.OnItemSelectedListene
         categoriesArrayList = response.categoriesCountriesData.categories.map { spinnerCategories ->
             SpinnerModel(id = spinnerCategories.id, value = spinnerCategories.title)
         }
-        countriesArrayList = response.categoriesCountriesData.countries.map { countries->
-            SpinnerModel(id = countries.id,value = countries.name)
+        countriesArrayList = response.categoriesCountriesData.countries.map { countries ->
+            SpinnerModel(id = countries.id, value = countries.name , image = countries.image)
         }
         categoriesAdapter = SpinnerAdapter(
             requireContext(),
@@ -229,13 +228,13 @@ class BecomeFreelancerOneFragment : Fragment(),AdapterView.OnItemSelectedListene
             it.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
             binding.spinnerCategory.adapter = it
         }
-        countriesAdapter = SpinnerAdapter(
-            requireContext(),
-            android.R.layout.simple_spinner_item, countriesArrayList
-        ).also {
-            it.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
-            binding.spinnerCountry.adapter = it
-        }
+//        countriesAdapter = SpinnerAdapter(
+//            requireContext(),
+//            android.R.layout.simple_spinner_item, countriesArrayList
+//        ).also {
+//            it.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
+//            binding.spinnerCountry.adapter = it
+//        }
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -249,10 +248,10 @@ class BecomeFreelancerOneFragment : Fragment(),AdapterView.OnItemSelectedListene
                 val spinnerModel = parent.selectedItem as SpinnerModel
                 subcategoryId = spinnerModel.id
             }
-            binding.spinnerCountry.id -> {
-                val spinnerModel = parent.selectedItem as SpinnerModel
-                countryId = spinnerModel.id
-            }
+//            binding.spinnerCountry.id -> {
+//                val spinnerModel = parent.selectedItem as SpinnerModel
+//                countryId = spinnerModel.id
+//            }
         }
     }
 
@@ -271,11 +270,20 @@ class BecomeFreelancerOneFragment : Fragment(),AdapterView.OnItemSelectedListene
                 }
                 Status.ERROR -> {
                     genericHandler.showProgressBar(false)
-                    genericHandler.showMessage(it.message.toString())
+                    genericHandler.showErrorMessage(it.message.toString())
                 }
                 Status.LOADING -> {
                     genericHandler.showProgressBar(true)
                 }
+            }
+        }
+    }
+
+    override fun <T> onItemClick(item: T) {
+        when(item){
+            is SpinnerModel ->{
+                binding.tvCountry.text = item.value
+                countryId = item.id
             }
         }
     }

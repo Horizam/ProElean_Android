@@ -17,8 +17,6 @@ import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
-import com.horizam.pro.elean.data.model.requests.BuyerActionsRequest
-import com.horizam.pro.elean.data.model.requests.SellerActionsRequest
 import com.horizam.pro.elean.data.model.response.GeneralResponse
 import com.horizam.pro.elean.data.model.response.Order
 import com.horizam.pro.elean.databinding.FragmentOrderDetailsBinding
@@ -34,7 +32,6 @@ import com.horizam.pro.elean.data.model.requests.SellerActionRequestMultipart
 import com.horizam.pro.elean.ui.main.callbacks.DeliverOrderFileHandler
 import com.horizam.pro.elean.ui.main.callbacks.DescriptionHandler
 import com.horizam.pro.elean.ui.main.callbacks.RatingHandler
-import com.horizam.pro.elean.ui.main.view.activities.HomeActivity
 import com.horizam.pro.elean.utils.BaseUtils
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
@@ -110,12 +107,12 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                         setSellerData(pair)
                     }
                     else -> {
-                        genericHandler.showMessage(getString(R.string.str_something_went_wrong))
+                        genericHandler.showErrorMessage(getString(R.string.str_something_went_wrong))
                         requireActivity().finish()
                     }
                 }
             } catch (e: Exception) {
-                genericHandler.showMessage(e.message.toString())
+                genericHandler.showErrorMessage(e.message.toString())
                 changeViewsVisibility(
                     deliveryNote = false,
                     btnResubmit = false,
@@ -503,7 +500,7 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                 when (pair.first) {
                     Constants.BUYER_USER -> {
                         // Download source code
-                        genericHandler.showMessage("Coming soon")
+                        genericHandler.showErrorMessage("Coming soon")
                     }
                     Constants.SELLER_USER -> {
 
@@ -553,7 +550,7 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                     }
                     Status.ERROR -> {
                         genericHandler.showProgressBar(false)
-                        genericHandler.showMessage(it.message.toString())
+                        genericHandler.showErrorMessage(it.message.toString())
                     }
                     Status.LOADING -> {
                         genericHandler.showProgressBar(true)
@@ -573,7 +570,7 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                     }
                     Status.ERROR -> {
                         genericHandler.showProgressBar(false)
-                        genericHandler.showMessage(it.message.toString())
+                        genericHandler.showErrorMessage(it.message.toString())
                     }
                     Status.LOADING -> {
                         genericHandler.showProgressBar(true)
@@ -593,7 +590,7 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                     }
                     Status.ERROR -> {
                         genericHandler.showProgressBar(false)
-                        genericHandler.showMessage(it.message.toString())
+                        genericHandler.showErrorMessage(it.message.toString())
                     }
                     Status.LOADING -> {
                         genericHandler.showProgressBar(true)
@@ -613,7 +610,7 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                     }
                     Status.ERROR -> {
                         genericHandler.showProgressBar(false)
-                        genericHandler.showMessage(it.message.toString())
+                        genericHandler.showErrorMessage(it.message.toString())
                     }
                     Status.LOADING -> {
                         genericHandler.showProgressBar(true)
@@ -625,13 +622,13 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
 
     private fun handleResponse(response: GeneralResponse) {
         try {
-            genericHandler.showMessage(response.message)
+            genericHandler.showErrorMessage(response.message)
             requireActivity().apply {
                 setResult(Activity.RESULT_OK)
                 finish()
             }
         } catch (e: java.lang.Exception) {
-            genericHandler.showMessage(e.message.toString())
+            genericHandler.showErrorMessage(e.message.toString())
         }
     }
 

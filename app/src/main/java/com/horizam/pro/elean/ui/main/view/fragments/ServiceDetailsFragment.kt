@@ -25,16 +25,13 @@ import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
-import com.horizam.pro.elean.data.model.response.GigDetailsResponse
 import com.horizam.pro.elean.data.model.response.ServiceDetail
-import com.horizam.pro.elean.data.model.response.ServiceInfo
 import com.horizam.pro.elean.databinding.FragmentServiceDetailsBinding
 import com.horizam.pro.elean.ui.base.ViewModelFactory
 import com.horizam.pro.elean.ui.main.adapter.ReviewsAdapter
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
 import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
 import com.horizam.pro.elean.ui.main.viewmodel.GigDetailsViewModel
-import com.horizam.pro.elean.utils.Status
 import java.lang.Exception
 
 
@@ -153,7 +150,7 @@ class ServiceDetailsFragment : Fragment(), BaseSliderView.OnSliderClickListener,
         try {
             setUIData(serviceDetail)
         } catch (e: Exception) {
-            genericHandler.showMessage(e.message.toString())
+            genericHandler.showErrorMessage(e.message.toString())
         }
     }
 

@@ -8,20 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
-import com.horizam.pro.elean.Constants
-import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
 import com.horizam.pro.elean.data.model.requests.ForgotPasswordRequest
-import com.horizam.pro.elean.data.model.requests.LoginRequest
 import com.horizam.pro.elean.data.model.response.GeneralResponse
-import com.horizam.pro.elean.data.model.response.LoginResponse
-import com.horizam.pro.elean.databinding.FragmentLoginBinding
 import com.horizam.pro.elean.databinding.FragmentResetPasswordBinding
 import com.horizam.pro.elean.ui.base.ViewModelFactory
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
 import com.horizam.pro.elean.ui.main.viewmodel.ForgotPasswordViewModel
-import com.horizam.pro.elean.ui.main.viewmodel.LoginViewModel
 import com.horizam.pro.elean.utils.BaseUtils.Companion.hideKeyboard
 import com.horizam.pro.elean.utils.Status
 import com.horizam.pro.elean.utils.Validator
@@ -97,7 +91,7 @@ class ResetPasswordFragment : Fragment() {
                     }
                     Status.ERROR -> {
                         genericHandler.showProgressBar(false)
-                        genericHandler.showMessage(it.message.toString())
+                        genericHandler.showErrorMessage(it.message.toString())
                     }
                     Status.LOADING -> {
                         genericHandler.showProgressBar(true)
@@ -108,7 +102,7 @@ class ResetPasswordFragment : Fragment() {
     }
 
     private fun handleResponse(response: GeneralResponse) {
-        genericHandler.showMessage(response.message)
+        genericHandler.showErrorMessage(response.message)
         findNavController().popBackStack()
     }
 }

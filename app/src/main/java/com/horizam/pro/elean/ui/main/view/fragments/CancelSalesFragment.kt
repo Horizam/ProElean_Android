@@ -17,7 +17,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.gson.Gson
 import com.horizam.pro.elean.BuyerOrders
 import com.horizam.pro.elean.Constants
-import com.horizam.pro.elean.R
 import com.horizam.pro.elean.SellerOrders
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
@@ -25,7 +24,6 @@ import com.horizam.pro.elean.data.model.response.Order
 import com.horizam.pro.elean.data.model.response.OrdersResponse
 import com.horizam.pro.elean.databinding.FragmentOrdersGenericBinding
 import com.horizam.pro.elean.ui.base.ViewModelFactory
-import com.horizam.pro.elean.ui.main.adapter.CancelOrdersAdapter
 import com.horizam.pro.elean.ui.main.adapter.CancelSalesAdapter
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
 import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
@@ -110,7 +108,7 @@ class CancelSalesFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.
                     }
                     Status.ERROR -> {
                         genericHandler.showProgressBar(false)
-                        genericHandler.showMessage(it.message.toString())
+                        genericHandler.showErrorMessage(it.message.toString())
                         changeViewVisibility(textView = true, button = true, layout = false)
                     }
                     Status.LOADING -> {
@@ -132,7 +130,7 @@ class CancelSalesFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.
         try {
             setUIData(response.orderList)
         } catch (e: Exception) {
-            genericHandler.showMessage(e.message.toString())
+            genericHandler.showErrorMessage(e.message.toString())
         }
     }
 

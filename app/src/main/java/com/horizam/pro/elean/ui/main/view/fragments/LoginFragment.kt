@@ -10,7 +10,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.workDataOf
@@ -22,16 +21,12 @@ import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
 import com.horizam.pro.elean.data.model.requests.LoginRequest
-import com.horizam.pro.elean.data.model.requests.RegisterRequest
 import com.horizam.pro.elean.data.model.response.LoginResponse
-import com.horizam.pro.elean.data.model.response.RegisterResponse
 import com.horizam.pro.elean.databinding.FragmentLoginBinding
 import com.horizam.pro.elean.ui.base.ViewModelFactory
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
 import com.horizam.pro.elean.ui.main.view.activities.HomeActivity
 import com.horizam.pro.elean.ui.main.viewmodel.LoginViewModel
-import com.horizam.pro.elean.ui.main.viewmodel.RegisterViewModel
-import com.horizam.pro.elean.utils.BaseUtils
 import com.horizam.pro.elean.utils.BaseUtils.Companion.hideKeyboard
 import com.horizam.pro.elean.utils.PrefManager
 import com.horizam.pro.elean.utils.Status
@@ -96,9 +91,6 @@ class LoginFragment : Fragment() {
     }
 
     private fun setClickListeners() {
-        binding.ivBack.setOnClickListener {
-            requireActivity().finish()
-        }
         binding.tvSignUp.setOnClickListener {
             findNavController().navigate(R.id.signUpFragment)
         }
@@ -113,9 +105,10 @@ class LoginFragment : Fragment() {
 
     private fun validateData() {
         if (!Validator.isValidEmail(binding.etEmail)) {
+            genericHandler.showErrorMessage(getString(R.string.str_enter_valid_email_address))
             return
-        } else if (binding.etPassword.text.toString().trim().isEmpty()) {
-            genericHandler.showMessage(getString(R.string.str_password_not_entered))
+        } else if (!Validator.isValidPassword(binding.etPassword.text.toString().trim())) {
+            genericHandler.showErrorMessage(getString(R.string.str_password_not_entered))
             return
         } else {
             executeApi()
@@ -124,7 +117,7 @@ class LoginFragment : Fragment() {
 
     private fun executeApi() {
         if (prefManager.fcmToken.isEmpty()) {
-            genericHandler.showMessage("Please try again latter")
+            genericHandler.showErrorMessage("Please try again latter")
             return
         }
         genericHandler.showProgressBar(true)
@@ -159,7 +152,7 @@ class LoginFragment : Fragment() {
                     }
                     Status.ERROR -> {
                         genericHandler.showProgressBar(false)
-                        genericHandler.showMessage(it.message.toString())
+                        genericHandler.showErrorMessage(it.message.toString())
                     }
                     Status.LOADING -> {
                         genericHandler.showProgressBar(true)
@@ -170,7 +163,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun handleResponse(response: LoginResponse) {
-        genericHandler.showMessage(response.message)
+        genericHandler.showErrorMessage(response.message)
         val prefManager = PrefManager(requireContext())
         prefManager.accessToken = response.token
         prefManager.isFreelancer = response.data.isFreelancer

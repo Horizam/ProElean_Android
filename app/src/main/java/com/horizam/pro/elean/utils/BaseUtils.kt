@@ -36,6 +36,7 @@ import android.text.Spannable
 import android.text.style.ForegroundColorSpan
 
 import android.text.SpannableString
+import okhttp3.OkHttpClient
 
 
 class BaseUtils {
@@ -47,6 +48,8 @@ class BaseUtils {
         private const val HOUR_MILLIS = 60 * MINUTE_MILLIS
         private const val DAY_MILLIS = 24 * HOUR_MILLIS
         var CurrentScreen = ""
+        var screenHeight: Int = 0
+        var screenWidth: Int = 0
 
         fun isInternetAvailable(context: Context): Boolean {
             var result = false

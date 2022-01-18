@@ -124,7 +124,7 @@ class SellerServicesFragment : Fragment(), OnItemClickListener, SendOfferHandler
                     }
                     Status.ERROR -> {
                         genericHandler.showProgressBar(false)
-                        genericHandler.showMessage(it.message.toString())
+                        genericHandler.showErrorMessage(it.message.toString())
                         changeViewVisibility(textView = true, button = true, layout = false)
                     }
                     Status.LOADING -> {
@@ -146,7 +146,7 @@ class SellerServicesFragment : Fragment(), OnItemClickListener, SendOfferHandler
                     }
                     Status.ERROR -> {
                         genericHandler.showProgressBar(false)
-                        genericHandler.showMessage(it.message.toString())
+                        genericHandler.showErrorMessage(it.message.toString())
                     }
                     Status.LOADING -> {
                         genericHandler.showProgressBar(true)
@@ -169,7 +169,7 @@ class SellerServicesFragment : Fragment(), OnItemClickListener, SendOfferHandler
                 }
                 Status.ERROR -> {
                     genericHandler.showProgressBar(false)
-                    genericHandler.showMessage(it.message.toString())
+                    genericHandler.showErrorMessage(it.message.toString())
                 }
                 Status.LOADING -> {
                     genericHandler.showProgressBar(true)
@@ -191,7 +191,7 @@ class SellerServicesFragment : Fragment(), OnItemClickListener, SendOfferHandler
 //                deliveryDaysList = response.days as ArrayList<String>
 //            }
         } catch (e: Exception) {
-            genericHandler.showMessage(e.message.toString())
+            genericHandler.showErrorMessage(e.message.toString())
         }
     }
 
@@ -202,7 +202,7 @@ class SellerServicesFragment : Fragment(), OnItemClickListener, SendOfferHandler
                     categoriesCountriesResponse.categoriesCountriesData.deliveryDays as ArrayList<String>
             }
         } catch (e: Exception) {
-            genericHandler.showMessage(e.message.toString())
+            genericHandler.showErrorMessage(e.message.toString())
         }
     }
 

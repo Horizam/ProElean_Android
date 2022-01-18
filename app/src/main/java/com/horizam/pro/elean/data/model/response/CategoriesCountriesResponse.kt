@@ -19,6 +19,7 @@ data class CategoriesCountriesData(
 data class Countries(
     @SerializedName("id") val id: String,
     @SerializedName("name") val name: String,
+    @SerializedName("image") val image: String,
 )
 
 data class Categories(

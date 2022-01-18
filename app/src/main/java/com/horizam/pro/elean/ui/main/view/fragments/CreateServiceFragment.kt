@@ -102,55 +102,55 @@ class CreateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
         binding.apply {
             when {
                 etShortDes.editableText.trim().isEmpty() -> {
-                    genericHandler.showMessage(getString(R.string.str_enter_valid_short_description))
+                    genericHandler.showErrorMessage(getString(R.string.str_enter_valid_short_description))
                     return
                 }
                 etShortDes.editableText.trim().length < 15 -> {
-                    genericHandler.showMessage(getString(R.string.str_enter_valid_short_description_length))
+                    genericHandler.showErrorMessage(getString(R.string.str_enter_valid_short_description_length))
                     return
                 }
                 categoryId == "" -> {
-                    genericHandler.showMessage(getString(R.string.str_enter_valid_category))
+                    genericHandler.showErrorMessage(getString(R.string.str_enter_valid_category))
                     return
                 }
                 subcategoryId == "" -> {
-                    genericHandler.showMessage(getString(R.string.str_enter_valid_subcategory))
+                    genericHandler.showErrorMessage(getString(R.string.str_enter_valid_subcategory))
                     return
                 }
                 etDescription.editableText.trim().isEmpty() -> {
-                    genericHandler.showMessage(getString(R.string.str_enter_valid_description))
+                    genericHandler.showErrorMessage(getString(R.string.str_enter_valid_description))
                     return
                 }
                 etDescription.editableText.trim().length < 20 -> {
-                    genericHandler.showMessage(getString(R.string.str_enter_valid_description_length))
+                    genericHandler.showErrorMessage(getString(R.string.str_enter_valid_description_length))
                     return
                 }
                 etPrice.editableText.trim().isEmpty() -> {
-                    genericHandler.showMessage(getString(R.string.str_enter_valid_price))
+                    genericHandler.showErrorMessage(getString(R.string.str_enter_valid_price))
                     return
                 }
                 etPrice.text.toString().toDouble() < Constants.MINIMUM_ORDER_PRICE -> {
-                    genericHandler.showMessage("Minimum ${Constants.MINIMUM_ORDER_PRICE}${Constants.CURRENCY} must be entered")
+                    genericHandler.showErrorMessage("Minimum ${Constants.MINIMUM_ORDER_PRICE}${Constants.CURRENCY} must be entered")
                     return
                 }
                 deliveryTime.isEmpty() -> {
-                    genericHandler.showMessage(getString(R.string.str_enter_valid_delivery_time))
+                    genericHandler.showErrorMessage(getString(R.string.str_enter_valid_delivery_time))
                     return
                 }
                 noOfRevision == -1 -> {
-                    genericHandler.showMessage(getString(R.string.str_select_no_of_revision))
+                    genericHandler.showErrorMessage(getString(R.string.str_select_no_of_revision))
                     return
                 }
                 imagesArrayList.isEmpty() -> {
-                    genericHandler.showMessage(getString(R.string.str_enter_valid_images))
+                    genericHandler.showErrorMessage(getString(R.string.str_enter_valid_images))
                     return
                 }
                 etInfo.editableText.trim().isEmpty() -> {
-                    genericHandler.showMessage(getString(R.string.str_enter_valid_info))
+                    genericHandler.showErrorMessage(getString(R.string.str_enter_valid_info))
                     return
                 }
                 etInfo.editableText.trim().length < 4 -> {
-                    genericHandler.showMessage(getString(R.string.str_enter_valid_info_length))
+                    genericHandler.showErrorMessage(getString(R.string.str_enter_valid_info_length))
                     return
                 }
                 else -> {
@@ -249,7 +249,7 @@ class CreateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
                     }
                     Status.ERROR -> {
                         genericHandler.showProgressBar(false)
-                        genericHandler.showMessage(it.message.toString())
+                        genericHandler.showErrorMessage(it.message.toString())
                     }
                     Status.LOADING -> {
                         genericHandler.showProgressBar(true)
@@ -276,7 +276,7 @@ class CreateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
                 }
             }
         } catch (e: Exception) {
-            genericHandler.showMessage(e.message.toString())
+            genericHandler.showErrorMessage(e.message.toString())
         }
     }
 
@@ -301,7 +301,7 @@ class CreateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
             requireContext(),
             android.R.layout.simple_spinner_item, categoriesArrayList
         ).also {
-            it.setDropDownViewResource(R.layout.spin_item)
+            it.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
             binding.spinnerCategory.adapter = it
         }
 
@@ -359,7 +359,7 @@ class CreateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
                 }
                 Status.ERROR -> {
                     genericHandler.showProgressBar(false)
-                    genericHandler.showMessage(it.message.toString())
+                    genericHandler.showErrorMessage(it.message.toString())
                 }
                 Status.LOADING -> {
                     genericHandler.showProgressBar(true)
@@ -379,7 +379,7 @@ class CreateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
                 }
                 Status.ERROR -> {
                     genericHandler.showProgressBar(false)
-                    genericHandler.showMessage(it.message.toString())
+                    genericHandler.showErrorMessage(it.message.toString())
                 }
                 Status.LOADING -> {
                     genericHandler.showProgressBar(true)
@@ -458,7 +458,7 @@ class CreateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
                 if (result.data != null) {
                     handlePickerResult(result.data!!)
                 } else {
-                    genericHandler.showMessage("Invalid data")
+                    genericHandler.showErrorMessage("Invalid data")
                 }
             }
         }
@@ -487,7 +487,7 @@ class CreateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
                 imagesArrayList.add(image)
                 adapterImages.addImages(imagesArrayList)
             } else {
-                genericHandler.showMessage("Choose valid images")
+                genericHandler.showErrorMessage("Choose valid images")
             }
         }
     }
@@ -506,7 +506,7 @@ class CreateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
                 resultLauncher.launch(imageIntent)
             } else {
                 Log.i("Permission: ", "Denied")
-                genericHandler.showMessage(
+                genericHandler.showErrorMessage(
                     getString(R.string.permission_required)
                         .plus(". Please enable it settings")
                 )

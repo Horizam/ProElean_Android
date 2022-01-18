@@ -80,17 +80,25 @@
                 android:maxLines="1"
                 android:paddingVertical="@dimen/_7sdp"
                 android:text="@string/select_country"
+                android:textAlignment="center"
                 android:textColor="@color/colorBlack"
                 android:textSize="@dimen/_14ssp"
                 android:textStyle="normal"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/text_field_short_des" />
 
-            <androidx.appcompat.widget.AppCompatSpinner
-                android:id="@+id/spinner_country"
+            <TextView
+                android:id="@+id/tvCountry"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_20sdp"
+                android:textSize="@dimen/_13ssp"
+                android:textColor="@color/colorBlack"
+                android:drawableRight="@drawable/ccp_ic_arrow_drop_down"
+                android:drawableTint="@color/colorDarkGrey"
+                android:text="Select Country"
+                android:drawablePadding="@dimen/_15sdp"
+                android:paddingStart="@dimen/_20sdp"
                 android:textAlignment="viewEnd"
                 app:layout_constraintBottom_toBottomOf="@id/tv_select_country"
                 app:layout_constraintEnd_toEndOf="parent"

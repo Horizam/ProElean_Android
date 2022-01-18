@@ -31,16 +31,10 @@ import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
-import com.horizam.pro.elean.data.model.Image
-import com.horizam.pro.elean.data.model.requests.CreateServiceRequest
-import com.horizam.pro.elean.data.model.requests.FavouriteRequest
 import com.horizam.pro.elean.data.model.requests.UpdateProfileRequest
-import com.horizam.pro.elean.data.model.response.GeneralResponse
-import com.horizam.pro.elean.data.model.response.NonFreelancerUserResponse
 import com.horizam.pro.elean.data.model.response.ProfileInfo
 import com.horizam.pro.elean.databinding.*
 import com.horizam.pro.elean.ui.base.ViewModelFactory
-import com.horizam.pro.elean.ui.main.adapter.SkillsAdapter
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
 import com.horizam.pro.elean.ui.main.callbacks.UpdateProfileHandler
 import com.horizam.pro.elean.ui.main.viewmodel.ProfileViewModel
@@ -55,7 +49,6 @@ import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.HashMap
-import kotlin.coroutines.CoroutineContext
 
 
 class EditProfileFragment : Fragment() {
@@ -167,7 +160,7 @@ class EditProfileFragment : Fragment() {
                 val photoFile: File? = try {
                     createImageFile()
                 } catch (ex: IOException) {
-                    genericHandler.showMessage(ex.message.toString())
+                    genericHandler.showErrorMessage(ex.message.toString())
                     null
                 }
                 // Continue only if the File was successfully created
@@ -214,7 +207,7 @@ class EditProfileFragment : Fragment() {
                     }
                     Status.ERROR -> {
                         genericHandler.showProgressBar(false)
-                        genericHandler.showMessage(it.message.toString())
+                        genericHandler.showErrorMessage(it.message.toString())
                         changeViewVisibility(textView = true, button = true, layout = false)
                     }
                     Status.LOADING -> {
@@ -238,7 +231,7 @@ class EditProfileFragment : Fragment() {
                 }
                 Status.ERROR -> {
                     genericHandler.showProgressBar(false)
-                    genericHandler.showMessage(it.message.toString())
+                    genericHandler.showErrorMessage(it.message.toString())
                 }
                 Status.LOADING -> {
                     genericHandler.showProgressBar(true)
@@ -258,14 +251,14 @@ class EditProfileFragment : Fragment() {
             if (response is ProfileInfo) {
                 setUiData(response)
                 if (check == 1) {
-                    genericHandler.showMessage("Profile Successfully Updated")
+                    genericHandler.showErrorMessage("Profile Successfully Updated")
                     prefManager.userImage = response.image
                     updateProfileHandler.updateProfile()
                     this.findNavController().popBackStack()
                 }
             }
         } catch (e: Exception) {
-            genericHandler.showMessage(e.message.toString())
+            genericHandler.showErrorMessage(e.message.toString())
         }
     }
 
@@ -341,10 +334,10 @@ class EditProfileFragment : Fragment() {
                     try {
                         handlePickerResult(result.data!!)
                     } catch (e: Exception) {
-                        genericHandler.showMessage(e.message.toString())
+                        genericHandler.showErrorMessage(e.message.toString())
                     }
                 } else {
-                    genericHandler.showMessage("Invalid data")
+                    genericHandler.showErrorMessage("Invalid data")
                 }
             }
         }
@@ -359,10 +352,10 @@ class EditProfileFragment : Fragment() {
                         .placeholder(R.drawable.img_loading)
                         .into(binding.ivProfile)
                 } catch (ex: Exception) {
-                    genericHandler.showMessage(ex.message.toString())
+                    genericHandler.showErrorMessage(ex.message.toString())
                 }
             } else {
-                genericHandler.showMessage("Invalid data")
+                genericHandler.showErrorMessage("Invalid data")
             }
         }
 
@@ -405,7 +398,7 @@ class EditProfileFragment : Fragment() {
                     .placeholder(R.drawable.img_loading)
                     .into(binding.ivProfile)
             } else {
-                genericHandler.showMessage("Choose valid image")
+                genericHandler.showErrorMessage("Choose valid image")
             }
         }
     }
@@ -424,7 +417,7 @@ class EditProfileFragment : Fragment() {
                 resultLauncher.launch(imageIntent)
             } else {
                 Log.i("Permission: ", "Denied")
-                genericHandler.showMessage(
+                genericHandler.showErrorMessage(
                     getString(R.string.permission_required)
                         .plus(". Please enable it settings")
                 )
@@ -440,7 +433,7 @@ class EditProfileFragment : Fragment() {
                 dispatchTakePictureIntent()
             } else {
                 Log.i("Permission: ", "Denied")
-                genericHandler.showMessage(
+                genericHandler.showErrorMessage(
                     getString(R.string.permission_required)
                         .plus(". Please enable it settings")
                 )
@@ -451,15 +444,15 @@ class EditProfileFragment : Fragment() {
         binding.apply {
             when {
                 etFullName.editableText.trim().isEmpty() -> {
-                    genericHandler.showMessage(getString(R.string.str_enter_valid_username))
+                    genericHandler.showErrorMessage(getString(R.string.str_enter_valid_username))
                     return
                 }
                 etPhone.editableText.trim().isEmpty() -> {
-                    genericHandler.showMessage(getString(R.string.str_enter_valid_phone))
+                    genericHandler.showErrorMessage(getString(R.string.str_enter_valid_phone))
                     return
                 }
                 etAddress.editableText.trim().isEmpty() -> {
-                    genericHandler.showMessage(getString(R.string.str_enter_valid_address))
+                    genericHandler.showErrorMessage(getString(R.string.str_enter_valid_address))
                     return
                 }
                 else -> {

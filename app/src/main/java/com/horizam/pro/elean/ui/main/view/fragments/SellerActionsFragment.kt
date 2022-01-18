@@ -2,9 +2,7 @@ package com.horizam.pro.elean.ui.main.view.fragments
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
-import android.text.Html
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
@@ -15,9 +13,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
-import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.navOptions
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.horizam.pro.elean.App
 import com.horizam.pro.elean.R
@@ -32,7 +28,6 @@ import com.horizam.pro.elean.ui.main.adapter.SellerActionAdapter
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
 import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
 import com.horizam.pro.elean.ui.main.view.activities.ManageSalesActivity
-import com.horizam.pro.elean.ui.main.viewmodel.ManageServicesViewModel
 import com.horizam.pro.elean.ui.main.viewmodel.SellerViewModel
 import com.horizam.pro.elean.utils.BaseUtils
 import com.horizam.pro.elean.utils.Status
@@ -77,7 +72,7 @@ class SellerActionsFragment : Fragment(), OnItemClickListener {
                     }
                     Status.ERROR -> {
                         genericHandler.showProgressBar(false)
-                        genericHandler.showMessage(it.message.toString())
+                        genericHandler.showErrorMessage(it.message.toString())
                     }
                     Status.LOADING -> {
                         genericHandler.showProgressBar(true)

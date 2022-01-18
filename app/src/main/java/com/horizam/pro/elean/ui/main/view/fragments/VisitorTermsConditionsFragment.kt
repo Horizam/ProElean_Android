@@ -7,23 +7,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.horizam.pro.elean.App
 import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
-import com.horizam.pro.elean.data.model.response.GeneralResponse
 import com.horizam.pro.elean.data.model.response.PrivacyPolicyResponse
-import com.horizam.pro.elean.databinding.FragmentLoginBinding
-import com.horizam.pro.elean.databinding.FragmentSettingsBinding
-import com.horizam.pro.elean.databinding.FragmentSignUpBinding
 import com.horizam.pro.elean.databinding.FragmentVisitorTermsConditionsBinding
 import com.horizam.pro.elean.ui.base.ViewModelFactory
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
-import com.horizam.pro.elean.ui.main.callbacks.LockHandler
-import com.horizam.pro.elean.ui.main.viewmodel.ForgotPasswordViewModel
 import com.horizam.pro.elean.ui.main.viewmodel.SettingsViewModel
 import com.horizam.pro.elean.utils.Status
 
@@ -98,7 +91,7 @@ class VisitorTermsConditionsFragment : Fragment() {
                     }
                     Status.ERROR -> {
                         genericHandler.showProgressBar(false)
-                        genericHandler.showMessage(it.message.toString())
+                        genericHandler.showErrorMessage(it.message.toString())
                     }
                     Status.LOADING -> {
                         genericHandler.showProgressBar(true)

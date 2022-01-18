@@ -6,28 +6,20 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.horizam.pro.elean.App
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
-import com.horizam.pro.elean.data.model.requests.ForgotPasswordRequest
 import com.horizam.pro.elean.data.model.requests.SubmitQueryRequest
 import com.horizam.pro.elean.data.model.response.GeneralResponse
 import com.horizam.pro.elean.databinding.FragmentSupportBinding
 import com.horizam.pro.elean.ui.base.ViewModelFactory
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
-import com.horizam.pro.elean.ui.main.callbacks.LockHandler
-import com.horizam.pro.elean.ui.main.viewmodel.ForgotPasswordViewModel
 import com.horizam.pro.elean.ui.main.viewmodel.SupportViewModel
-import com.horizam.pro.elean.utils.BaseUtils
 import com.horizam.pro.elean.utils.BaseUtils.Companion.hideKeyboard
 import com.horizam.pro.elean.utils.Status
-import com.horizam.pro.elean.utils.Validator
 
 
 class SupportFragment : Fragment() {
@@ -116,7 +108,7 @@ class SupportFragment : Fragment() {
                     }
                     Status.ERROR -> {
                         genericHandler.showProgressBar(false)
-                        genericHandler.showMessage(it.message.toString())
+                        genericHandler.showErrorMessage(it.message.toString())
                     }
                     Status.LOADING -> {
                         genericHandler.showProgressBar(true)
@@ -127,7 +119,7 @@ class SupportFragment : Fragment() {
     }
 
     private fun handleResponse(response: GeneralResponse) {
-        genericHandler.showMessage(response.message)
+        genericHandler.showErrorMessage(response.message)
         findNavController().popBackStack()
     }
 

@@ -108,7 +108,7 @@ class ManageOrdersFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout
                     }
                     Status.ERROR -> {
                         genericHandler.showProgressBar(false)
-                        genericHandler.showMessage(it.message.toString())
+                        genericHandler.showErrorMessage(it.message.toString())
                         changeViewVisibility(textView = true, button = true, layout = false)
                     }
                     Status.LOADING -> {
@@ -130,7 +130,7 @@ class ManageOrdersFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout
         try {
             setUIData(response.orderList)
         } catch (e: Exception) {
-            genericHandler.showMessage(e.message.toString())
+            genericHandler.showErrorMessage(e.message.toString())
         }
     }
 

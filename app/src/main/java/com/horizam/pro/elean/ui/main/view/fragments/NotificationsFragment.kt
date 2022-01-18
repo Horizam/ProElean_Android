@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,16 +16,13 @@ import com.horizam.pro.elean.App
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
-import com.horizam.pro.elean.data.model.response.ManageServicesResponse
 import com.horizam.pro.elean.data.model.response.Notification
 import com.horizam.pro.elean.data.model.response.NotificationsResponse
-import com.horizam.pro.elean.data.model.response.User_services
 import com.horizam.pro.elean.databinding.FragmentNotificationsBinding
 import com.horizam.pro.elean.ui.base.ViewModelFactory
 import com.horizam.pro.elean.ui.main.adapter.NotificationsAdapter
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
 import com.horizam.pro.elean.ui.main.callbacks.NotificationsHandler
-import com.horizam.pro.elean.ui.main.viewmodel.ManageServicesViewModel
 import com.horizam.pro.elean.ui.main.viewmodel.NotificationsViewModel
 import com.horizam.pro.elean.utils.Status
 import java.lang.Exception
@@ -111,7 +107,7 @@ class NotificationsFragment : Fragment(), NotificationsHandler {
                     }
                     Status.ERROR -> {
                         genericHandler.showProgressBar(false)
-                        genericHandler.showMessage(it.message.toString())
+                        genericHandler.showErrorMessage(it.message.toString())
                         changeViewVisibility(textView = true, button = true, layout = false)
                     }
                     Status.LOADING -> {
@@ -133,7 +129,7 @@ class NotificationsFragment : Fragment(), NotificationsHandler {
         try {
             setUIData(response.notificationsList)
         } catch (e: Exception) {
-            genericHandler.showMessage(e.message.toString())
+            genericHandler.showErrorMessage(e.message.toString())
         }
     }
 
