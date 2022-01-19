@@ -100,6 +100,7 @@ class HomeFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefre
     }
 
     private fun initViews() {
+
         adapterServices = ServicesAdapter(this)
         adapterGigs = HomeGigsAdapter(this)
         sliderView = binding.imageSlider
@@ -110,6 +111,7 @@ class HomeFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefre
         binding.toolbar.ivSecond.visibility = View.VISIBLE
         binding.toolbar.rlNoOfNotification.visibility = View.VISIBLE
         binding.toolbar.ivSale.visibility = View.GONE
+        binding.toolbar.rlNoOfNotification.visibility = View.GONE
     }
 
     private fun setRecyclerViews() {
@@ -148,10 +150,11 @@ class HomeFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefre
     }
 
     private fun setClickListeners() {
-        binding.toolbar.ivToolbar.setOnClickListener {
-            hideKeyboard()
-            drawerHandler.openDrawer()
-        }
+//        binding.toolbar.ivToolbar.setOnClickListener {
+//            hideKeyboard()
+//            drawerHandler.openDrawer()
+//        }
+        binding.toolbar.ivToolbar.visibility = View.GONE
         binding.btnRetry.setOnClickListener {
             executeApi()
         }
@@ -223,7 +226,8 @@ class HomeFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefre
             ads.let { it ->
                 val adsList: List<SliderItem> = it.map { ad ->
                     SliderItem(
-                        url = "${Constants.BASE_URL}${ad.banner}",
+//                        url = "${Constants.BASE_URL}${ad.banner}",
+                        url = "${ad.banner}",
                         description = ""
                     )
                 }

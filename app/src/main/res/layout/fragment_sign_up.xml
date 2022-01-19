@@ -8,8 +8,18 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="@dimen/_20sdp">
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_signup_top"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_60sdp"
+            android:background="@drawable/ic_signin_top"
+            android:text="@string/str_sign_up"
+            android:textColor="@color/colorBlack"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/iv_back"
@@ -17,19 +27,6 @@
             android:layout_height="@dimen/_25sdp"
             android:layout_margin="@dimen/_15sdp"
             android:src="@drawable/ic_back"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tv_sign_up"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_15sdp"
-            android:text="@string/str_sign_up"
-            android:textColor="@color/colorBlack"
-            android:textSize="@dimen/_16ssp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -46,7 +43,8 @@
             app:endIconMode="clear_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_sign_up">
+            app:layout_constraintTop_toBottomOf="@+id/iv_signup_top"
+            app:startIconDrawable="@drawable/ic_user_name">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_full_name"
@@ -69,7 +67,8 @@
             app:endIconMode="clear_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_field_username">
+            app:layout_constraintTop_toBottomOf="@+id/text_field_username"
+            app:startIconDrawable="@drawable/ic_email">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_email"
@@ -80,31 +79,31 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-<!--        <LinearLayout-->
-<!--            android:id="@+id/layout_phone"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginHorizontal="@dimen/_20sdp"-->
-<!--            android:gravity="center_vertical"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            android:visibility="gone"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/text_field_email">-->
+        <!--        <LinearLayout-->
+        <!--            android:id="@+id/layout_phone"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginHorizontal="@dimen/_20sdp"-->
+        <!--            android:gravity="center_vertical"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            android:visibility="gone"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toBottomOf="@id/text_field_email">-->
 
-<!--            <com.hbb20.CountryCodePicker-->
-<!--                android:id="@+id/ccp"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                app:ccp_autoDetectCountry="true" />-->
+        <!--            <com.hbb20.CountryCodePicker-->
+        <!--                android:id="@+id/ccp"-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                app:ccp_autoDetectCountry="true" />-->
 
-<!--            <com.google.android.material.textfield.TextInputEditText-->
-<!--                android:id="@+id/et_carrierNumber"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:hint="@string/str_phone"-->
-<!--                android:inputType="phone"-->
-<!--                android:singleLine="true" />-->
-<!--        </LinearLayout>-->
+        <!--            <com.google.android.material.textfield.TextInputEditText-->
+        <!--                android:id="@+id/et_carrierNumber"-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:hint="@string/str_phone"-->
+        <!--                android:inputType="phone"-->
+        <!--                android:singleLine="true" />-->
+        <!--        </LinearLayout>-->
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/text_field_username"
@@ -118,7 +117,8 @@
             app:endIconMode="clear_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_field_full_name">
+            app:layout_constraintTop_toBottomOf="@+id/text_field_full_name"
+            app:startIconDrawable="@drawable/ic_user_name">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_username"
@@ -142,7 +142,8 @@
             app:endIconMode="clear_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_field_email">
+            app:layout_constraintTop_toBottomOf="@+id/text_field_email"
+            app:startIconDrawable="@drawable/ic_referal_code">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_referral"
@@ -166,7 +167,8 @@
             app:endIconMode="password_toggle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_field_referral">
+            app:layout_constraintTop_toBottomOf="@+id/text_field_referral"
+            app:startIconDrawable="@drawable/ic_lock">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_password"
@@ -190,7 +192,8 @@
             app:endIconMode="password_toggle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_field_password">
+            app:layout_constraintTop_toBottomOf="@+id/text_field_password"
+            app:startIconDrawable="@drawable/ic_lock">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_confirm_password"
@@ -265,6 +268,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_already_have_account" />
+
+        <ImageView
+            android:id="@+id/iv_signup_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_70sdp"
+            android:background="@drawable/ic_signin_bottom"
+            android:text="@string/str_sign_up"
+            android:textColor="@color/colorBlack"
+            app:layout_constraintTop_toBottomOf="@+id/tv_sign_in"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

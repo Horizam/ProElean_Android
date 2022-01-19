@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.horizam.pro.elean.data.model.SellerActionModel
 import com.horizam.pro.elean.databinding.SellerActionListItemBinding
 import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
-import com.horizam.pro.elean.ui.main.view.fragments.SellerActionsFragment
 
 class SellerActionAdapter(
     var sellerActionList: ArrayList<SellerActionModel>,

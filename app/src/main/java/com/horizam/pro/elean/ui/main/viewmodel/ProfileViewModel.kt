@@ -19,12 +19,25 @@ class ProfileViewModel(private val mainRepository: MainRepository) : ViewModel()
     private val updateProfileRequest = MutableLiveData<UpdateProfileRequest>()
     private val userServicesRequest = MutableLiveData<String>()
     private val addToWishlistRequest = MutableLiveData<FavouriteRequest>()
+    private val logoutRequest = MutableLiveData<String>()
 
     val profileData = profileDataRequest.switchMap {
         liveData(Dispatchers.IO) {
             emit(Resource.loading(data = null))
             try {
                 emit(Resource.success(data = mainRepository.getNonFreelancerProfile()))
+            } catch (exception: Exception) {
+                val errorMessage = BaseUtils.getError(exception)
+                emit(Resource.error(data = null, message = errorMessage))
+            }
+        }
+    }
+
+    val logoutUser = logoutRequest.switchMap {
+        liveData(Dispatchers.IO) {
+            emit(Resource.loading(data = null))
+            try {
+                emit(Resource.success(data = mainRepository.logout()))
             } catch (exception: Exception) {
                 val errorMessage = BaseUtils.getError(exception)
                 emit(Resource.error(data = null, message = errorMessage))
@@ -98,6 +111,10 @@ class ProfileViewModel(private val mainRepository: MainRepository) : ViewModel()
 
     fun addToWishlistCall(request: FavouriteRequest) {
         addToWishlistRequest.value = request
+    }
+
+    fun logoutCall(request: String = "logout") {
+        logoutRequest.value = request
     }
 
     companion object {

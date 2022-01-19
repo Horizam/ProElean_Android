@@ -119,7 +119,7 @@ class SupportFragment : Fragment() {
     }
 
     private fun handleResponse(response: GeneralResponse) {
-        genericHandler.showErrorMessage(response.message)
+        genericHandler.showSuccessMessage(response.message)
         findNavController().popBackStack()
     }
 

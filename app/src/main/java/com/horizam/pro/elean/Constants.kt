@@ -14,6 +14,7 @@ class Constants {
         const val USER_ID = "userId"
         const val USER_IMAGE = "userImage"
         const val IS_FREELANCER = "isFreelancer"
+        const val SELLER_MODE = "seller_mode"
         const val USER_NAME = "userName"
         const val LOCATION_KEY = "locationKey"
         const val SPLASH_DISPLAY_LENGTH = 2000

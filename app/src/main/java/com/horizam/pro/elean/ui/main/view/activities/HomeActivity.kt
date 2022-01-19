@@ -91,6 +91,7 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
         initDeleteDialog()
         setData()
         setBottomNavigation()
+        setDrawerStopFromOpening()
     }
 
     private fun initDeleteDialog() {
@@ -275,8 +276,12 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
         }
     }
 
+    private fun setDrawerStopFromOpening() {
+        binding.drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+    }
+
     private fun handleResponse(response: GeneralResponse) {
-        showErrorMessage(response.message)
+        showSuccessMessage(response.message)
         logout()
     }
 
@@ -366,7 +371,6 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
     override fun openDrawer() {
         binding.drawer.openDrawer(GravityCompat.START)
     }
-
     private fun closeDrawer() {
         binding.drawer.closeDrawer(GravityCompat.START)
     }

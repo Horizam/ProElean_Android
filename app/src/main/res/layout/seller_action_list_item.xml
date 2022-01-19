@@ -7,13 +7,18 @@
     android:background="?attr/selectableItemBackground">
 
     <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bg_primary"/>
+
+    <ImageView
         android:id="@+id/iv_image"
-        android:layout_width="@dimen/_25sdp"
-        android:layout_height="@dimen/_25sdp"
+        android:layout_width="@dimen/_18sdp"
+        android:layout_height="@dimen/_18sdp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginStart="@dimen/_25sdp"
         android:src="@drawable/ic_create_service"
         app:tint="@color/colorAccent"
         android:contentDescription="@string/str_username" />
@@ -22,22 +27,24 @@
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@+id/iv_image"
         android:layout_marginStart="@dimen/_15sdp"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="@dimen/_12sdp"
-        android:textSize="@dimen/_12ssp"
         android:text="Create Service"
-        android:textStyle="bold"
-        android:textColor="@color/colorBlack"/>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textColor="@color/colorBlack"
+        android:textSize="@dimen/_10ssp"
+        android:fontFamily="@font/roboto_bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:background="@color/colorGrey"
+        app:layout_constraintStart_toEndOf="@+id/iv_image"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:layout_width="@dimen/_18sdp"
+        android:layout_height="@dimen/_18sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginEnd="@dimen/_25sdp"
+        android:background="@drawable/exo_ic_chevron_right"
+        android:backgroundTint="@color/colorDarkGrey"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

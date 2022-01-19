@@ -24,6 +24,7 @@
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:visibility="invisible"
+                android:background="@color/bg"
                 tools:visibility="visible">
 
                 <include

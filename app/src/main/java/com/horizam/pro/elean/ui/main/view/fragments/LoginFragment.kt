@@ -165,11 +165,13 @@ class LoginFragment : Fragment() {
     private fun handleResponse(response: LoginResponse) {
         genericHandler.showSuccessMessage(response.message)
         val prefManager = PrefManager(requireContext())
+        prefManager.clearAll()
         prefManager.accessToken = response.token
         prefManager.isFreelancer = response.data.isFreelancer
         prefManager.username = response.data.username
         prefManager.userImage = response.data.image
         prefManager.userId = response.data.id
+        prefManager.sellerMode = 0
         startActivity(Intent(requireActivity(), HomeActivity::class.java))
         requireActivity().finish()
     }

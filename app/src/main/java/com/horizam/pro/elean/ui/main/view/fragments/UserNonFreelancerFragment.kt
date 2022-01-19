@@ -147,7 +147,7 @@ class UserNonFreelancerFragment : Fragment(), OnItemClickListener {
             tvRecentDelivery.text = profileInfo.recent_delivery
             tvPhone.text = profileInfo.phone
             tvEmail.text = profileInfo.email
-            tvLanguage.text = profileInfo.user_languages.joinToString(separator = ", ")
+            tvLanguage.text = profileInfo.user_languages //.joinToString(separator = ", ")
             tvDescAboutUser.text = profileInfo.description
             adapter.submitList(profileInfo.user_skills)
         }

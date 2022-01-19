@@ -1,6 +1,8 @@
 package com.horizam.pro.elean.ui.main.view.fragments.aboutUser
 
+import android.app.Dialog
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -17,6 +19,7 @@ import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
 import com.horizam.pro.elean.data.model.SellerActionModel
 import com.horizam.pro.elean.data.model.response.ProfileInfo
+import com.horizam.pro.elean.databinding.DialogDeleteBinding
 import com.horizam.pro.elean.databinding.FragmentUserAboutBinding
 import com.horizam.pro.elean.ui.base.ViewModelFactory
 import com.horizam.pro.elean.ui.main.adapter.SellerActionAdapter
@@ -24,10 +27,12 @@ import com.horizam.pro.elean.ui.main.adapter.SkillsAdapter
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
 import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
 import com.horizam.pro.elean.ui.main.callbacks.SellerActionModeHandler
+import com.horizam.pro.elean.ui.main.view.activities.AuthenticationActivity
 import com.horizam.pro.elean.ui.main.viewmodel.ProfileViewModel
 import com.horizam.pro.elean.utils.BaseUtils
 import com.horizam.pro.elean.utils.PrefManager
 import com.horizam.pro.elean.utils.Status
+import kotlinx.android.synthetic.main.dialog_delete.*
 import java.lang.Exception
 
 
@@ -43,6 +48,8 @@ class AboutUserFragment : Fragment(), OnItemClickListener {
     private lateinit var sellerActionAdapter: SellerActionAdapter
     private lateinit var sellerActionList: ArrayList<SellerActionModel>
     private lateinit var linearLayoutManager: LinearLayoutManager
+    private lateinit var dialogDelete: Dialog
+    private lateinit var bindingDeleteDialog: DialogDeleteBinding
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -61,6 +68,7 @@ class AboutUserFragment : Fragment(), OnItemClickListener {
         setupObservers()
         setClickListener()
         executeApi()
+        initDeleteDialog()
         setAdapter()
         return binding.root
     }
@@ -99,6 +107,37 @@ class AboutUserFragment : Fragment(), OnItemClickListener {
                 sellerActionModeHandler.sellerActionMode(0)
             }
         }
+        binding.ivSetting.setOnClickListener {
+            findNavController().navigate(R.id.settingsFragment)
+        }
+        binding.clBecomeFreelancer.setOnClickListener {
+            findNavController().navigate(R.id.becomeFreelancerOneFragment)
+        }
+        binding.clLogout.setOnClickListener {
+            dialogDelete.show()
+            dialogDelete.btn_yes.setOnClickListener {
+                executeLogoutApi()
+                dialogDelete.dismiss()
+            }
+            dialogDelete.btn_no.setOnClickListener {
+                dialogDelete.dismiss()
+            }
+        }
+        binding.clSupport.setOnClickListener {
+            findNavController().navigate(R.id.supportFragment)
+        }
+    }
+
+    private fun executeLogoutApi() {
+        genericHandler.showProgressBar(true)
+        viewModel.logoutCall()
+    }
+
+    private fun initDeleteDialog() {
+        dialogDelete = Dialog(requireActivity())
+        bindingDeleteDialog = DialogDeleteBinding.inflate(layoutInflater)
+        bindingDeleteDialog.tvTitle.text = "Are you sure you want to logout"
+        dialogDelete.setContentView(bindingDeleteDialog.root)
     }
 
     private fun initComponent() {
@@ -108,9 +147,15 @@ class AboutUserFragment : Fragment(), OnItemClickListener {
         if (prefManager.sellerMode == 0) {
 
         } else {
-//            binding,
             binding.rvBuyerActions.visibility = View.GONE
             binding.tvBuyerAction.visibility = View.GONE
+        }
+        if (prefManager.isFreelancer == 0) {
+            binding.cvSellerMode.visibility = View.GONE
+            binding.cvBecomeFreelancer.visibility = View.VISIBLE
+        } else {
+            binding.cvSellerMode.visibility = View.VISIBLE
+            binding.cvBecomeFreelancer.visibility = View.GONE
         }
     }
 
@@ -138,6 +183,36 @@ class AboutUserFragment : Fragment(), OnItemClickListener {
                 }
             }
         })
+
+        // logout observer
+        viewModel.logoutUser.observe(viewLifecycleOwner, {
+            it?.let { resource ->
+                when (resource.status) {
+                    Status.SUCCESS -> {
+                        genericHandler.showProgressBar(false)
+                        resource.data?.let { response ->
+                            genericHandler.showSuccessMessage(response.message)
+                            logout()
+                        }
+                    }
+                    Status.ERROR -> {
+                        genericHandler.showProgressBar(false)
+                        genericHandler.showErrorMessage(it.message.toString())
+                    }
+                    Status.LOADING -> {
+                        genericHandler.showProgressBar(true)
+                    }
+                }
+            }
+        })
+    }
+
+    private fun logout() {
+        val fcmToken = prefManager.fcmToken
+        prefManager.clearAll()
+        prefManager.fcmToken = fcmToken
+        startActivity(Intent(activity, AuthenticationActivity::class.java))
+        requireActivity().finish()
     }
 
     private fun handleResponse(response: ProfileInfo) {
@@ -164,9 +239,13 @@ class AboutUserFragment : Fragment(), OnItemClickListener {
                 if (profile.user_languages.isEmpty()) {
                     tvLanguage.text = getString(R.string.str_no_language_available)
                 } else {
-                    tvLanguage.text = profile.user_languages.joinToString(separator = ", ")
+                    tvLanguage.text = profile.user_languages  //.joinToString(separator = ", ")
                 }
-                tvDescAboutUser.text = profile.description
+                if (profile.description.trim().isEmpty()) {
+                    tvDescAboutUser.text = "No description has been added"
+                } else {
+                    tvDescAboutUser.text = profile.description
+                }
                 adapter.submitList(profile.user_skills)
             }
         }

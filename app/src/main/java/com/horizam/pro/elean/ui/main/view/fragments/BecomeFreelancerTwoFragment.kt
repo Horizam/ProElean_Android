@@ -32,11 +32,8 @@ import com.horizam.pro.elean.ui.base.ViewModelFactory
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
 import com.horizam.pro.elean.ui.main.callbacks.UpdateHomeHandler
 import com.horizam.pro.elean.ui.main.viewmodel.BecomeFreelancerViewModel
-import com.horizam.pro.elean.utils.BaseUtils
+import com.horizam.pro.elean.utils.*
 import com.horizam.pro.elean.utils.BaseUtils.Companion.hideKeyboard
-import com.horizam.pro.elean.utils.Resource
-import com.horizam.pro.elean.utils.Status
-import com.horizam.pro.elean.utils.URIPathHelper
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.lang.Exception
@@ -52,6 +49,7 @@ class BecomeFreelancerTwoFragment : Fragment(), AdapterView.OnItemSelectedListen
     private lateinit var availabilityArrayList: List<String>
     private lateinit var languagesAdapter: ArrayAdapter<String>
     private lateinit var availabilityAdapter: ArrayAdapter<String>
+    private lateinit var prefManager: PrefManager
     private val args: BecomeFreelancerTwoFragmentArgs by navArgs()
     private var languageString = ""
     private var availabilityString = ""
@@ -155,6 +153,7 @@ class BecomeFreelancerTwoFragment : Fragment(), AdapterView.OnItemSelectedListen
         availabilityArrayList = ArrayList()
         binding.spinnerLanguage.onItemSelectedListener = this
         binding.spinnerAvailability.onItemSelectedListener = this
+        prefManager = PrefManager(requireContext())
     }
 
     private fun setToolbarData() {
@@ -220,9 +219,11 @@ class BecomeFreelancerTwoFragment : Fragment(), AdapterView.OnItemSelectedListen
                     setUIData(response)
                 }
                 is GeneralResponse -> {
+                    prefManager.isFreelancer = 1
                     updateHomeHandler.callHomeApi()
-                    genericHandler.showErrorMessage(response.message)
-                    findNavController().popBackStack(R.id.homeFragment, false)
+                    genericHandler.showSuccessMessage(response.message)
+//                    findNavController().popBackStack(R.id.homeFragment, false)
+                    findNavController().popBackStack()
                 }
             }
         } catch (e: Exception) {
