@@ -3,7 +3,7 @@
     android:id="@+id/text1"
     style="?android:attr/spinnerDropDownItemStyle"
     android:singleLine="true"
-    android:textAlignment="viewEnd"
+    android:textAlignment="viewStart"
     android:layout_width="match_parent"
     android:layout_height="?attr/dropdownListPreferredItemHeight"
     android:ellipsize="marquee"/>

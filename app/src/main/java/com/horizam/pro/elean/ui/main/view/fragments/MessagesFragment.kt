@@ -138,8 +138,7 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
             when (resource.status) {
                 Status.SUCCESS -> {
                     genericHandler.showProgressBar(false)
-                    resource.data?.let { response ->
-                    }
+                    genericHandler.showSuccessMessage(it.message!!)
                 }
                 Status.ERROR -> {
                     genericHandler.showProgressBar(false)
@@ -173,7 +172,7 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
     }
 
     private fun handleResponse(response: GeneralResponse) {
-        genericHandler.showErrorMessage(response.message)
+        genericHandler.showSuccessMessage(response.message)
         if (response.status == Constants.STATUS_OK) {
             if (offerMessage != null) {
                 db.collection(Constants.FIREBASE_DATABASE_ROOT).document(inbox!!.id)
@@ -309,8 +308,8 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
             }
             var messageCount = 0
             var size = 0
-            for(item in snapshots!!.documentChanges){
-                if(item.type == DocumentChange.Type.ADDED){
+            for (item in snapshots!!.documentChanges) {
+                if (item.type == DocumentChange.Type.ADDED) {
                     size++
                 }
             }

@@ -126,7 +126,7 @@
     <string name="str_order">Order |</string>
     <string name="str_order_title">Order</string>
     <string name="str_april_17_2020">April 17, 2020</string>
-    <string name="str_completed">Completed</string>
+    <string name="str_completed">Complete</string>
     <string name="str_order_details">Order Details</string>
     <string name="str_seller_submitted">Seller Submitted. Mark it complete if you are satisfied</string>
     <string name="str_download_source">Download Source</string>
@@ -200,7 +200,7 @@
     <string name="str_enter_valid_revisions">Enter a valid revisions</string>
     <string name="str_enter_valid_language">Enter a valid language</string>
     <string name="str_enter_valid_availability">Enter a valid availability</string>
-    <string name="str_enter_valid_cnic">Enter a valid cnic/driving licence</string>
+    <string name="str_enter_valid_cnic">Enter a valid cnic/driving liscence</string>
     <string name="str_enter_valid_cnic_size">Cnic File size must be less than 2MB</string>
     <string name="str_enter_valid_price">Enter a valid price</string>
     <string name="str_enter_valid_info">Enter a valid Info</string>

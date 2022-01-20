@@ -24,8 +24,8 @@ internal class ViewPagerManageSalesAdapter(
             0 -> return ActiveSalesFragment()
             1 -> return LateSalesFragment()
             2 -> return DeliveredSalesFragment()
-            3 -> return CompletedSalesFragment()
-            4 -> return RevisionSalesFragment()
+            3 -> return RevisionSalesFragment()
+            4 -> return CompletedSalesFragment()
             5 -> return CancelOrdersFragment()
             6 -> return DisputedSalesFragment()
         }

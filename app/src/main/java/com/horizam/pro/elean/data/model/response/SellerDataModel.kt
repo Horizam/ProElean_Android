@@ -14,7 +14,7 @@ data class SellerDataModel(
     val total_reviews: Int,
     val user_rating: Int,
     val recent_delivery: String,
-    val user_languages: List<String>,
+    val user_languages: String,
     val user_skills: List<String>,
     val pending_balance: Int,
     val availabe_balance: Int,

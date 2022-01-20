@@ -79,7 +79,7 @@ class ImagesAdapter(private val imagesHandler: ImagesHandler) :
             binding.apply {
                 if (image.id == 0) {
                     showImage(image.path)
-                }else if (image.id == 1) {
+                } else if (image.id == 1) {
                     showImage(Constants.BASE_URL.plus(image.path))
                 }
             }

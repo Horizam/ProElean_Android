@@ -4,12 +4,21 @@ import android.util.Patterns
 import android.widget.EditText
 import com.google.android.material.textfield.TextInputLayout
 import com.horizam.pro.elean.App
-import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
+import java.util.regex.Matcher
+import java.util.regex.Pattern
+
 
 class Validator {
 
     companion object {
+
+        fun validateUserName(userName: String): Boolean{
+            val p: Pattern = Pattern.compile("[^A-Za-z0-9_]")
+            val m: Matcher = p.matcher(userName)
+            val b: Boolean = m.find()
+            return b
+        }
 
         private fun getText(data: Any): String {
             var str = ""

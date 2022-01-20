@@ -70,10 +70,15 @@ class SignUpFragment : Fragment() {
     private fun FragmentSignUpBinding.validateData() {
         if (!Validator.isValidName(etFullName)) {
             return
-        } else if (!Validator.isValidEmail(etEmail)) {
-            return
         } else if (etUsername.text!!.length < 5) {
             genericHandler.showErrorMessage("username must be al least 5 chracter")
+            etUsername.error = "username must be al least 5 chracter"
+            return
+        } else if (Validator.validateUserName(etUsername.text.toString())) {
+            genericHandler.showErrorMessage("username must does not contain special characters and white spaces")
+            etUsername.error = "username must does not contain special characters and white spaces"
+            return
+        } else if (!Validator.isValidEmail(etEmail)) {
             return
         } else if (!Validator.isValidPassword(etPassword)) {
             return
