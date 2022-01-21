@@ -30,6 +30,6 @@ data class Offer(
     @SerializedName("id") val id: String,
     @SerializedName("description") val description: String,
     @SerializedName("delivery_time") val delivery_time: String,
-    @SerializedName("price") val price: Int,
+    @SerializedName("price") val price: Double,
     @SerializedName("profile") val profile: Profile
 )

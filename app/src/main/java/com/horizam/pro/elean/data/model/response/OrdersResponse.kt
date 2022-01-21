@@ -18,7 +18,7 @@ data class Order(
     @SerializedName("description") val description : String,
     @SerializedName("service_id") val service_id : String,
     @SerializedName("job_id") val job_id : String,
-    @SerializedName("amount") val amount : Int,
+    @SerializedName("amount") val amount : Double,
     @SerializedName("service_rating") val service_rating : Int,
     @SerializedName("currency") val currency : String,
     @SerializedName("orderNo") val orderNo : String,

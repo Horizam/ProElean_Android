@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -29,6 +30,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.bumptech.glide.Glide
 import com.google.android.gms.location.*
+import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.FirebaseFirestore
@@ -492,7 +494,12 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
         } else {
             setBuyerBottomNavigation()
         }
-        binding.bottomNav.getOrCreateBadge(R.id.messagesFragment).number = 2
+//        val bageDashboard: BadgeDrawable = binding.bottomNav.getOrCreateBadge(R.id.profile_fragment)
+//        bageDashboard.backgroundColor = ContextCompat.getColor(this, R.color.colorButtons)
+//        bageDashboard.badgeTextColor = Color.WHITE
+//        bageDashboard.maxCharacterCount = 5
+//        bageDashboard.number = 0
+//        bageDashboard.isVisible = true
     }
 
     private fun setBuyerBottomNavigation() {

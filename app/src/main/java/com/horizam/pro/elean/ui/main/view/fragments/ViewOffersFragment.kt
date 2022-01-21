@@ -219,12 +219,9 @@ class ViewOffersFragment : Fragment(), OnItemClickListener, ViewOffersHandler, C
     }
 
     private fun handleResponse(response: GeneralResponse) {
-        if (response.status == Constants.STATUS_OK) {
-            dialogOrderStatus.show()
-            exeApi()
-        }else{
-            genericHandler.showErrorMessage(response.message)
-        }
+        dialogOrderStatus.show()
+        exeApi()
+        genericHandler.showSuccessMessage(response.message)
     }
 
     override fun <T> onItemClick(item: T) {

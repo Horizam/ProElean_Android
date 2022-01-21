@@ -230,9 +230,7 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
                 Status.SUCCESS -> {
                     genericHandler.showProgressBar(false)
                     if (args.from == Constants.NORMAL_FLOW) {
-                        if (viewModel.sellers.value == null) {
                             viewModel.getServicesBySubCategories(args.id)
-                        }
                     } else {
                         exeSearch()
                     }
