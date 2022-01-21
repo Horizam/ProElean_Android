@@ -16,6 +16,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.horizam.pro.elean.App
+import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.R.color.white_grey_color
 import com.horizam.pro.elean.data.api.ApiHelper
@@ -30,6 +31,7 @@ import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
 import com.horizam.pro.elean.ui.main.view.activities.ManageSalesActivity
 import com.horizam.pro.elean.ui.main.viewmodel.SellerViewModel
 import com.horizam.pro.elean.utils.BaseUtils
+import com.horizam.pro.elean.utils.PrefManager
 import com.horizam.pro.elean.utils.Status
 
 
@@ -41,6 +43,7 @@ class SellerActionsFragment : Fragment(), OnItemClickListener {
     private lateinit var sellerActionAdapter: SellerActionAdapter
     private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var genericHandler: GenericHandler
+    private lateinit var prefManager: PrefManager
     private lateinit var sellerActionList: ArrayList<SellerActionModel>
 
     override fun onCreateView(
@@ -48,6 +51,7 @@ class SellerActionsFragment : Fragment(), OnItemClickListener {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentSellerActionsBinding.inflate(layoutInflater, container, false)
+        getIntentData()
         setToolbarData()
         setupViewModel()
         initViews()
@@ -55,6 +59,30 @@ class SellerActionsFragment : Fragment(), OnItemClickListener {
         setAdapter()
         exeApi()
         return binding.root
+    }
+
+    private fun getIntentData() {
+        prefManager = PrefManager(requireActivity())
+        if (prefManager.sellerMode == 1) {
+            if (requireActivity().intent.hasExtra(Constants.TYPE)) {
+                if (requireActivity().intent.getStringExtra(Constants.TYPE) == Constants.MESSAGE) {
+                    val bundle = requireActivity().intent.extras
+                    val id = bundle!!.getString(Constants.SENDER_ID)
+                    SellerActionsFragmentDirections.actionSellerFragmentToMessageFragment(id!!)
+                        .also {
+                            findNavController().navigate(it)
+                            requireActivity().intent.removeExtra(Constants.TYPE)
+                        }
+                }
+            }
+
+//        if (requireActivity().intent.hasExtra("order")) {
+//            if (requireActivity().intent.getIntExtra("order", 0) == 1) {
+//                this.findNavController().navigate(R.id.orderFragment)
+//            }
+//            requireActivity().intent.removeExtra("order")
+//        }
+        }
     }
 
     override fun onAttach(context: Context) {
@@ -96,7 +124,12 @@ class SellerActionsFragment : Fragment(), OnItemClickListener {
                             append("$active_orders")
                             val spannable = SpannableStringBuilder(" ($$active_orders_balance)")
                             spannable.setSpan(
-                                ForegroundColorSpan(ContextCompat.getColor(context, white_grey_color)),
+                                ForegroundColorSpan(
+                                    ContextCompat.getColor(
+                                        context,
+                                        white_grey_color
+                                    )
+                                ),
                                 0, spannable.length,
                                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
                             )
@@ -107,7 +140,12 @@ class SellerActionsFragment : Fragment(), OnItemClickListener {
                             append("$cancelled_orders")
                             val spannable = SpannableStringBuilder(" (-$$cancelled_orders_balance)")
                             spannable.setSpan(
-                                ForegroundColorSpan(ContextCompat.getColor(context, white_grey_color)),
+                                ForegroundColorSpan(
+                                    ContextCompat.getColor(
+                                        context,
+                                        white_grey_color
+                                    )
+                                ),
                                 0, spannable.length,
                                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
                             )

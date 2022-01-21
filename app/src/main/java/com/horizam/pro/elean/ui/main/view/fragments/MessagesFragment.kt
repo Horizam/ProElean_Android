@@ -220,35 +220,35 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
                     if (inbox1!!.members[0] == userId && inbox1!!.members[1] == myId) {
                         inbox = inbox1
                         count++
-                        val myInfo = MessageUser(
+                        myInfo = MessageUser(
                             inbox1!!.membersInfo[1].id,
                             inbox1!!.membersInfo[1].name,
                             inbox1!!.membersInfo[1].photo
                         )
-                        val userInfo = MessageUser(
+                        userInfo = MessageUser(
                             inbox1!!.membersInfo[0].id,
                             inbox1!!.membersInfo[0].name,
                             inbox1!!.membersInfo[0].photo
                         )
-                        adapter.setMyInfo(myInfo)
-                        adapter.setUserInfo(userInfo)
+                        adapter.setMyInfo(myInfo!!)
+                        adapter.setUserInfo(userInfo!!)
                         updateUsersInfo(true)
                     }
                     if (inbox1!!.members[0] == myId && inbox1!!.members[1] == userId) {
                         inbox = inbox1
                         count++
-                        val myInfo = MessageUser(
+                        myInfo = MessageUser(
                             inbox1!!.membersInfo[0].id,
                             inbox1!!.membersInfo[0].name,
                             inbox1!!.membersInfo[0].photo
                         )
-                        val userInfo = MessageUser(
+                        userInfo = MessageUser(
                             inbox1!!.membersInfo[1].id,
                             inbox1!!.membersInfo[1].name,
                             inbox1!!.membersInfo[1].photo
                         )
-                        adapter.setMyInfo(myInfo)
-                        adapter.setUserInfo(userInfo)
+                        adapter.setMyInfo(myInfo!!)
+                        adapter.setUserInfo(userInfo!!)
                         updateUsersInfo(true)
                     }
                 } catch (ex: Exception) {
@@ -822,6 +822,8 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
         val members: MutableList<String> = ArrayList()
         members.add(myId)
         members.add(userId)
+        userInfo = MessageUser(id = userId , args.userName)
+        myInfo = MessageUser(id = myId , name = prefManager.username!!)
         val membersInfo: MutableList<MembersInfo> = ArrayList()
         membersInfo.add(
             MembersInfo(
@@ -898,11 +900,15 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
 
     private fun sendFirebaseNotification(messageModel: Message) {
         val notificationMessage = NotificationMessage(
-            message = "i am android developer"
+            message = messageModel.message,
+            type = Constants.MESSAGE,
+            sender_id = myId,
+            sender_name = myInfo!!.name
         )
         val firebaseNotification = FirebaseNotificationRequest(
-            subject = "testing",
-            receiver_id = userId,
+            subject = myInfo!!.name,
+            reciever_id = userId,
+            body = messageModel.message,
             data = notificationMessage
         )
         viewModel.sendNotificationCall(firebaseNotification)

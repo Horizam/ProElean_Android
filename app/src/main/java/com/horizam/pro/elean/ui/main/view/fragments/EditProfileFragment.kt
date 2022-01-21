@@ -251,7 +251,7 @@ class EditProfileFragment : Fragment() {
             if (response is ProfileInfo) {
                 setUiData(response)
                 if (check == 1) {
-                    genericHandler.showErrorMessage("Profile Successfully Updated")
+                    genericHandler.showSuccessMessage("Profile Successfully Updated")
                     prefManager.userImage = response.image
                     updateProfileHandler.updateProfile()
                     this.findNavController().popBackStack()

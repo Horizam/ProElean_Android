@@ -83,5 +83,10 @@ class Constants {
         const val TYPE_MESSAGE = "message"
         const val TYPE_ORDER = "order"
         const val ORDER_ID = "order_id"
+        const val CONTENT_ID = "contentID"
+        const val MESSAGE = "message"
+        const val SENDER_ID = "sender_id"
+        const val SENDER_NAME = "sender_name"
+        const val TYPE = "type"
     }
 }

@@ -2,6 +2,7 @@ package com.horizam.pro.elean
 
 import android.app.PendingIntent
 import android.content.Intent
+import android.os.Bundle
 import android.util.Log
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.workDataOf
@@ -42,31 +43,41 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     private fun scheduleJob(remoteMessage: RemoteMessage) {
         /*val work = OneTimeWorkRequest.Builder(MyWorker::class.java).build()
         WorkManager.getInstance(this).beginWith(work).enqueue()*/
-        val messageType = remoteMessage.data["type"]
-
-        if (messageType == Constants.TYPE_MESSAGE) {
-            if (BaseUtils.CurrentScreen != Constants.MESSAGESCREEN) {
-                val intent = Intent(this, HomeActivity::class.java)
-                intent.putExtra("senderId", remoteMessage.data["senderId"]!!.toInt())
-                val pendingIntent = setPendingIntent(
-                    intent
-                )
-                NotificationUtils.showNotification(
-                    applicationContext,
-                    remoteMessage.data["senderName"]!!.toString(),
-                    remoteMessage.data["message"]!!.toString(),
-                    pendingIntent
-                )
-            }
-
-        } else if (messageType == Constants.TYPE_ORDER) {
+        val type = remoteMessage.data[Constants.TYPE]
+        if (type == Constants.MESSAGE) {
+            val bundle = Bundle()
+            bundle.putString(
+                Constants.TYPE,
+                remoteMessage.data[Constants.TYPE]
+            )
+            bundle.putString(
+                Constants.MESSAGE,
+                remoteMessage.data[Constants.MESSAGE]
+            )
+            bundle.putString(
+                Constants.SENDER_ID,
+                remoteMessage.data[Constants.SENDER_ID]
+            )
+            val intent = Intent(this, HomeActivity::class.java)
+            intent.putExtras(bundle)
+            val pendingIntent = setPendingIntent(
+                intent
+            )
+            NotificationUtils.showNotification(
+                applicationContext,
+                remoteMessage.data[Constants.SENDER_NAME].toString(),
+                remoteMessage.data[Constants.MESSAGE].toString(),
+                pendingIntent
+            )
+        }
+        else if (type == Constants.ORDER) {
             //get data from data notification
             val title = remoteMessage.data["subject"]
             val message = remoteMessage.data["body"]
-            val orderID = remoteMessage.data["order_id"]
+            val contentID = remoteMessage.data[Constants.CONTENT_ID]
             //choose activity where you want to move when click
             val intent = Intent(this, HomeActivity::class.java)
-            intent.putExtra(Constants.ORDER_ID, orderID)
+            intent.putExtra(Constants.CONTENT_ID, contentID)
             val pendingIntent = setPendingIntent(
                 intent
             )

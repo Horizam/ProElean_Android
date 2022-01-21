@@ -58,6 +58,8 @@ object RetrofitBuilder {
                 val newRequest: Request = chain.request().newBuilder()
                     .addHeader("Authorization", "Bearer ${manager.accessToken}")
                     .addHeader("Accept" , "application/json")
+                    .addHeader("Device-Id" , BaseUtils.DEVICE_ID)
+                    .addHeader("Device-Type" , "android")
                     .build()
                 chain.proceed(newRequest)
             }

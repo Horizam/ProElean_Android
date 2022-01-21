@@ -29,6 +29,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.bumptech.glide.Glide
 import com.google.android.gms.location.*
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
@@ -103,15 +104,16 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
 
 
     private fun getData() {
-        if (intent.hasExtra("startChat")) {
-            val bundle = Bundle()
-            bundle.putString("id", intent.getStringExtra("id"))
-            navController.navigate(R.id.messagesFragment, bundle)
-        } else if (intent.hasExtra(Constants.ORDER_ID)) {
-            val intent1 = Intent(this, OrderDetailsActivity::class.java)
-            intent1.putExtra(Constants.ORDER_ID, intent.getStringExtra(Constants.ORDER_ID))
-            startActivity(intent1)
-        }
+//        if (intent.hasExtra("startChat")) {
+//            val bundle = Bundle()
+//            bundle.putString("id", intent.getStringExtra("id"))
+//            navController.navigate(R.id.messagesFragment, bundle)
+//        }
+//        else if (intent.hasExtra(Constants.ORDER_ID)) {
+//            val intent1 = Intent(this, OrderDetailsActivity::class.java)
+//            intent1.putExtra(Constants.ORDER_ID, intent.getStringExtra(Constants.ORDER_ID))
+//            startActivity(intent1)
+//        }
     }
 
     private val locationCallback = object : LocationCallback() {
@@ -490,6 +492,7 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
         } else {
             setBuyerBottomNavigation()
         }
+        binding.bottomNav.getOrCreateBadge(R.id.messagesFragment).number = 2
     }
 
     private fun setBuyerBottomNavigation() {

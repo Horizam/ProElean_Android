@@ -3,6 +3,7 @@ package com.horizam.pro.elean.ui.main.view.fragments
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -39,6 +40,7 @@ import java.lang.Exception
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView.OnEditorActionListener
 import com.horizam.pro.elean.ui.main.view.activities.ManageSalesActivity
+import com.horizam.pro.elean.utils.PrefManager
 
 
 class HomeFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
@@ -49,6 +51,7 @@ class HomeFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefre
     private lateinit var viewModel: HomeViewModel
     private lateinit var genericHandler: GenericHandler
     private lateinit var drawerHandler: DrawerHandler
+    private lateinit var prefManager: PrefManager
     private lateinit var lockHandler: LockHandler
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private var sliderView: SliderView? = null
@@ -83,19 +86,25 @@ class HomeFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefre
     }
 
     private fun getIntentData() {
-//        if (requireActivity().intent.hasExtra("senderId")) {
-//            val Id = requireActivity().intent.getIntExtra("senderId", 0)
-//            HomeFragmentDirections.actionHomeFragmentToMessageFragment(Id).also {
-//                findNavController().navigate(it)
-//                requireActivity().intent.removeExtra("senderId")
-//            }
-//        }
-
-        if (requireActivity().intent.hasExtra("order")) {
-            if (requireActivity().intent.getIntExtra("order", 0) == 1) {
-                this.findNavController().navigate(R.id.orderFragment)
+        prefManager = PrefManager(requireActivity())
+        if (prefManager.sellerMode == 0) {
+            if (requireActivity().intent.hasExtra(Constants.TYPE)) {
+                if (requireActivity().intent.getStringExtra(Constants.TYPE) == Constants.MESSAGE) {
+                    val bundle = requireActivity().intent.extras
+                    val id = bundle!!.getString(Constants.SENDER_ID)
+                    HomeFragmentDirections.actionHomeFragmentToMessageFragment(id!!).also {
+                        findNavController().navigate(it)
+                        requireActivity().intent.removeExtra(Constants.TYPE)
+                    }
+                }
             }
-            requireActivity().intent.removeExtra("order")
+
+//        if (requireActivity().intent.hasExtra("order")) {
+//            if (requireActivity().intent.getIntExtra("order", 0) == 1) {
+//                this.findNavController().navigate(R.id.orderFragment)
+//            }
+//            requireActivity().intent.removeExtra("order")
+//        }
         }
     }
 

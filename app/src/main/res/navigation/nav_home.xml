@@ -205,9 +205,11 @@
             app:argType="string" />
         <argument
             android:name="userName"
-            app:argType="string" />
+            app:argType="string"
+            android:defaultValue=""/>
         <argument
             android:name="photo"
+            android:defaultValue=""
             app:argType="string" />
         <action
             android:id="@+id/action_messagesFragment_to_exoPlayerFragment"
@@ -249,7 +251,13 @@
         android:id="@+id/sellerActionsFragment"
         android:name="com.horizam.pro.elean.ui.main.view.fragments.SellerActionsFragment"
         android:label="@string/str_seller_actions"
-        tools:layout="@layout/fragment_seller_actions" />
+        tools:layout="@layout/fragment_seller_actions">
+
+        <action
+            android:id="@+id/action_sellerFragment_to_messageFragment"
+            app:destination="@id/messagesFragment" />
+
+    </fragment>
 
     <fragment
         android:id="@+id/buyerRequestsFragment"

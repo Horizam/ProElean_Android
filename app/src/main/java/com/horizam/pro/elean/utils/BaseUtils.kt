@@ -50,6 +50,7 @@ class BaseUtils {
         var CurrentScreen = ""
         var screenHeight: Int = 0
         var screenWidth: Int = 0
+        var DEVICE_ID: String = ""
 
         fun isInternetAvailable(context: Context): Boolean {
             var result = false
