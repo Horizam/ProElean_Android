@@ -45,6 +45,19 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
+            android:id="@+id/iv_logo_toolbar"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="gone"
+            android:src="@drawable/img_logo_white_two_transparent"
+            />
+
+        <ImageView
             android:id="@+id/iv_sale"
             android:layout_width="@dimen/_25sdp"
             android:layout_height="@dimen/_25sdp"

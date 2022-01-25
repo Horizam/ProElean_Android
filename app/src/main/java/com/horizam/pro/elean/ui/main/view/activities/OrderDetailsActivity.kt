@@ -52,7 +52,7 @@ class OrderDetailsActivity : AppCompatActivity(), GenericHandler {
                     Status.SUCCESS -> {
                         genericHandler.showProgressBar(false)
                         resource.data?.let { response ->
-                            handleResponse(response.order)
+                            handleResponse(it.data!!)
                         }
                     }
                     Status.ERROR -> {

@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
 import com.horizam.pro.elean.data.model.requests.ForgotPasswordRequest
@@ -65,11 +66,12 @@ class ResetPasswordFragment : Fragment() {
     }
 
     private fun executeApi() {
-        genericHandler.showProgressBar(true)
-        val request = ForgotPasswordRequest(
-            email = binding.etEmail.text.toString().trim()
-        )
-        viewModel.forgotPasswordCall(request)
+        this.findNavController().navigate(R.id.enterVerificationCodeFragment)
+//        genericHandler.showProgressBar(true)
+//        val request = ForgotPasswordRequest(
+//            email = binding.etEmail.text.toString().trim()
+//        )
+//        viewModel.forgotPasswordCall(request)
     }
 
     private fun setupViewModel() {

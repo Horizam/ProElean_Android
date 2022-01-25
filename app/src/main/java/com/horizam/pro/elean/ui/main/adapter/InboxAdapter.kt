@@ -79,7 +79,11 @@ class InboxAdapter(private val listener: InboxHandler) :
                             }
                         }
                     }
-                    tvMessage.text = inbox.lastMessage
+                    if(inbox.senderId == myId){
+                        tvMessage.text = "me: ${inbox.lastMessage}"
+                    }else{
+                        tvMessage.text = "${inbox.senderName}: ${inbox.lastMessage}"
+                    }
                     tvLastMessage.text = BaseUtils.getTimeAgo(inbox.sentAt)
                     tvCounter.isVisible = false
                     if (myId != "") {

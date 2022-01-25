@@ -16,12 +16,12 @@ data class SellerDataModel(
     val recent_delivery: String,
     val user_languages: String,
     val user_skills: List<String>,
-    val pending_balance: Int,
-    val availabe_balance: Int,
+    val pending_balance: Double,
+    val availabe_balance: Double,
     val cancelled_orders: Int,
-    val cancelled_orders_balance: Int,
+    val cancelled_orders_balance: Double,
     val active_orders: Int,
-    val active_orders_balance: Int,
-    val monthly_selling: Int,
-    val average_selling: Int
+    val active_orders_balance: Double,
+    val monthly_selling: Double,
+    val average_selling: Double
 )

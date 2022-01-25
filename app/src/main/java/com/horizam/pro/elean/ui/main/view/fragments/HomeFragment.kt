@@ -39,8 +39,10 @@ import java.lang.Exception
 
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView.OnEditorActionListener
+import com.horizam.pro.elean.data.model.BottomNotification
 import com.horizam.pro.elean.ui.main.view.activities.ManageSalesActivity
 import com.horizam.pro.elean.utils.PrefManager
+import org.greenrobot.eventbus.EventBus
 
 
 class HomeFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
@@ -109,7 +111,6 @@ class HomeFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefre
     }
 
     private fun initViews() {
-
         adapterServices = ServicesAdapter(this)
         adapterGigs = HomeGigsAdapter(this)
         sliderView = binding.imageSlider
@@ -121,6 +122,8 @@ class HomeFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefre
         binding.toolbar.rlNoOfNotification.visibility = View.VISIBLE
         binding.toolbar.ivSale.visibility = View.GONE
         binding.toolbar.rlNoOfNotification.visibility = View.GONE
+        binding.toolbar.tvToolbar.visibility = View.GONE
+        binding.toolbar.ivLogoToolbar.visibility = View.VISIBLE
     }
 
     private fun setRecyclerViews() {

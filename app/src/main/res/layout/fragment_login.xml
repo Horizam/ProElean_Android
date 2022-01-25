@@ -91,6 +91,7 @@
         android:layout_gravity="center"
         android:text="@string/str_forgot_password"
         android:textSize="@dimen/_12ssp"
+        android:textColor="@color/colorAccent"
         app:layout_constraintStart_toStartOf="@id/text_field_password"
         app:layout_constraintTop_toBottomOf="@+id/text_field_password" />
 

@@ -221,7 +221,7 @@ interface ApiService {
     suspend fun changePassword(@Body request: ChangePasswordRequest): GeneralResponse
 
     @GET("get_order/{id}")
-    suspend fun orderByID(@Path("id") orderId: Int): OrderResponse
+    suspend fun orderByID(@Path("id") orderId: Int): Order
 
 
     @POST("sendNotifications")

@@ -36,7 +36,13 @@ class SplashActivity : AppCompatActivity() {
                     intent.getStringExtra(Constants.SENDER_ID).toString()
                 )
                 loadInitialActivityWithBundle()
-            }else{
+            } else if (intent.getStringExtra(Constants.TYPE).toString() == Constants.ORDER) {
+                val contentID = intent.getStringExtra(Constants.CONTENT_ID)
+                val intent = Intent(this, HomeActivity::class.java)
+                intent.putExtra(Constants.CONTENT_ID, contentID)
+                startActivity(intent)
+                finish()
+            } else {
                 loadInitialActivity()
                 getScreenWidthAndHeight()
             }

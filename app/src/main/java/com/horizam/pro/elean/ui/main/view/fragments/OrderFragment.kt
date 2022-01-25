@@ -9,12 +9,16 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
+import com.horizam.pro.elean.data.model.BottomNotification
 import com.horizam.pro.elean.databinding.FragmentOrderBinding
 import com.horizam.pro.elean.databinding.FragmentProfileBinding
 import com.horizam.pro.elean.ui.main.adapter.ViewPagerManageOrdersAdapter
 import com.horizam.pro.elean.ui.main.adapter.ViewPagerManageSalesAdapter
 import com.horizam.pro.elean.utils.PrefManager
 import kotlinx.android.synthetic.main.fragment_order.view.*
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 
 class OrderFragment : Fragment() {
@@ -34,6 +38,11 @@ class OrderFragment : Fragment() {
         setTabs()
 
         return binding.root
+    }
+
+    override fun onStart() {
+        super.onStart()
+        EventBus.getDefault().post(BottomNotification(Constants.ORDER , 0))
     }
 
     private fun initViews() {

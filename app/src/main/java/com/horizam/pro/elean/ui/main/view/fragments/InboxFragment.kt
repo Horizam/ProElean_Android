@@ -2,14 +2,12 @@ package com.horizam.pro.elean.ui.main.view.fragments
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -17,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
@@ -26,23 +25,20 @@ import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
+import com.horizam.pro.elean.data.model.BottomNotification
 import com.horizam.pro.elean.data.model.Inbox
-import com.horizam.pro.elean.data.model.Message
 import com.horizam.pro.elean.databinding.FragmentInboxBinding
 import com.horizam.pro.elean.ui.base.ViewModelFactory
 import com.horizam.pro.elean.ui.main.adapter.InboxAdapter
-import com.horizam.pro.elean.ui.main.adapter.MessageAdapter
 import com.horizam.pro.elean.ui.main.adapter.MyLoadStateAdapter
-import com.horizam.pro.elean.ui.main.adapter.NotificationsAdapter
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
 import com.horizam.pro.elean.ui.main.callbacks.InboxHandler
 import com.horizam.pro.elean.ui.main.viewmodel.InboxViewModel
-import com.horizam.pro.elean.ui.main.viewmodel.MessagesViewModel
 import com.horizam.pro.elean.utils.PrefManager
-import java.lang.Exception
+import org.greenrobot.eventbus.EventBus
 
 
-class InboxFragment : Fragment(), InboxHandler , SwipeRefreshLayout.OnRefreshListener {
+class InboxFragment : Fragment(), InboxHandler, SwipeRefreshLayout.OnRefreshListener {
 
     private lateinit var binding: FragmentInboxBinding
     private lateinit var adapter: InboxAdapter
@@ -75,14 +71,45 @@ class InboxFragment : Fragment(), InboxHandler , SwipeRefreshLayout.OnRefreshLis
         return binding.root
     }
 
+    override fun onStart() {
+        super.onStart()
+        EventBus.getDefault().post(BottomNotification(Constants.MESSAGE, 0))
+    }
+
     private fun getInboxData() {
         myId = prefManager.userId
         if (myId != "") {
             adapter.setMyId(myId)
             val query: Query = inboxReference.whereArrayContains("members", myId)
-                .orderBy("sentAt", Query.Direction.DESCENDING).limit(10)
+                .orderBy("sentAt", Query.Direction.DESCENDING)  //.limit(10)
             genericHandler.showProgressBar(true)
             viewModel.getInboxCall(query)
+            observeInboxData(query)
+        }
+    }
+
+    private fun observeInboxData(query: Query) {
+        query.addSnapshotListener { snapshots, e ->
+            if (e != null) {
+                genericHandler.showProgressBar(false)
+                genericHandler.showErrorMessage(e.message.toString())
+                return@addSnapshotListener
+            }
+
+            for (dc in snapshots!!.documentChanges) {
+                when (dc.type) {
+                    DocumentChange.Type.ADDED -> {
+                        adapter.refresh()
+                    }
+                    DocumentChange.Type.MODIFIED -> {
+                        adapter.refresh()
+                    }
+                    DocumentChange.Type.REMOVED -> {
+                        adapter.refresh()
+                    }
+                }
+            }
+            genericHandler.showProgressBar(false)
         }
     }
 
@@ -172,7 +199,7 @@ class InboxFragment : Fragment(), InboxHandler , SwipeRefreshLayout.OnRefreshLis
             }
             InboxFragmentDirections.actionInboxFragmentToMessagesFragment(
                 userName = "",
-                photo = "" ,
+                photo = "",
                 id = userId
             ).also {
                 findNavController().navigate(it)

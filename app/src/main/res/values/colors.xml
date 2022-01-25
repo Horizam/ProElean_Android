@@ -40,5 +40,6 @@
     <color name="white_grey_color">#BFBEBE</color>
     <color name="color_red">#FF0000</color>
     <color name="color_green">#008000</color>
+    <color name="color_light_green">#00FF00</color>
 
 </resources>

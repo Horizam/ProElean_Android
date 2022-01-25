@@ -212,24 +212,6 @@ class SellerActionsFragment : Fragment(), OnItemClickListener {
             toolbar.ivToolbar.setOnClickListener {
                 navController.popBackStack()
             }
-            cardCreateService.setOnClickListener {
-                navController.navigate(R.id.createServiceFragment)
-            }
-            cardManageSales.setOnClickListener {
-                startActivity(Intent(requireActivity(), ManageSalesActivity::class.java))
-            }
-            cardBuyerRequests.setOnClickListener {
-                navController.navigate(R.id.buyerRequestsFragment)
-            }
-            cardManageServices.setOnClickListener {
-                navController.navigate(R.id.manageServicesFragment)
-            }
-            cardAnalytics.setOnClickListener {
-                navController.navigate(R.id.analyticsFragment)
-            }
-            cardEarnings.setOnClickListener {
-                navController.navigate(R.id.earningsFragment)
-            }
         }
     }
 

@@ -8,12 +8,14 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.workDataOf
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import com.horizam.pro.elean.data.model.BottomNotification
 import com.horizam.pro.elean.ui.main.view.activities.HomeActivity
 import com.horizam.pro.elean.ui.main.view.activities.OrderDetailsActivity
 import com.horizam.pro.elean.ui.main.view.fragments.OrderDetailsFragment
 import com.horizam.pro.elean.utils.BaseUtils
 import com.horizam.pro.elean.utils.NotificationUtils
 import com.horizam.pro.elean.utils.PrefManager
+import org.greenrobot.eventbus.EventBus
 
 class MyFirebaseMessagingService : FirebaseMessagingService() {
 
@@ -45,6 +47,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         WorkManager.getInstance(this).beginWith(work).enqueue()*/
         val type = remoteMessage.data[Constants.TYPE]
         if (type == Constants.MESSAGE) {
+            EventBus.getDefault().post(BottomNotification(Constants.MESSAGE))
             val bundle = Bundle()
             bundle.putString(
                 Constants.TYPE,
@@ -71,6 +74,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             )
         }
         else if (type == Constants.ORDER) {
+            EventBus.getDefault().post(BottomNotification(Constants.ORDER))
             //get data from data notification
             val title = remoteMessage.data["subject"]
             val message = remoteMessage.data["body"]

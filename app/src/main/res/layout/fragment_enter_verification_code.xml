@@ -44,44 +44,44 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <TextView
+                android:id="@+id/tv_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_20sdp"
+                android:textAlignment="center"
+                android:textSize="@dimen/_11ssp"
+                android:layout_marginTop="@dimen/_10ssp"
+                android:text="An email with verification code was send to your shaban@gmail.com"
+                app:layout_constraintTop_toBottomOf="@+id/tv_welcome"
+                />
+
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/text_field_email"
+                android:id="@+id/text_field_verification_code"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_20sdp"
-                android:layout_marginTop="@dimen/_20sdp"
-                android:hint="@string/str_email"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="Verification Code"
                 app:counterEnabled="true"
-                app:counterMaxLength="30"
+                app:counterMaxLength="10"
                 app:endIconMode="clear_text"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_welcome">
+                app:layout_constraintTop_toBottomOf="@+id/tv_detail">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_email"
+                    android:id="@+id/et_verification_code"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textEmailAddress"
-                    android:maxLength="30" />
+                    android:maxLength="10"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <TextView
-                android:id="@+id/tv_login"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:padding="@dimen/_5sdp"
-                android:text="@string/str_back_to_login"
-                android:textColor="@color/colorAccent"
-                android:textSize="@dimen/_12ssp"
-                app:layout_constraintStart_toStartOf="@id/text_field_email"
-                app:layout_constraintTop_toBottomOf="@+id/text_field_email" />
-
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_reset_password"
+                android:id="@+id/btn_verify_code"
                 style="@style/New.TextButton"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_40sdp"
@@ -89,14 +89,14 @@
                 android:layout_marginTop="@dimen/_20sdp"
                 android:layout_marginBottom="@dimen/_20sdp"
                 android:backgroundTint="@color/colorButtons"
-                android:text="@string/str_reset_password"
+                android:text="Verify Code"
                 android:textAllCaps="false"
                 android:textColor="@color/colorWhite"
                 app:cornerRadius="@dimen/_50sdp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_login" />
+                app:layout_constraintTop_toBottomOf="@id/text_field_verification_code" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

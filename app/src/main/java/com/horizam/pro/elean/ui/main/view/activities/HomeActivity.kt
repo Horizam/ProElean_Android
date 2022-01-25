@@ -15,6 +15,7 @@ import android.view.Gravity
 import android.view.Menu
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -31,7 +32,6 @@ import androidx.navigation.ui.setupWithNavController
 import com.bumptech.glide.Glide
 import com.google.android.gms.location.*
 import com.google.android.material.badge.BadgeDrawable
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
@@ -40,6 +40,7 @@ import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
+import com.horizam.pro.elean.data.model.BottomNotification
 import com.horizam.pro.elean.data.model.response.GeneralResponse
 import com.horizam.pro.elean.databinding.ActivityHomeBinding
 import com.horizam.pro.elean.databinding.DialogDeleteBinding
@@ -58,6 +59,7 @@ import kotlinx.coroutines.Job
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.coroutines.CoroutineContext
 
@@ -78,8 +80,12 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
     private var isUserFreelancer: Int = 0
     private var userId: String = ""
     private lateinit var job: Job
+    private var unreadMsg = 0
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main + job
+    var handler: Handler = Handler()
+    var runnable: Runnable? = null
+    var delay = 5000
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -95,6 +101,44 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
         setData()
         setBottomNavigation()
         setDrawerStopFromOpening()
+
+        //call function for every 5 seconds
+        handler.postDelayed(Runnable {
+            handler.postDelayed(runnable!!, delay.toLong())
+            getTotalNumberUnreadMsg()
+        }.also { runnable = it }, delay.toLong())
+    }
+
+
+    private fun getTotalNumberUnreadMsg() {
+//        unreadMsg = 0
+//        setUnreadMessages(unreadMsg)
+//        db.collection(Constants.FIREBASE_DATABASE_ROOT)
+//            .whereArrayContains("members", prefManager.userId)
+//            .addSnapshotListener { snapshots, e ->
+//                if (e != null) {
+//                    Log.wtf("MyTag", "listen:error", e)
+//                    return@addSnapshotListener
+//                }
+//                for (dc in snapshots!!.documentChanges) {
+//                    when (dc.type) {
+//                        DocumentChange.Type.ADDED -> {
+//                            val inbox = dc.document.toObject(Inbox::class.java)
+//                            for (membersInfo in inbox.membersInfo) {
+//                                if ((membersInfo.id == prefManager.userId) && !membersInfo.hasReadLastMessage) {
+//                                    unreadMsg++
+//                                    setUnreadMessages(unreadMsg)
+//                                }
+//                            }
+//                        }
+//                        DocumentChange.Type.MODIFIED -> {
+//                        }
+//                        DocumentChange.Type.REMOVED -> {
+//
+//                        }
+//                    }
+//                }
+//            }
     }
 
     private fun initDeleteDialog() {
@@ -111,11 +155,12 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
 //            bundle.putString("id", intent.getStringExtra("id"))
 //            navController.navigate(R.id.messagesFragment, bundle)
 //        }
-//        else if (intent.hasExtra(Constants.ORDER_ID)) {
-//            val intent1 = Intent(this, OrderDetailsActivity::class.java)
-//            intent1.putExtra(Constants.ORDER_ID, intent.getStringExtra(Constants.ORDER_ID))
-//            startActivity(intent1)
-//        }
+        if (intent.hasExtra(Constants.CONTENT_ID)) {
+            val intent1 = Intent(this, OrderDetailsActivity::class.java)
+            intent1.putExtra(Constants.ORDER_ID, intent.getStringExtra(Constants.CONTENT_ID))
+            intent.removeExtra(Constants.CONTENT_ID)
+            startActivity(intent1)
+        }
     }
 
     private val locationCallback = object : LocationCallback() {
@@ -375,6 +420,7 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
     override fun openDrawer() {
         binding.drawer.openDrawer(GravityCompat.START)
     }
+
     private fun closeDrawer() {
         binding.drawer.closeDrawer(GravityCompat.START)
     }
@@ -417,15 +463,22 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
             message, Snackbar.LENGTH_LONG
         )
         val snackBarView = snackbar.view
-        val tvMessage = snackBarView.findViewById<TextView>(com.google.android.material.R.id.snackbar_text)
-        tvMessage.setTextColor(ResourcesCompat.getColor(resources , R.color.colorWhite , null))
+        val tvMessage =
+            snackBarView.findViewById<TextView>(com.google.android.material.R.id.snackbar_text)
+        tvMessage.setTextColor(ResourcesCompat.getColor(resources, R.color.colorWhite, null))
         tvMessage.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             tvMessage.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         } else {
             tvMessage.setGravity(Gravity.CENTER_HORIZONTAL);
         }
-        snackBarView.setBackgroundColor(ResourcesCompat.getColor(resources , R.color.color_red , null))
+        snackBarView.setBackgroundColor(
+            ResourcesCompat.getColor(
+                resources,
+                R.color.color_red,
+                null
+            )
+        )
         snackbar.show()
     }
 
@@ -435,15 +488,22 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
             message, Snackbar.LENGTH_LONG
         )
         val snackBarView = snackbar.view
-        val tvMessage = snackBarView.findViewById<TextView>(com.google.android.material.R.id.snackbar_text)
-        tvMessage.setTextColor(ResourcesCompat.getColor(resources , R.color.colorWhite , null))
+        val tvMessage =
+            snackBarView.findViewById<TextView>(com.google.android.material.R.id.snackbar_text)
+        tvMessage.setTextColor(ResourcesCompat.getColor(resources, R.color.colorWhite, null))
         tvMessage.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             tvMessage.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         } else {
             tvMessage.setGravity(Gravity.CENTER_HORIZONTAL);
         }
-        snackBarView.setBackgroundColor(ResourcesCompat.getColor(resources , R.color.color_green , null))
+        snackBarView.setBackgroundColor(
+            ResourcesCompat.getColor(
+                resources,
+                R.color.color_green,
+                null
+            )
+        )
         snackbar.show()
     }
 
@@ -478,6 +538,39 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
         logout()
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onEvent(bottomNotification: BottomNotification) {
+        if ((bottomNotification.type == Constants.MESSAGE) && (bottomNotification.value == 1)) {
+            val a = binding.bottomNav.selectedItemId
+            val b = R.id.inboxFragment
+            if (binding.bottomNav.selectedItemId != R.id.inboxFragment) {
+                setMessageBottomNotification(1)
+            }
+        } else if (bottomNotification.type == Constants.MESSAGE && (bottomNotification.value == 0)) {
+            setMessageBottomNotification(0)
+        } else if (bottomNotification.type == Constants.ORDER && (bottomNotification.value == 1)) {
+            if (binding.bottomNav.selectedItemId != R.id.orderFragment) {
+                setOrderBottomNotification(1)
+            }
+        } else if (bottomNotification.type == Constants.ORDER && (bottomNotification.value == 0)) {
+            setOrderBottomNotification(0)
+        }
+    }
+
+    private fun setOrderBottomNotification(value: Int) {
+        val bageDashboard: BadgeDrawable = binding.bottomNav.getOrCreateBadge(R.id.orderFragment)
+        bageDashboard.backgroundColor = ContextCompat.getColor(this, R.color.color_light_green)
+        bageDashboard.badgeTextColor = Color.WHITE
+        bageDashboard.isVisible = value == 1
+    }
+
+    private fun setMessageBottomNotification(value: Int) {
+        val bageDashboard: BadgeDrawable = binding.bottomNav.getOrCreateBadge(R.id.inboxFragment)
+        bageDashboard.backgroundColor = ContextCompat.getColor(this, R.color.color_light_green)
+        bageDashboard.badgeTextColor = Color.WHITE
+        bageDashboard.isVisible = value == 1
+    }
+
     override fun callHomeApi() {
         viewModel.homeDataCall()
     }
@@ -494,12 +587,6 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
         } else {
             setBuyerBottomNavigation()
         }
-//        val bageDashboard: BadgeDrawable = binding.bottomNav.getOrCreateBadge(R.id.profile_fragment)
-//        bageDashboard.backgroundColor = ContextCompat.getColor(this, R.color.colorButtons)
-//        bageDashboard.badgeTextColor = Color.WHITE
-//        bageDashboard.maxCharacterCount = 5
-//        bageDashboard.number = 0
-//        bageDashboard.isVisible = true
     }
 
     private fun setBuyerBottomNavigation() {

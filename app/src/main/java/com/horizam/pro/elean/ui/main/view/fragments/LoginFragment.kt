@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.workDataOf
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.messaging.FirebaseMessaging
 import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.MyWorker
@@ -108,6 +109,7 @@ class LoginFragment : Fragment() {
             genericHandler.showErrorMessage(getString(R.string.str_enter_valid_email_address))
             return
         } else if (!Validator.isValidPassword(binding.etPassword.text.toString().trim())) {
+            (binding.etPassword.parent.parent as TextInputLayout).error = getString(R.string.str_password_not_entered)
             genericHandler.showErrorMessage(getString(R.string.str_password_not_entered))
             return
         } else {

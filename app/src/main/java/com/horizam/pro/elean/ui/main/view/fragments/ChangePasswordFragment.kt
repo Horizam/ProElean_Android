@@ -21,7 +21,6 @@ import com.horizam.pro.elean.ui.main.viewmodel.SettingsViewModel
 import com.horizam.pro.elean.utils.BaseUtils.Companion.hideKeyboard
 import com.horizam.pro.elean.utils.Status
 
-
 class ChangePasswordFragment : Fragment() {
     private lateinit var binding: FragmentChangePasswordBinding
     private lateinit var navController: NavController
@@ -94,11 +93,16 @@ class ChangePasswordFragment : Fragment() {
         }
     }
 
-    private fun checkValidation(currentPassword: String, newPassword: String, confirmNewPassword: String) {
-        if(newPassword != confirmNewPassword){
+    private fun checkValidation(
+        currentPassword: String,
+        newPassword: String,
+        confirmNewPassword: String
+    ) {
+        if (newPassword != confirmNewPassword) {
             genericHandler.showErrorMessage("New Password and Confirm New Password Mismatched")
-        }else{
-            val changePasswordRequest = ChangePasswordRequest(currentPassword , newPassword , confirmNewPassword)
+        } else {
+            val changePasswordRequest =
+                ChangePasswordRequest(currentPassword, newPassword, confirmNewPassword)
             exeChangePasswordApi(changePasswordRequest)
         }
     }
