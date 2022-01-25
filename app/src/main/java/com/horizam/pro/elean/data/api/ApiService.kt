@@ -25,6 +25,9 @@ interface ApiService {
     @POST("forgot_password")
     suspend fun forgotPassword(@Body request: ForgotPasswordRequest): GeneralResponse
 
+    @POST("change_password")
+    suspend fun forgotChangePassword(@Body request: ForgetChangePasswordRequest): GeneralResponse
+
     @POST("seller/send_offer")
     suspend fun sendOffer(@Body request: SendOfferRequest): BuyerRequest
 

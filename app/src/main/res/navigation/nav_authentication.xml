@@ -15,7 +15,7 @@
         android:id="@+id/signUpFragment"
         android:name="com.horizam.pro.elean.ui.main.view.fragments.SignUpFragment"
         android:label="@string/str_sign_up"
-        tools:layout="@layout/fragment_sign_up" >
+        tools:layout="@layout/fragment_sign_up">
         <action
             android:id="@+id/action_signUpFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
@@ -25,7 +25,11 @@
         android:id="@+id/resetPasswordFragment"
         android:name="com.horizam.pro.elean.ui.main.view.fragments.ResetPasswordFragment"
         android:label="@string/str_reset_password"
-        tools:layout="@layout/fragment_reset_password" />
+        tools:layout="@layout/fragment_reset_password">
+        <action
+            android:id="@+id/action_resetPasswordFragment_to_enterVerificationCodeFragment"
+            app:destination="@id/enterVerificationCodeFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/settingsFragment"
@@ -62,10 +66,10 @@
     <fragment
         android:id="@+id/enterVerificationCodeFragment"
         android:name="com.horizam.pro.elean.ui.main.view.fragments.EnterVerificationCodeFragment"
-        android:label="EnterVerificationCodeFragment" />
-    <fragment
-        android:id="@+id/forgetEnterNewPassword"
-        android:name="com.horizam.pro.elean.ui.main.view.fragments.ForgetEnterNewPassword"
-        android:label="ForgetEnterNewPassword" />
+        android:label="EnterVerificationCodeFragment">
+        <argument
+            android:name="email"
+            app:argType="string" />
+    </fragment>
 
 </navigation>

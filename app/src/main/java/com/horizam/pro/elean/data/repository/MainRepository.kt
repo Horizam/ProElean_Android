@@ -14,6 +14,7 @@ class MainRepository(private val apiHelper: ApiHelper) {
     suspend fun registerUser(request: RegisterRequest, referralCode: String) = apiHelper.registerUser(request,referralCode)
     suspend fun loginUser(request: LoginRequest) = apiHelper.loginUser(request)
     suspend fun forgotPassword(request: ForgotPasswordRequest) = apiHelper.forgotPassword(request)
+    suspend fun forgotChangePassword(request: ForgetChangePasswordRequest) = apiHelper.forgotChangePassword(request)
     suspend fun postJob(request: PostJobRequest) = apiHelper.postJob(request)
     suspend fun acceptOrder(request: AcceptOrderRequest) = apiHelper.acceptOrder(request)
     suspend fun sendOffer(request: SendOfferRequest) = apiHelper.sendOffer(request)

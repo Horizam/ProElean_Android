@@ -8,6 +8,7 @@ class ApiHelper(private val apiService: ApiService) {
     suspend fun registerUser(request: RegisterRequest, referralCode: String) = apiService.registerUser(request,referralCode)
     suspend fun loginUser(request: LoginRequest) = apiService.loginUser(request)
     suspend fun forgotPassword(request: ForgotPasswordRequest) = apiService.forgotPassword(request)
+    suspend fun forgotChangePassword(request: ForgetChangePasswordRequest) = apiService.forgotChangePassword(request)
     suspend fun postJob(request: PostJobRequest) = apiService.postJob(request)
     suspend fun acceptOrder(request: AcceptOrderRequest) = apiService.acceptOrder(request)
     suspend fun sendOffer(request: SendOfferRequest) = apiService.sendOffer(request)

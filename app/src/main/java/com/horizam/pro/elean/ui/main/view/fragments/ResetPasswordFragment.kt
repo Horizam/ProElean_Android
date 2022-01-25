@@ -66,12 +66,11 @@ class ResetPasswordFragment : Fragment() {
     }
 
     private fun executeApi() {
-        this.findNavController().navigate(R.id.enterVerificationCodeFragment)
-//        genericHandler.showProgressBar(true)
-//        val request = ForgotPasswordRequest(
-//            email = binding.etEmail.text.toString().trim()
-//        )
-//        viewModel.forgotPasswordCall(request)
+        genericHandler.showProgressBar(true)
+        val request = ForgotPasswordRequest(
+            email = binding.etEmail.text.toString().trim()
+        )
+        viewModel.forgotPasswordCall(request)
     }
 
     private fun setupViewModel() {
@@ -104,7 +103,11 @@ class ResetPasswordFragment : Fragment() {
     }
 
     private fun handleResponse(response: GeneralResponse) {
-        genericHandler.showErrorMessage(response.message)
-        findNavController().popBackStack()
+        genericHandler.showSuccessMessage(response.message)
+        val action =
+            ResetPasswordFragmentDirections.actionResetPasswordFragmentToEnterVerificationCodeFragment(
+                binding.etEmail.text.toString()
+            )
+        findNavController().navigate(action)
     }
 }

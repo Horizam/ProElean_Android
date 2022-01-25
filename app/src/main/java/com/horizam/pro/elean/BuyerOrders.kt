@@ -1,7 +1,6 @@
 package com.horizam.pro.elean
 
 class BuyerOrders {
-
     companion object {
         const val Active: Int = 1
         const val Delivered: Int = 2
