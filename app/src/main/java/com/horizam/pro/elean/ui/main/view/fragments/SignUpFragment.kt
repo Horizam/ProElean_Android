@@ -21,6 +21,7 @@ import com.horizam.pro.elean.utils.BaseUtils
 import com.horizam.pro.elean.utils.BaseUtils.Companion.hideKeyboard
 import com.horizam.pro.elean.utils.Status
 import com.horizam.pro.elean.utils.Validator
+import kotlinx.android.synthetic.main.fragment_sign_up.*
 
 
 class SignUpFragment : Fragment() {
@@ -68,24 +69,17 @@ class SignUpFragment : Fragment() {
     }
 
     private fun FragmentSignUpBinding.validateData() {
+
+
         if (!Validator.isValidName(etFullName)) {
             return
-        } else if (etUsername.text!!.length < 5) {
-            genericHandler.showErrorMessage("username must be al least 5 chracter")
-            etUsername.error = "username must be al least 5 chracter"
-            return
-        } else if (Validator.validateUserName(etUsername.text.toString())) {
-            genericHandler.showErrorMessage("username must does not contain special characters and white spaces")
-            etUsername.error = "username must does not contain special characters and white spaces"
+        } else if (!Validator.isValidUserName(etUsername)) {
             return
         } else if (!Validator.isValidEmail(etEmail)) {
             return
         } else if (!Validator.isValidPassword(etPassword)) {
             return
-        } else if (etPassword.text.toString().trim() !=
-            etConfirmPassword.text.toString().trim()
-        ) {
-            genericHandler.showErrorMessage(getString(R.string.str_password_not_matched))
+        } else if (!Validator.newPasswordConfirmNewPasswordValidation(etPassword , etConfirmPassword)) {
             return
         } else if (!cbTermsAndConditions.isChecked) {
             genericHandler.showErrorMessage("Please accept ${getString(R.string.str_terms_and_conditions)}")

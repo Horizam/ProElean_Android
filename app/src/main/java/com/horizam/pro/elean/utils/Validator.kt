@@ -13,7 +13,7 @@ class Validator {
 
     companion object {
 
-        fun validateUserName(userName: String): Boolean{
+        fun validateUserName(userName: String): Boolean {
             val p: Pattern = Pattern.compile("[^A-Za-z0-9_]")
             val m: Matcher = p.matcher(userName)
             val b: Boolean = m.find()
@@ -43,7 +43,12 @@ class Validator {
 
         fun isValidUserName(data: Any, updateUI: Boolean = true): Boolean {
             val str = getText(data)
-            val valid = str.trim().length > 5
+            var valid = true
+            if (str.trim().length < 5) {
+                valid = false
+            } else if (validateUserName(str.trim())) {
+                valid = false
+            }
             if (updateUI) {
                 val error: String? = if (valid) null else App.getAppContext()!!
                     .getString(R.string.str_enter_valid_username)
@@ -116,6 +121,24 @@ class Validator {
             }
         }
 
-    }
+        fun newPasswordConfirmNewPasswordValidation(data1: Any, data2: Any): Boolean {
+            if (getText(data1) == getText(data2)) {
+                return true
+            } else {
+                setError(data1, "Password not matched")
+                setError(data2, "Password not matched")
+                return false
+            }
+        }
 
+        fun validateVerificationCode(data1: Any): Boolean{
+            if(getText(data1).trim().isEmpty()){
+                setError(data1 , "Verification Code is Empty")
+                return true
+            }else{
+                setError(data1 , null)
+                return false
+            }
+        }
+    }
 }

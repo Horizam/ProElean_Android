@@ -19,6 +19,8 @@ import com.horizam.pro.elean.ui.base.ViewModelFactory
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
 import com.horizam.pro.elean.ui.main.viewmodel.ForgotPasswordViewModel
 import com.horizam.pro.elean.utils.Status
+import com.horizam.pro.elean.utils.Validator
+import kotlinx.android.synthetic.main.fragment_enter_verification_code.*
 
 
 class EnterVerificationCodeFragment : Fragment() {
@@ -88,18 +90,22 @@ class EnterVerificationCodeFragment : Fragment() {
         binding.btnVerifyCode.setOnClickListener {
             validateInputs()
         }
+        binding.ivBack.setOnClickListener {
+            this.findNavController().popBackStack()
+        }
     }
 
     private fun validateInputs() {
-        if (binding.etVerificationCode.text.toString().trim().isEmpty()) {
-            binding.textFieldVerificationCode.error = "Verification field is empty"
-        } else if (binding.etNewPassword.text.toString().length < 6) {
-            binding.textFieldNewPassword.error = "Password must contain at least 6 character"
-            genericHandler.showErrorMessage("Password must contain at least 6 character")
-        } else if (binding.etConfirmNewPassword.text.toString() != binding.etNewPassword.text.toString()) {
-            binding.textFieldNewPassword.error = "Password must contain at least 6 character"
-            binding.textFieldConfirmNewPassword.error = "Password must contain at least 6 character"
-            genericHandler.showErrorMessage(getString(R.string.str_password_not_matched))
+        if (Validator.validateVerificationCode(et_verification_code)) {
+
+        } else if (!Validator.isValidPassword(binding.etNewPassword)) {
+            return
+        } else if (!Validator.newPasswordConfirmNewPasswordValidation(
+                binding.etNewPassword,
+                binding.etConfirmNewPassword
+            )
+        ) {
+            return
         } else {
             val forgetChangePasswordRequest = ForgetChangePasswordRequest(
                 email = args.email,

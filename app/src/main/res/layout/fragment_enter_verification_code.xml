@@ -65,6 +65,7 @@
                 android:layout_marginTop="@dimen/_10sdp"
                 android:hint="Verification Code"
                 app:counterEnabled="true"
+                app:startIconDrawable="@drawable/ic_referal_code"
                 app:counterMaxLength="10"
                 app:endIconMode="clear_text"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -90,7 +91,8 @@
                 android:hint="New Password"
                 app:counterEnabled="true"
                 app:counterMaxLength="20"
-                app:endIconMode="clear_text"
+                app:startIconDrawable="@drawable/ic_lock"
+                app:endIconMode="password_toggle"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/text_field_verification_code">
@@ -99,7 +101,7 @@
                     android:id="@+id/et_new_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textEmailAddress"
+                    android:inputType="textPassword"
                     android:maxLength="20"/>
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -113,8 +115,9 @@
                 android:layout_marginTop="@dimen/_5sdp"
                 android:hint="Confirm New Password"
                 app:counterEnabled="true"
+                app:startIconDrawable="@drawable/ic_lock"
+                app:endIconMode="password_toggle"
                 app:counterMaxLength="20"
-                app:endIconMode="clear_text"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/text_field_new_password">
