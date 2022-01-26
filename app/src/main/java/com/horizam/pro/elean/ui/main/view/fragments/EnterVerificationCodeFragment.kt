@@ -29,12 +29,10 @@ class EnterVerificationCodeFragment : Fragment() {
     private lateinit var viewModel: ForgotPasswordViewModel
     val args: EnterVerificationCodeFragmentArgs by navArgs()
 
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
         genericHandler = context as GenericHandler
     }
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,12 +40,10 @@ class EnterVerificationCodeFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentEnterVerificationCodeBinding.inflate(layoutInflater, container, false)
-
         setupViewModel()
         initComponent()
         setClickListener()
         setUpObserver()
-
         return binding.root
     }
 

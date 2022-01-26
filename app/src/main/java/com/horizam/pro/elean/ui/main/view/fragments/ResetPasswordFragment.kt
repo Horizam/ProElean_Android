@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.api.ApiHelper
@@ -81,7 +82,7 @@ class ResetPasswordFragment : Fragment() {
     }
 
     private fun setupObservers() {
-        viewModel.forgotPassword.observe(viewLifecycleOwner, {
+        viewModel.forgotPassword.observe(viewLifecycleOwner,  {
             it?.let { resource ->
                 when (resource.status) {
                     Status.SUCCESS -> {
