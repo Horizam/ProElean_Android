@@ -28,6 +28,7 @@ class ResetPasswordFragment : Fragment() {
     private lateinit var binding: FragmentResetPasswordBinding
     private lateinit var viewModel: ForgotPasswordViewModel
     private lateinit var genericHandler: GenericHandler
+    private var check: Boolean = false
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -40,9 +41,17 @@ class ResetPasswordFragment : Fragment() {
     ): View {
         binding = FragmentResetPasswordBinding.inflate(layoutInflater, container, false)
         setupViewModel()
+        getIntentData()
         setupObservers()
         setClickListeners()
         return binding.root
+    }
+
+    private fun getIntentData() {
+        if(arguments != null) {
+            val email = requireArguments().getString("email", "")
+            binding.etEmail.setText(email)
+        }
     }
 
     private fun setClickListeners() {
@@ -55,6 +64,7 @@ class ResetPasswordFragment : Fragment() {
         binding.btnResetPassword.setOnClickListener {
             hideKeyboard()
             validateData()
+            check = true
         }
     }
 
@@ -82,13 +92,15 @@ class ResetPasswordFragment : Fragment() {
     }
 
     private fun setupObservers() {
-        viewModel.forgotPassword.observe(viewLifecycleOwner,  {
+        viewModel.forgotPassword.observe(viewLifecycleOwner, {
             it?.let { resource ->
                 when (resource.status) {
                     Status.SUCCESS -> {
                         genericHandler.showProgressBar(false)
-                        resource.data?.let { response ->
-                            handleResponse(response)
+                        if (check) {
+                            resource.data?.let { response ->
+                                handleResponse(response)
+                            }
                         }
                     }
                     Status.ERROR -> {
@@ -110,5 +122,10 @@ class ResetPasswordFragment : Fragment() {
                 binding.etEmail.text.toString()
             )
         findNavController().navigate(action)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        check = false
     }
 }

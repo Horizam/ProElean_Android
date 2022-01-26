@@ -12,9 +12,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.horizam.pro.elean.databinding.FragmentProfileBinding
 import com.horizam.pro.elean.ui.main.adapter.ViewPagerFragmentAdapter
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
-import com.horizam.pro.elean.ui.main.viewmodel.ProfileViewModel
 import com.horizam.pro.elean.utils.PrefManager
-import kotlinx.android.synthetic.main.fragment_order.view.*
 
 class ProfileFragment : Fragment() {
 
@@ -45,9 +43,14 @@ class ProfileFragment : Fragment() {
     private fun initViews() {
         binding.ivToolbar.visibility = View.INVISIBLE
         prefManager = PrefManager(requireContext())
-        listFragmentTitles = arrayListOf("About", "Services", "Reviews")
-        viewPagerFragmentAdapter = ViewPagerFragmentAdapter(this, listFragmentTitles)
+        if (prefManager.isFreelancer == 0) {
+            listFragmentTitles = arrayListOf("About", "Reviews")
+        } else if (prefManager.isFreelancer == 1) {
+            listFragmentTitles = arrayListOf("About", "Services", "Reviews")
+        }
+        viewPagerFragmentAdapter = ViewPagerFragmentAdapter(this, listFragmentTitles, prefManager)
     }
+
 
     private fun setTabs() {
         binding.viewPager.adapter = viewPagerFragmentAdapter
