@@ -2,6 +2,7 @@ package com.horizam.pro.elean.ui.main.view.fragments
 
 import android.Manifest
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -23,12 +24,17 @@ import java.io.File
 
 class DeliverFileBottomSheetFragment(
     var fragment: OrderDetailsFragment
+
 ) : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentDelieverFileBottomSheetBinding
     private lateinit var genericHandler: GenericHandler
     private var imagePath: String = ""
     private var deliverOrderFileHandler = fragment as DeliverOrderFileHandler
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,14 +59,10 @@ class DeliverFileBottomSheetFragment(
                     description = binding.etDescription.text.toString()
                 )
                 dismiss()
-            } else {
-//                showSnackbar(
-//                    requireView(),
-//                    "Please Select File and Description",
-//                    Snackbar.LENGTH_INDEFINITE,
-//                    getString(R.string.str_ok)
-//                ) {}
+            } else if(binding.etDescription.text.toString().trimStart().length < 15){
                 binding.etDescription.error = "Description is too short"
+            }else{
+
             }
         }
 

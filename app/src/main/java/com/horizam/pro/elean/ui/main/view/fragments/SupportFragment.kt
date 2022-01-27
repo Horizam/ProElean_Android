@@ -60,18 +60,26 @@ class SupportFragment : Fragment() {
     }
 
     private fun validateData() {
+        removeAllTextFieldErrors()
         when {
             binding.etSubject.text.toString().trim().isEmpty() -> {
-                binding.etSubject.error = getString(R.string.str_enter_valid_subject)
+                binding.textFieldSubject.error = getString(R.string.str_enter_valid_subject)
                 return
             }
             binding.etDescription.text.toString().trim().isEmpty() -> {
-                binding.etDescription.error = getString(R.string.str_enter_valid_description)
+                binding.textFieldDescription.error = getString(R.string.str_enter_valid_description)
                 return
             }
             else -> {
                 executeApi()
             }
+        }
+    }
+
+    private fun removeAllTextFieldErrors() {
+        binding.apply {
+            textFieldDescription.error = null
+            textFieldSubject.error = null
         }
     }
 

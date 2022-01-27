@@ -199,14 +199,14 @@ interface ApiService {
     @DELETE("buyer/jobs/{id}")
     suspend fun deletePostedJob(@Path("id") id: String): GeneralResponse
 
-    @GET("buyer/orders/{id}")
-    suspend fun getBuyerOrders(@Path("id") id: Int): OrdersResponse
+    @GET("buyer/orders")
+    suspend fun getBuyerOrders(@Query("status") status: Int): OrdersResponse
 
     @GET("seller_earning")
     suspend fun getEarnings(): EarningsResponse
 
-    @GET("seller/orders/{id}")
-    suspend fun getSellersOrders(@Path("id") id: Int): OrdersResponse
+    @GET("seller/orders")
+    suspend fun getSellersOrders(@Query("status") status: Int): OrdersResponse
 
     @DELETE("delete_job_requests/{id}")
     suspend fun deleteJobOffer(@Path("id") id: Int): GeneralResponse

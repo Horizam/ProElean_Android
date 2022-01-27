@@ -23,5 +23,7 @@ data class SellerDataModel(
     val active_orders: Int,
     val active_orders_balance: Double,
     val monthly_selling: Double,
-    val average_selling: Double
+    val average_selling: Double,
+    val weekly_clicks: Int,
+    val weekly_impression: Int
 )

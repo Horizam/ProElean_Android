@@ -58,6 +58,7 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
     private var filter = ""
     private var filterValue = ""
     private val args: ServiceGigsFragmentArgs by navArgs()
+    private var from: Int = 0
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -85,7 +86,7 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
     }
 
     private fun executeApi() {
-        if (args.from == Constants.NORMAL_FLOW) {
+        if (from == Constants.NORMAL_FLOW) {
             if (viewModel.sellers.value == null) {
                 viewModel.getServicesBySubCategories(args.id)
             }
@@ -96,6 +97,7 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
     }
 
     private fun initViews() {
+        from = args.from
         prefManager = PrefManager(requireContext())
         adapter = GigsAdapter(this, this, this)
         recyclerView = binding.rvServiceGigs
@@ -185,6 +187,7 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
                 adapter.retry()
             }
             btnSearch.setOnClickListener {
+                from = 1
                 hideKeyboard()
                 exeSearch()
             }
@@ -229,8 +232,8 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
             when (resource.status) {
                 Status.SUCCESS -> {
                     genericHandler.showProgressBar(false)
-                    if (args.from == Constants.NORMAL_FLOW) {
-                            viewModel.getServicesBySubCategories(args.id)
+                    if (from == Constants.NORMAL_FLOW) {
+                        viewModel.getServicesBySubCategories(args.id)
                     } else {
                         exeSearch()
                     }

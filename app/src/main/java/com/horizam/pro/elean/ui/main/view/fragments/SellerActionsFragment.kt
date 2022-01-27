@@ -151,6 +151,9 @@ class SellerActionsFragment : Fragment(), OnItemClickListener {
                             )
                             append(spannable)
                         }
+
+                        tvImpressionValue .text = weekly_impression.toString()
+                        tvClicksValue.text = weekly_clicks.toString()
                     }
                 }
             }
