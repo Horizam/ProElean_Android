@@ -128,11 +128,6 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
         viewModel.sendNotification.observe(viewLifecycleOwner, notificationObserver)
     }
 
-    override fun onPause() {
-        super.onPause()
-        BaseUtils.CurrentScreen = ""
-    }
-
     private val notificationObserver = Observer<Resource<GeneralResponse>> {
         it?.let { resource ->
             when (resource.status) {
@@ -282,6 +277,7 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
         if (chatNotExist || updateMessages) {
             chatNotExist = false
             fetchMessages()
+            setMessageRead()
         }
 //                disableMessageSend(true)
 //            }.addOnFailureListener {
@@ -316,11 +312,7 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
             for (dc in snapshots!!.documentChanges) {
                 when (dc.type) {
                     DocumentChange.Type.ADDED -> {
-                        messageCount++
                         adapter.refresh()
-                        if (size == messageCount) {
-                            setMessageRead()
-                        }
                     }
                     DocumentChange.Type.MODIFIED -> {
                         adapter.refresh()
@@ -343,12 +335,12 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
         }
         membersInfo.hasReadLastMessage = false
         db.collection(FIREBASE_DATABASE_ROOT).document(inbox!!.id)
-            .update("membersInfo", FieldValue.arrayRemove(membersInfo))
+            .update("membersInfo", FieldValue.arrayRemove(membersInfo) , "members" , FieldValue.arrayRemove(membersInfo.id))
             .addOnCompleteListener { removeTask ->
                 if (removeTask.isSuccessful) {
                     membersInfo.hasReadLastMessage = true
                     db.collection(FIREBASE_DATABASE_ROOT).document(inbox!!.id)
-                        .update("membersInfo", FieldValue.arrayUnion(membersInfo))
+                        .update("membersInfo", FieldValue.arrayUnion(membersInfo) , "members" , FieldValue.arrayUnion(membersInfo.id))
                         .addOnCompleteListener { addTask ->
                             if (addTask.isSuccessful) {
                                 Log.wtf("mytag", "Update complete.")
@@ -822,8 +814,8 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
         val members: MutableList<String> = ArrayList()
         members.add(myId)
         members.add(userId)
-        userInfo = MessageUser(id = userId , args.userName)
-        myInfo = MessageUser(id = myId , name = prefManager.username!!)
+        userInfo = MessageUser(id = userId, args.userName)
+        myInfo = MessageUser(id = myId, name = prefManager.username!!)
         val membersInfo: MutableList<MembersInfo> = ArrayList()
         membersInfo.add(
             MembersInfo(
@@ -1160,6 +1152,13 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
     override fun onStart() {
         super.onStart()
         (activity as HideBottomNavigation).hideNavigation()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        if (inbox != null) {
+            setMessageRead()
+        }
     }
 
     override fun onStop() {

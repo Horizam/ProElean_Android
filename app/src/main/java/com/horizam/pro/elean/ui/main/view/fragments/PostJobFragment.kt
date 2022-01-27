@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -27,6 +28,8 @@ import com.horizam.pro.elean.ui.main.viewmodel.PostJobViewModel
 import com.horizam.pro.elean.utils.BaseUtils.Companion.hideKeyboard
 import com.horizam.pro.elean.utils.Resource
 import com.horizam.pro.elean.utils.Status
+import kotlinx.android.synthetic.main.fragment_home.view.*
+import kotlinx.android.synthetic.main.fragment_post_job.*
 import java.lang.Exception
 
 
@@ -85,14 +88,18 @@ class PostJobFragment : Fragment(), AdapterView.OnItemSelectedListener {
     }
 
     private fun validateData() {
+        removeAllTextFieldsErrors()
         binding.apply {
             when {
                 etDescription.editableText.trim().isEmpty() -> {
                     genericHandler.showErrorMessage(getString(R.string.str_enter_valid_description))
+                    textFieldDescription.error = getString(R.string.str_enter_valid_description)
                     return
                 }
                 etDescription.editableText.trim().length < 20 -> {
                     genericHandler.showErrorMessage(getString(R.string.str_enter_valid_description_length))
+                    textFieldDescription.error =
+                        getString(R.string.str_enter_valid_description_length)
                     return
                 }
                 categoryId == "" -> {
@@ -120,6 +127,10 @@ class PostJobFragment : Fragment(), AdapterView.OnItemSelectedListener {
                 }
             }
         }
+    }
+
+    private fun removeAllTextFieldsErrors() {
+
     }
 
     private fun executeApi() {

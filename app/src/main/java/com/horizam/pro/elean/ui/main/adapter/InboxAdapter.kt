@@ -70,19 +70,19 @@ class InboxAdapter(private val listener: InboxHandler) :
         fun bind(inbox: Inbox) {
             binding.apply {
                 try {
-                    for(memberInfo in inbox.membersInfo){
-                        if(memberInfo.id == myId){
-                            if(memberInfo.hasReadLastMessage){
-                                 tvMessage.typeface = Typeface.DEFAULT
-                            }else{
+                    for (memberInfo in inbox.membersInfo) {
+                        if (memberInfo.id == myId) {
+                            if (memberInfo.hasReadLastMessage) {
+                                tvMessage.typeface = Typeface.DEFAULT
+                            } else {
                                 tvMessage.typeface = Typeface.DEFAULT_BOLD
                             }
                         }
                     }
-                    if(inbox.senderId == myId){
+                    if (inbox.senderId == myId) {
                         tvMessage.text = "me: ${inbox.lastMessage}"
-                    }else{
-                        tvMessage.text = "${inbox.senderName}: ${inbox.lastMessage}"
+                    } else {
+                        tvMessage.text = "${inbox.lastMessage}"
                     }
                     tvLastMessage.text = BaseUtils.getTimeAgo(inbox.sentAt)
                     tvCounter.isVisible = false
