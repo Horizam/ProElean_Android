@@ -118,10 +118,10 @@ class InboxAdapter(private val listener: InboxHandler) :
     companion object {
         private val ITEM_COMPARATOR = object : DiffUtil.ItemCallback<Inbox>() {
             override fun areItemsTheSame(oldItem: Inbox, newItem: Inbox) =
-                oldItem.id == newItem.id
+                oldItem == newItem
 
             override fun areContentsTheSame(oldItem: Inbox, newItem: Inbox) =
-                oldItem == newItem
+                oldItem.id == newItem.id
         }
     }
 

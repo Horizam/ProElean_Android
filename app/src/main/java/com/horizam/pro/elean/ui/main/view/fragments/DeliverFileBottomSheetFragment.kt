@@ -34,6 +34,7 @@ class DeliverFileBottomSheetFragment(
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        genericHandler = context as GenericHandler
     }
 
     override fun onCreateView(
@@ -59,10 +60,10 @@ class DeliverFileBottomSheetFragment(
                     description = binding.etDescription.text.toString()
                 )
                 dismiss()
-            } else if(binding.etDescription.text.toString().trimStart().length < 15){
+            } else if (binding.etDescription.text.toString().trimStart().length < 15) {
                 binding.etDescription.error = "Description is too short"
-            }else{
-
+            } else if (imagePath.isEmpty()) {
+                genericHandler.showErrorMessage("PLease select file to deliever")
             }
         }
 

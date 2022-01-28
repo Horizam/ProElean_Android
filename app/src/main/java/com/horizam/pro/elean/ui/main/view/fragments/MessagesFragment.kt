@@ -212,7 +212,7 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
             for (documentSnapshot in queryDocumentSnapshots) {
                 val inbox1 = documentSnapshot.toObject(Inbox::class.java)
                 try {
-                    if (inbox1!!.members[0] == userId && inbox1!!.members[1] == myId) {
+                    if (inbox1!!.membersInfo[0].id == userId && inbox1!!.membersInfo[1].id == myId) {
                         inbox = inbox1
                         count++
                         myInfo = MessageUser(
@@ -229,7 +229,7 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
                         adapter.setUserInfo(userInfo!!)
                         updateUsersInfo(true)
                     }
-                    if (inbox1!!.members[0] == myId && inbox1!!.members[1] == userId) {
+                    if (inbox1!!.membersInfo[0].id == myId && inbox1!!.membersInfo[1].id == userId) {
                         inbox = inbox1
                         count++
                         myInfo = MessageUser(
@@ -325,6 +325,8 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
             genericHandler.showProgressBar(false)
         }
     }
+
+
 
     private fun setMessageRead() {
         var membersInfo = MembersInfo()
@@ -835,7 +837,7 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
             title = "", combinedId = inboxCombinedId
         )
         inbox = inboxModel
-        if (inbox!!.members[0] == userId && inbox!!.members[1] == myId) {
+        if (inbox!!.membersInfo[0].id == userId && inbox!!.membersInfo[1].id == myId) {
             val myInfo = MessageUser(
                 inbox!!.membersInfo[1].id,
                 inbox!!.membersInfo[1].name,
