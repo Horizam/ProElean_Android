@@ -47,6 +47,7 @@ class OrdersFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRef
     private lateinit var prefManager: PrefManager
     private lateinit var dialogFilterJobs: Dialog
     private lateinit var bindingDialog: DialogFilterOrdersBinding
+    private var currentOrders: Int = 0
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -73,7 +74,7 @@ class OrdersFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRef
     }
 
     private fun exeApi() {
-        viewModel.getBuyerOrdersCall(BuyerOrders.all)
+        viewModel.getBuyerOrdersCall(currentOrders)
     }
 
     private fun initViews() {
@@ -114,27 +115,35 @@ class OrdersFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRef
         when(radioButton.text){
             getString(R.string.str_all) ->{
                 viewModel.getBuyerOrdersCall(BuyerOrders.all)
+                currentOrders = BuyerOrders.all
             }
             getString(R.string.str_active) ->{
                 viewModel.getBuyerOrdersCall(BuyerOrders.Active)
+                currentOrders = BuyerOrders.Active
             }
             getString(R.string.str_delivered) ->{
                 viewModel.getBuyerOrdersCall(BuyerOrders.Delivered)
+                currentOrders = BuyerOrders.Delivered
             }
             getString(R.string.str_revision) ->{
                 viewModel.getBuyerOrdersCall(BuyerOrders.Revision)
+                currentOrders = BuyerOrders.Revision
             }
             getString(R.string.str_completed) ->{
                 viewModel.getBuyerOrdersCall(BuyerOrders.Completed)
+                currentOrders = BuyerOrders.Completed
             }
             getString(R.string.str_disputed) ->{
                 viewModel.getBuyerOrdersCall(BuyerOrders.Disputed)
+                currentOrders = BuyerOrders.Disputed
             }
             getString(R.string.str_late) ->{
                 viewModel.getBuyerOrdersCall(BuyerOrders.Late)
+                currentOrders = BuyerOrders.Late
             }
             getString(R.string.str_cancel) ->{
                 viewModel.getBuyerOrdersCall(BuyerOrders.Cancel)
+                currentOrders = BuyerOrders.Cancel
             }
         }
     }
