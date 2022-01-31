@@ -1,5 +1,6 @@
 package com.horizam.pro.elean.ui.main.adapter
 
+import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.view.LayoutInflater
@@ -17,7 +18,6 @@ import com.horizam.pro.elean.data.model.User
 import com.horizam.pro.elean.data.model.response.Notification
 import com.horizam.pro.elean.data.model.response.Order
 import com.horizam.pro.elean.databinding.ItemActiveOrderBinding
-import com.horizam.pro.elean.databinding.ItemNotificationBinding
 import com.horizam.pro.elean.ui.main.callbacks.NotificationsHandler
 import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
 import com.horizam.pro.elean.ui.main.view.activities.OrderDetailsActivity

@@ -1,20 +1,28 @@
 package com.horizam.pro.elean.ui.main.view.fragments
 
+import android.R.attr
 import android.content.Context
+import android.content.Entity
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.github.mikephil.charting.data.BarData
+import com.github.mikephil.charting.data.BarEntry
+import com.github.mikephil.charting.data.Entry
 import com.horizam.pro.elean.App
 import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
@@ -33,6 +41,14 @@ import com.horizam.pro.elean.ui.main.viewmodel.SellerViewModel
 import com.horizam.pro.elean.utils.BaseUtils
 import com.horizam.pro.elean.utils.PrefManager
 import com.horizam.pro.elean.utils.Status
+import com.github.mikephil.charting.data.BarDataSet
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import com.github.mikephil.charting.utils.ColorTemplate
+import com.horizam.pro.elean.data.model.Score
+import android.R.attr.data
+import android.widget.TextView
+import com.github.mikephil.charting.components.*
+import com.github.mikephil.charting.formatter.LargeValueFormatter
 
 
 class SellerActionsFragment : Fragment(), OnItemClickListener {
@@ -45,6 +61,7 @@ class SellerActionsFragment : Fragment(), OnItemClickListener {
     private lateinit var genericHandler: GenericHandler
     private lateinit var prefManager: PrefManager
     private lateinit var sellerActionList: ArrayList<SellerActionModel>
+    private var scoreList = ArrayList<Score>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,6 +75,7 @@ class SellerActionsFragment : Fragment(), OnItemClickListener {
         setClickListeners()
         setAdapter()
         exeApi()
+        populateGraphData()
         return binding.root
     }
 
@@ -152,7 +170,7 @@ class SellerActionsFragment : Fragment(), OnItemClickListener {
                             append(spannable)
                         }
 
-                        tvImpressionValue .text = weekly_impression.toString()
+                        tvImpressionValue.text = weekly_impression.toString()
                         tvClicksValue.text = weekly_clicks.toString()
                     }
                 }
@@ -266,4 +284,158 @@ class SellerActionsFragment : Fragment(), OnItemClickListener {
         }
     }
 
+
+    fun populateGraphData() {
+
+        var barChartView = binding.chart
+        barChartView.isDragEnabled = true
+
+        val barWidth: Float
+        val barSpace: Float
+        val groupSpace: Float
+
+        barWidth = 0.45f
+        barSpace = 0.15f
+        groupSpace = 0.40f
+
+        var xAxisValues = ArrayList<String>()
+        xAxisValues.add("Mon")
+        xAxisValues.add("Tue")
+        xAxisValues.add("Wed")
+        xAxisValues.add("Thur")
+        xAxisValues.add("Fri")
+        xAxisValues.add("Sat")
+        xAxisValues.add("Sun")
+
+        var yValueGroup1 = ArrayList<BarEntry>()
+        var yValueGroup2 = ArrayList<BarEntry>()
+
+        // draw the graph
+        var barDataSet1: BarDataSet
+        var barDataSet2: BarDataSet
+
+
+        yValueGroup1.add(BarEntry(1f, 9f))
+        yValueGroup2.add(BarEntry(1f, 10f))
+
+        yValueGroup1.add(BarEntry(2f, 7f))
+        yValueGroup2.add(BarEntry(2f, 3f))
+
+        yValueGroup1.add(BarEntry(3f, 9f))
+        yValueGroup2.add(BarEntry(3f, 14f))
+
+        yValueGroup1.add(BarEntry(4f, 11f))
+        yValueGroup2.add(BarEntry(4f, 3f))
+
+
+        yValueGroup1.add(BarEntry(5f, 9f))
+        yValueGroup2.add(BarEntry(5f, 10f))
+
+
+        yValueGroup1.add(BarEntry(6f, 7f))
+        yValueGroup2.add(BarEntry(7f, 3f))
+
+        yValueGroup1.add(BarEntry(7f, 9f))
+        yValueGroup2.add(BarEntry(7f, 14f))
+
+        barDataSet1 = BarDataSet(yValueGroup1, "")
+        barDataSet1.setColors(Color.BLUE)
+        barDataSet1.label = "Impressions"
+        barDataSet1.setDrawIcons(false)
+        barDataSet1.setDrawValues(true)
+
+
+
+        barDataSet2 = BarDataSet(yValueGroup2, "")
+        barDataSet2.label = "Clicks"
+        barDataSet2.setColors(Color.GREEN)
+        barDataSet2.setDrawIcons(false)
+        barDataSet2.setDrawValues(true)
+
+        var barData = BarData(barDataSet1, barDataSet2)
+        barData.barWidth = 2f
+        barChartView.description.isEnabled = true
+        barChartView.description.textSize = 0f
+        barData.setValueFormatter(LargeValueFormatter())
+        barChartView.data = barData
+        barChartView.barData.barWidth = barWidth
+        barChartView.xAxis.axisMinimum = 0f
+        barChartView.xAxis.axisMaximum = 2f
+        barChartView.groupBars(0.4f, groupSpace, barSpace)
+        barChartView.setFitBars(true)
+        barChartView.data.isHighlightEnabled = true
+        barChartView.invalidate()
+        barChartView.animateXY(2000, 2000);
+        barChartView.isDoubleTapToZoomEnabled = false
+
+
+        // set bar label
+        var legend = barChartView.legend
+        legend.verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
+        legend.horizontalAlignment = Legend.LegendHorizontalAlignment.RIGHT
+        legend.orientation = Legend.LegendOrientation.HORIZONTAL
+        legend.setDrawInside(false)
+
+        var legenedEntries = arrayListOf<LegendEntry>()
+
+        legenedEntries.add(
+            LegendEntry(
+                "Impressions",
+                Legend.LegendForm.SQUARE,
+                10f,
+                10f,
+                null,
+                Color.BLUE
+            )
+        )
+        legenedEntries.add(
+            LegendEntry(
+                "Clicks",
+                Legend.LegendForm.SQUARE,
+                10f,
+                10f,
+                null,
+                Color.GREEN
+            )
+        )
+
+        legend.setCustom(legenedEntries)
+        legend.yOffset = 1f
+        legend.xOffset = 2f
+        legend.yEntrySpace = 10f
+        legend.textSize = 12f
+
+        val xAxis = barChartView.xAxis
+        xAxis.granularity = 0f
+        xAxis.isGranularityEnabled = true
+        xAxis.setCenterAxisLabels(true)
+        xAxis.setDrawGridLines(true)
+        xAxis.textSize = 7f
+        xAxis.position = XAxis.XAxisPosition.BOTTOM
+        xAxis.valueFormatter = IndexAxisValueFormatter(xAxisValues)
+        xAxis.labelCount = 7
+        xAxis.mAxisMaximum = 7f
+        xAxis.setCenterAxisLabels(true)
+        xAxis.setAvoidFirstLastClipping(true)
+        xAxis.spaceMin = 0f
+        xAxis.spaceMax = 2f
+
+        barChartView.setVisibleXRangeMaximum(7f)
+        barChartView.setVisibleXRangeMinimum(7f)
+        barChartView.isDragEnabled = true
+
+        //Y-axis
+        barChartView.axisRight.isEnabled = false
+        barChartView.setScaleEnabled(true)
+
+        val leftAxis = barChartView.axisLeft
+        leftAxis.valueFormatter = LargeValueFormatter()
+        leftAxis.setDrawGridLines(false)
+        leftAxis.spaceTop = 1f
+        leftAxis.axisMinimum = 0f
+
+
+        barChartView.data = barData
+        barChartView.setVisibleXRange(1f, 12f)
+    }
 }
