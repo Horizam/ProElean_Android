@@ -369,5 +369,13 @@
         android:id="@+id/orderFragment"
         android:name="com.horizam.pro.elean.ui.main.view.fragments.OrderFragment"
         android:label="OrderFragment" />
+    <fragment
+        android:id="@+id/ordersFragment"
+        android:name="com.horizam.pro.elean.ui.main.view.fragments.manageOrders.OrdersFragment"
+        android:label="OrdersFragment" />
+    <fragment
+        android:id="@+id/salesFragment"
+        android:name="com.horizam.pro.elean.ui.main.view.fragments.manageSales.SalesFragment"
+        android:label="SalesFragment" />
 
 </navigation>

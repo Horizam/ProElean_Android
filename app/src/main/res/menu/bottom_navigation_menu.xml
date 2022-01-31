@@ -24,7 +24,7 @@
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/orderFragment"
+        android:id="@+id/ordersFragment"
         android:enabled="true"
         android:icon="@drawable/img_order"
         android:title="Order"

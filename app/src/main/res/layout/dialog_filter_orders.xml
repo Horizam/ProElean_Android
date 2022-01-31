@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="@dimen/_250sdp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:background="@color/colorWhite"
+    app:cardCornerRadius="@dimen/_7sdp"
+    app:strokeColor="@color/colorAccent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/_16sdp">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/str_filter"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/_14ssp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:id="@+id/llFilterPostRequest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvTitle"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="@dimen/_7sdp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_7sdp"
+                android:text="@string/str_all"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/_10ssp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_7sdp"
+                android:text="@string/str_active"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/_10ssp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_7sdp"
+                android:text="@string/str_delivered"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/_10ssp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_7sdp"
+                android:text="@string/str_revision"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/_10ssp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_7sdp"
+                android:text="@string/str_completed"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/_10ssp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_7sdp"
+                android:text="@string/str_disputed"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/_10ssp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_7sdp"
+                android:text="@string/str_late"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/_10ssp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_7sdp"
+                android:text="@string/str_cancel"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/_10ssp" />
+
+        </LinearLayout>
+
+        <RadioGroup
+            android:id="@+id/rgPostJobFilter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvTitle"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="@dimen/_7sdp"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/rbAll"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_margin="@dimen/_3sdp"
+                android:text="@string/str_all"
+                android:textColor="@color/colorWhite" />
+
+            <RadioButton
+                android:id="@+id/rbActive"
+                android:layout_width="@dimen/_22sdp"
+                android:layout_height="@dimen/_22sdp"
+                android:layout_margin="@dimen/_3sdp"
+                android:text="@string/str_active"
+                android:textColor="@color/colorWhite" />
+
+            <RadioButton
+                android:id="@+id/rbDelivered"
+                android:layout_width="@dimen/_22sdp"
+                android:layout_height="@dimen/_22sdp"
+                android:layout_margin="@dimen/_3sdp"
+                android:text="@string/str_delivered"
+                android:textColor="@color/colorWhite" />
+
+            <RadioButton
+                android:id="@+id/rbRevision"
+                android:layout_width="@dimen/_22sdp"
+                android:layout_height="@dimen/_22sdp"
+                android:layout_margin="@dimen/_3sdp"
+                android:text="@string/str_revision"
+                android:textColor="@color/colorWhite" />
+
+            <RadioButton
+                android:id="@+id/rbCompleted"
+                android:layout_width="@dimen/_22sdp"
+                android:layout_height="@dimen/_22sdp"
+                android:layout_margin="@dimen/_3sdp"
+                android:text="@string/str_completed"
+                android:textColor="@color/colorWhite" />
+
+            <RadioButton
+                android:id="@+id/rbDisputed"
+                android:layout_width="@dimen/_22sdp"
+                android:layout_height="@dimen/_22sdp"
+                android:layout_margin="@dimen/_3sdp"
+                android:text="@string/str_disputed"
+                android:textColor="@color/colorWhite" />
+
+            <RadioButton
+                android:id="@+id/rbLate"
+                android:layout_width="@dimen/_22sdp"
+                android:layout_height="@dimen/_22sdp"
+                android:layout_margin="@dimen/_3sdp"
+                android:text="@string/str_late"
+                android:textColor="@color/colorWhite" />
+
+            <RadioButton
+                android:id="@+id/rbCancel"
+                android:layout_width="@dimen/_22sdp"
+                android:layout_height="@dimen/_22sdp"
+                android:layout_margin="@dimen/_3sdp"
+                android:text="@string/str_cancel"
+                android:textColor="@color/colorWhite" />
+        </RadioGroup>
+
+
+    </RelativeLayout>
+</com.google.android.material.card.MaterialCardView>

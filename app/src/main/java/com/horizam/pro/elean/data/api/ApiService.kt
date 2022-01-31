@@ -200,7 +200,7 @@ interface ApiService {
     suspend fun deletePostedJob(@Path("id") id: String): GeneralResponse
 
     @GET("buyer/orders")
-    suspend fun getBuyerOrders(@Query("status") status: Int): OrdersResponse
+    suspend fun getBuyerOrders(@Query("status") status: String): OrdersResponse
 
     @GET("seller_earning")
     suspend fun getEarnings(): EarningsResponse

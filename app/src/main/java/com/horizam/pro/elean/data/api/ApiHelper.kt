@@ -33,7 +33,7 @@ class ApiHelper(private val apiService: ApiService) {
     suspend fun getFreelancerProfile(id: String) = apiService.getFreelancerProfile(id)
     suspend fun getSpinnerSubcategories(id: String) = apiService.getSpinnerSubcategories(id)
     suspend fun deletePostedJob(id: String) = apiService.deletePostedJob(id)
-    suspend fun getBuyerOrders(id: Int) = apiService.getBuyerOrders(id)
+    suspend fun getBuyerOrders(id: String) = apiService.getBuyerOrders(id)
     suspend fun getSellersOrders(id: Int) = apiService.getSellersOrders(id)
     suspend fun deleteJobOffer(id: Int) = apiService.deleteJobOffer(id)
     suspend fun deleteUserService(id: String) = apiService.deleteUserService(id)

@@ -2,6 +2,7 @@ package com.horizam.pro.elean
 
 class BuyerOrders {
     companion object {
+        const val all: Int = 0
         const val Active: Int = 1
         const val Delivered: Int = 2
         const val Revision: Int = 3

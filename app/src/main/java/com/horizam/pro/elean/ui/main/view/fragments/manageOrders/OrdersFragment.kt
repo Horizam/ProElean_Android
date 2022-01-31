@@ -1,6 +1,7 @@
-package com.horizam.pro.elean.ui.main.view.fragments.manageSales
+package com.horizam.pro.elean.ui.main.view.fragments.manageOrders
 
 import android.app.Activity
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -8,6 +9,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RadioButton
+import android.widget.RadioGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProviders
@@ -17,29 +20,33 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.gson.Gson
 import com.horizam.pro.elean.BuyerOrders
 import com.horizam.pro.elean.Constants
-import com.horizam.pro.elean.SellerOrders
+import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
 import com.horizam.pro.elean.data.model.response.Order
 import com.horizam.pro.elean.data.model.response.OrdersResponse
-import com.horizam.pro.elean.databinding.FragmentOrdersGenericBinding
+import com.horizam.pro.elean.databinding.DialogFilterOrdersBinding
+import com.horizam.pro.elean.databinding.FragmentOrdersBinding
 import com.horizam.pro.elean.ui.base.ViewModelFactory
-import com.horizam.pro.elean.ui.main.adapter.DeliveredSalesAdapter
+import com.horizam.pro.elean.ui.main.adapter.ActiveOrdersAdapter
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
 import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
 import com.horizam.pro.elean.ui.main.view.activities.OrderDetailsActivity
-import com.horizam.pro.elean.ui.main.viewmodel.SellerOrdersViewModel
+import com.horizam.pro.elean.ui.main.viewmodel.BuyersOrdersViewModel
+import com.horizam.pro.elean.utils.PrefManager
 import com.horizam.pro.elean.utils.Status
 import java.lang.Exception
 
-class DeliveredSalesFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
-
-    private lateinit var binding: FragmentOrdersGenericBinding
-    private lateinit var adapter: DeliveredSalesAdapter
+class OrdersFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
+    private lateinit var binding: FragmentOrdersBinding
+    private lateinit var adapter: ActiveOrdersAdapter
     private lateinit var recyclerView: RecyclerView
-    private lateinit var viewModel: SellerOrdersViewModel
+    private lateinit var viewModel: BuyersOrdersViewModel
     private lateinit var genericHandler: GenericHandler
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
+    private lateinit var prefManager: PrefManager
+    private lateinit var dialogFilterJobs: Dialog
+    private lateinit var bindingDialog: DialogFilterOrdersBinding
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -49,8 +56,9 @@ class DeliveredSalesFragment : Fragment(), OnItemClickListener, SwipeRefreshLayo
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentOrdersGenericBinding.inflate(layoutInflater, container, false)
+    ): View? {
+        // Inflate the layout for this fragment
+        binding = FragmentOrdersBinding.inflate(layoutInflater, container, false)
         initViews()
         setupViewModel()
         setupObservers()
@@ -65,14 +73,22 @@ class DeliveredSalesFragment : Fragment(), OnItemClickListener, SwipeRefreshLayo
     }
 
     private fun exeApi() {
-        viewModel.getSellerOrdersCall(BuyerOrders.Delivered)
+        viewModel.getBuyerOrdersCall(BuyerOrders.all)
     }
 
     private fun initViews() {
-        adapter = DeliveredSalesAdapter(this)
+        adapter = ActiveOrdersAdapter(this)
         recyclerView = binding.rvOrders
         swipeRefreshLayout = binding.swipeRefresh
         swipeRefreshLayout.setOnRefreshListener(this)
+        initFilterDialog()
+        prefManager = PrefManager(requireActivity())
+    }
+
+    private fun initFilterDialog() {
+        dialogFilterJobs = Dialog(requireContext())
+        bindingDialog = DialogFilterOrdersBinding.inflate(layoutInflater)
+        dialogFilterJobs.setContentView(bindingDialog.root)
     }
 
     private fun setRecyclerView() {
@@ -83,7 +99,42 @@ class DeliveredSalesFragment : Fragment(), OnItemClickListener, SwipeRefreshLayo
     private fun setOnClickListeners() {
         binding.apply {
             btnRetry.setOnClickListener {
-                viewModel.getSellerOrdersCall(BuyerOrders.Delivered)
+                viewModel.getBuyerOrdersCall(BuyerOrders.Active)
+            }
+            tvUserMode.setOnClickListener {
+                dialogFilterJobs.show()
+            }
+        }
+        bindingDialog.rgPostJobFilter.setOnCheckedChangeListener(filterServices)
+    }
+
+    private val filterServices = RadioGroup.OnCheckedChangeListener { radioGroup, checkedId ->
+        dialogFilterJobs.dismiss()
+        val radioButton = radioGroup.findViewById<RadioButton>(checkedId)
+        when(radioButton.text){
+            getString(R.string.str_all) ->{
+                viewModel.getBuyerOrdersCall(BuyerOrders.all)
+            }
+            getString(R.string.str_active) ->{
+                viewModel.getBuyerOrdersCall(BuyerOrders.Active)
+            }
+            getString(R.string.str_delivered) ->{
+                viewModel.getBuyerOrdersCall(BuyerOrders.Delivered)
+            }
+            getString(R.string.str_revision) ->{
+                viewModel.getBuyerOrdersCall(BuyerOrders.Revision)
+            }
+            getString(R.string.str_completed) ->{
+                viewModel.getBuyerOrdersCall(BuyerOrders.Completed)
+            }
+            getString(R.string.str_disputed) ->{
+                viewModel.getBuyerOrdersCall(BuyerOrders.Disputed)
+            }
+            getString(R.string.str_late) ->{
+                viewModel.getBuyerOrdersCall(BuyerOrders.Late)
+            }
+            getString(R.string.str_cancel) ->{
+                viewModel.getBuyerOrdersCall(BuyerOrders.Cancel)
             }
         }
     }
@@ -92,11 +143,11 @@ class DeliveredSalesFragment : Fragment(), OnItemClickListener, SwipeRefreshLayo
         viewModel = ViewModelProviders.of(
             this,
             ViewModelFactory(ApiHelper(RetrofitBuilder.apiService))
-        ).get(SellerOrdersViewModel::class.java)
+        ).get(BuyersOrdersViewModel::class.java)
     }
 
     private fun setupObservers() {
-        viewModel.sellerOrders.observe(viewLifecycleOwner, {
+        viewModel.buyerOrders.observe(viewLifecycleOwner, {
             it?.let { resource ->
                 when (resource.status) {
                     Status.SUCCESS -> {
@@ -144,18 +195,23 @@ class DeliveredSalesFragment : Fragment(), OnItemClickListener, SwipeRefreshLayo
             Intent(requireContext(), OrderDetailsActivity::class.java).also {
                 val gson = Gson()
                 it.putExtra(Constants.ORDER, gson.toJson(item))
-                it.putExtra(Constants.ORDER_USER_ROLE, Constants.SELLER_USER)
-                it.putExtra(Constants.ORDER_USER_ACTION, SellerOrders.Delivered)
+                if (prefManager.sellerMode == 0) {
+                    it.putExtra(Constants.ORDER_USER_ROLE, Constants.BUYER_USER)
+                } else {
+                    it.putExtra(Constants.ORDER_USER_ROLE, Constants.SELLER_USER)
+                }
+                it.putExtra(Constants.ORDER_USER_ACTION, item.status_id)
                 resultLauncher.launch(it)
             }
         }
     }
 
-    private val resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            exeApi()
+    private val resultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                exeApi()
+            }
         }
-    }
 
     override fun onRefresh() {
         if (swipeRefreshLayout.isRefreshing) {

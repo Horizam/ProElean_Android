@@ -8,8 +8,10 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.horizam.pro.elean.BuyerOrders
 import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
+import com.horizam.pro.elean.SellerOrders
 import com.horizam.pro.elean.data.model.User
 import com.horizam.pro.elean.data.model.response.Order
 import com.horizam.pro.elean.databinding.ItemActiveOrderBinding
@@ -51,11 +53,33 @@ class ActiveSalesAdapter(val listener: OnItemClickListener) :
                 tvDate.text = BaseUtils.utcToLocal(order.created_at)
                 tvDescription.text = order.description
                 tvPrice.text = order.amount.toString().plus(order.currency)
-                tvStatus.text = itemView.context.getString(R.string.str_active)
                 Glide.with(itemView)
                     .load(Constants.BASE_URL.plus(order.image))
                     .error(R.drawable.bg_splash)
                     .into(ivUser)
+                when (order.status_id) {
+                    SellerOrders.Active -> {
+                        tvStatus.text = itemView.context.getString(R.string.str_active)
+                    }
+                    SellerOrders.Delivered -> {
+                        tvStatus.text = itemView.context.getString(R.string.str_delivered)
+                    }
+                    SellerOrders.Revision -> {
+                        tvStatus.text = itemView.context.getString(R.string.str_revision)
+                    }
+                    SellerOrders.Completed -> {
+                        tvStatus.text = itemView.context.getString(R.string.str_completed)
+                    }
+                    SellerOrders.Disputed -> {
+                        tvStatus.text = itemView.context.getString(R.string.str_disputed)
+                    }
+                    SellerOrders.Late -> {
+                        tvStatus.text = itemView.context.getString(R.string.str_late)
+                    }
+                    SellerOrders.Cancel -> {
+                        tvStatus.text = itemView.context.getString(R.string.str_cancel)
+                    }
+                }
             }
         }
     }
