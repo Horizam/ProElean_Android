@@ -27,6 +27,7 @@ class MainRepository(private val apiHelper: ApiHelper) {
     suspend fun orderTimeline(request: OrderTimelineRequest) = apiHelper.orderTimeline(request)
     suspend fun storeUserInfo(request: StoreUserInfoRequest) = apiHelper.storeUserInfo(request)
     suspend fun addRemoveWishlist(request: FavouriteRequest) = apiHelper.addRemoveWishlist(request)
+    suspend fun addClicksGigsRequest(request: String) = apiHelper.addClicksGigsRequest(request)
     suspend fun logout() = apiHelper.logout()
     suspend fun getHomeData() = apiHelper.getHomeData()
     suspend fun getManageServices(status: String) = apiHelper.getManageServices(status)

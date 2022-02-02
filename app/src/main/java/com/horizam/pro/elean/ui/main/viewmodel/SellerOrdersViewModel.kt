@@ -19,10 +19,12 @@ class SellerOrdersViewModel(
     private val orderTimelineRequest = MutableLiveData<OrderTimelineRequest>()
     private val ratingOrderRequest = MutableLiveData<RatingOrderRequest>()
     private val orderByIdRequest = MutableLiveData<Int>()
+
     //we used seller hashmap when we send different value that required due to backend issues
-    private val sellerHashMap = MutableLiveData<HashMap<String,Any>>()
+    private val sellerHashMap = MutableLiveData<HashMap<String, Any>>()
+
     //we used seller hashmap when we send different value that required due to backend issues
-    private val buyerHashMap = MutableLiveData<HashMap<String,Any>>()
+    private val buyerHashMap = MutableLiveData<HashMap<String, Any>>()
 
     val sellerOrders = sellerOrdersRequest.switchMap {
         liveData(Dispatchers.IO) {
@@ -112,11 +114,11 @@ class SellerOrdersViewModel(
         sellerOrdersRequest.value = id
     }
 
-    fun sellerActionsCall(hashMap: HashMap<String , Any>) {
+    fun sellerActionsCall(hashMap: HashMap<String, Any>) {
         sellerHashMap.value = hashMap
     }
 
-    fun buyerActionsCall(hashMap: HashMap<String , Any>) {
+    fun buyerActionsCall(hashMap: HashMap<String, Any>) {
         buyerHashMap.value = hashMap
     }
 
@@ -128,11 +130,11 @@ class SellerOrdersViewModel(
         orderTimelineRequest.value = request
     }
 
-    fun ratingOrderCall(request: RatingOrderRequest){
+    fun ratingOrderCall(request: RatingOrderRequest) {
         ratingOrderRequest.value = request
     }
 
-    fun getOrderById(request: Int){
+    fun getOrderById(request: Int) {
         orderByIdRequest.value = request
     }
 }

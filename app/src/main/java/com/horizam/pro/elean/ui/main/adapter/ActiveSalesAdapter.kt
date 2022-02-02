@@ -1,26 +1,27 @@
 package com.horizam.pro.elean.ui.main.adapter
 
-import android.content.Intent
+import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.horizam.pro.elean.BuyerOrders
 import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.SellerOrders
-import com.horizam.pro.elean.data.model.User
 import com.horizam.pro.elean.data.model.response.Order
 import com.horizam.pro.elean.databinding.ItemActiveOrderBinding
 import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
-import com.horizam.pro.elean.ui.main.view.activities.OrderDetailsActivity
+import com.horizam.pro.elean.ui.main.view.fragments.manageSales.SalesFragment
 import com.horizam.pro.elean.utils.BaseUtils
 
 class ActiveSalesAdapter(val listener: OnItemClickListener) :
     ListAdapter<Order, ActiveSalesAdapter.DataViewHolder>(COMPARATOR) {
+
+    private var context = listener as SalesFragment
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder {
         val binding =
@@ -60,24 +61,108 @@ class ActiveSalesAdapter(val listener: OnItemClickListener) :
                 when (order.status_id) {
                     SellerOrders.Active -> {
                         tvStatus.text = itemView.context.getString(R.string.str_active)
+                        tvStatus.setTextColor(
+                            ContextCompat.getColor(
+                                context.requireContext(),
+                                R.color.colorWhite
+                            )
+                        )
+                        cardView.setCardBackgroundColor(
+                            ContextCompat.getColor(
+                                context.requireContext(),
+                                R.color.colorThree
+                            )
+                        )
                     }
                     SellerOrders.Delivered -> {
                         tvStatus.text = itemView.context.getString(R.string.str_delivered)
+                        tvStatus.setTextColor(
+                            ContextCompat.getColor(
+                                context.requireContext(),
+                                R.color.colorWhite
+                            )
+                        )
+                        cardView.setCardBackgroundColor(
+                            ContextCompat.getColor(
+                                context.requireContext(),
+                                R.color.colorThree
+                            )
+                        )
                     }
                     SellerOrders.Revision -> {
                         tvStatus.text = itemView.context.getString(R.string.str_revision)
+                        tvStatus.setTextColor(
+                            ContextCompat.getColor(
+                                context.requireContext(),
+                                R.color.colorWhite
+                            )
+                        )
+                        cardView.setCardBackgroundColor(
+                            ContextCompat.getColor(
+                                context.requireContext(),
+                                R.color.colorThree
+                            )
+                        )
                     }
                     SellerOrders.Completed -> {
                         tvStatus.text = itemView.context.getString(R.string.str_completed)
+                        tvStatus.setTextColor(
+                            ContextCompat.getColor(
+                                context.requireContext(),
+                                R.color.colorWhite
+                            )
+                        )
+                        cardView.setCardBackgroundColor(
+                            ContextCompat.getColor(
+                                context.requireContext(),
+                                R.color.color_green
+                            )
+                        )
                     }
                     SellerOrders.Disputed -> {
                         tvStatus.text = itemView.context.getString(R.string.str_disputed)
+                        tvStatus.setTextColor(
+                            ContextCompat.getColor(
+                                context.requireContext(),
+                                R.color.colorWhite
+                            )
+                        )
+                        cardView.setCardBackgroundColor(
+                            ContextCompat.getColor(
+                                context.requireContext(),
+                                R.color.colorOrange
+                            )
+                        )
                     }
                     SellerOrders.Late -> {
                         tvStatus.text = itemView.context.getString(R.string.str_late)
+                        tvStatus.setTextColor(
+                            ContextCompat.getColor(
+                                context.requireContext(),
+                                R.color.colorWhite
+                            )
+                        )
+                        cardView.setCardBackgroundColor(
+                            ContextCompat.getColor(
+                                context.requireContext(),
+                                R.color.colorThree
+                            )
+                        )
                     }
                     SellerOrders.Cancel -> {
                         tvStatus.text = itemView.context.getString(R.string.str_cancel)
+                        tvStatus.setTextColor(
+                            ContextCompat.getColor(
+                                context.requireContext(),
+                                R.color.colorWhite
+                            )
+                        )
+                        cardView.setCardBackgroundColor(
+                            ContextCompat.getColor(
+                                context.requireContext(),
+                                R.color.color_red
+                            )
+                        )
                     }
                 }
             }

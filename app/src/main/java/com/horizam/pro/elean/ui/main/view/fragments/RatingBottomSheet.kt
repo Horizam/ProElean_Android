@@ -35,6 +35,7 @@ class RatingBottomSheet(var ratingHandler: RatingHandler , var genericHandler: G
             }else if(rating <= 0.0){
                 genericHandler.showErrorMessage("please rate your experience")
             }else{
+                dismiss()
                 ratingHandler.getRatingData(rating , description)
             }
         }

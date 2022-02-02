@@ -17,6 +17,7 @@ class ServiceGigsViewModel(
     private val currentSubCategory = MutableLiveData<String>()
     private val searchGigsRequest = MutableLiveData<SearchGigsRequest>()
     private val addToWishlistRequest = MutableLiveData<FavouriteRequest>()
+    private val addClicksGigsRequest = MutableLiveData<String>()
 
     val sellers = currentSubCategory.switchMap { subcategory ->
         mainRepository.getServicesBySubCategories(subcategory).cachedIn(viewModelScope)
@@ -43,6 +44,18 @@ class ServiceGigsViewModel(
         }
     }
 
+    val clickGigs = addClicksGigsRequest.switchMap {
+        liveData(Dispatchers.IO) {
+            emit(Resource.loading(data = null))
+            try {
+                emit(Resource.success(data = mainRepository.addClicksGigsRequest(it)))
+            } catch (exception: Exception) {
+                val errorMessage = BaseUtils.getError(exception)
+                emit(Resource.error(data = null, message = errorMessage))
+            }
+        }
+    }
+
     fun getServicesBySubCategories(subcategory: String) {
         currentSubCategory.value = subcategory
     }
@@ -52,6 +65,10 @@ class ServiceGigsViewModel(
 
     fun addToWishlistCall(request: FavouriteRequest) {
         addToWishlistRequest.value = request
+    }
+
+    fun addClickGigs(request: String){
+        addClicksGigsRequest.value = request
     }
 
 }

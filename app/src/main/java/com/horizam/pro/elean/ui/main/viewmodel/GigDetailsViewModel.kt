@@ -15,6 +15,7 @@ class GigDetailsViewModel(private val mainRepository: MainRepository) : ViewMode
 
     private val gigDetailsRequest = MutableLiveData<String>()
     private val customOrderRequest = MutableLiveData<CustomOrderRequest>()
+    private val addClicksGigsRequest = MutableLiveData<String>()
 
     val gigDetails = gigDetailsRequest.switchMap {
         liveData(Dispatchers.IO) {
@@ -40,12 +41,28 @@ class GigDetailsViewModel(private val mainRepository: MainRepository) : ViewMode
         }
     }
 
+    val clickGigs = addClicksGigsRequest.switchMap {
+        liveData(Dispatchers.IO) {
+            emit(Resource.loading(data = null))
+            try {
+                emit(Resource.success(data = mainRepository.addClicksGigsRequest(it)))
+            } catch (exception: Exception) {
+                val errorMessage = BaseUtils.getError(exception)
+                emit(Resource.error(data = null, message = errorMessage))
+            }
+        }
+    }
+
     fun gigDetailsCall(request: String) {
         gigDetailsRequest.value = request
     }
 
     fun customOrderCall(request: CustomOrderRequest) {
         customOrderRequest.value = request
+    }
+
+    fun addClickGigs(request: String){
+        addClicksGigsRequest.value = request
     }
 
 }

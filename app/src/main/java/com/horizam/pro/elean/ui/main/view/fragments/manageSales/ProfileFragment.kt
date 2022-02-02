@@ -43,9 +43,9 @@ class ProfileFragment : Fragment() {
     private fun initViews() {
         binding.ivToolbar.visibility = View.INVISIBLE
         prefManager = PrefManager(requireContext())
-        if (prefManager.isFreelancer == 0) {
+        if (prefManager.sellerMode == 0) {
             listFragmentTitles = arrayListOf("About", "Reviews")
-        } else if (prefManager.isFreelancer == 1) {
+        } else if (prefManager.sellerMode == 1) {
             listFragmentTitles = arrayListOf("About", "Services", "Reviews")
         }
         viewPagerFragmentAdapter = ViewPagerFragmentAdapter(this, listFragmentTitles, prefManager)

@@ -19,13 +19,13 @@ internal class ViewPagerFragmentAdapter(
     private val prefManager = prefManager
 
     override fun createFragment(position: Int): Fragment {
-        if(prefManager.isFreelancer == 1){
+        if(prefManager.sellerMode == 1){
             when (position) {
                 0 -> return AboutUserFragment()
                 1 -> return GigsUserFragment()
                 2 -> return ReviewsUserFragment()
             }
-        }else if(prefManager.isFreelancer == 0){
+        }else if(prefManager.sellerMode == 0){
             when (position) {
                 0 -> return AboutUserFragment()
                 1 -> return ReviewsUserFragment()

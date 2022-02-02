@@ -176,6 +176,10 @@ interface ApiService {
     suspend fun addRemoveWishlist(@Body request: FavouriteRequest): GeneralResponse
 
     @FormUrlEncoded
+    @POST("serviceclicks")
+    suspend fun addClicksGigsRequest(@Field("service_id") request: String): GeneralResponse
+
+    @FormUrlEncoded
     @POST("seller/manage_order")
     suspend fun sellerActions(
         @FieldMap sellerHashMap: HashMap<String, Any>

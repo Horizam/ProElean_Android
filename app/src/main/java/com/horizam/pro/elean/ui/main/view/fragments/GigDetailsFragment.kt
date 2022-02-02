@@ -81,6 +81,7 @@ class GigDetailsFragment : Fragment(), OnItemClickListener,
     private fun executeApi() {
         val gson = Gson()
         val serviceDetail = gson.fromJson(args.serviceDetail, ServiceDetail::class.java)
+        viewModel.addClickGigs(serviceDetail.id)
         setData(serviceDetail)
     }
 
@@ -190,6 +191,29 @@ class GigDetailsFragment : Fragment(), OnItemClickListener,
                         genericHandler.showProgressBar(false)
                         resource.data?.let { response ->
 //                            handleResponse(response)
+                            changeViewVisibility(textView = false, button = false, layout = true)
+                        }
+                    }
+                    Status.ERROR -> {
+                        genericHandler.showProgressBar(false)
+                        genericHandler.showErrorMessage(it.message.toString())
+                        changeViewVisibility(textView = true, button = true, layout = false)
+                    }
+                    Status.LOADING -> {
+                        genericHandler.showProgressBar(true)
+                        changeViewVisibility(textView = false, button = false, layout = false)
+                    }
+                }
+            }
+        })
+
+        viewModel.clickGigs.observe(viewLifecycleOwner, {
+            it?.let { resource ->
+                when (resource.status) {
+                    Status.SUCCESS -> {
+                        genericHandler.showProgressBar(false)
+                        resource.data?.let { response ->
+                            genericHandler.showSuccessMessage(response.message.toString())
                             changeViewVisibility(textView = false, button = false, layout = true)
                         }
                     }

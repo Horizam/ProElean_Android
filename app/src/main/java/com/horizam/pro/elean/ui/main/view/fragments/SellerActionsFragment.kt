@@ -49,6 +49,7 @@ import android.R.attr.data
 import android.widget.TextView
 import com.github.mikephil.charting.components.*
 import com.github.mikephil.charting.formatter.LargeValueFormatter
+import java.lang.reflect.Array
 
 
 class SellerActionsFragment : Fragment(), OnItemClickListener {
@@ -288,32 +289,112 @@ class SellerActionsFragment : Fragment(), OnItemClickListener {
     fun populateGraphData() {
 
         var barChartView = binding.chart
+        barChartView.setExtraOffsets(5f, 5f, 5f, 15f)
         barChartView.isDragEnabled = true
-
         val barWidth: Float
         val barSpace: Float
         val groupSpace: Float
-
         barWidth = 0.45f
         barSpace = 0.15f
-        groupSpace = 0.40f
+        groupSpace = 0.80f
 
-        var xAxisValues = ArrayList<String>()
-        xAxisValues.add("Mon")
-        xAxisValues.add("Tue")
-        xAxisValues.add("Wed")
-        xAxisValues.add("Thur")
-        xAxisValues.add("Fri")
-        xAxisValues.add("Sat")
-        xAxisValues.add("Sun")
+        //get graph value
+        var (barDataSet1: BarDataSet, barDataSet2: BarDataSet) = getBarGraphValue()
+        var barData = BarData(barDataSet1, barDataSet2)
 
+        barData.barWidth = 1.5f
+        barChartView.description.isEnabled = false
+        barChartView.description.textSize = 0f
+        barData.setValueFormatter(LargeValueFormatter())
+        barChartView.data = barData
+        barChartView.barData.barWidth = barWidth
+        barChartView.xAxis.axisMinimum = 0f
+        barChartView.xAxis.axisMaximum = 2f
+        barChartView.groupBars(0f, groupSpace, barSpace)
+        barChartView.setFitBars(true)
+        barChartView.data.isHighlightEnabled = true
+        barChartView.invalidate()
+        barChartView.animateXY(2000, 2000);
+        barChartView.isDoubleTapToZoomEnabled = false
+
+
+        // set bar label
+        var legend = barChartView.legend
+        legend.verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
+        legend.horizontalAlignment = Legend.LegendHorizontalAlignment.LEFT
+        legend.orientation = Legend.LegendOrientation.HORIZONTAL
+        legend.setDrawInside(false)
+
+        var legenedEntries = arrayListOf<LegendEntry>()
+
+        legenedEntries.add(
+            LegendEntry(
+                "Impressions=50 , ",
+                Legend.LegendForm.SQUARE,
+                10f,
+                10f,
+                null,
+                Color.BLUE
+            )
+        )
+        legenedEntries.add(
+            LegendEntry(
+                "Clicks=25",
+                Legend.LegendForm.SQUARE,
+                10f,
+                10f,
+                null,
+                Color.GREEN
+            )
+        )
+        legend.setCustom(legenedEntries)
+        legend.yOffset = 2f
+        legend.xOffset = 2f
+        legend.yEntrySpace = 10f
+        legend.textSize = 13f
+        legend.textColor = ActivityCompat.getColor(requireContext() , R.color.colorWhite)
+
+        val xAxis = barChartView.xAxis
+        xAxis.textColor = ActivityCompat.getColor(requireContext() , R.color.colorWhite)
+        xAxis.granularity = 0f
+        xAxis.isGranularityEnabled = true
+        xAxis.setCenterAxisLabels(true)
+        xAxis.setDrawGridLines(true)
+        xAxis.textSize = 10f
+        xAxis.position = XAxis.XAxisPosition.BOTTOM
+        xAxis.valueFormatter = IndexAxisValueFormatter(setXAxisValue())
+        xAxis.labelCount = 7
+        xAxis.mAxisMaximum = 14f
+        xAxis.setCenterAxisLabels(true)
+        xAxis.setAvoidFirstLastClipping(true)
+        xAxis.spaceMin = 0f
+        xAxis.spaceMax = 2f
+
+        barChartView.setVisibleXRangeMaximum(14f)
+        barChartView.setVisibleXRangeMinimum(1f)
+        barChartView.isDragEnabled = true
+
+        //Y-axis
+        barChartView.axisRight.isEnabled = false
+        barChartView.setScaleEnabled(true)
+
+        val leftAxis = barChartView.axisLeft
+        leftAxis.textColor = ActivityCompat.getColor(requireContext() , R.color.colorWhite)
+        leftAxis.valueFormatter = LargeValueFormatter()
+        leftAxis.setDrawGridLines(false)
+        leftAxis.spaceTop = 1f
+        leftAxis.axisMinimum = 0f
+
+        barChartView.data = barData
+        barChartView.setVisibleXRange(1f, 14f)
+    }
+
+    private fun getBarGraphValue(): Pair<BarDataSet, BarDataSet> {
         var yValueGroup1 = ArrayList<BarEntry>()
         var yValueGroup2 = ArrayList<BarEntry>()
-
         // draw the graph
         var barDataSet1: BarDataSet
         var barDataSet2: BarDataSet
-
 
         yValueGroup1.add(BarEntry(1f, 9f))
         yValueGroup2.add(BarEntry(1f, 10f))
@@ -327,10 +408,8 @@ class SellerActionsFragment : Fragment(), OnItemClickListener {
         yValueGroup1.add(BarEntry(4f, 11f))
         yValueGroup2.add(BarEntry(4f, 3f))
 
-
         yValueGroup1.add(BarEntry(5f, 9f))
         yValueGroup2.add(BarEntry(5f, 10f))
-
 
         yValueGroup1.add(BarEntry(6f, 7f))
         yValueGroup2.add(BarEntry(7f, 3f))
@@ -344,98 +423,31 @@ class SellerActionsFragment : Fragment(), OnItemClickListener {
         barDataSet1.setDrawIcons(false)
         barDataSet1.setDrawValues(true)
 
-
-
         barDataSet2 = BarDataSet(yValueGroup2, "")
         barDataSet2.label = "Clicks"
         barDataSet2.setColors(Color.GREEN)
         barDataSet2.setDrawIcons(false)
         barDataSet2.setDrawValues(true)
 
-        var barData = BarData(barDataSet1, barDataSet2)
-        barData.barWidth = 2f
-        barChartView.description.isEnabled = true
-        barChartView.description.textSize = 0f
-        barData.setValueFormatter(LargeValueFormatter())
-        barChartView.data = barData
-        barChartView.barData.barWidth = barWidth
-        barChartView.xAxis.axisMinimum = 0f
-        barChartView.xAxis.axisMaximum = 2f
-        barChartView.groupBars(0.4f, groupSpace, barSpace)
-        barChartView.setFitBars(true)
-        barChartView.data.isHighlightEnabled = true
-        barChartView.invalidate()
-        barChartView.animateXY(2000, 2000);
-        barChartView.isDoubleTapToZoomEnabled = false
+        return Pair(barDataSet1, barDataSet2)
+    }
 
-
-        // set bar label
-        var legend = barChartView.legend
-        legend.verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
-        legend.horizontalAlignment = Legend.LegendHorizontalAlignment.RIGHT
-        legend.orientation = Legend.LegendOrientation.HORIZONTAL
-        legend.setDrawInside(false)
-
-        var legenedEntries = arrayListOf<LegendEntry>()
-
-        legenedEntries.add(
-            LegendEntry(
-                "Impressions",
-                Legend.LegendForm.SQUARE,
-                10f,
-                10f,
-                null,
-                Color.BLUE
-            )
-        )
-        legenedEntries.add(
-            LegendEntry(
-                "Clicks",
-                Legend.LegendForm.SQUARE,
-                10f,
-                10f,
-                null,
-                Color.GREEN
-            )
-        )
-
-        legend.setCustom(legenedEntries)
-        legend.yOffset = 1f
-        legend.xOffset = 2f
-        legend.yEntrySpace = 10f
-        legend.textSize = 12f
-
-        val xAxis = barChartView.xAxis
-        xAxis.granularity = 0f
-        xAxis.isGranularityEnabled = true
-        xAxis.setCenterAxisLabels(true)
-        xAxis.setDrawGridLines(true)
-        xAxis.textSize = 7f
-        xAxis.position = XAxis.XAxisPosition.BOTTOM
-        xAxis.valueFormatter = IndexAxisValueFormatter(xAxisValues)
-        xAxis.labelCount = 7
-        xAxis.mAxisMaximum = 7f
-        xAxis.setCenterAxisLabels(true)
-        xAxis.setAvoidFirstLastClipping(true)
-        xAxis.spaceMin = 0f
-        xAxis.spaceMax = 2f
-
-        barChartView.setVisibleXRangeMaximum(7f)
-        barChartView.setVisibleXRangeMinimum(7f)
-        barChartView.isDragEnabled = true
-
-        //Y-axis
-        barChartView.axisRight.isEnabled = false
-        barChartView.setScaleEnabled(true)
-
-        val leftAxis = barChartView.axisLeft
-        leftAxis.valueFormatter = LargeValueFormatter()
-        leftAxis.setDrawGridLines(false)
-        leftAxis.spaceTop = 1f
-        leftAxis.axisMinimum = 0f
-
-
-        barChartView.data = barData
-        barChartView.setVisibleXRange(1f, 12f)
+    private fun setXAxisValue(): ArrayList<String> {
+        var xAxisValues = ArrayList<String>()
+        xAxisValues.add("Mon")
+        xAxisValues.add("Mon")
+        xAxisValues.add("Tue")
+        xAxisValues.add("Tue")
+        xAxisValues.add("Wed")
+        xAxisValues.add("Wed")
+        xAxisValues.add("Thur")
+        xAxisValues.add("Thur")
+        xAxisValues.add("Fri")
+        xAxisValues.add("Fri")
+        xAxisValues.add("Sat")
+        xAxisValues.add("Sat")
+        xAxisValues.add("Sun")
+        xAxisValues.add("Sun")
+        return xAxisValues
     }
 }

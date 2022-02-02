@@ -21,6 +21,7 @@ class ApiHelper(private val apiService: ApiService) {
     suspend fun orderTimeline(request: OrderTimelineRequest) = apiService.orderTimeline(request.order_no)
     suspend fun storeUserInfo(request: StoreUserInfoRequest) = apiService.storeUserInfo(request)
     suspend fun addRemoveWishlist(request: FavouriteRequest) = apiService.addRemoveWishlist(request)
+    suspend fun addClicksGigsRequest(request: String) = apiService.addClicksGigsRequest(request)
     suspend fun logout() = apiService.logout()
     suspend fun getHomeData() = apiService.getHomeData()
     suspend fun getCategoriesCountries() = apiService.getCategoriesCountries()
