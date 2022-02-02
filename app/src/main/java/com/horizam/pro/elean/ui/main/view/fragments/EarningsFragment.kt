@@ -1,11 +1,13 @@
 package com.horizam.pro.elean.ui.main.view.fragments
 
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.horizam.pro.elean.App
@@ -21,6 +23,11 @@ import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
 import com.horizam.pro.elean.ui.main.viewmodel.EarningsViewModel
 import com.horizam.pro.elean.utils.Status
 import java.lang.Exception
+import com.github.mikephil.charting.data.PieEntry
+import com.github.mikephil.charting.data.PieData
+
+import com.github.mikephil.charting.data.PieDataSet
+import com.horizam.pro.elean.utils.BaseUtils
 
 
 class EarningsFragment : Fragment() {
@@ -44,7 +51,44 @@ class EarningsFragment : Fragment() {
         setupViewModel()
         setupObservers()
         setOnClickListeners()
+        setPieChartGraph()
         return binding.root
+    }
+
+    private fun setPieChartGraph() {
+        val pieEntries: ArrayList<PieEntry> = ArrayList()
+        val label = "type"
+
+        //initializing data
+        val amountMap: HashMap<String, Int> = HashMap()
+        amountMap["Toys"] = 200
+        amountMap["Snacks"] = 100
+        amountMap["children"] = 100
+
+        val colors: ArrayList<Int> = ArrayList()
+        colors.add(ContextCompat.getColor(requireContext(), R.color.colorThree))
+        colors.add(ContextCompat.getColor(requireContext(), R.color.color_green))
+        colors.add(ContextCompat.getColor(requireContext(), R.color.colorGolden))
+
+        for (type in amountMap.keys) {
+            pieEntries.add(PieEntry(amountMap[type]!!.toFloat(), type))
+        }
+
+        //collecting the entries with label name
+        val pieDataSet = PieDataSet(pieEntries, label)
+        //setting text size of the value
+        pieDataSet.valueTextSize = 12f
+        //providing color list for coloring different entries
+        pieDataSet.colors = colors
+        //grouping the data set from entry to chart
+        val pieData = PieData(pieDataSet)
+        //showing the value of the entries, default true if not set
+        pieData.setDrawValues(true)
+
+        binding.chart.data = pieData
+        binding.chart.description.setEnabled(false);
+        binding.chart.invalidate()
+
     }
 
     private fun initViews() {
@@ -56,15 +100,14 @@ class EarningsFragment : Fragment() {
             toolbar.ivToolbar.setOnClickListener {
                 findNavController().popBackStack()
             }
-            cardViewPaypal.setOnClickListener {
-                findNavController().navigate(R.id.bankDetailsFragment)
-            }
-            cardViewPaystack.setOnClickListener {
-                findNavController().navigate(R.id.bankDetailsFragment)
-            }
-            cardViewPayoneer.setOnClickListener {
-                findNavController().navigate(R.id.bankDetailsFragment)
-            }
+        }
+
+        binding.btnWithdraw.setOnClickListener {
+            findNavController().navigate(
+                R.id.bankDetailsFragment,
+                null,
+                BaseUtils.animationOpenScreen()
+            )
         }
     }
 
@@ -111,10 +154,6 @@ class EarningsFragment : Fragment() {
     }
 
     private fun setUIData(sellerEarning: SellerEarning) {
-        binding.tvTotalEarnings.text = sellerEarning.totalEarning.toString().plus(Constants.CURRENCY)
-        binding.tvTotalCompletedOrders.text = sellerEarning.totalOrders.toString()
-        binding.tvAvgSelling.text = sellerEarning.avgEarning.toString().plus(Constants.CURRENCY)
-        binding.tvEarnedMonth.text = sellerEarning.lastMonthEarn.toString().plus(Constants.CURRENCY)
     }
 
 }

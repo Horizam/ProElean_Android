@@ -284,7 +284,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_10sdp"
-            android:text="Weekly Impressions and Clicks"
+            android:text="Weekly Analytics"
             android:textColor="@color/colorBlack"
             android:textSize="@dimen/_13ssp"
             android:textStyle="bold"
@@ -311,94 +311,15 @@
                 android:layout_height="match_parent"
                 android:background="@color/colorAccent">
 
-                <LinearLayout
-                    android:visibility="gone"
-                    android:id="@+id/ll_impression"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_20sdp"
-                    android:layout_marginTop="@dimen/_20sdp"
-                    android:orientation="vertical"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <TextView
-                        android:id="@+id/tv_impression_value"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_5sdp"
-                        android:text="0"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/_15ssp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/tv_impression"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Impressions"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/_11sdp" />
-                </LinearLayout>
-
-                <View
-                    android:id="@+id/view4"
-                    android:layout_width="0.5dp"
-                    android:layout_height="@dimen/_25sdp"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginEnd="25dp"
-                    android:visibility="gone"
-                    android:background="@color/colorWhite"
-                    app:layout_constraintEnd_toStartOf="@+id/ll_clicks"
-                    app:layout_constraintTop_toTopOf="@+id/ll_clicks" />
-
-                <LinearLayout
-                    android:id="@+id/ll_clicks"
-                    android:visibility="gone"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_150sdp"
-                    android:layout_marginTop="@dimen/_20sdp"
-                    android:layout_marginEnd="@dimen/_20sdp"
-                    android:orientation="vertical"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <TextView
-                        android:id="@+id/tv_clicks_value"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_5sdp"
-                        android:text="0"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/_15ssp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/tv_clicks"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Clicks"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/_11ssp" />
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_20sdp"
-                    app:layout_constraintTop_toBottomOf="@+id/ll_clicks"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
-
                 <com.github.mikephil.charting.charts.BarChart
                     android:id="@+id/chart"
                     android:layout_width="0dp"
-                    android:layout_margin="@dimen/_15sdp"
                     android:layout_height="@dimen/_200sdp"
-                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_margin="@dimen/_15sdp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -407,10 +328,9 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/_10sdp"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/card_impression"
-            />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/card_impression" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

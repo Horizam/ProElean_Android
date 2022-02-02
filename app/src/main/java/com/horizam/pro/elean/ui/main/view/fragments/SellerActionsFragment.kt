@@ -160,9 +160,6 @@ class SellerActionsFragment : Fragment(), OnItemClickListener {
                             )
                             append(spannable)
                         }
-
-                        tvImpressionValue.text = weekly_impression.toString()
-                        tvClicksValue.text = weekly_clicks.toString()
                     }
                 }
                 populateGraphData(item.analytics, item.weekly_clicks, item.weekly_impression)
@@ -266,11 +263,11 @@ class SellerActionsFragment : Fragment(), OnItemClickListener {
 //                    )
                 }
                 4 -> {
-//                    navController.navigate(
-//                        R.id.earningsFragment,
-//                        null,
-//                        BaseUtils.animationOpenScreen()
-//                    )
+                    navController.navigate(
+                        R.id.earningsFragment,
+                        null,
+                        BaseUtils.animationOpenScreen()
+                    )
                 }
             }
         }
