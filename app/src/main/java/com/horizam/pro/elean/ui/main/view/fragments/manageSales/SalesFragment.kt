@@ -197,6 +197,32 @@ class SalesFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefr
         private fun setUIData(list: List<Order>) {
             adapter.submitList(list)
             binding.tvPlaceholder.isVisible = list.isEmpty()
+            when(currentOrders){
+                SellerOrders.all ->{
+                    binding.tvPlaceholder.text = getString(R.string.str_no_order_available)
+                }
+                SellerOrders.Active ->{
+                    binding.tvPlaceholder.text = getString(R.string.str_no_active_orders)
+                }
+                SellerOrders.Delivered ->{
+                    binding.tvPlaceholder.text = getString(R.string.str_no_delivered_orders)
+                }
+                SellerOrders.Revision ->{
+                    binding.tvPlaceholder.text = getString(R.string.str_no_revision_orders)
+                }
+                SellerOrders.Completed ->{
+                    binding.tvPlaceholder.text = getString(R.string.str_no_completed_orders)
+                }
+                SellerOrders.Disputed ->{
+                    binding.tvPlaceholder.text = getString(R.string.str_no_disputed_orders)
+                }
+                SellerOrders.Late ->{
+                    binding.tvPlaceholder.text = getString(R.string.str_no_late_orders)
+                }
+                SellerOrders.Cancel ->{
+                    binding.tvPlaceholder.text = getString(R.string.str_no_cancelled_orders)
+                }
+            }
         }
 
         override fun <T> onItemClick(item: T) {

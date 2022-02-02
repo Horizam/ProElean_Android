@@ -73,6 +73,10 @@ class ActiveSalesAdapter(val listener: OnItemClickListener) :
                                 R.color.colorThree
                             )
                         )
+                        mainCard.strokeColor = ContextCompat.getColor(
+                            context.requireContext(),
+                            R.color.colorThree
+                        )
                     }
                     SellerOrders.Delivered -> {
                         tvStatus.text = itemView.context.getString(R.string.str_delivered)
@@ -87,6 +91,10 @@ class ActiveSalesAdapter(val listener: OnItemClickListener) :
                                 context.requireContext(),
                                 R.color.colorThree
                             )
+                        )
+                        mainCard.strokeColor = ContextCompat.getColor(
+                            context.requireContext(),
+                            R.color.colorThree
                         )
                     }
                     SellerOrders.Revision -> {
@@ -103,6 +111,10 @@ class ActiveSalesAdapter(val listener: OnItemClickListener) :
                                 R.color.colorThree
                             )
                         )
+                        mainCard.strokeColor = ContextCompat.getColor(
+                            context.requireContext(),
+                            R.color.colorThree
+                        )
                     }
                     SellerOrders.Completed -> {
                         tvStatus.text = itemView.context.getString(R.string.str_completed)
@@ -117,6 +129,10 @@ class ActiveSalesAdapter(val listener: OnItemClickListener) :
                                 context.requireContext(),
                                 R.color.color_green
                             )
+                        )
+                        mainCard.strokeColor = ContextCompat.getColor(
+                            context.requireContext(),
+                            R.color.color_green
                         )
                     }
                     SellerOrders.Disputed -> {
@@ -133,6 +149,10 @@ class ActiveSalesAdapter(val listener: OnItemClickListener) :
                                 R.color.colorOrange
                             )
                         )
+                        mainCard.strokeColor = ContextCompat.getColor(
+                            context.requireContext(),
+                            R.color.colorOrange
+                        )
                     }
                     SellerOrders.Late -> {
                         tvStatus.text = itemView.context.getString(R.string.str_late)
@@ -148,6 +168,10 @@ class ActiveSalesAdapter(val listener: OnItemClickListener) :
                                 R.color.colorThree
                             )
                         )
+                        mainCard.strokeColor = ContextCompat.getColor(
+                            context.requireContext(),
+                            R.color.colorThree
+                        )
                     }
                     SellerOrders.Cancel -> {
                         tvStatus.text = itemView.context.getString(R.string.str_cancel)
@@ -162,6 +186,10 @@ class ActiveSalesAdapter(val listener: OnItemClickListener) :
                                 context.requireContext(),
                                 R.color.color_red
                             )
+                        )
+                        mainCard.strokeColor = ContextCompat.getColor(
+                            context.requireContext(),
+                            R.color.color_red
                         )
                     }
                 }

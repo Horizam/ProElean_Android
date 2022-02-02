@@ -21,6 +21,7 @@ import com.google.gson.Gson
 import com.horizam.pro.elean.BuyerOrders
 import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
+import com.horizam.pro.elean.SellerOrders
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
 import com.horizam.pro.elean.data.model.response.Order
@@ -112,36 +113,36 @@ class OrdersFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRef
     private val filterServices = RadioGroup.OnCheckedChangeListener { radioGroup, checkedId ->
         dialogFilterJobs.dismiss()
         val radioButton = radioGroup.findViewById<RadioButton>(checkedId)
-        when(radioButton.text){
-            getString(R.string.str_all) ->{
+        when (radioButton.text) {
+            getString(R.string.str_all) -> {
                 viewModel.getBuyerOrdersCall(BuyerOrders.all)
                 currentOrders = BuyerOrders.all
             }
-            getString(R.string.str_active) ->{
+            getString(R.string.str_active) -> {
                 viewModel.getBuyerOrdersCall(BuyerOrders.Active)
                 currentOrders = BuyerOrders.Active
             }
-            getString(R.string.str_delivered) ->{
+            getString(R.string.str_delivered) -> {
                 viewModel.getBuyerOrdersCall(BuyerOrders.Delivered)
                 currentOrders = BuyerOrders.Delivered
             }
-            getString(R.string.str_revision) ->{
+            getString(R.string.str_revision) -> {
                 viewModel.getBuyerOrdersCall(BuyerOrders.Revision)
                 currentOrders = BuyerOrders.Revision
             }
-            getString(R.string.str_completed) ->{
+            getString(R.string.str_completed) -> {
                 viewModel.getBuyerOrdersCall(BuyerOrders.Completed)
                 currentOrders = BuyerOrders.Completed
             }
-            getString(R.string.str_disputed) ->{
+            getString(R.string.str_disputed) -> {
                 viewModel.getBuyerOrdersCall(BuyerOrders.Disputed)
                 currentOrders = BuyerOrders.Disputed
             }
-            getString(R.string.str_late) ->{
+            getString(R.string.str_late) -> {
                 viewModel.getBuyerOrdersCall(BuyerOrders.Late)
                 currentOrders = BuyerOrders.Late
             }
-            getString(R.string.str_cancel) ->{
+            getString(R.string.str_cancel) -> {
                 viewModel.getBuyerOrdersCall(BuyerOrders.Cancel)
                 currentOrders = BuyerOrders.Cancel
             }
@@ -197,6 +198,32 @@ class OrdersFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRef
     private fun setUIData(list: List<Order>) {
         adapter.submitList(list)
         binding.tvPlaceholder.isVisible = list.isEmpty()
+        when (currentOrders) {
+            BuyerOrders.all -> {
+                binding.tvPlaceholder.text = getString(R.string.str_no_order_available)
+            }
+            BuyerOrders.Active -> {
+                binding.tvPlaceholder.text = getString(R.string.str_no_active_orders)
+            }
+            BuyerOrders.Delivered -> {
+                binding.tvPlaceholder.text = getString(R.string.str_no_delivered_orders)
+            }
+            BuyerOrders.Revision -> {
+                binding.tvPlaceholder.text = getString(R.string.str_no_revision_orders)
+            }
+            BuyerOrders.Completed -> {
+                binding.tvPlaceholder.text = getString(R.string.str_no_completed_orders)
+            }
+            BuyerOrders.Disputed -> {
+                binding.tvPlaceholder.text = getString(R.string.str_no_disputed_orders)
+            }
+            BuyerOrders.Late -> {
+                binding.tvPlaceholder.text = getString(R.string.str_no_late_orders)
+            }
+            BuyerOrders.Cancel -> {
+                binding.tvPlaceholder.text = getString(R.string.str_no_cancelled_orders)
+            }
+        }
     }
 
     override fun <T> onItemClick(item: T) {
