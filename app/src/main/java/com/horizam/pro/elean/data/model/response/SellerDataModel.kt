@@ -25,5 +25,13 @@ data class SellerDataModel(
     val monthly_selling: Double,
     val average_selling: Double,
     val weekly_clicks: Int,
-    val weekly_impression: Int
+    val weekly_impression: Int,
+    val analytics : ArrayList<Analytics> = arrayListOf(),
+)
+
+data class Analytics (
+    var impressions : Int = 0,
+    var clicks : Int = 0,
+    var date : String = "",
+    var day : String = ""
 )

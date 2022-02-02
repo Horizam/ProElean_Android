@@ -1,15 +1,11 @@
 package com.horizam.pro.elean.ui.main.view.fragments
 
-import android.R.attr
 import android.content.Context
-import android.content.Entity
-import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -22,7 +18,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarEntry
-import com.github.mikephil.charting.data.Entry
 import com.horizam.pro.elean.App
 import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
@@ -36,20 +31,16 @@ import com.horizam.pro.elean.ui.base.ViewModelFactory
 import com.horizam.pro.elean.ui.main.adapter.SellerActionAdapter
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
 import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
-import com.horizam.pro.elean.ui.main.view.activities.ManageSalesActivity
 import com.horizam.pro.elean.ui.main.viewmodel.SellerViewModel
 import com.horizam.pro.elean.utils.BaseUtils
 import com.horizam.pro.elean.utils.PrefManager
 import com.horizam.pro.elean.utils.Status
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
-import com.github.mikephil.charting.utils.ColorTemplate
 import com.horizam.pro.elean.data.model.Score
-import android.R.attr.data
-import android.widget.TextView
 import com.github.mikephil.charting.components.*
 import com.github.mikephil.charting.formatter.LargeValueFormatter
-import java.lang.reflect.Array
+import com.horizam.pro.elean.data.model.response.Analytics
 
 
 class SellerActionsFragment : Fragment(), OnItemClickListener {
@@ -76,7 +67,6 @@ class SellerActionsFragment : Fragment(), OnItemClickListener {
         setClickListeners()
         setAdapter()
         exeApi()
-        populateGraphData()
         return binding.root
     }
 
@@ -175,6 +165,7 @@ class SellerActionsFragment : Fragment(), OnItemClickListener {
                         tvClicksValue.text = weekly_clicks.toString()
                     }
                 }
+                populateGraphData(item.analytics, item.weekly_clicks, item.weekly_impression)
             }
         }
     }
@@ -286,7 +277,11 @@ class SellerActionsFragment : Fragment(), OnItemClickListener {
     }
 
 
-    fun populateGraphData() {
+    fun populateGraphData(
+        analytics: ArrayList<Analytics>,
+        weeklyClicks: Int,
+        weeklyImpression: Int
+    ) {
 
         var barChartView = binding.chart
         barChartView.setExtraOffsets(5f, 5f, 5f, 15f)
@@ -299,7 +294,7 @@ class SellerActionsFragment : Fragment(), OnItemClickListener {
         groupSpace = 0.80f
 
         //get graph value
-        var (barDataSet1: BarDataSet, barDataSet2: BarDataSet) = getBarGraphValue()
+        var (barDataSet1: BarDataSet, barDataSet2: BarDataSet) = getBarGraphValue(analytics)
         var barData = BarData(barDataSet1, barDataSet2)
 
         barData.barWidth = 1.5f
@@ -329,7 +324,7 @@ class SellerActionsFragment : Fragment(), OnItemClickListener {
 
         legenedEntries.add(
             LegendEntry(
-                "Impressions=50 , ",
+                "Impressions=${weeklyClicks}, ",
                 Legend.LegendForm.SQUARE,
                 10f,
                 10f,
@@ -339,7 +334,7 @@ class SellerActionsFragment : Fragment(), OnItemClickListener {
         )
         legenedEntries.add(
             LegendEntry(
-                "Clicks=25",
+                "Clicks=${weeklyImpression}",
                 Legend.LegendForm.SQUARE,
                 10f,
                 10f,
@@ -352,17 +347,17 @@ class SellerActionsFragment : Fragment(), OnItemClickListener {
         legend.xOffset = 2f
         legend.yEntrySpace = 10f
         legend.textSize = 13f
-        legend.textColor = ActivityCompat.getColor(requireContext() , R.color.colorWhite)
+        legend.textColor = ActivityCompat.getColor(requireContext(), R.color.colorWhite)
 
         val xAxis = barChartView.xAxis
-        xAxis.textColor = ActivityCompat.getColor(requireContext() , R.color.colorWhite)
+        xAxis.textColor = ActivityCompat.getColor(requireContext(), R.color.colorWhite)
         xAxis.granularity = 0f
         xAxis.isGranularityEnabled = true
         xAxis.setCenterAxisLabels(true)
         xAxis.setDrawGridLines(true)
         xAxis.textSize = 10f
         xAxis.position = XAxis.XAxisPosition.BOTTOM
-        xAxis.valueFormatter = IndexAxisValueFormatter(setXAxisValue())
+        xAxis.valueFormatter = IndexAxisValueFormatter(setXAxisValue(analytics))
         xAxis.labelCount = 7
         xAxis.mAxisMaximum = 14f
         xAxis.setCenterAxisLabels(true)
@@ -379,7 +374,7 @@ class SellerActionsFragment : Fragment(), OnItemClickListener {
         barChartView.setScaleEnabled(true)
 
         val leftAxis = barChartView.axisLeft
-        leftAxis.textColor = ActivityCompat.getColor(requireContext() , R.color.colorWhite)
+        leftAxis.textColor = ActivityCompat.getColor(requireContext(), R.color.colorWhite)
         leftAxis.valueFormatter = LargeValueFormatter()
         leftAxis.setDrawGridLines(false)
         leftAxis.spaceTop = 1f
@@ -389,33 +384,17 @@ class SellerActionsFragment : Fragment(), OnItemClickListener {
         barChartView.setVisibleXRange(1f, 14f)
     }
 
-    private fun getBarGraphValue(): Pair<BarDataSet, BarDataSet> {
+    private fun getBarGraphValue(analytics: ArrayList<Analytics>): Pair<BarDataSet, BarDataSet> {
         var yValueGroup1 = ArrayList<BarEntry>()
         var yValueGroup2 = ArrayList<BarEntry>()
         // draw the graph
         var barDataSet1: BarDataSet
         var barDataSet2: BarDataSet
 
-        yValueGroup1.add(BarEntry(1f, 9f))
-        yValueGroup2.add(BarEntry(1f, 10f))
-
-        yValueGroup1.add(BarEntry(2f, 7f))
-        yValueGroup2.add(BarEntry(2f, 3f))
-
-        yValueGroup1.add(BarEntry(3f, 9f))
-        yValueGroup2.add(BarEntry(3f, 14f))
-
-        yValueGroup1.add(BarEntry(4f, 11f))
-        yValueGroup2.add(BarEntry(4f, 3f))
-
-        yValueGroup1.add(BarEntry(5f, 9f))
-        yValueGroup2.add(BarEntry(5f, 10f))
-
-        yValueGroup1.add(BarEntry(6f, 7f))
-        yValueGroup2.add(BarEntry(7f, 3f))
-
-        yValueGroup1.add(BarEntry(7f, 9f))
-        yValueGroup2.add(BarEntry(7f, 14f))
+        for (i in 6 downTo 0) {
+            yValueGroup1.add(BarEntry((i + 1).toFloat(), analytics[i].impressions.toFloat()))
+            yValueGroup2.add(BarEntry((i + 1).toFloat(), analytics[i].clicks.toFloat()))
+        }
 
         barDataSet1 = BarDataSet(yValueGroup1, "")
         barDataSet1.setColors(Color.BLUE)
@@ -432,22 +411,12 @@ class SellerActionsFragment : Fragment(), OnItemClickListener {
         return Pair(barDataSet1, barDataSet2)
     }
 
-    private fun setXAxisValue(): ArrayList<String> {
+    private fun setXAxisValue(analytics: ArrayList<Analytics>): ArrayList<String> {
         var xAxisValues = ArrayList<String>()
-        xAxisValues.add("Mon")
-        xAxisValues.add("Mon")
-        xAxisValues.add("Tue")
-        xAxisValues.add("Tue")
-        xAxisValues.add("Wed")
-        xAxisValues.add("Wed")
-        xAxisValues.add("Thur")
-        xAxisValues.add("Thur")
-        xAxisValues.add("Fri")
-        xAxisValues.add("Fri")
-        xAxisValues.add("Sat")
-        xAxisValues.add("Sat")
-        xAxisValues.add("Sun")
-        xAxisValues.add("Sun")
+        for (i in 6 downTo 0) {
+            xAxisValues.add(analytics[i].day)
+            xAxisValues.add(analytics[i].day)
+        }
         return xAxisValues
     }
 }
