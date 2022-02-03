@@ -78,8 +78,8 @@ class ManageServicesFragment : Fragment(), ManageServiceHandler {
     }
 
     private fun exeApi(status: String = "") {
-            genericHandler.showProgressBar(true)
-            viewModel.userServicesCall(status)
+        genericHandler.showProgressBar(true)
+        viewModel.userServicesCall(status)
     }
 
     private fun initViews() {
@@ -187,7 +187,7 @@ class ManageServicesFragment : Fragment(), ManageServiceHandler {
     }
 
     private fun handleDeleteResponse(response: GeneralResponse) {
-        genericHandler.showErrorMessage(response.message)
+        genericHandler.showSuccessMessage(response.message)
         viewModel.userServicesCall("")
     }
 
