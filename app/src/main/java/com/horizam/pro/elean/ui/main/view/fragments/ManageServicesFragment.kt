@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.gson.Gson
 import com.horizam.pro.elean.App
 import com.horizam.pro.elean.R
@@ -34,7 +35,7 @@ import com.horizam.pro.elean.utils.Status
 import java.lang.Exception
 
 
-class ManageServicesFragment : Fragment(), ManageServiceHandler {
+class ManageServicesFragment : Fragment(), ManageServiceHandler , SwipeRefreshLayout.OnRefreshListener{
 
     private lateinit var binding: FragmentManageServicesBinding
     private lateinit var adapter: ManageServicesAdapter
@@ -45,6 +46,7 @@ class ManageServicesFragment : Fragment(), ManageServiceHandler {
     private lateinit var dialogDelete: Dialog
     private lateinit var bindingDialog: DialogFilterPostedJobsBinding
     private lateinit var bindingDeleteDialog: DialogDeleteBinding
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -72,6 +74,13 @@ class ManageServicesFragment : Fragment(), ManageServiceHandler {
         return binding.root
     }
 
+    override fun onRefresh() {
+        if (swipeRefreshLayout.isRefreshing) {
+            swipeRefreshLayout.isRefreshing = false
+        }
+        exeApi()
+    }
+
     override fun onResume() {
         super.onResume()
         exeApi()
@@ -87,6 +96,8 @@ class ManageServicesFragment : Fragment(), ManageServiceHandler {
         recyclerView = binding.rvManageServices
         initFilterDialog()
         initDeleteDialog()
+        swipeRefreshLayout = binding.swipeRefresh
+        swipeRefreshLayout.setOnRefreshListener(this)
     }
 
     private fun initFilterDialog() {

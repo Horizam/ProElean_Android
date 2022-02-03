@@ -1,336 +1,342 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    android:id="@+id/swipe_refresh">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorWhiteMatching">
+        android:layout_height="match_parent">
 
-        <include
-            android:id="@+id/toolbar"
-            layout="@layout/toolbar_layout" />
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/card_seller_actions"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:layout_weight="1"
-            app:cardCornerRadius="@dimen/_10sdp"
-            app:cardElevation="@dimen/_2sdp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar"
-            app:strokeColor="@color/colorGrey"
-            app:strokeWidth="@dimen/_1sdp">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_seller_action"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-        </com.google.android.material.card.MaterialCardView>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:text="Earnings"
-            android:textColor="@color/colorBlack"
-            android:textSize="@dimen/_13ssp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/card_seller_actions" />
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/card_earning_detail"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_35sdp"
-            android:layout_weight="1"
-            app:cardCornerRadius="@dimen/_10sdp"
-            app:cardElevation="@dimen/_2sdp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/card_seller_actions"
-            app:strokeColor="@color/colorGrey"
-            app:strokeWidth="@dimen/_1sdp">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/colorAccent">
-
-                <LinearLayout
-                    android:id="@+id/ll_personal_balance"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_20sdp"
-                    android:layout_marginTop="@dimen/_20sdp"
-                    android:orientation="vertical"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <TextView
-                        android:id="@+id/tv_personal_balance_value"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_5sdp"
-                        android:text="$0"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/_15ssp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/tv_personal_balance"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Balance"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/_11sdp" />
-                </LinearLayout>
-
-                <View
-                    android:id="@+id/view2"
-                    android:layout_width="0.5dp"
-                    android:layout_height="@dimen/_25sdp"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginEnd="25dp"
-                    android:background="@color/colorWhite"
-                    app:layout_constraintEnd_toStartOf="@+id/ll_earning_in_december"
-                    app:layout_constraintTop_toTopOf="@+id/ll_earning_in_december" />
-
-                <LinearLayout
-                    android:id="@+id/ll_earning_in_december"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_150sdp"
-                    android:layout_marginTop="@dimen/_20sdp"
-                    android:layout_marginEnd="@dimen/_20sdp"
-                    android:orientation="vertical"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <TextView
-                        android:id="@+id/tv_earning_in_december_value"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_5sdp"
-                        android:text="$0"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/_15ssp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/tv_earning_in_december"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Earning This Month"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/_11ssp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/ll_avg_selling_price"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_20sdp"
-                    android:layout_marginTop="@dimen/_20sdp"
-                    android:orientation="vertical"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ll_personal_balance">
-
-                    <TextView
-                        android:id="@+id/tv_avg_selling_price_value"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_5sdp"
-                        android:text="$0"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/_15ssp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/tv_avg_selling_price"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Avg Order Price"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/_11ssp" />
-                </LinearLayout>
-
-                <View
-                    android:id="@+id/view3"
-                    android:layout_width="0.5dp"
-                    android:layout_height="@dimen/_25sdp"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginEnd="25dp"
-                    android:background="@color/colorWhite"
-                    app:layout_constraintEnd_toStartOf="@+id/ll_active_orders"
-                    app:layout_constraintTop_toTopOf="@+id/ll_active_orders" />
-
-                <LinearLayout
-                    android:id="@+id/ll_active_orders"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_150sdp"
-                    android:layout_marginTop="@dimen/_20sdp"
-                    android:orientation="vertical"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ll_personal_balance">
-
-                    <TextView
-                        android:id="@+id/tv_active_ordersr_value"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_5sdp"
-                        android:text="$0"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/_15ssp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/tv_active_orders"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Active Orders"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/_11ssp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/ll_pending_clearance"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="@dimen/_20sdp"
-                    android:layout_marginStart="@dimen/_20sdp"
-                    android:orientation="vertical"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ll_avg_selling_price">
-
-
-                    <TextView
-                        android:id="@+id/tv_pending_clearance_value"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_5sdp"
-                        android:text="$0"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/_15ssp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/tv_pending_clearance"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Pending Clearance"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/_11ssp" />
-                </LinearLayout>
-
-                <View
-                    android:layout_width="0.5dp"
-                    android:layout_height="@dimen/_25sdp"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginEnd="25dp"
-                    android:background="@color/colorWhite"
-                    app:layout_constraintEnd_toStartOf="@+id/ll_cancelled_orders"
-                    app:layout_constraintTop_toTopOf="@+id/ll_cancelled_orders" />
-
-                <LinearLayout
-                    android:id="@+id/ll_cancelled_orders"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_150sdp"
-                    android:layout_marginTop="@dimen/_20sdp"
-                    android:orientation="vertical"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ll_avg_selling_price">
-
-                    <TextView
-                        android:id="@+id/tv_cancelled_orders_value"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_5sdp"
-                        android:text="$0"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/_15ssp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/tv_cancelled_orders"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Cancelled Orders"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/_11ssp" />
-                </LinearLayout>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </com.google.android.material.card.MaterialCardView>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:text="Weekly Analytics"
-            android:textColor="@color/colorBlack"
-            android:textSize="@dimen/_13ssp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/card_earning_detail" />
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/card_impression"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_35sdp"
-            android:layout_weight="1"
-            app:cardCornerRadius="@dimen/_10sdp"
-            app:cardElevation="@dimen/_2sdp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/card_earning_detail"
-            app:strokeColor="@color/colorGrey"
-            app:strokeWidth="@dimen/_1sdp">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/colorAccent">
-
-                <com.github.mikephil.charting.charts.BarChart
-                    android:id="@+id/chart"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/_200sdp"
-                    android:layout_margin="@dimen/_15sdp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </com.google.android.material.card.MaterialCardView>
-
-        <View
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_10sdp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/card_impression" />
+            android:layout_height="match_parent"
+            android:background="@color/colorWhiteMatching">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.core.widget.NestedScrollView>
+            <include
+                android:id="@+id/toolbar"
+                layout="@layout/toolbar_layout" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_seller_actions"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_weight="1"
+                app:cardCornerRadius="@dimen/_10sdp"
+                app:cardElevation="@dimen/_2sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/toolbar"
+                app:strokeColor="@color/colorGrey"
+                app:strokeWidth="@dimen/_1sdp">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_seller_action"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:text="Earnings"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/_13ssp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/card_seller_actions" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_earning_detail"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_35sdp"
+                android:layout_weight="1"
+                app:cardCornerRadius="@dimen/_10sdp"
+                app:cardElevation="@dimen/_2sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/card_seller_actions"
+                app:strokeColor="@color/colorGrey"
+                app:strokeWidth="@dimen/_1sdp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorAccent">
+
+                    <LinearLayout
+                        android:id="@+id/ll_personal_balance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_20sdp"
+                        android:orientation="vertical"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            android:id="@+id/tv_personal_balance_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:text="$0"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="@dimen/_15ssp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_personal_balance"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Balance"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="@dimen/_11sdp" />
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/view2"
+                        android:layout_width="0.5dp"
+                        android:layout_height="@dimen/_25sdp"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginEnd="25dp"
+                        android:background="@color/colorWhite"
+                        app:layout_constraintEnd_toStartOf="@+id/ll_earning_in_december"
+                        app:layout_constraintTop_toTopOf="@+id/ll_earning_in_december" />
+
+                    <LinearLayout
+                        android:id="@+id/ll_earning_in_december"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_150sdp"
+                        android:layout_marginTop="@dimen/_20sdp"
+                        android:layout_marginEnd="@dimen/_20sdp"
+                        android:orientation="vertical"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            android:id="@+id/tv_earning_in_december_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:text="$0"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="@dimen/_15ssp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_earning_in_december"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Earning This Month"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="@dimen/_11ssp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_avg_selling_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_20sdp"
+                        android:orientation="vertical"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/ll_personal_balance">
+
+                        <TextView
+                            android:id="@+id/tv_avg_selling_price_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:text="$0"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="@dimen/_15ssp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_avg_selling_price"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Avg Order Price"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="@dimen/_11ssp" />
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/view3"
+                        android:layout_width="0.5dp"
+                        android:layout_height="@dimen/_25sdp"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginEnd="25dp"
+                        android:background="@color/colorWhite"
+                        app:layout_constraintEnd_toStartOf="@+id/ll_active_orders"
+                        app:layout_constraintTop_toTopOf="@+id/ll_active_orders" />
+
+                    <LinearLayout
+                        android:id="@+id/ll_active_orders"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_150sdp"
+                        android:layout_marginTop="@dimen/_20sdp"
+                        android:orientation="vertical"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/ll_personal_balance">
+
+                        <TextView
+                            android:id="@+id/tv_active_ordersr_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:text="$0"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="@dimen/_15ssp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_active_orders"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Active Orders"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="@dimen/_11ssp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_pending_clearance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="@dimen/_20sdp"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/ll_avg_selling_price">
+
+
+                        <TextView
+                            android:id="@+id/tv_pending_clearance_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:text="$0"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="@dimen/_15ssp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_pending_clearance"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Pending Clearance"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="@dimen/_11ssp" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="0.5dp"
+                        android:layout_height="@dimen/_25sdp"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginEnd="25dp"
+                        android:background="@color/colorWhite"
+                        app:layout_constraintEnd_toStartOf="@+id/ll_cancelled_orders"
+                        app:layout_constraintTop_toTopOf="@+id/ll_cancelled_orders" />
+
+                    <LinearLayout
+                        android:id="@+id/ll_cancelled_orders"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_150sdp"
+                        android:layout_marginTop="@dimen/_20sdp"
+                        android:orientation="vertical"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/ll_avg_selling_price">
+
+                        <TextView
+                            android:id="@+id/tv_cancelled_orders_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:text="$0"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="@dimen/_15ssp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_cancelled_orders"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Cancelled Orders"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="@dimen/_11ssp" />
+                    </LinearLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:text="Weekly Analytics"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/_13ssp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/card_earning_detail" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_impression"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_35sdp"
+                android:layout_weight="1"
+                app:cardCornerRadius="@dimen/_10sdp"
+                app:cardElevation="@dimen/_2sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/card_earning_detail"
+                app:strokeColor="@color/colorGrey"
+                app:strokeWidth="@dimen/_1sdp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorAccent">
+
+                    <com.github.mikephil.charting.charts.BarChart
+                        android:id="@+id/chart"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/_200sdp"
+                        android:layout_margin="@dimen/_15sdp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_10sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/card_impression" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

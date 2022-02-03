@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarEntry
 import com.horizam.pro.elean.App
@@ -43,7 +44,7 @@ import com.github.mikephil.charting.formatter.LargeValueFormatter
 import com.horizam.pro.elean.data.model.response.Analytics
 
 
-class SellerActionsFragment : Fragment(), OnItemClickListener {
+class SellerActionsFragment : Fragment(), OnItemClickListener , SwipeRefreshLayout.OnRefreshListener{
 
     private lateinit var binding: FragmentSellerActionsBinding
     private lateinit var navController: NavController
@@ -53,7 +54,7 @@ class SellerActionsFragment : Fragment(), OnItemClickListener {
     private lateinit var genericHandler: GenericHandler
     private lateinit var prefManager: PrefManager
     private lateinit var sellerActionList: ArrayList<SellerActionModel>
-    private var scoreList = ArrayList<Score>()
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -68,6 +69,13 @@ class SellerActionsFragment : Fragment(), OnItemClickListener {
         setAdapter()
         exeApi()
         return binding.root
+    }
+
+    override fun onRefresh() {
+        if (swipeRefreshLayout.isRefreshing) {
+            swipeRefreshLayout.isRefreshing = false
+        }
+        exeApi()
     }
 
     private fun getIntentData() {
@@ -215,6 +223,8 @@ class SellerActionsFragment : Fragment(), OnItemClickListener {
         binding.toolbar.ivToolbar.visibility = View.INVISIBLE
         navController = this.findNavController()
         sellerActionList = ArrayList()
+        swipeRefreshLayout = binding.swipeRefresh
+        swipeRefreshLayout.setOnRefreshListener(this)
     }
 
     private fun setClickListeners() {
