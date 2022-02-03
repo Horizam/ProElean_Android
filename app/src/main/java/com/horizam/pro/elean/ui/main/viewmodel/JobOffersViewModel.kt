@@ -15,7 +15,7 @@ class JobOffersViewModel(
 
     private val offerIdRequest = MutableLiveData<String>()
     private val acceptOrderRequest = MutableLiveData<AcceptOrderRequest>()
-    private val deleteJobOfferRequest = MutableLiveData<Int>()
+    private val deleteJobOfferRequest = MutableLiveData<String>()
 
     val jobOffers = offerIdRequest.switchMap { id ->
         mainRepository.getJobOffers(id).cachedIn(viewModelScope)
@@ -49,7 +49,7 @@ class JobOffersViewModel(
         offerIdRequest.value = id
     }
 
-    fun deletePostedJobCall(id:Int){
+    fun deletePostedJobCall(id:String){
         deleteJobOfferRequest.value = id
     }
 

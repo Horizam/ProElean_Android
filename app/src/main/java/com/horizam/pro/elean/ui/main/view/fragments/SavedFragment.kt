@@ -182,7 +182,7 @@ class SavedFragment : Fragment(), SavedGigsHandler, SwipeRefreshLayout.OnRefresh
     }
 
     private fun handleResponse(response: GeneralResponse) {
-        genericHandler.showErrorMessage(response.message)
+        genericHandler.showSuccessMessage(response.message)
         viewModel.getSavedGigsCall()
     }
 

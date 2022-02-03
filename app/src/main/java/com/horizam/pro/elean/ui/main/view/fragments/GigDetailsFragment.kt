@@ -43,7 +43,6 @@ class GigDetailsFragment : Fragment(), OnItemClickListener,
     BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener {
 
     private lateinit var binding: FragmentGigDetailsBinding
-
     private lateinit var adapter: ReviewsAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewModel: GigDetailsViewModel
@@ -213,7 +212,7 @@ class GigDetailsFragment : Fragment(), OnItemClickListener,
                     Status.SUCCESS -> {
                         genericHandler.showProgressBar(false)
                         resource.data?.let { response ->
-                            genericHandler.showSuccessMessage(response.message.toString())
+//                            genericHandler.showSuccessMessage(response.message.toString())
                             changeViewVisibility(textView = false, button = false, layout = true)
                         }
                     }

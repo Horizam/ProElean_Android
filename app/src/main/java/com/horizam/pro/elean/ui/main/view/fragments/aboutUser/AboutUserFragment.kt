@@ -126,6 +126,9 @@ class AboutUserFragment : Fragment(), OnItemClickListener {
         binding.clSupport.setOnClickListener {
             findNavController().navigate(R.id.supportFragment)
         }
+        binding.clSaved.setOnClickListener {
+            findNavController().navigate(R.id.savedFragment)
+        }
     }
 
     private fun executeLogoutApi() {

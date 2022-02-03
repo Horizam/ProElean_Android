@@ -1,7 +1,6 @@
 package com.horizam.pro.elean.ui.main.view.fragments
 
 import android.content.Context
-import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,13 +9,12 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.horizam.pro.elean.App
-import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
 import com.horizam.pro.elean.data.model.response.EarningsResponse
-import com.horizam.pro.elean.data.model.response.SellerEarning
 import com.horizam.pro.elean.databinding.*
 import com.horizam.pro.elean.ui.base.ViewModelFactory
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
@@ -27,14 +25,16 @@ import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.data.PieData
 
 import com.github.mikephil.charting.data.PieDataSet
+import com.horizam.pro.elean.data.model.response.EarningsData
 import com.horizam.pro.elean.utils.BaseUtils
 
 
-class EarningsFragment : Fragment() {
+class EarningsFragment : Fragment() , SwipeRefreshLayout.OnRefreshListener {
 
     private lateinit var binding: FragmentEarningsBinding
     private lateinit var viewModel: EarningsViewModel
     private lateinit var genericHandler: GenericHandler
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -53,6 +53,13 @@ class EarningsFragment : Fragment() {
         setOnClickListeners()
         setPieChartGraph()
         return binding.root
+    }
+
+    override fun onRefresh() {
+        if (swipeRefreshLayout.isRefreshing) {
+            swipeRefreshLayout.isRefreshing = false
+        }
+        setupObservers()
     }
 
     private fun setPieChartGraph() {
@@ -93,6 +100,8 @@ class EarningsFragment : Fragment() {
 
     private fun initViews() {
         // init views here
+        swipeRefreshLayout = binding.swipeRefresh
+        swipeRefreshLayout.setOnRefreshListener(this)
     }
 
     private fun setOnClickListeners() {
@@ -147,13 +156,19 @@ class EarningsFragment : Fragment() {
 
     private fun handleResponse(response: EarningsResponse) {
         try {
-            setUIData(response.sellerEarning)
+            setUIData(response.data)
         } catch (e: Exception) {
             genericHandler.showErrorMessage(e.message.toString())
         }
     }
 
-    private fun setUIData(sellerEarning: SellerEarning) {
+    private fun setUIData(earningsData: EarningsData) {
+        binding.apply {
+            tvCurrentBalanceValue.text = "$${earningsData.current_balance}"
+            tvTotalEarningValue.text = "$${earningsData.total_earning}"
+            tvEarningThisYearValue.text = "$${earningsData.year_earning}"
+            tvEarningThisMonthValue.text = "$${earningsData.monthly_earning}"
+            tvEarningThisWeekValue.text = "$${earningsData.weekly_earning}"
+        }
     }
-
 }

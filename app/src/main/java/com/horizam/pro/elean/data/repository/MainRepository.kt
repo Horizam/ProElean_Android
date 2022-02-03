@@ -43,7 +43,7 @@ class MainRepository(private val apiHelper: ApiHelper) {
     suspend fun deletePostedJob(id: String) = apiHelper.deletePostedJob(id)
     suspend fun getBuyerOrders(id: String) = apiHelper.getBuyerOrders(id)
     suspend fun getSellersOrders(id: Int) = apiHelper.getSellersOrders(id)
-    suspend fun deleteJobOffer(id: Int) = apiHelper.deleteJobOffer(id)
+    suspend fun deleteJobOffer(id: String) = apiHelper.deleteJobOffer(id)
     suspend fun deleteUserService(id: String) = apiHelper.deleteUserService(id)
     suspend fun getFreelancerProfile(id: String) = apiHelper.getFreelancerProfile(id)
     suspend fun getGigDetails(uid:String) = apiHelper.getGigDetails(uid)

@@ -231,15 +231,15 @@ class ViewOffersFragment : Fragment(), OnItemClickListener, ViewOffersHandler, C
     }
 
     override fun <T> deleteItem(item: T) {
-//        if (item is Offer) {
-//            dialogDelete.show()
-//            bindingDeleteDialog.btnYes.setOnClickListener {
-//                dialogDelete.dismiss()
-//                genericHandler.showProgressBar(true)
-//                viewModel.deletePostedJobCall(item.id)
-//            }
-//            bindingDeleteDialog.btnNo.setOnClickListener { dialogDelete.dismiss() }
-//        }
+        if (item is Offer) {
+            dialogDelete.show()
+            bindingDeleteDialog.btnYes.setOnClickListener {
+                dialogDelete.dismiss()
+                genericHandler.showProgressBar(true)
+                viewModel.deletePostedJobCall(item.id)
+            }
+            bindingDeleteDialog.btnNo.setOnClickListener { dialogDelete.dismiss() }
+        }
     }
 
     override fun <T> viewProfile(item: T) {

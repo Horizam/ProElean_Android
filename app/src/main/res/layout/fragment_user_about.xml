@@ -432,7 +432,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_general">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_support"
+                android:id="@+id/cl_saved"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_45sdp"
                 android:background="?attr/selectableItemBackground"
@@ -451,7 +451,7 @@
                     android:layout_height="@dimen/_18sdp"
                     android:layout_marginStart="@dimen/_25sdp"
                     android:contentDescription="@string/str_username"
-                    android:src="@drawable/ic_support_agent"
+                    android:src="@drawable/ic_liked"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -463,11 +463,63 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_15sdp"
                     android:fontFamily="@font/roboto_bold"
-                    android:text="Support"
+                    android:text="Saved"
                     android:textColor="@color/colorBlack"
                     android:textSize="@dimen/_10ssp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/iv_image"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:layout_width="@dimen/_18sdp"
+                    android:layout_height="@dimen/_18sdp"
+                    android:layout_marginEnd="@dimen/_25sdp"
+                    android:background="@drawable/exo_ic_chevron_right"
+                    android:backgroundTint="@color/colorDarkGrey"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_support"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_45sdp"
+                android:background="?attr/selectableItemBackground"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cl_saved">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/bg_primary" />
+
+                <ImageView
+                    android:id="@+id/iv_saved_image"
+                    android:layout_width="@dimen/_18sdp"
+                    android:layout_height="@dimen/_18sdp"
+                    android:layout_marginStart="@dimen/_25sdp"
+                    android:contentDescription="@string/str_username"
+                    android:src="@drawable/ic_support_agent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/colorAccent" />
+
+                <TextView
+                    android:id="@+id/tv_saved_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="Support"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/_10ssp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/iv_saved_image"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView

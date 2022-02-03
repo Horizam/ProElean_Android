@@ -1,16 +1,13 @@
 package com.horizam.pro.elean.data.model.response
 
-import com.google.gson.annotations.SerializedName
-
 data class EarningsResponse(
-    @SerializedName("status") var status : Int,
-    @SerializedName("message") var message : String,
-    @SerializedName("sellerEarning") var sellerEarning : SellerEarning
+    val data : EarningsData
 )
 
-data class SellerEarning (
-    @SerializedName("total_orders") var totalOrders : Int,
-    @SerializedName("avg_earning") var avgEarning : Double,
-    @SerializedName("total_earning") var totalEarning : Int,
-    @SerializedName("last_month_earn") var lastMonthEarn : Double
+data class EarningsData(
+    val weekly_earning : Double,
+    val year_earning : Double,
+    val monthly_earning : Double,
+    val total_earning : Double,
+    val current_balance : Double
 )

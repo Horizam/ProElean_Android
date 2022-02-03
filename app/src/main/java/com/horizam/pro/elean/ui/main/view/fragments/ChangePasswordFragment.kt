@@ -71,7 +71,7 @@ class ChangePasswordFragment : Fragment() {
 
     private fun handleResponse(response: GeneralResponse) {
         hideKeyboard()
-        genericHandler.showErrorMessage(response.message)
+        genericHandler.showSuccessMessage(response.message)
         navController.popBackStack()
     }
 
@@ -84,7 +84,6 @@ class ChangePasswordFragment : Fragment() {
 
     private fun setOnClickListener() {
         binding.btnChangePassword.setOnClickListener {
-
             checkValidation(
                 binding.etCurrentPassword.text.toString(),
                 binding.etNewPassword.text.toString(),
@@ -98,6 +97,7 @@ class ChangePasswordFragment : Fragment() {
         newPassword: String,
         confirmNewPassword: String
     ) {
+        hideKeyboard()
         if (newPassword != confirmNewPassword) {
             genericHandler.showErrorMessage("New Password and Confirm New Password Mismatched")
         } else {

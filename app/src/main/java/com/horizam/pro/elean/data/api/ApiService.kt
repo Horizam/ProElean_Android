@@ -206,14 +206,14 @@ interface ApiService {
     @GET("buyer/orders")
     suspend fun getBuyerOrders(@Query("status") status: String): OrdersResponse
 
-    @GET("seller_earning")
+    @GET("seller/earningDetails")
     suspend fun getEarnings(): EarningsResponse
 
     @GET("seller/orders")
     suspend fun getSellersOrders(@Query("status") status: Int): OrdersResponse
 
-    @DELETE("delete_job_requests/{id}")
-    suspend fun deleteJobOffer(@Path("id") id: Int): GeneralResponse
+    @DELETE("buyer/delete_job_requests/{id}")
+    suspend fun deleteJobOffer(@Path("id") id: String): GeneralResponse
 
     @DELETE("seller/services/{id}")
     suspend fun deleteUserService(@Path("id") id: String): GeneralResponse
@@ -224,7 +224,7 @@ interface ApiService {
     @POST("buyer/manage_order")
     suspend fun ratingOrder(@Body request: RatingOrderRequest): GeneralResponse
 
-    @POST("change_password")
+    @POST("update_password")
     suspend fun changePassword(@Body request: ChangePasswordRequest): GeneralResponse
 
     @GET("get_order/{id}")
