@@ -57,6 +57,7 @@
                 android:paddingStart="@dimen/_7sdp"
                 android:paddingEnd="@dimen/_7sdp"
                 android:text="@string/str_unapproved"
+                android:visibility="gone"
                 android:textColor="@color/colorWhite" />
 
         </com.google.android.material.card.MaterialCardView>
