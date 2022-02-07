@@ -151,7 +151,7 @@
             style="@style/ValueStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/fiftyDollar"
+            android:text="@string/str_currency_sign"
             android:maxLines="1"
             android:ellipsize="end"
             android:layout_marginHorizontal="@dimen/_13sdp"

@@ -61,7 +61,7 @@ class Constants {
         const val BUYER_USER = 0
         const val SELLER_USER = 1
         const val NOTIFICATION_CHANNEL_ID = "channelPro"
-        const val CURRENCY = "$"
+        const val CURRENCY = "€"
         const val MINIMUM_ORDER_PRICE = 5
         const val KEY_TOKEN = "token_key"
         const val PENDING_STATUS = "pending"

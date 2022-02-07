@@ -86,13 +86,13 @@ class AboutUserFragment : Fragment(), OnItemClickListener {
         sellerActionList.add(
             SellerActionModel(
                 title = "Post a Job",
-                image = R.drawable.ic_create_service
+                image = R.drawable.img_post_job
             )
         )
         sellerActionList.add(
             SellerActionModel(
                 title = "View Posted Jobs",
-                image = R.drawable.ic_manage_service
+                image = R.drawable.img_posted_job
             )
         )
     }

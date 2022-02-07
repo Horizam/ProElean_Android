@@ -99,7 +99,7 @@
     <string name="french_english">French, English</string>
     <string name="skills">Skills</string>
     <string name="choose_would_you_like_your_service_delivered">Choose would you like your service delivered?</string>
-    <string name="fiftyDollar">50$</string>
+    <string name="fiftyDollar">50€</string>
     <string name="overall_rating">Overall Rating</string>
     <string name="reviews">Reviews</string>
     <string name="most_recent">Most Recent</string>
@@ -117,7 +117,7 @@
     <string name="str_choose_when_you_like_your_service_delivered">Choose when you like your service delivered?</string>
     <string name="str_what_s_your_budget">What\'s your budget?</string>
     <string name="str_submit_your_request">Submit Your Request</string>
-    <string name="str_price_min_5">Price (Min. $5)</string>
+    <string name="str_price_min_5">Price (Min. €5)</string>
     <string name="str_jobs">Jobs</string>
     <string name="str_duration">Duration</string>
     <string name="str_budget">Budget</string>
@@ -180,7 +180,7 @@
     <string name="str_retry">Retry</string>
     <string name="str_results_could_not_be_loaded">Results could not be loaded</string>
     <string name="str_describe_your_offer">Describe your offer</string>
-    <string name="str_total_offer_dollars">Total Offer(dollars)</string>
+    <string name="str_total_offer_dollars">Total Offer(EUR)</string>
     <string name="str_how_do_you_want_to_pay">How do you want to pay?</string>
     <string name="str_password_policy">Password should be minimum 6 characters long</string>
     <string name="str_password_not_matched">Passwords did not matched</string>
@@ -301,5 +301,6 @@
     <string name="str_no_disputed_orders">No disputed orders</string>
     <string name="str_no_late_orders">No late orders</string>
     <string name="str_no_cancelled_orders">No cancelled orders</string>
+    <string name="str_currency_sign">€</string>
 
 </resources>

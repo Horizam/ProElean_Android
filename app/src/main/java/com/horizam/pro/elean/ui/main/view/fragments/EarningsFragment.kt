@@ -29,7 +29,7 @@ import com.horizam.pro.elean.data.model.response.EarningsData
 import com.horizam.pro.elean.utils.BaseUtils
 
 
-class EarningsFragment : Fragment() , SwipeRefreshLayout.OnRefreshListener {
+class EarningsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
     private lateinit var binding: FragmentEarningsBinding
     private lateinit var viewModel: EarningsViewModel
@@ -164,11 +164,16 @@ class EarningsFragment : Fragment() , SwipeRefreshLayout.OnRefreshListener {
 
     private fun setUIData(earningsData: EarningsData) {
         binding.apply {
-            tvCurrentBalanceValue.text = "$${earningsData.current_balance}"
-            tvTotalEarningValue.text = "$${earningsData.total_earning}"
-            tvEarningThisYearValue.text = "$${earningsData.year_earning}"
-            tvEarningThisMonthValue.text = "$${earningsData.monthly_earning}"
-            tvEarningThisWeekValue.text = "$${earningsData.weekly_earning}"
+            tvCurrentBalanceValue.text =
+                "${getString(R.string.str_currency_sign)}${earningsData.current_balance}"
+            tvTotalEarningValue.text =
+                "${getString(R.string.str_currency_sign)}${earningsData.total_earning}"
+            tvEarningThisYearValue.text =
+                "${getString(R.string.str_currency_sign)}${earningsData.year_earning}"
+            tvEarningThisMonthValue.text =
+                "${getString(R.string.str_currency_sign)}${earningsData.monthly_earning}"
+            tvEarningThisWeekValue.text =
+                "${getString(R.string.str_currency_sign)}${earningsData.weekly_earning}"
         }
     }
 }

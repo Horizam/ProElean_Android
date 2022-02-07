@@ -132,14 +132,14 @@ class SellerActionsFragment : Fragment(), OnItemClickListener , SwipeRefreshLayo
             is SellerDataModel -> {
                 binding.apply {
                     item.apply {
-                        tvPersonalBalanceValue.text = "$$availabe_balance"
-                        tvAvgSellingPriceValue.text = "$$average_selling"
-                        tvPendingClearanceValue.text = "$$pending_balance"
-                        tvEarningInDecemberValue.text = "$$monthly_selling"
+                        tvPersonalBalanceValue.text = "${getString(R.string.str_currency_sign)}$availabe_balance"
+                        tvAvgSellingPriceValue.text = "${getString(R.string.str_currency_sign)}$average_selling"
+                        tvPendingClearanceValue.text = "${getString(R.string.str_currency_sign)}$pending_balance"
+                        tvEarningInDecemberValue.text = "${getString(R.string.str_currency_sign)}$monthly_selling"
                         tvActiveOrdersrValue.apply {
                             text = ""
                             append("$active_orders")
-                            val spannable = SpannableStringBuilder(" ($$active_orders_balance)")
+                            val spannable = SpannableStringBuilder(" (${getString(R.string.str_currency_sign)}$active_orders_balance)")
                             spannable.setSpan(
                                 ForegroundColorSpan(
                                     ContextCompat.getColor(
@@ -155,7 +155,7 @@ class SellerActionsFragment : Fragment(), OnItemClickListener , SwipeRefreshLayo
                         tvCancelledOrdersValue.apply {
                             text = ""
                             append("$cancelled_orders")
-                            val spannable = SpannableStringBuilder(" (-$$cancelled_orders_balance)")
+                            val spannable = SpannableStringBuilder(" (-${getString(R.string.str_currency_sign)}$cancelled_orders_balance)")
                             spannable.setSpan(
                                 ForegroundColorSpan(
                                     ContextCompat.getColor(
@@ -331,7 +331,7 @@ class SellerActionsFragment : Fragment(), OnItemClickListener , SwipeRefreshLayo
 
         legenedEntries.add(
             LegendEntry(
-                "Impressions=${weeklyClicks}, ",
+                "Impressions=${weeklyImpression}, ",
                 Legend.LegendForm.SQUARE,
                 10f,
                 10f,
@@ -341,7 +341,7 @@ class SellerActionsFragment : Fragment(), OnItemClickListener , SwipeRefreshLayo
         )
         legenedEntries.add(
             LegendEntry(
-                "Clicks=${weeklyImpression}",
+                "Clicks=${weeklyClicks}",
                 Legend.LegendForm.SQUARE,
                 10f,
                 10f,

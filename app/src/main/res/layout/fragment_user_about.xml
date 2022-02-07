@@ -451,7 +451,7 @@
                     android:layout_height="@dimen/_18sdp"
                     android:layout_marginStart="@dimen/_25sdp"
                     android:contentDescription="@string/str_username"
-                    android:src="@drawable/ic_liked"
+                    android:src="@drawable/img_saved"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
