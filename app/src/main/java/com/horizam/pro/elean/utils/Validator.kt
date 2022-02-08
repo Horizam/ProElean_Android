@@ -68,7 +68,6 @@ class Validator {
             return valid
         }
 
-
         fun isValidPassword(data: Any, updateUI: Boolean = true): Boolean {
             val str = getText(data)
             var valid = true

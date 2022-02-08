@@ -61,7 +61,12 @@ class NotificationUtils {
             )
         }
 
-        fun showNotification(context: Context, title: String , description: String, pendingIntent: PendingIntent?) {
+        fun showNotification(
+            context: Context,
+            title: String,
+            description: String,
+            pendingIntent: PendingIntent?
+        ) {
 
             val notificationManager =
                 context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
