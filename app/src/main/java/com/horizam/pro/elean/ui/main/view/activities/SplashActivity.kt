@@ -6,6 +6,12 @@ import android.os.Bundle
 import android.util.DisplayMetrics
 import android.util.Log
 import android.widget.Toast
+import com.google.android.play.core.appupdate.AppUpdateManager
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory
+import com.google.android.play.core.install.InstallStateUpdatedListener
+import com.google.android.play.core.install.model.AppUpdateType
+import com.google.android.play.core.install.model.InstallStatus
+import com.google.android.play.core.install.model.UpdateAvailability
 import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.utils.BaseUtils
@@ -15,7 +21,6 @@ import com.horizam.pro.elean.utils.PrefManager
 
 class SplashActivity : AppCompatActivity() {
     private val bundle = Bundle()
-    private lateinit var prefManager: PrefManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
@@ -49,6 +54,15 @@ class SplashActivity : AppCompatActivity() {
         } else {
             loadInitialActivity()
             getScreenWidthAndHeight()
+        }
+    }
+
+    private val listener: InstallStateUpdatedListener? = InstallStateUpdatedListener { installState ->
+        if (installState.installStatus() == InstallStatus.DOWNLOADED) {
+            // After the update is downloaded, show a notification
+            // and request user confirmation to restart the app.
+            Log.d("mytag", "An update has been downloaded")
+
         }
     }
 

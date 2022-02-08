@@ -33,6 +33,12 @@ import com.bumptech.glide.Glide
 import com.google.android.gms.location.*
 import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.play.core.appupdate.AppUpdateManager
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory
+import com.google.android.play.core.install.InstallStateUpdatedListener
+import com.google.android.play.core.install.model.AppUpdateType
+import com.google.android.play.core.install.model.InstallStatus
+import com.google.android.play.core.install.model.UpdateAvailability
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -86,11 +92,13 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
     var handler: Handler = Handler()
     var runnable: Runnable? = null
     var delay = 5000
+    private lateinit var appUpdateManager: AppUpdateManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        updateApp()
         initViews()
         getData()
         setupViewModel()
@@ -107,6 +115,52 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
             handler.postDelayed(runnable!!, delay.toLong())
             getTotalNumberUnreadMsg()
         }.also { runnable = it }, delay.toLong())
+    }
+
+    private fun updateApp() {
+        Log.wtf("mytag", "checking for update")
+        appUpdateManager = AppUpdateManagerFactory.create(this)
+        checkUpdate()
+    }
+
+    private val listener: InstallStateUpdatedListener? =
+        InstallStateUpdatedListener { installState ->
+            if (installState.installStatus() == InstallStatus.DOWNLOADED) {
+                // After the update is downloaded, show a notification
+                // and request user confirmation to restart the app.
+                Log.d("mytag", "An update has been downloaded")
+                showSuccessMessage("An update has been downloaded")
+                appUpdateManager!!.completeUpdate()
+            }
+        }
+
+    private fun checkUpdate() {
+        // Returns an intent object that you use to check for an update.
+        val appUpdateInfoTask = appUpdateManager?.appUpdateInfo
+        // Checks that the platform will allow the specified type of update.
+        Log.d("mytag", "Checking for updates")
+        appUpdateInfoTask?.addOnSuccessListener { appUpdateInfo ->
+            if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
+                && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)
+            ) {
+                // Request the update.
+                Log.wtf("mytag", "Update available")
+                appUpdateManager.registerListener(listener!!)
+                appUpdateManager.startUpdateFlowForResult(
+                    // Pass the intent that is returned by 'getAppUpdateInfo()'.
+                    appUpdateInfo,
+                    // Or 'AppUpdateType.FLEXIBLE' for flexible updates.
+                    AppUpdateType.FLEXIBLE,
+                    // The current activity making the update request.
+                    this,
+                    // Include a request code to later monitor this update request.
+                    100
+                )
+            } else {
+                appUpdateManager.unregisterListener(listener!!)
+                Log.wtf("mytag", "No Update available")
+            }
+        }
     }
 
 
