@@ -88,6 +88,9 @@ class SettingsFragment : Fragment() {
         binding.tvChangePassword.setOnClickListener {
             findNavController().navigate(R.id.changePasswordFragment)
         }
+        binding.tvAddAccount.setOnClickListener {
+            this.findNavController().navigate(R.id.bankDetailsFragment)
+        }
     }
 
     private fun showSelectCurrencyBottomSheet(currencyList: List<String>) {

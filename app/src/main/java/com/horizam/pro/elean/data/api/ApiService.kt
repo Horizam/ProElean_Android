@@ -22,6 +22,12 @@ interface ApiService {
     @POST("login")
     suspend fun loginUser(@Body request: LoginRequest): LoginResponse
 
+    @POST("seller/withdrawal_account")
+    suspend fun addAccountDetail(@Body request: BankDetail): GeneralResponse
+
+    @GET("seller/withdrawal_account")
+    suspend fun getAccountDetail(): BankDetailResponse
+
     @POST("forgot_password")
     suspend fun forgotPassword(@Body request: ForgotPasswordRequest): GeneralResponse
 

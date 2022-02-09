@@ -94,6 +94,9 @@ class ViewModelFactory(private val apiHelper: ApiHelper) : ViewModelProvider.Fac
             modelClass.isAssignableFrom(EarningsViewModel::class.java) -> {
                 EarningsViewModel(MainRepository(apiHelper)) as T
             }
+            modelClass.isAssignableFrom(BankDetailViewModel::class.java) -> {
+                BankDetailViewModel(MainRepository(apiHelper)) as T
+            }
             else -> throw IllegalArgumentException("Unknown class name")
         }
     }

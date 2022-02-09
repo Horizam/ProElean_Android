@@ -1,6 +1,7 @@
 package com.horizam.pro.elean.ui.main.view.fragments
 
 import android.content.Context
+import android.graphics.Paint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,6 +11,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.github.mikephil.charting.charts.Chart
 import com.horizam.pro.elean.App
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.api.ApiHelper
@@ -51,7 +53,6 @@ class EarningsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         setupViewModel()
         setupObservers()
         setOnClickListeners()
-        setPieChartGraph()
         return binding.root
     }
 
@@ -62,15 +63,17 @@ class EarningsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         setupObservers()
     }
 
-    private fun setPieChartGraph() {
+    private fun setPieChartGraph(data: EarningsData) {
+        binding.chart.isDrawHoleEnabled = true
+        binding.chart.setHoleColor(ContextCompat.getColor(requireContext(), R.color.colorAccent))
         val pieEntries: ArrayList<PieEntry> = ArrayList()
         val label = "type"
 
         //initializing data
         val amountMap: HashMap<String, Int> = HashMap()
-        amountMap["Toys"] = 200
-        amountMap["Snacks"] = 100
-        amountMap["children"] = 100
+        amountMap["Total Earning"] = data.total_earning.toInt()
+        amountMap["This Year Earning"] = data.year_earning.toInt()
+        amountMap["This Month Earning"] = data.monthly_earning.toInt()
 
         val colors: ArrayList<Int> = ArrayList()
         colors.add(ContextCompat.getColor(requireContext(), R.color.colorThree))
@@ -110,13 +113,8 @@ class EarningsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                 findNavController().popBackStack()
             }
         }
-
         binding.btnWithdraw.setOnClickListener {
-            findNavController().navigate(
-                R.id.bankDetailsFragment,
-                null,
-                BaseUtils.animationOpenScreen()
-            )
+            genericHandler.showSuccessMessage("Coming Soon")
         }
     }
 
@@ -156,6 +154,7 @@ class EarningsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
     private fun handleResponse(response: EarningsResponse) {
         try {
+            setPieChartGraph(response.data)
             setUIData(response.data)
         } catch (e: Exception) {
             genericHandler.showErrorMessage(e.message.toString())

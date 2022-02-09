@@ -1,379 +1,384 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipe_refresh"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/swipe_refresh"
     android:fillViewport="true">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-        <include
-            android:id="@+id/toolbar"
-            layout="@layout/toolbar_layout" />
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cv_current_balanace"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_5sdp"
-            app:cardCornerRadius="@dimen/_5sdp"
-            app:cardElevation="@dimen/_1sdp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar">
-            <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_height="wrap_content">
+
+            <include
+                android:id="@+id/toolbar"
+                layout="@layout/toolbar_layout" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cv_current_balanace"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorAccent"
-                android:paddingTop="@dimen/_10sdp"
-                android:paddingBottom="@dimen/_20sdp">
+                android:layout_margin="@dimen/_5sdp"
+                app:cardCornerRadius="@dimen/_5sdp"
+                app:cardElevation="@dimen/_1sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
-                <TextView
-                    android:id="@+id/tv_current_balance"
-                    android:layout_width="wrap_content"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_15sdp"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:text="Current Balance"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="@dimen/_13ssp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:background="@color/colorAccent"
+                    android:paddingTop="@dimen/_10sdp"
+                    android:paddingBottom="@dimen/_10sdp">
 
-                <TextView
-                    android:id="@+id/tv_current_balance_value"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_15sdp"
-                    android:text="@string/str_currency_sign"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="@dimen/_18ssp"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_current_balance" />
+                    <TextView
+                        android:id="@+id/tv_current_balance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_15sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:text="Current Balance"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="@dimen/_14ssp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_withdraw"
-                    style="@style/New.TextButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/_30sdp"
-                    android:layout_marginEnd="@dimen/_15sdp"
-                    android:backgroundTint="@color/colorButtons"
-                    android:text="WithDraw"
-                    android:textAllCaps="false"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="@dimen/_9ssp"
-                    app:cornerRadius="@dimen/_4sdp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    <TextView
+                        android:id="@+id/tv_current_balance_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_15sdp"
+                        android:text="@string/str_currency_sign"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="@dimen/_20ssp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_current_balance" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </com.google.android.material.card.MaterialCardView>
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_withdraw"
+                        style="@style/New.TextButton"
+                        android:layout_width="@dimen/_80sdp"
+                        android:layout_height="@dimen/_30sdp"
+                        android:layout_marginEnd="@dimen/_15sdp"
+                        android:backgroundTint="@color/colorButtons"
+                        android:text="WithDraw"
+                        android:textAllCaps="false"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="@dimen/_9ssp"
+                        app:cornerRadius="@dimen/_4sdp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/tv_earning_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:text="Earnings"
-            android:textColor="@color/colorBlack"
-            android:textSize="@dimen/_13ssp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cv_current_balanace" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/card_earning_detail"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:layout_weight="1"
-            app:cardCornerRadius="@dimen/_10sdp"
-            app:cardElevation="@dimen/_2sdp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_earning_title"
-            app:strokeColor="@color/colorGrey"
-            app:strokeWidth="@dimen/_1sdp">
+            <TextView
+                android:id="@+id/tv_earning_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:text="Earnings"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/_13ssp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cv_current_balanace" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_earning_detail"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_weight="1"
+                app:cardCornerRadius="@dimen/_10sdp"
+                app:cardElevation="@dimen/_2sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_earning_title"
+                app:strokeColor="@color/colorGrey"
+                app:strokeWidth="@dimen/_1sdp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorAccent">
+
+                    <LinearLayout
+                        android:id="@+id/ll_personal_balance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_20sdp"
+                        android:orientation="vertical"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            android:id="@+id/tv_total_earning_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:text="@string/str_currency_sign"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="@dimen/_15ssp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_total_earning"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Total Earnings"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="@dimen/_11sdp" />
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/view2"
+                        android:layout_width="0.5dp"
+                        android:layout_height="@dimen/_25sdp"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginEnd="25dp"
+                        android:background="@color/colorWhite"
+                        app:layout_constraintEnd_toStartOf="@+id/ll_earning_in_december"
+                        app:layout_constraintTop_toTopOf="@+id/ll_earning_in_december" />
+
+                    <LinearLayout
+                        android:id="@+id/ll_earning_in_december"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_150sdp"
+                        android:layout_marginTop="@dimen/_20sdp"
+                        android:layout_marginEnd="@dimen/_20sdp"
+                        android:orientation="vertical"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            android:id="@+id/tv_earning_this_year_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:text="@string/str_currency_sign"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="@dimen/_15ssp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_earning_this_year"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Earning This Year"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="@dimen/_11ssp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_avg_selling_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_20sdp"
+                        android:orientation="vertical"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/ll_personal_balance">
+
+                        <TextView
+                            android:id="@+id/tv_earning_this_month_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:text="@string/str_currency_sign"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="@dimen/_15ssp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_earning_this_month"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Earning this month"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="@dimen/_11ssp" />
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/view3"
+                        android:layout_width="0.5dp"
+                        android:layout_height="@dimen/_25sdp"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginEnd="25dp"
+                        android:background="@color/colorWhite"
+                        app:layout_constraintEnd_toStartOf="@+id/ll_active_orders"
+                        app:layout_constraintTop_toTopOf="@+id/ll_active_orders" />
+
+                    <LinearLayout
+                        android:id="@+id/ll_active_orders"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_150sdp"
+                        android:layout_marginTop="@dimen/_20sdp"
+                        android:orientation="vertical"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/ll_personal_balance">
+
+                        <TextView
+                            android:id="@+id/tv_earning_this_week_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:text="@string/str_currency_sign"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="@dimen/_15ssp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_earning_this_week"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Earning this week"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="@dimen/_11ssp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_pending_clearance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="@dimen/_20sdp"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:orientation="vertical"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/ll_avg_selling_price">
+
+
+                        <TextView
+                            android:id="@+id/tv_pending_clearance_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:text="$0"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="@dimen/_15ssp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_pending_clearance"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Pending Clearance"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="@dimen/_11ssp" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="0.5dp"
+                        android:layout_height="@dimen/_25sdp"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginEnd="25dp"
+                        android:background="@color/colorWhite"
+                        app:layout_constraintEnd_toStartOf="@+id/ll_cancelled_orders"
+                        app:layout_constraintTop_toTopOf="@+id/ll_cancelled_orders" />
+
+                    <LinearLayout
+                        android:id="@+id/ll_cancelled_orders"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_150sdp"
+                        android:layout_marginTop="@dimen/_20sdp"
+                        android:orientation="vertical"
+                        android:visibility="gone"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/ll_avg_selling_price">
+
+                        <TextView
+                            android:id="@+id/tv_cancelled_orders_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:text="$0"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="@dimen/_15ssp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_cancelled_orders"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Cancelled Orders"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="@dimen/_11ssp" />
+                    </LinearLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:id="@+id/tv_analytics"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:text="Gigs Analytics"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/_13ssp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/card_earning_detail" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_analytics"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_35sdp"
+                android:layout_weight="1"
+                app:cardCornerRadius="@dimen/_10sdp"
+                app:cardElevation="@dimen/_2sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/card_earning_detail"
+                app:strokeColor="@color/colorGrey"
+                app:strokeWidth="@dimen/_1sdp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorAccent">
+
+                    <com.github.mikephil.charting.charts.PieChart
+                        android:id="@+id/chart"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/_200sdp"
+                        android:layout_margin="@dimen/_15sdp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/colorAccent">
-
-                <LinearLayout
-                    android:id="@+id/ll_personal_balance"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_20sdp"
-                    android:layout_marginTop="@dimen/_20sdp"
-                    android:orientation="vertical"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <TextView
-                        android:id="@+id/tv_total_earning_value"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_5sdp"
-                        android:text="@string/str_currency_sign"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/_15ssp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/tv_total_earning"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Total Earnings"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/_11sdp" />
-                </LinearLayout>
-
-                <View
-                    android:id="@+id/view2"
-                    android:layout_width="0.5dp"
-                    android:layout_height="@dimen/_25sdp"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginEnd="25dp"
-                    android:background="@color/colorWhite"
-                    app:layout_constraintEnd_toStartOf="@+id/ll_earning_in_december"
-                    app:layout_constraintTop_toTopOf="@+id/ll_earning_in_december" />
-
-                <LinearLayout
-                    android:id="@+id/ll_earning_in_december"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_150sdp"
-                    android:layout_marginTop="@dimen/_20sdp"
-                    android:layout_marginEnd="@dimen/_20sdp"
-                    android:orientation="vertical"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <TextView
-                        android:id="@+id/tv_earning_this_year_value"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_5sdp"
-                        android:text="@string/str_currency_sign"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/_15ssp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/tv_earning_this_year"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Earning This Year"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/_11ssp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/ll_avg_selling_price"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_20sdp"
-                    android:layout_marginTop="@dimen/_20sdp"
-                    android:orientation="vertical"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ll_personal_balance">
-
-                    <TextView
-                        android:id="@+id/tv_earning_this_month_value"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_5sdp"
-                        android:text="@string/str_currency_sign"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/_15ssp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/tv_earning_this_month"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Earning this month"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/_11ssp" />
-                </LinearLayout>
-
-                <View
-                    android:id="@+id/view3"
-                    android:layout_width="0.5dp"
-                    android:layout_height="@dimen/_25sdp"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginEnd="25dp"
-                    android:background="@color/colorWhite"
-                    app:layout_constraintEnd_toStartOf="@+id/ll_active_orders"
-                    app:layout_constraintTop_toTopOf="@+id/ll_active_orders" />
-
-                <LinearLayout
-                    android:id="@+id/ll_active_orders"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_150sdp"
-                    android:layout_marginTop="@dimen/_20sdp"
-                    android:orientation="vertical"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ll_personal_balance">
-
-                    <TextView
-                        android:id="@+id/tv_earning_this_week_value"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_5sdp"
-                        android:text="@string/str_currency_sign"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/_15ssp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/tv_earning_this_week"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Earning this week"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/_11ssp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/ll_pending_clearance"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="@dimen/_20sdp"
-                    android:layout_marginStart="@dimen/_20sdp"
-                    android:orientation="vertical"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ll_avg_selling_price">
+                android:layout_height="@dimen/_20sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/card_analytics" />
 
 
-                    <TextView
-                        android:id="@+id/tv_pending_clearance_value"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_5sdp"
-                        android:text="$0"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/_15ssp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/tv_pending_clearance"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Pending Clearance"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/_11ssp" />
-                </LinearLayout>
-
-                <View
-                    android:layout_width="0.5dp"
-                    android:layout_height="@dimen/_25sdp"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginEnd="25dp"
-                    android:background="@color/colorWhite"
-                    app:layout_constraintEnd_toStartOf="@+id/ll_cancelled_orders"
-                    app:layout_constraintTop_toTopOf="@+id/ll_cancelled_orders" />
-
-                <LinearLayout
-                    android:id="@+id/ll_cancelled_orders"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_150sdp"
-                    android:layout_marginTop="@dimen/_20sdp"
-                    android:orientation="vertical"
-                    android:visibility="gone"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ll_avg_selling_price">
-
-                    <TextView
-                        android:id="@+id/tv_cancelled_orders_value"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_5sdp"
-                        android:text="$0"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/_15ssp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/tv_cancelled_orders"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Cancelled Orders"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="@dimen/_11ssp" />
-                </LinearLayout>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </com.google.android.material.card.MaterialCardView>
-
-        <TextView
-            android:id="@+id/tv_analytics"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:text="Gigs Analytics"
-            android:textColor="@color/colorBlack"
-            android:textSize="@dimen/_13ssp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/card_earning_detail" />
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/card_analytics"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_35sdp"
-            android:layout_weight="1"
-            app:cardCornerRadius="@dimen/_10sdp"
-            app:cardElevation="@dimen/_2sdp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/card_earning_detail"
-            app:strokeColor="@color/colorGrey"
-            app:strokeWidth="@dimen/_1sdp">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/colorAccent">
-
-                <com.github.mikephil.charting.charts.PieChart
-                    android:id="@+id/chart"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/_200sdp"
-                    android:layout_margin="@dimen/_15sdp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </com.google.android.material.card.MaterialCardView>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_15sdp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/card_analytics"/>
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

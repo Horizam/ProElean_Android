@@ -302,5 +302,6 @@
     <string name="str_no_late_orders">No late orders</string>
     <string name="str_no_cancelled_orders">No cancelled orders</string>
     <string name="str_currency_sign">€</string>
+    <string name="str_add_account">Add Account</string>
 
 </resources>
