@@ -34,6 +34,7 @@
                     android:layout_width="@dimen/_33sdp"
                     android:layout_height="@dimen/_33sdp"
                     android:padding="@dimen/_6sdp"
+                    android:layout_marginEnd="@dimen/_8sdp"
                     android:src="@drawable/exo_ic_settings"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
