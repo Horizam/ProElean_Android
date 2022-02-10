@@ -21,8 +21,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_12sdp"
-            android:layout_marginEnd="@dimen/_12sdp"
+            android:layout_marginHorizontal="@dimen/_10sdp"
             android:orientation="vertical">
 
             <TextView
@@ -30,11 +29,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:padding="@dimen/_8sdp"
+                android:padding="@dimen/_12sdp"
                 android:text="@string/term_of_services"
                 android:textColor="@color/colorBlack"
-                android:textSize="@dimen/_12ssp"
-                android:textStyle="bold" />
+                android:textSize="@dimen/_12ssp" />
 
             <View
                 android:layout_width="match_parent"
@@ -46,11 +44,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:padding="@dimen/_8sdp"
+                android:padding="@dimen/_12ssp"
                 android:text="@string/privacy_policy"
                 android:textColor="@color/colorBlack"
-                android:textSize="@dimen/_12ssp"
-                android:textStyle="bold" />
+                android:textSize="@dimen/_12ssp" />
 
             <View
                 android:layout_width="match_parent"
@@ -62,11 +59,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:padding="@dimen/_8sdp"
+                android:padding="@dimen/_12sdp"
                 android:text="@string/edit_profile"
                 android:textColor="@color/colorBlack"
-                android:textSize="@dimen/_12ssp"
-                android:textStyle="bold" />
+                android:textSize="@dimen/_12ssp" />
 
             <View
                 android:layout_width="match_parent"
@@ -78,11 +74,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:padding="@dimen/_8sdp"
+                android:padding="@dimen/_12sdp"
                 android:text="@string/str_select_currency"
                 android:textColor="@color/colorBlack"
-                android:textSize="@dimen/_12ssp"
-                android:textStyle="bold" />
+                android:textSize="@dimen/_12ssp"/>
 
             <View
                 android:layout_width="match_parent"
@@ -94,11 +89,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:padding="@dimen/_8sdp"
+                android:padding="@dimen/_12sdp"
                 android:text="@string/str_select_language"
                 android:textColor="@color/colorBlack"
-                android:textSize="@dimen/_12ssp"
-                android:textStyle="bold" />
+                android:textSize="@dimen/_12ssp"/>
 
             <View
                 android:layout_width="match_parent"
@@ -110,11 +104,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:padding="@dimen/_8sdp"
+                android:padding="@dimen/_12sdp"
                 android:text="@string/str_change_password"
                 android:textColor="@color/colorBlack"
-                android:textSize="@dimen/_12ssp"
-                android:textStyle="bold" />
+                android:textSize="@dimen/_12ssp"/>
 
             <View
                 android:layout_width="match_parent"
@@ -126,11 +119,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:padding="@dimen/_8sdp"
-                android:text="@string/str_add_account"
+                android:padding="@dimen/_12sdp"
+                android:text="@string/str_withdrawal_amount"
                 android:textColor="@color/colorBlack"
-                android:textSize="@dimen/_12ssp"
-                android:textStyle="bold" />
+                android:textSize="@dimen/_12ssp" />
 
         </LinearLayout>
 

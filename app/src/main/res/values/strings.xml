@@ -303,5 +303,6 @@
     <string name="str_no_cancelled_orders">No cancelled orders</string>
     <string name="str_currency_sign">€</string>
     <string name="str_add_account">Add Account</string>
+    <string name="str_withdrawal_amount">Withdrawal Amount</string>
 
 </resources>

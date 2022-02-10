@@ -50,6 +50,11 @@ class BankDetailsFragment : Fragment() {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.getBankAccountDetail()
+    }
+
 
     private fun setUpObserver() {
         viewModel.addAccountDetail.observe(viewLifecycleOwner, {
@@ -80,7 +85,7 @@ class BankDetailsFragment : Fragment() {
                     }
                     Status.ERROR -> {
                         genericHandler.showProgressBar(false)
-                        genericHandler.showErrorMessage(it.message.toString())
+//                        genericHandler.showErrorMessage(it.message.toString())
                     }
                     Status.LOADING -> {
                         genericHandler.showProgressBar(true)

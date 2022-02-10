@@ -1,17 +1,17 @@
 package com.horizam.pro.elean.ui.main.view.fragments
 
+import android.app.Dialog
 import android.content.Context
-import android.graphics.Paint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.github.mikephil.charting.charts.Chart
 import com.horizam.pro.elean.App
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.api.ApiHelper
@@ -28,7 +28,6 @@ import com.github.mikephil.charting.data.PieData
 
 import com.github.mikephil.charting.data.PieDataSet
 import com.horizam.pro.elean.data.model.response.EarningsData
-import com.horizam.pro.elean.utils.BaseUtils
 
 
 class EarningsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
@@ -37,6 +36,9 @@ class EarningsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     private lateinit var viewModel: EarningsViewModel
     private lateinit var genericHandler: GenericHandler
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
+    private var accountVerified: Int = 0
+    private lateinit var dialogWithdrawalAmount: Dialog
+    private lateinit var layoutWithdrawlAmountBinding: LayoutWithdrawlAmountBinding
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -52,8 +54,30 @@ class EarningsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         initViews()
         setupViewModel()
         setupObservers()
+        setupWithDrawlAmountObserver()
         setOnClickListeners()
+        initChooseImageDialog()
         return binding.root
+    }
+
+    private fun setupWithDrawlAmountObserver() {
+        viewModel.withdrawalAmount.observe(viewLifecycleOwner, {
+            it?.let { resource ->
+                when (resource.status) {
+                    Status.SUCCESS -> {
+                        genericHandler.showProgressBar(false)
+                        genericHandler.showSuccessMessage(it.data!!.message.toString())
+                    }
+                    Status.ERROR -> {
+                        genericHandler.showProgressBar(false)
+                        genericHandler.showErrorMessage(it.message.toString())
+                    }
+                    Status.LOADING -> {
+                        genericHandler.showProgressBar(true)
+                    }
+                }
+            }
+        })
     }
 
     override fun onRefresh() {
@@ -114,8 +138,31 @@ class EarningsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
             }
         }
         binding.btnWithdraw.setOnClickListener {
-            genericHandler.showSuccessMessage("Coming Soon")
+            if (accountVerified == 0) {
+                this.findNavController().navigate(R.id.bankDetailsFragment)
+            } else {
+                dialogWithdrawalAmount.show()
+                val window: Window = dialogWithdrawalAmount.window!!
+                window.setLayout(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+                )
+            }
         }
+    }
+
+    private fun initChooseImageDialog() {
+        dialogWithdrawalAmount = Dialog(requireContext())
+        layoutWithdrawlAmountBinding = LayoutWithdrawlAmountBinding.inflate(layoutInflater)
+        dialogWithdrawalAmount.setContentView(layoutWithdrawlAmountBinding.root)
+        layoutWithdrawlAmountBinding.btnWithdraw.setOnClickListener {
+            dialogWithdrawalAmount.dismiss()
+            exeWithdrawalRequest(layoutWithdrawlAmountBinding.etAmount.text.toString())
+        }
+    }
+
+    private fun exeWithdrawalRequest(amount: String) {
+        viewModel.withdrawalAmount(amount.toDouble())
     }
 
     private fun setToolbarData() {
@@ -154,6 +201,7 @@ class EarningsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
     private fun handleResponse(response: EarningsResponse) {
         try {
+            accountVerified = response.data.bankaccount_verified
             setPieChartGraph(response.data)
             setUIData(response.data)
         } catch (e: Exception) {

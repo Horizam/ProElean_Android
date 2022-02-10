@@ -377,5 +377,10 @@
         android:id="@+id/salesFragment"
         android:name="com.horizam.pro.elean.ui.main.view.fragments.manageSales.SalesFragment"
         android:label="SalesFragment" />
+    <fragment
+        android:id="@+id/bankAccountsFragment"
+        android:name="com.horizam.pro.elean.ui.main.view.fragments.BankAccountsFragment"
+        android:label="fragment_bank_accounts"
+        tools:layout="@layout/fragment_bank_accounts" />
 
 </navigation>

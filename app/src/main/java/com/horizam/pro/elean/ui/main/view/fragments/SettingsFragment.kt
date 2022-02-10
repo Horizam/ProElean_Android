@@ -89,7 +89,7 @@ class SettingsFragment : Fragment() {
             findNavController().navigate(R.id.changePasswordFragment)
         }
         binding.tvAddAccount.setOnClickListener {
-            this.findNavController().navigate(R.id.bankDetailsFragment)
+            this.findNavController().navigate(R.id.bankAccountsFragment)
         }
     }
 

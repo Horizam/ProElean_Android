@@ -14,7 +14,7 @@ import kotlinx.coroutines.Dispatchers
 class BankDetailViewModel(private val mainRepository: MainRepository) : ViewModel() {
 
     private val addAccountDetailRequest = MutableLiveData<BankDetail>()
-    private val getAccountDetailRequest = MutableLiveData(defaultRequest)
+    private val getAccountDetailRequest = MutableLiveData<String>()
 
     val addAccountDetail = addAccountDetailRequest.switchMap {
         liveData(Dispatchers.IO) {
@@ -44,7 +44,7 @@ class BankDetailViewModel(private val mainRepository: MainRepository) : ViewMode
         addAccountDetailRequest.value = request
     }
 
-    companion object {
-        const val defaultRequest = "profileDataRequest"
+    fun getBankAccountDetail(){
+        getAccountDetailRequest.value = ""
     }
 }

@@ -215,6 +215,10 @@ interface ApiService {
     @GET("seller/earningDetails")
     suspend fun getEarnings(): EarningsResponse
 
+    @FormUrlEncoded
+    @POST("seller/withdrawRequest")
+    suspend fun withdrawalAmount(@Field("amount") request: Double): GeneralResponse
+
     @GET("seller/orders")
     suspend fun getSellersOrders(@Query("status") status: Int): OrdersResponse
 

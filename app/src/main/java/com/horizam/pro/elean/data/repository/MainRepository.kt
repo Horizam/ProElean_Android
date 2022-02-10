@@ -41,6 +41,7 @@ class MainRepository(private val apiHelper: ApiHelper) {
     suspend fun getLanguageAndCurrency() = apiHelper.getLanguageAndCurrency()
     suspend fun getNotifications() = apiHelper.getNotifications()
     suspend fun getEarnings() = apiHelper.getEarnings()
+    suspend fun withdrawalAmount(amount: Double) = apiHelper.withdrawalAmount(amount)
     suspend fun getSpinnerSubcategories(id: String) = apiHelper.getSpinnerSubcategories(id)
     suspend fun deletePostedJob(id: String) = apiHelper.deletePostedJob(id)
     suspend fun getBuyerOrders(id: String) = apiHelper.getBuyerOrders(id)
