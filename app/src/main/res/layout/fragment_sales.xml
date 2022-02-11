@@ -39,7 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:text="@string/str_manage_sales"
+                android:text="@string/str_manage_orders"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/_16ssp"
                 android:textStyle="bold"

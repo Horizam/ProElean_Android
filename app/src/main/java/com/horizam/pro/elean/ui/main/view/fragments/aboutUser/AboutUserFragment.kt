@@ -139,7 +139,7 @@ class AboutUserFragment : Fragment(), OnItemClickListener {
     private fun initDeleteDialog() {
         dialogDelete = Dialog(requireActivity())
         bindingDeleteDialog = DialogDeleteBinding.inflate(layoutInflater)
-        bindingDeleteDialog.tvTitle.text = "Are you sure you want to logout"
+        bindingDeleteDialog.tvTitle.text = "Are you sure you want to logout?"
         dialogDelete.setContentView(bindingDeleteDialog.root)
     }
 
@@ -148,8 +148,9 @@ class AboutUserFragment : Fragment(), OnItemClickListener {
         prefManager = PrefManager(requireContext())
         binding.switchSellerMode.isChecked = prefManager.sellerMode != 0
         if (prefManager.sellerMode == 0) {
-
+            binding.clSaved.visibility = View.VISIBLE
         } else {
+            binding.clSaved.visibility = View.GONE
             binding.rvBuyerActions.visibility = View.GONE
             binding.tvBuyerAction.visibility = View.GONE
         }

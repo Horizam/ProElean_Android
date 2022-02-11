@@ -16,21 +16,21 @@ class MyWorker(ctx: Context, params: WorkerParameters) : CoroutineWorker(ctx, pa
 
         return try {
             if (fcmToken.isNullOrEmpty()) {
-                Log.e(MyWorker::class.java.simpleName,"Invalid token")
+                Log.e(MyWorker::class.java.simpleName, "Invalid token")
                 throw IllegalArgumentException("Invalid token")
             }
             val apiService = RetrofitBuilder.apiService
             val storeUserInfoRequest = StoreUserInfoRequest(
                 device_id = fcmToken
             )
-            val data : GeneralResponse = apiService.storeUserInfo(storeUserInfoRequest)
-            return if (data.status == Constants.STATUS_OK){
+            val data: GeneralResponse = apiService.storeUserInfo(storeUserInfoRequest)
+            return if (data.status == Constants.STATUS_OK) {
                 Result.success()
-            }else{
+            } else {
                 Result.retry()
             }
         } catch (throwable: Throwable) {
-            Log.e(MyWorker::class.java.simpleName,"error saving token")
+            Log.e(MyWorker::class.java.simpleName, "error saving token")
             Result.failure()
         }
     }

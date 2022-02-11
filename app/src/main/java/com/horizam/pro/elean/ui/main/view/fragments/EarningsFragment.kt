@@ -89,19 +89,20 @@ class EarningsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
     private fun setPieChartGraph(data: EarningsData) {
         binding.chart.isDrawHoleEnabled = true
+        binding.chart.setDrawEntryLabels(false)
         binding.chart.setHoleColor(ContextCompat.getColor(requireContext(), R.color.colorAccent))
         val pieEntries: ArrayList<PieEntry> = ArrayList()
-        val label = "type"
+        val label = ""
 
         //initializing data
         val amountMap: HashMap<String, Int> = HashMap()
-        amountMap["Total Earning"] = data.total_earning.toInt()
-        amountMap["This Year Earning"] = data.year_earning.toInt()
-        amountMap["This Month Earning"] = data.monthly_earning.toInt()
-
         val colors: ArrayList<Int> = ArrayList()
+
+        amountMap["Total Earning"] = data.total_earning.toInt()
         colors.add(ContextCompat.getColor(requireContext(), R.color.colorThree))
+        amountMap["This Year Earning"] = data.year_earning.toInt()
         colors.add(ContextCompat.getColor(requireContext(), R.color.color_green))
+        amountMap["This Month Earning"] = data.monthly_earning.toInt()
         colors.add(ContextCompat.getColor(requireContext(), R.color.colorGolden))
 
         for (type in amountMap.keys) {

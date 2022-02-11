@@ -227,7 +227,7 @@
     <string name="str_choose_attachment">Choose your attachment</string>
     <string name="str_camera">Take Photo</string>
     <string name="str_gallery">Gallery</string>
-    <string name="str_are_you_sure_to_undo_favourite">Are you sure to undo favorite?</string>
+    <string name="str_are_you_sure_to_undo_favourite">Are you sure to undo favourite?</string>
     <string name="str_no">No</string>
     <string name="str_cancel">Cancel</string>
     <string name="str_no_language_available">No language data available</string>
@@ -304,5 +304,6 @@
     <string name="str_currency_sign">€</string>
     <string name="str_add_account">Add Account</string>
     <string name="str_withdrawal_amount">Withdrawal Amount</string>
+    <string name="str_manage_detail">Manage Detail</string>
 
 </resources>

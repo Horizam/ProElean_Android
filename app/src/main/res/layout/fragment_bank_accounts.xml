@@ -80,14 +80,16 @@
 
             <TextView
                 android:id="@+id/tv_account_number_value"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_5sdp"
                 app:layout_constraintTop_toBottomOf="@+id/account_name_title"
                 app:layout_constraintStart_toEndOf="@+id/account_number_title"
+                app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginStart="@dimen/_5sdp"
                 android:textSize="@dimen/_12ssp"
-                android:singleLine="true"
+                app:layout_goneMarginEnd="@dimen/_10sdp"
+                android:maxLines="2"
                 android:textColor="@color/colorBlack"
                 android:ellipsize="marquee"
                 android:layout_marginEnd="@dimen/_10sdp"
@@ -100,6 +102,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_margin="@dimen/_10sdp"
+                android:padding="2dp"
                 android:background="@drawable/img_edit"
                 android:backgroundTint="@color/colorAccent"
                 />
