@@ -2,6 +2,9 @@ package com.horizam.pro.elean.ui.main.view.fragments
 
 import android.content.Context
 import android.os.Bundle
+import android.os.Handler
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -59,6 +62,8 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
     private var filterValue = ""
     private val args: ServiceGigsFragmentArgs by navArgs()
     private var from: Int = 0
+    private var delay: Long = 0
+    private var delayCheck = 0
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -80,9 +85,40 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
 //        setupViewModel()
         setupObservers()
         setRecyclerview()
+        setSearchFieldsListener()
         setOnClickListeners()
         executeApi()
         return binding.root
+    }
+
+    private fun setSearchFieldsListener() {
+        binding.autoCompleteTextView.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                searchManagement()
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+            }
+
+        })
+    }
+
+    private fun searchManagement() {
+        if (delayCheck == 0) {
+            delay = 500
+            delayCheck = 1
+            if (delay > 0) {
+                @Suppress("DEPRECATION")
+                Handler().postDelayed({
+                    delay = 0
+                    delayCheck = 0
+                    exeSearch()
+                }, delay)
+            }
+        }
     }
 
     private fun executeApi() {
@@ -105,7 +141,14 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
     }
 
     private fun setPriceSpinner() {
-        priceArrayList = arrayListOf("5+", "5-20", "21-50", "51-100", "101-500", "500+")
+        priceArrayList = arrayListOf(
+            "${Constants.CURRENCY}5+",
+            "${Constants.CURRENCY}5 - ${Constants.CURRENCY}20",
+            "${Constants.CURRENCY}21 - ${Constants.CURRENCY}50",
+            "${Constants.CURRENCY}51 - ${Constants.CURRENCY}100",
+            "${Constants.CURRENCY}101 - ${Constants.CURRENCY}500",
+            "${Constants.CURRENCY}500+"
+        )
         priceValueArrayList = arrayListOf("5", "5,20", "21,50", "51,100", "101,500", "500")
         val spinnerList = priceArrayList.map { price ->
             SpinnerPriceModel(
@@ -131,10 +174,12 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
                     spinnerPriceModel.value.contains("+") -> {
                         filter = "price>"
                         filterValue = spinnerPriceModel.filterValue
+                        searchManagement()
                     }
                     else -> {
                         filter = "price"
                         filterValue = spinnerPriceModel.filterValue
+                        searchManagement()
                     }
                 }
             }
@@ -270,7 +315,7 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
     override fun <T> contactSeller(item: T) {
         if (item is ServiceDetail) {
             try {
-                if (prefManager.userId != item.user_id && item.user_id != "") {
+                if (prefManager.userId != item.service_user.id && item.service_user.id != "") {
                     val messageGig = MessageGig(
                         gigId = item.id,
                         gigImage = item.service_media[0].media,
@@ -280,7 +325,7 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
                     ServiceGigsFragmentDirections.actionServiceGigsFragmentToMessagesFragment(
                         userName = item.service_user.name,
                         photo = item.service_user.image,
-                        id = item.user_id,
+                        id = item.service_user.id,
                         refersGig = true,
                         messageGig = messageGig
                     ).also {

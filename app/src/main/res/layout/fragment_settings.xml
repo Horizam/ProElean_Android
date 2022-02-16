@@ -120,7 +120,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:padding="@dimen/_12sdp"
-                android:text="@string/str_withdrawal_amount"
+                android:text="@string/str_withdrawal_account"
                 android:textColor="@color/colorBlack"
                 android:textSize="@dimen/_12ssp" />
 

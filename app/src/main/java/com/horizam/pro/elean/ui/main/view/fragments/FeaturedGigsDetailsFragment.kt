@@ -36,7 +36,8 @@ import com.horizam.pro.elean.utils.Status
 import java.lang.Exception
 
 
-class FeaturedGigsDetailsFragment : Fragment(), OnItemClickListener, BaseSliderView.OnSliderClickListener,
+class FeaturedGigsDetailsFragment : Fragment(), OnItemClickListener,
+    BaseSliderView.OnSliderClickListener,
     ViewPagerEx.OnPageChangeListener {
 
     private lateinit var binding: FragmentFeaturedGigDetailsBinding
@@ -202,7 +203,6 @@ class FeaturedGigsDetailsFragment : Fragment(), OnItemClickListener, BaseSliderV
     }
 
     private fun setUIData(serviceDetail: ServiceDetail) {
-        this.serviceDetail = serviceDetail
         binding.apply {
             tvUserName.text = serviceDetail.service_user.name
             tvCategoryPrice.text = Constants.CURRENCY.plus(" ").plus(serviceDetail.price.toString())
@@ -213,7 +213,7 @@ class FeaturedGigsDetailsFragment : Fragment(), OnItemClickListener, BaseSliderV
             tvNoOfRevision.text = serviceDetail.revision.toString()
             ratingBar.rating = serviceDetail.service_rating.toFloat()
             noOfRating.text = "(${serviceDetail.total_reviews})"
-            userId = serviceDetail.user_id
+            userId = serviceDetail.service_user.id
             if (serviceDetail.service_media.size > 0) {
                 Glide.with(this@FeaturedGigsDetailsFragment)
                     .load("${Constants.BASE_URL}${serviceDetail.service_media[0].media}")
@@ -223,14 +223,14 @@ class FeaturedGigsDetailsFragment : Fragment(), OnItemClickListener, BaseSliderV
                 setImageSlider(serviceDetail)
             }
         }
-        if (serviceDetail.serviceReviewsList.isEmpty()) {
-            recyclerView.isVisible = false
-            binding.tvPlaceholder.isVisible = true
-        } else {
-            adapter.submitList(serviceDetail.serviceReviewsList)
-            recyclerView.isVisible = true
-            binding.tvPlaceholder.isVisible = false
-        }
+//        if (serviceDetail.serviceReviewsList.isEmpty()) {
+//            recyclerView.isVisible = false
+//            binding.tvPlaceholder.isVisible = true
+//        } else {
+//            adapter.submitList(serviceDetail.serviceReviewsList)
+//            recyclerView.isVisible = true
+//            binding.tvPlaceholder.isVisible = false
+//        }
     }
 
     private fun setImageSlider(service: ServiceDetail) {

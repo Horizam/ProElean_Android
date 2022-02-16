@@ -64,14 +64,12 @@ class ActiveSalesAdapter(val listener: OnItemClickListener) :
                         tvStatus.setTextColor(
                             ContextCompat.getColor(
                                 context.requireContext(),
-                                R.color.colorWhite
+                                R.color.colorBlack
                             )
                         )
-                        cardView.setCardBackgroundColor(
-                            ContextCompat.getColor(
-                                context.requireContext(),
-                                R.color.colorThree
-                            )
+                        cardView.strokeColor = ContextCompat.getColor(
+                            context.requireContext(),
+                            R.color.colorThree
                         )
                         mainCard.strokeColor = ContextCompat.getColor(
                             context.requireContext(),
@@ -83,14 +81,12 @@ class ActiveSalesAdapter(val listener: OnItemClickListener) :
                         tvStatus.setTextColor(
                             ContextCompat.getColor(
                                 context.requireContext(),
-                                R.color.colorWhite
+                                R.color.colorBlack
                             )
                         )
-                        cardView.setCardBackgroundColor(
-                            ContextCompat.getColor(
-                                context.requireContext(),
-                                R.color.colorThree
-                            )
+                        cardView.strokeColor = ContextCompat.getColor(
+                            context.requireContext(),
+                            R.color.colorThree
                         )
                         mainCard.strokeColor = ContextCompat.getColor(
                             context.requireContext(),
@@ -102,14 +98,12 @@ class ActiveSalesAdapter(val listener: OnItemClickListener) :
                         tvStatus.setTextColor(
                             ContextCompat.getColor(
                                 context.requireContext(),
-                                R.color.colorWhite
+                                R.color.colorBlack
                             )
                         )
-                        cardView.setCardBackgroundColor(
-                            ContextCompat.getColor(
-                                context.requireContext(),
-                                R.color.colorThree
-                            )
+                        cardView.strokeColor = ContextCompat.getColor(
+                            context.requireContext(),
+                            R.color.colorThree
                         )
                         mainCard.strokeColor = ContextCompat.getColor(
                             context.requireContext(),
@@ -121,14 +115,12 @@ class ActiveSalesAdapter(val listener: OnItemClickListener) :
                         tvStatus.setTextColor(
                             ContextCompat.getColor(
                                 context.requireContext(),
-                                R.color.colorWhite
+                                R.color.colorBlack
                             )
                         )
-                        cardView.setCardBackgroundColor(
-                            ContextCompat.getColor(
-                                context.requireContext(),
-                                R.color.color_green
-                            )
+                        cardView.strokeColor = ContextCompat.getColor(
+                            context.requireContext(),
+                            R.color.color_green
                         )
                         mainCard.strokeColor = ContextCompat.getColor(
                             context.requireContext(),
@@ -140,14 +132,12 @@ class ActiveSalesAdapter(val listener: OnItemClickListener) :
                         tvStatus.setTextColor(
                             ContextCompat.getColor(
                                 context.requireContext(),
-                                R.color.colorWhite
+                                R.color.colorBlack
                             )
                         )
-                        cardView.setCardBackgroundColor(
-                            ContextCompat.getColor(
-                                context.requireContext(),
-                                R.color.colorOrange
-                            )
+                        cardView.strokeColor = ContextCompat.getColor(
+                            context.requireContext(),
+                            R.color.colorOrange
                         )
                         mainCard.strokeColor = ContextCompat.getColor(
                             context.requireContext(),
@@ -159,14 +149,12 @@ class ActiveSalesAdapter(val listener: OnItemClickListener) :
                         tvStatus.setTextColor(
                             ContextCompat.getColor(
                                 context.requireContext(),
-                                R.color.colorWhite
+                                R.color.colorBlack
                             )
                         )
-                        cardView.setCardBackgroundColor(
-                            ContextCompat.getColor(
-                                context.requireContext(),
-                                R.color.colorThree
-                            )
+                        cardView.strokeColor = ContextCompat.getColor(
+                            context.requireContext(),
+                            R.color.colorThree
                         )
                         mainCard.strokeColor = ContextCompat.getColor(
                             context.requireContext(),
@@ -178,14 +166,12 @@ class ActiveSalesAdapter(val listener: OnItemClickListener) :
                         tvStatus.setTextColor(
                             ContextCompat.getColor(
                                 context.requireContext(),
-                                R.color.colorWhite
+                                R.color.colorBlack
                             )
                         )
-                        cardView.setCardBackgroundColor(
-                            ContextCompat.getColor(
-                                context.requireContext(),
-                                R.color.color_red
-                            )
+                        cardView.strokeColor = ContextCompat.getColor(
+                            context.requireContext(),
+                            R.color.color_red
                         )
                         mainCard.strokeColor = ContextCompat.getColor(
                             context.requireContext(),

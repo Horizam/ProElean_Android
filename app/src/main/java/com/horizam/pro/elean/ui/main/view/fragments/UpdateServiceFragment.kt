@@ -315,7 +315,7 @@ class UpdateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
             SpinnerModel(id = spinnerSubcategories.id, value = spinnerSubcategories.title)
         }
         val selectedSubCategoryPosition: Int = subcategoriesArrayList.indexOfFirst {
-            it.id == args.serviceDetail.sub_category_id
+            it.id == args.serviceDetail.sub_category.id
         }
         subcategoriesAdapter = SpinnerAdapter(
             requireContext(),
@@ -332,7 +332,7 @@ class UpdateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
             SpinnerModel(id = spinnerCategories.id, value = spinnerCategories.title)
         }
         val selectedCategoryPosition: Int = categoriesArrayList.indexOfFirst {
-            it.id == args.serviceDetail.category_id
+            it.id == args.serviceDetail.category.id
         }
         daysArrayList = response.categoriesCountriesData.deliveryDays
         val selectedDaysPosition: Int = daysArrayList.indexOfFirst {

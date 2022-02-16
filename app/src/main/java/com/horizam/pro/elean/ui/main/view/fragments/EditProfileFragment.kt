@@ -441,6 +441,7 @@ class EditProfileFragment : Fragment() {
         }
 
     private fun validateData() {
+        removeAllEditTextError()
         binding.apply {
             when {
                 etFullName.editableText.trim().isEmpty() -> {
@@ -460,6 +461,12 @@ class EditProfileFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun removeAllEditTextError() {
+        binding.etFullName.error = null
+        binding.etPhone.error = null
+        binding.etAddress.error = null
     }
 
     private fun createMultipartData() {

@@ -37,6 +37,7 @@ class MainRepository(private val apiHelper: ApiHelper) {
     suspend fun getCategoriesCountries() = apiHelper.getCategoriesCountries()
     suspend fun getCategoriesDays() = apiHelper.getCategoriesDays()
     suspend fun getNonFreelancerProfile() = apiHelper.getNonFreelancerProfile()
+    suspend fun getUserReviews() = apiHelper.getUserReviews()
     suspend fun getPrivacyTerms() = apiHelper.getPrivacyTerms()
     suspend fun getLanguageAndCurrency() = apiHelper.getLanguageAndCurrency()
     suspend fun getNotifications() = apiHelper.getNotifications()

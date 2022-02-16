@@ -22,8 +22,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clickable="true"
-            android:focusableInTouchMode="true"
-            android:focusable="true">
+            android:focusable="true"
+            android:focusableInTouchMode="true">
 
             <ImageView
                 android:id="@+id/iv_toolbar"
@@ -40,13 +40,13 @@
                 android:id="@+id/autoComplete_text_view"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/_10sdp"
+                android:layout_marginHorizontal="@dimen/_15sdp"
                 android:background="@drawable/bg_shape_round_corner_grey"
                 android:drawableStart="@drawable/ic_search"
                 android:drawablePadding="@dimen/_5sdp"
                 android:hint="@string/search_hint"
-                android:padding="@dimen/_5sdp"
                 android:maxLines="1"
+                android:padding="@dimen/_5sdp"
                 app:layout_constraintBottom_toBottomOf="@id/iv_toolbar"
                 app:layout_constraintEnd_toStartOf="@id/btn_search"
                 app:layout_constraintStart_toEndOf="@id/iv_toolbar"
@@ -61,6 +61,7 @@
                 android:backgroundTint="@color/colorButtons"
                 android:elevation="@dimen/_10sdp"
                 android:text="@string/search_hint"
+                android:visibility="gone"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/_8ssp"
                 app:layout_constraintBottom_toBottomOf="@id/autoComplete_text_view"
@@ -79,12 +80,13 @@
                 android:ellipsize="end"
                 android:gravity="center"
                 android:maxLines="2"
-                android:text="@string/str_search_by_price_dollar"
+                android:text="@string/str_search_by_price"
                 android:textColor="@color/colorWhite"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toStartOf="@id/frame_layout"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/iv_toolbar" />
+                app:layout_constraintTop_toBottomOf="@id/iv_toolbar"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
             <FrameLayout
                 android:id="@+id/frame_layout"
@@ -138,6 +140,7 @@
                 android:text="@string/str_search_by_distance_miles"
                 android:textColor="@color/colorWhite"
                 android:textStyle="bold"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/frame_layout" />
@@ -151,6 +154,7 @@
                 android:value="10000.0"
                 android:valueFrom="0.0"
                 android:valueTo="10000.0"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@id/tv_distance"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/tv_distance"

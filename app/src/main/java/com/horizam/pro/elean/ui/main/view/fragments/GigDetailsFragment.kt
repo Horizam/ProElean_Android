@@ -260,7 +260,7 @@ class GigDetailsFragment : Fragment(), OnItemClickListener,
             tvNoOfRevision.text = serviceDetail.revision.toString()
             ratingBar.rating = serviceDetail.service_rating.toFloat()
             noOfRating.text = "(${serviceDetail.total_reviews})"
-            userId = serviceDetail.user_id
+            userId = serviceDetail.service_user.id
             if (serviceDetail.service_media.size > 0) {
                 Glide.with(this@GigDetailsFragment)
                     .load("${Constants.BASE_URL}${serviceDetail.service_media[0].media}")
@@ -270,14 +270,14 @@ class GigDetailsFragment : Fragment(), OnItemClickListener,
                 setImageSlider(serviceDetail)
             }
         }
-        if (serviceDetail.serviceReviewsList.isEmpty()) {
-            recyclerView.isVisible = false
-            binding.tvPlaceholder.isVisible = true
-        } else {
-            adapter.submitList(serviceDetail.serviceReviewsList)
-            recyclerView.isVisible = true
-            binding.tvPlaceholder.isVisible = false
-        }
+//        if (serviceDetail.serviceReviewsList.isEmpty()) {
+//            recyclerView.isVisible = false
+//            binding.tvPlaceholder.isVisible = true
+//        } else {
+//            adapter.submitList(serviceDetail.serviceReviewsList)
+//            recyclerView.isVisible = true
+//            binding.tvPlaceholder.isVisible = false
+//        }
     }
 
     private fun setImageSlider(serviceDetail: ServiceDetail) {

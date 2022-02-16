@@ -88,6 +88,9 @@ interface ApiService {
     @GET("profile")
     suspend fun getNonFreelancerProfile(): ProfileInfo
 
+    @GET("seller/serviceReviews")
+    suspend fun getUserReviews(): UserReviewsResponse
+
     @GET("term_condition")
     suspend fun getPrivacyTerms(): PrivacyPolicyResponse
 

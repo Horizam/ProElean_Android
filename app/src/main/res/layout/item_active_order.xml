@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="@dimen/_5sdp"
@@ -8,8 +9,7 @@
     app:cardCornerRadius="@dimen/_10sdp"
     app:cardElevation="0dp"
     app:strokeColor="@color/colorAccent"
-    app:strokeWidth="1dp"
-    android:id="@+id/main_card">
+    app:strokeWidth="@dimen/_1sdp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -19,77 +19,76 @@
             android:id="@+id/iv_user"
             android:layout_width="@dimen/_35sdp"
             android:layout_height="@dimen/_35sdp"
-            android:src="@drawable/img_profile"
             android:layout_margin="@dimen/_10sdp"
+            android:src="@drawable/img_profile"
             app:civ_border_color="@color/colorAccent"
             app:civ_border_width="@dimen/_1sdp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tv_user_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_7sdp"
             android:ellipsize="end"
             android:maxLines="1"
             android:text="@string/str_username"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="@dimen/_12ssp"
-            android:layout_marginHorizontal="@dimen/_7sdp"
-            app:layout_constraintStart_toEndOf="@id/iv_user"
+            android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@id/tv_date"
-            app:layout_constraintTop_toTopOf="@id/iv_user"
-            />
+            app:layout_constraintStart_toEndOf="@id/iv_user"
+            app:layout_constraintTop_toTopOf="@id/iv_user" />
 
         <TextView
             android:id="@+id/tv_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:maxLines="1"
+            android:layout_marginEnd="@dimen/_10sdp"
             android:ellipsize="end"
+            android:maxLines="1"
             android:text="@string/str_april_17_2020"
             android:textColor="@color/colorDarkGrey"
-            android:layout_marginEnd="@dimen/_10sdp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_user_name"
             app:layout_constraintBottom_toBottomOf="@id/tv_user_name"
-            />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_user_name" />
 
         <TextView
             android:id="@+id/tv_description"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/str_lorem_ipsum_is_simply_dummy_text_of_the_printing_and_typesetting"
-            android:ellipsize="end"
-            android:maxLines="3"
-            android:textColor="@color/colorBlack"
+            android:layout_marginStart="@dimen/_7sdp"
             android:layout_marginTop="@dimen/_5sdp"
             android:layout_marginEnd="@dimen/_10sdp"
-            android:layout_marginStart="@dimen/_7sdp"
-            app:layout_constraintStart_toEndOf="@id/iv_user"
+            android:ellipsize="end"
+            android:maxLines="3"
+            android:text="@string/str_lorem_ipsum_is_simply_dummy_text_of_the_printing_and_typesetting"
+            android:textColor="@color/colorBlack"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_user_name"/>
+            app:layout_constraintStart_toEndOf="@id/iv_user"
+            app:layout_constraintTop_toBottomOf="@id/tv_user_name" />
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/card_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:strokeWidth="1dp"
-            app:strokeColor="@color/colorDarkGrey"
-            app:cardCornerRadius="@dimen/_3sdp"
             android:layout_marginTop="@dimen/_7sdp"
             android:layout_marginBottom="@dimen/_10sdp"
+            app:cardCornerRadius="@dimen/_3sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@id/tv_description"
             app:layout_constraintTop_toBottomOf="@id/tv_description"
-            app:layout_constraintBottom_toBottomOf="parent">
+            app:strokeColor="@color/colorBlack"
+            app:strokeWidth="@dimen/_1sdp">
 
             <TextView
                 android:id="@+id/tv_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/str_completed"
                 android:layout_marginHorizontal="@dimen/_7sdp"
-                android:layout_marginVertical="@dimen/_3sdp"/>
+                android:layout_marginVertical="@dimen/_3sdp"
+                android:text="@string/str_completed" />
 
         </com.google.android.material.card.MaterialCardView>
 
@@ -97,14 +96,14 @@
             android:id="@+id/tv_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/fiftyDollar"
-            android:textColor="@color/colorPrimaryDark"
             android:layout_marginTop="@dimen/_7sdp"
             android:layout_marginEnd="@dimen/_10sdp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/card_view"
+            android:text="@string/fiftyDollar"
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@id/card_view"
-            />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/card_view" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

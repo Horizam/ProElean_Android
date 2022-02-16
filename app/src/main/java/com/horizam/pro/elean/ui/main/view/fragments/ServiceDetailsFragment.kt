@@ -168,14 +168,14 @@ class ServiceDetailsFragment : Fragment(), BaseSliderView.OnSliderClickListener,
             btnEditService.isVisible = args.isEditable
             service = serviceDetail
             setImageSlider(serviceDetail)
-            if (serviceDetail.serviceReviewsList.isEmpty()) {
-                recyclerView.isVisible = false
-                binding.tvPlaceholder.isVisible = true
-            } else {
-                adapter.submitList(serviceDetail.serviceReviewsList)
-                recyclerView.isVisible = true
-                binding.tvPlaceholder.isVisible = false
-            }
+//            if (serviceDetail.serviceReviewsList.isEmpty()) {
+//                recyclerView.isVisible = false
+//                binding.tvPlaceholder.isVisible = true
+//            } else {
+//                adapter.submitList(serviceDetail.serviceReviewsList)
+//                recyclerView.isVisible = true
+//                binding.tvPlaceholder.isVisible = false
+//            }
         }
     }
 

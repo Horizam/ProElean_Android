@@ -21,7 +21,6 @@ import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
 import com.horizam.pro.elean.ui.main.viewmodel.SettingsViewModel
 import com.horizam.pro.elean.utils.Status
 
-
 class SettingsFragment : Fragment() {
 
     private lateinit var binding: FragmentSettingsBinding

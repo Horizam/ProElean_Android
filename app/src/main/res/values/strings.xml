@@ -305,5 +305,7 @@
     <string name="str_add_account">Add Account</string>
     <string name="str_withdrawal_amount">Withdrawal Amount</string>
     <string name="str_manage_detail">Manage Detail</string>
+    <string name="str_withdrawal_account">Withdrawal Account</string>
+    <string name="str_search_by_price">Search By Price</string>
 
 </resources>

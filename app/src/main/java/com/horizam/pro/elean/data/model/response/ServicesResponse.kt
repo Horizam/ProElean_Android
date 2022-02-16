@@ -3,6 +3,7 @@ package com.horizam.pro.elean.data.model.response
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
+import java.lang.reflect.Array
 
 data class ServicesResponse(
     @SerializedName("data") var serviceList: List<ServiceDetail>,
@@ -17,9 +18,6 @@ data class ServiceResponse(
 @Parcelize
 data class ServiceDetail(
     @SerializedName("id") val id: String = "",
-    @SerializedName("user_id") val user_id: String,
-    @SerializedName("category_id") val category_id: String,
-    @SerializedName("sub_category_id") val sub_category_id: String,
     @SerializedName("s_description") val s_description: String,
     @SerializedName("description") val description: String,
     @SerializedName("price") val price: Int,
@@ -37,25 +35,24 @@ data class ServiceDetail(
     @SerializedName("sub_category") val sub_category: Subcategory,
     @SerializedName("service_user") val service_user: ServiceUser,
     @SerializedName("service_media") val service_media: List<Service_media>,
-    @SerializedName("service_reviews") val serviceReviewsList : List<ServiceReviews>
-): Parcelable
+) : Parcelable
 
 
 @Parcelize
 data class ServiceUser(
-    @SerializedName("id") val id : String,
-    @SerializedName("name") val name : String,
-    @SerializedName("username") val username : String,
-    @SerializedName("image") val image : String,
-    @SerializedName("isFreelancer") val isFreelancer : Int,
-    @SerializedName("created_at") val created_at : String,
-    @SerializedName("address") val address : String,
-    @SerializedName("phone") val phone : Int,
-    @SerializedName("email") val email : String,
-    @SerializedName("description") val description : String,
-    @SerializedName("total_reviews") val total_reviews : Int,
-    @SerializedName("user_rating") val user_rating : Int,
-    @SerializedName("recent_delivery") val recent_delivery : String,
-    @SerializedName("user_languages") val user_languages : List<String>,
-    @SerializedName("user_skills") val user_skills : List<String>
-): Parcelable
+    @SerializedName("id") val id: String,
+    @SerializedName("name") val name: String,
+    @SerializedName("username") val username: String,
+    @SerializedName("image") val image: String,
+    @SerializedName("isFreelancer") val isFreelancer: Int,
+    @SerializedName("created_at") val created_at: String,
+    @SerializedName("address") val address: String,
+    @SerializedName("phone") val phone: Int,
+    @SerializedName("email") val email: String,
+    @SerializedName("description") val description: String,
+    @SerializedName("total_reviews") val total_reviews: Int,
+    @SerializedName("user_rating") val user_rating: Int,
+    @SerializedName("recent_delivery") val recent_delivery: String,
+    @SerializedName("user_languages") val user_languages: List<String>,
+    @SerializedName("user_skills") val user_skills: List<String>
+) : Parcelable

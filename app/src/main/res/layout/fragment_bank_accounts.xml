@@ -50,8 +50,8 @@
                 app:layout_constraintTop_toBottomOf="@+id/tv_bank_name"
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginStart="@dimen/_10sdp"
-                android:textSize="@dimen/_12ssp"
-                android:text="Account title: " />
+                android:textSize="@dimen/_11ssp"
+                android:text="Title : " />
 
             <TextView
                 android:id="@+id/tv_account_name_value"
@@ -61,7 +61,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/tv_bank_name"
                 app:layout_constraintStart_toEndOf="@+id/account_name_title"
                 android:layout_marginStart="@dimen/_5sdp"
-                android:textSize="@dimen/_12ssp"
+                android:textSize="@dimen/_11ssp"
                 android:ellipsize="marquee"
                 android:singleLine="true"
                 android:textColor="@color/colorBlack"
@@ -75,8 +75,8 @@
                 app:layout_constraintTop_toBottomOf="@+id/account_name_title"
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginStart="@dimen/_10sdp"
-                android:textSize="@dimen/_12ssp"
-                android:text="Account number: " />
+                android:textSize="@dimen/_11ssp"
+                android:text="IBAN: " />
 
             <TextView
                 android:id="@+id/tv_account_number_value"
@@ -87,12 +87,11 @@
                 app:layout_constraintStart_toEndOf="@+id/account_number_title"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginStart="@dimen/_5sdp"
-                android:textSize="@dimen/_12ssp"
-                app:layout_goneMarginEnd="@dimen/_10sdp"
+                android:textSize="@dimen/_11ssp"
                 android:maxLines="2"
                 android:textColor="@color/colorBlack"
                 android:ellipsize="marquee"
-                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
                 android:text="talha" />
 
             <ImageView
@@ -102,7 +101,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_margin="@dimen/_10sdp"
-                android:padding="2dp"
+                android:padding="@dimen/_4sdp"
                 android:background="@drawable/img_edit"
                 android:backgroundTint="@color/colorAccent"
                 />
