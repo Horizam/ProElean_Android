@@ -43,8 +43,16 @@ class SplashActivity : AppCompatActivity() {
                 loadInitialActivityWithBundle()
             } else if (intent.getStringExtra(Constants.TYPE).toString() == Constants.ORDER) {
                 val contentID = intent.getStringExtra(Constants.CONTENT_ID)
+                bundle.putString(
+                    Constants.TYPE,
+                    intent.getStringExtra(Constants.TYPE).toString()
+                )
+                bundle.putString(
+                    Constants.CONTENT_ID,
+                    contentID
+                )
                 val intent = Intent(this, HomeActivity::class.java)
-                intent.putExtra(Constants.CONTENT_ID, contentID)
+                intent.putExtras(bundle)
                 startActivity(intent)
                 finish()
             } else {
@@ -57,14 +65,15 @@ class SplashActivity : AppCompatActivity() {
         }
     }
 
-    private val listener: InstallStateUpdatedListener? = InstallStateUpdatedListener { installState ->
-        if (installState.installStatus() == InstallStatus.DOWNLOADED) {
-            // After the update is downloaded, show a notification
-            // and request user confirmation to restart the app.
-            Log.d("mytag", "An update has been downloaded")
+    private val listener: InstallStateUpdatedListener? =
+        InstallStateUpdatedListener { installState ->
+            if (installState.installStatus() == InstallStatus.DOWNLOADED) {
+                // After the update is downloaded, show a notification
+                // and request user confirmation to restart the app.
+                Log.d("mytag", "An update has been downloaded")
 
+            }
         }
-    }
 
     private fun loadInitialActivityWithBundle() {
         val prefManager = PrefManager(this)

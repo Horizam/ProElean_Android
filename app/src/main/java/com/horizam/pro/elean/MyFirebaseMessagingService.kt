@@ -72,16 +72,25 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                 remoteMessage.data[Constants.MESSAGE].toString(),
                 pendingIntent
             )
-        }
-        else if (type == Constants.ORDER) {
+        } else if (type == Constants.ORDER) {
             EventBus.getDefault().post(BottomNotification(Constants.ORDER))
             //get data from data notification
             val title = remoteMessage.data["subject"]
             val message = remoteMessage.data["body"]
             val contentID = remoteMessage.data[Constants.CONTENT_ID]
             //choose activity where you want to move when click
+            val bundle = Bundle()
+            bundle.putString(
+                Constants.CONTENT_ID,
+                contentID
+            )
+            bundle.putString(
+                Constants.TYPE,
+                remoteMessage.data[Constants.TYPE]
+            )
+
             val intent = Intent(this, HomeActivity::class.java)
-            intent.putExtra(Constants.CONTENT_ID, contentID)
+            intent.putExtras(bundle)
             val pendingIntent = setPendingIntent(
                 intent
             )

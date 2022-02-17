@@ -14,7 +14,7 @@ data class BuyerRequest(
     @SerializedName("category_id") val category_id : String,
     @SerializedName("sub_category_id") val sub_category_id : String,
     @SerializedName("description") val description : String,
-    @SerializedName("budget") val budget : Int,
+    @SerializedName("budget") val budget : Double,
     @SerializedName("delivery_time") val delivery_time : String,
     @SerializedName("cinic") val cinic : String,
     @SerializedName("featured") val featured : Int,

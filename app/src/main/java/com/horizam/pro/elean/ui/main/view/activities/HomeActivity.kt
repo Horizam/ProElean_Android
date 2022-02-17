@@ -209,29 +209,18 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
 //            bundle.putString("id", intent.getStringExtra("id"))
 //            navController.navigate(R.id.messagesFragment, bundle)
 //        }
-        if (intent.hasExtra(Constants.CONTENT_ID)) {
-            val intent1 = Intent(this, OrderDetailsActivity::class.java)
-            intent1.putExtra(Constants.ORDER_ID, intent.getStringExtra(Constants.CONTENT_ID))
-            intent.removeExtra(Constants.CONTENT_ID)
-            startActivity(intent1)
+        val bundle = intent.extras
+        if (bundle != null) {
+            if (bundle!!.containsKey(Constants.CONTENT_ID)) {
+                val intent1 = Intent(this, OrderDetailsActivity::class.java)
+                intent1.putExtra(Constants.ORDER_ID, bundle.get(Constants.CONTENT_ID).toString())
+                intent.removeExtra(Constants.CONTENT_ID)
+                startActivity(intent1)
+            }
         }
     }
 
     private val locationCallback = object : LocationCallback() {
-//        override fun onLocationResult(locationResult: LocationResult) {
-//            super.onLocationResult(locationResult)
-//            val currentLocation = locationResult.lastLocation
-//            val myLocation =
-//                MyLocation(lat = currentLocation.latitude, long = currentLocation.longitude)
-//            prefManager.location = myLocation
-//            val fcmToken = if (prefManager.fcmToken.isNotEmpty()) prefManager.fcmToken else null
-//            val storeUserInfoRequest = StoreUserInfoRequest(
-//                latitude = currentLocation.latitude,
-//                longitude = currentLocation.longitude,
-//                device_id = fcmToken
-//            )
-//            viewModel.storeUserInfoCall(storeUserInfoRequest)
-//        }
     }
 
     private val requestPermissionLauncher =

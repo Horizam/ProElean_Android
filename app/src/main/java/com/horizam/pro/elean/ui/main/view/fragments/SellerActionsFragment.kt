@@ -44,7 +44,8 @@ import com.github.mikephil.charting.formatter.LargeValueFormatter
 import com.horizam.pro.elean.data.model.response.Analytics
 
 
-class SellerActionsFragment : Fragment(), OnItemClickListener , SwipeRefreshLayout.OnRefreshListener{
+class SellerActionsFragment : Fragment(), OnItemClickListener,
+    SwipeRefreshLayout.OnRefreshListener {
 
     private lateinit var binding: FragmentSellerActionsBinding
     private lateinit var navController: NavController
@@ -92,13 +93,13 @@ class SellerActionsFragment : Fragment(), OnItemClickListener , SwipeRefreshLayo
                         }
                 }
             }
-
-//        if (requireActivity().intent.hasExtra("order")) {
-//            if (requireActivity().intent.getIntExtra("order", 0) == 1) {
-//                this.findNavController().navigate(R.id.orderFragment)
+//            else if (requireActivity().intent.hasExtra(Constants.ORDER)) {
+//                if (requireActivity().intent.getStringExtra(Constants.TYPE) == Constants.ORDER) {
+//                    val bundle = requireActivity().intent.extras
+//                    val contentId = bundle!!.getString(Constants.CONTENT_ID)
+//
+//                }
 //            }
-//            requireActivity().intent.removeExtra("order")
-//        }
         }
     }
 
@@ -132,14 +133,19 @@ class SellerActionsFragment : Fragment(), OnItemClickListener , SwipeRefreshLayo
             is SellerDataModel -> {
                 binding.apply {
                     item.apply {
-                        tvPersonalBalanceValue.text = "${getString(R.string.str_currency_sign)}$availabe_balance"
-                        tvAvgSellingPriceValue.text = "${getString(R.string.str_currency_sign)}$average_selling"
-                        tvPendingClearanceValue.text = "${getString(R.string.str_currency_sign)}$pending_balance"
-                        tvEarningInDecemberValue.text = "${getString(R.string.str_currency_sign)}$monthly_selling"
+                        tvPersonalBalanceValue.text =
+                            "${getString(R.string.str_currency_sign)}$availabe_balance"
+                        tvAvgSellingPriceValue.text =
+                            "${getString(R.string.str_currency_sign)}$average_selling"
+                        tvPendingClearanceValue.text =
+                            "${getString(R.string.str_currency_sign)}$pending_balance"
+                        tvEarningInDecemberValue.text =
+                            "${getString(R.string.str_currency_sign)}$monthly_selling"
                         tvActiveOrdersrValue.apply {
                             text = ""
                             append("$active_orders")
-                            val spannable = SpannableStringBuilder(" (${getString(R.string.str_currency_sign)}$active_orders_balance)")
+                            val spannable =
+                                SpannableStringBuilder(" (${getString(R.string.str_currency_sign)}$active_orders_balance)")
                             spannable.setSpan(
                                 ForegroundColorSpan(
                                     ContextCompat.getColor(
@@ -155,7 +161,8 @@ class SellerActionsFragment : Fragment(), OnItemClickListener , SwipeRefreshLayo
                         tvCancelledOrdersValue.apply {
                             text = ""
                             append("$cancelled_orders")
-                            val spannable = SpannableStringBuilder(" (-${getString(R.string.str_currency_sign)}$cancelled_orders_balance)")
+                            val spannable =
+                                SpannableStringBuilder(" (-${getString(R.string.str_currency_sign)}$cancelled_orders_balance)")
                             spannable.setSpan(
                                 ForegroundColorSpan(
                                     ContextCompat.getColor(

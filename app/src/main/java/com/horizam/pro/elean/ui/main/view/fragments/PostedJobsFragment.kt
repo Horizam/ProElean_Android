@@ -219,8 +219,9 @@ class PostedJobsFragment : Fragment(), OnItemClickListener, PostedJobsHandler,
 
     override fun <T> viewOffers(item: T) {
         if (item is PostedJob) {
-            if (item.total_offers > 0){
-                val action = PostedJobsFragmentDirections.actionPostedJobsFragmentToViewOffersFragment(item.id)
+            if (item.total_offers > 0) {
+                val action =
+                    PostedJobsFragmentDirections.actionPostedJobsFragmentToViewOffersFragment(item.id)
                 findNavController().navigate(action)
             }
         }

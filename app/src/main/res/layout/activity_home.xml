@@ -19,8 +19,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/colorWhite"
-            android:visibility="gone"
-            android:translationZ="@dimen/_15sdp" />
+            android:translationZ="@dimen/_15sdp"
+            android:visibility="gone" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_nav"
@@ -29,10 +29,10 @@
             android:background="@color/colorAccent"
             app:itemBackground="@color/colorAccent"
             app:itemIconSize="@dimen/_20sdp"
+            app:itemIconTint="@color/bottom_nav_color"
+            app:itemTextColor="@color/bottom_nav_color"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:itemTextColor="@color/bottom_nav_color"
-            app:itemIconTint="@color/bottom_nav_color"
             app:layout_constraintStart_toStartOf="parent"
             app:menu="@menu/bottom_navigation_menu" />
 
@@ -84,8 +84,8 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:visibility="visible"
         android:background="@color/colorWhite"
+        android:visibility="visible"
         app:itemIconTint="@color/colorBlack"
         app:itemTextColor="@color/colorBlack">
 
