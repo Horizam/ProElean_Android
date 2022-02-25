@@ -25,6 +25,7 @@ import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
+import com.horizam.pro.elean.data.model.requests.ReviewsRequest
 import com.horizam.pro.elean.data.model.response.ServiceDetail
 import com.horizam.pro.elean.databinding.FragmentServiceDetailsBinding
 import com.horizam.pro.elean.ui.base.ViewModelFactory
@@ -61,9 +62,21 @@ class ServiceDetailsFragment : Fragment(), BaseSliderView.OnSliderClickListener,
         setToolbarData()
         initViews()
         setupViewModel()
+        setUpObserver()
         setRecyclerview()
         setClickListeners()
         return binding.root
+    }
+
+    private fun setUpObserver() {
+        viewModel.reviewList.observe(viewLifecycleOwner) {
+            adapter.submitData(viewLifecycleOwner.lifecycle, it)
+        }
+    }
+
+    private fun exeGetReviews(id: String) {
+        val reviewsRequest = ReviewsRequest(id)
+        viewModel.getReviews(reviewsRequest)
     }
 
     override fun onStart() {
@@ -167,6 +180,7 @@ class ServiceDetailsFragment : Fragment(), BaseSliderView.OnSliderClickListener,
             tvNoOfRevision.text = serviceDetail.revision.toString()
             btnEditService.isVisible = args.isEditable
             service = serviceDetail
+            exeGetReviews(service!!.id)
             setImageSlider(serviceDetail)
 //            if (serviceDetail.serviceReviewsList.isEmpty()) {
 //                recyclerView.isVisible = false

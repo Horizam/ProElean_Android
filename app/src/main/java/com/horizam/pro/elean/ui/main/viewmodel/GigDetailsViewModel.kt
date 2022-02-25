@@ -1,10 +1,8 @@
 package com.horizam.pro.elean.ui.main.viewmodel
 
 import androidx.lifecycle.*
-import com.horizam.pro.elean.data.model.requests.CustomOrderRequest
-import com.horizam.pro.elean.data.model.requests.ForgotPasswordRequest
-import com.horizam.pro.elean.data.model.requests.LoginRequest
-import com.horizam.pro.elean.data.model.requests.RegisterRequest
+import androidx.paging.cachedIn
+import com.horizam.pro.elean.data.model.requests.*
 import com.horizam.pro.elean.data.repository.MainRepository
 import com.horizam.pro.elean.utils.BaseUtils
 import com.horizam.pro.elean.utils.Resource
@@ -16,6 +14,7 @@ class GigDetailsViewModel(private val mainRepository: MainRepository) : ViewMode
     private val gigDetailsRequest = MutableLiveData<String>()
     private val customOrderRequest = MutableLiveData<CustomOrderRequest>()
     private val addClicksGigsRequest = MutableLiveData<String>()
+    private val getReviewsRequest = MutableLiveData<ReviewsRequest>()
 
     val gigDetails = gigDetailsRequest.switchMap {
         liveData(Dispatchers.IO) {
@@ -27,6 +26,10 @@ class GigDetailsViewModel(private val mainRepository: MainRepository) : ViewMode
                 emit(Resource.error(data = null, message = errorMessage))
             }
         }
+    }
+
+    val reviewList = getReviewsRequest.switchMap { request ->
+        mainRepository.getReviews(getReviewsRequest.value!!.id)
     }
 
     val customOrder = customOrderRequest.switchMap {
@@ -61,8 +64,11 @@ class GigDetailsViewModel(private val mainRepository: MainRepository) : ViewMode
         customOrderRequest.value = request
     }
 
-    fun addClickGigs(request: String){
+    fun addClickGigs(request: String) {
         addClicksGigsRequest.value = request
     }
 
+    fun getReviews(request: ReviewsRequest) {
+        getReviewsRequest.value = request
+    }
 }

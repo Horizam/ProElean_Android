@@ -11,21 +11,31 @@ import com.horizam.pro.elean.ui.main.viewmodel.FirebaseNotificationRequest
 
 class MainRepository(private val apiHelper: ApiHelper) {
 
-    suspend fun registerUser(request: RegisterRequest, referralCode: String) = apiHelper.registerUser(request,referralCode)
+    suspend fun registerUser(request: RegisterRequest, referralCode: String) =
+        apiHelper.registerUser(request, referralCode)
+
     suspend fun loginUser(request: LoginRequest) = apiHelper.loginUser(request)
     suspend fun addAccountDetail(request: BankDetail) = apiHelper.addAccountDetail(request)
     suspend fun getAccountDetail() = apiHelper.getAccountDetail()
     suspend fun forgotPassword(request: ForgotPasswordRequest) = apiHelper.forgotPassword(request)
-    suspend fun forgotChangePassword(request: ForgetChangePasswordRequest) = apiHelper.forgotChangePassword(request)
+    suspend fun forgotChangePassword(request: ForgetChangePasswordRequest) =
+        apiHelper.forgotChangePassword(request)
+
     suspend fun postJob(request: PostJobRequest) = apiHelper.postJob(request)
     suspend fun acceptOrder(request: AcceptOrderRequest) = apiHelper.acceptOrder(request)
     suspend fun sendOffer(request: SendOfferRequest) = apiHelper.sendOffer(request)
     suspend fun submitQuery(request: SubmitQueryRequest) = apiHelper.submitQuery(request)
     suspend fun customOrder(request: CustomOrderRequest) = apiHelper.customOrder(request)
     suspend fun chatOrder(request: ChatOfferRequest) = apiHelper.chatOrder(request)
-    suspend fun sellerActions(sellerHashMap: HashMap<String , Any>) = apiHelper.sellerActions(sellerHashMap)
-    suspend fun sellerActionsWithFile(request: SellerActionRequestMultipart) = apiHelper.sellerActionsWithFile(request)
-    suspend fun buyerActions(buyerHashMap: HashMap<String, Any>) = apiHelper.buyerActions(buyerHashMap)
+    suspend fun sellerActions(sellerHashMap: HashMap<String, Any>) =
+        apiHelper.sellerActions(sellerHashMap)
+
+    suspend fun sellerActionsWithFile(request: SellerActionRequestMultipart) =
+        apiHelper.sellerActionsWithFile(request)
+
+    suspend fun buyerActions(buyerHashMap: HashMap<String, Any>) =
+        apiHelper.buyerActions(buyerHashMap)
+
     suspend fun orderTimeline(request: OrderTimelineRequest) = apiHelper.orderTimeline(request)
     suspend fun storeUserInfo(request: StoreUserInfoRequest) = apiHelper.storeUserInfo(request)
     suspend fun addRemoveWishlist(request: FavouriteRequest) = apiHelper.addRemoveWishlist(request)
@@ -50,59 +60,76 @@ class MainRepository(private val apiHelper: ApiHelper) {
     suspend fun deleteJobOffer(id: String) = apiHelper.deleteJobOffer(id)
     suspend fun deleteUserService(id: String) = apiHelper.deleteUserService(id)
     suspend fun getFreelancerProfile(id: String) = apiHelper.getFreelancerProfile(id)
-    suspend fun getGigDetails(uid:String) = apiHelper.getGigDetails(uid)
-    suspend fun getFeaturedGigDetails(uid:String) = apiHelper.getFeaturedGigDetails(uid)
-    suspend fun cancelBuyerRequests(uid:String) = apiHelper.cancelBuyerRequests(uid)
-    suspend fun becomeFreelancer(request: BecomeFreelancerRequest) = apiHelper.becomeFreelancer(request)
+    suspend fun getGigDetails(uid: String) = apiHelper.getGigDetails(uid)
+    suspend fun getFeaturedGigDetails(uid: String) = apiHelper.getFeaturedGigDetails(uid)
+    suspend fun cancelBuyerRequests(uid: String) = apiHelper.cancelBuyerRequests(uid)
+    suspend fun becomeFreelancer(request: BecomeFreelancerRequest) =
+        apiHelper.becomeFreelancer(request)
+
     suspend fun createService(request: CreateServiceRequest) = apiHelper.createService(request)
     suspend fun updateService(request: UpdateServiceRequest) = apiHelper.updateService(request)
     suspend fun updateProfile(request: UpdateProfileRequest) = apiHelper.updateProfile(request)
-    suspend fun sendNotification(notificationRequest: FirebaseNotificationRequest) = apiHelper.sendNotification(notificationRequest)
+    suspend fun sendNotification(notificationRequest: FirebaseNotificationRequest) =
+        apiHelper.sendNotification(notificationRequest)
+
     suspend fun ratingOrder(request: RatingOrderRequest) = apiHelper.ratingOrder(request)
-    suspend fun changePassword(changePasswordRequest: ChangePasswordRequest) = apiHelper.changePassword(changePasswordRequest)
+    suspend fun changePassword(changePasswordRequest: ChangePasswordRequest) =
+        apiHelper.changePassword(changePasswordRequest)
+
     suspend fun orderByID(request: Int) = apiHelper.orderByID(request)
     suspend fun getSellerData() = apiHelper.getSellerData()
-    fun getSubcategories(id:String,query: String) = Pager(
+    fun getSubcategories(id: String, query: String) = Pager(
         config = PagingConfig(
             pageSize = 20,
             maxSize = 100,
             enablePlaceholders = false
         ),
         pagingSourceFactory = {
-            SubcategoryPagingSource(apiHelper,id,query)
+            SubcategoryPagingSource(apiHelper, id, query)
         }
     ).liveData
 
-    fun getServicesBySubCategories(id:String) = Pager(
+    fun getServicesBySubCategories(id: String) = Pager(
         config = PagingConfig(
             pageSize = 20,
             maxSize = 100,
             enablePlaceholders = false
         ),
         pagingSourceFactory = {
-            SellersPagingSource(apiHelper,id)
+            SellersPagingSource(apiHelper, id)
         }
     ).liveData
 
-    fun searchGigs(query:String,distance:String,filter:String,filterValue:String) = Pager(
+    fun searchGigs(query: String, distance: String, filter: String, filterValue: String) = Pager(
         config = PagingConfig(
             pageSize = 20,
             maxSize = 100,
             enablePlaceholders = false
         ),
         pagingSourceFactory = {
-            SearchGigsPagingSource(apiHelper,query, distance, filter, filterValue)
+            SearchGigsPagingSource(apiHelper, query, distance, filter, filterValue)
         }
     ).liveData
 
-    fun getJobOffers(id:String) = Pager(
+    fun getReviews(id: String) = Pager(
+        config = PagingConfig(
+            pageSize = 10,
+            maxSize = 50,
+            enablePlaceholders = false
+        ),
+        pagingSourceFactory = {
+            GetGigsPagingSource(apiHelper ,  id)
+        }
+    ).liveData
+
+    fun getJobOffers(id: String) = Pager(
         config = PagingConfig(
             pageSize = 20,
             maxSize = 100,
             enablePlaceholders = false
         ),
         pagingSourceFactory = {
-            JobOffersPagingSource(apiHelper,id)
+            JobOffersPagingSource(apiHelper, id)
         }
     ).liveData
 
@@ -135,7 +162,7 @@ class MainRepository(private val apiHelper: ApiHelper) {
             enablePlaceholders = false
         ),
         pagingSourceFactory = {
-            BuyerRequestsPagingSource(apiHelper,status)
+            BuyerRequestsPagingSource(apiHelper, status)
         }
     ).liveData
 
@@ -150,14 +177,14 @@ class MainRepository(private val apiHelper: ApiHelper) {
         }
     ).liveData
 
-    fun getPostedJobs(status:String) = Pager(
+    fun getPostedJobs(status: String) = Pager(
         config = PagingConfig(
             pageSize = 20,
             maxSize = 100,
             enablePlaceholders = false
         ),
         pagingSourceFactory = {
-            PostedJobsPagingSource(apiHelper,status)
+            PostedJobsPagingSource(apiHelper, status)
         }
     ).liveData
 

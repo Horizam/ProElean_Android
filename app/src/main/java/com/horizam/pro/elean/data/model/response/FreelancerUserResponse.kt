@@ -29,7 +29,7 @@ data class ProfileInfo(
     @SerializedName("recent_delivery") val recent_delivery: String,
     @SerializedName("user_languages") val user_languages: String,
     @SerializedName("user_skills") val user_skills: List<String>
-): Parcelable
+) : Parcelable
 
 @Parcelize
 data class Service_media(
@@ -42,11 +42,17 @@ data class Service_media(
 @Parcelize
 data class ServiceReviews(
     @SerializedName("id") val id: String,
-    @SerializedName("user_id") val user_id: String,
     @SerializedName("rating") val rating: Int,
     @SerializedName("description") val description: String,
     @SerializedName("user") val user: ProfileInfo
 ) : Parcelable
+
+data class ServiceReviewsResponse(
+    @SerializedName("data") val data: List<ServiceReviews>,
+    @SerializedName("links") val links: Links,
+    @SerializedName("meta") val meta: Meta
+)
+
 
 data class User_services(
     @SerializedName("id") val id: String,

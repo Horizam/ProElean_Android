@@ -76,6 +76,10 @@ class ApiHelper(private val apiService: ApiService) {
         position: Int
     ) = apiService.searchGigs(query, filter, filterValue, position)
 
+    suspend fun getReviews(
+        id: String
+    ) = apiService.getReviews(id)
+
     suspend fun getJobOffers(id: String, position: Int) = apiService.getJobOffers(id, position)
     suspend fun getBuyerRequests(position: Int, status: String) =
         apiService.getBuyerRequests(position, status)

@@ -603,7 +603,7 @@
             android:layout_marginHorizontal="@dimen/_20sdp"
             android:layout_marginTop="@dimen/_150sdp"
             android:background="@drawable/bg_shape_rectangle"
-            android:visibility="gone"
+            android:visibility="visible"
             app:cardCornerRadius="@dimen/_5sdp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -618,24 +618,22 @@
 
                 <com.google.android.material.switchmaterial.SwitchMaterial
                     android:id="@+id/switch_seller_mode"
-                    android:layout_width="@dimen/_40sdp"
-                    android:layout_height="@dimen/_25sdp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/_10sdp"
-                    android:thumb="@drawable/switch_ios_selector"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:track="@drawable/switch_ios_track" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_20sdp"
-                    android:layout_marginTop="@dimen/_10ssp"
                     android:layout_marginEnd="@dimen/_5sdp"
                     android:text="Seller Mode"
                     android:textColor="@color/colorBlack"
                     android:textSize="@dimen/_13ssp"
                     android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -650,6 +648,7 @@
             android:layout_marginTop="@dimen/_150sdp"
             android:background="@drawable/bg_shape_rectangle"
             app:cardCornerRadius="@dimen/_5sdp"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 

@@ -128,6 +128,11 @@ interface ApiService {
         @Query("page") page: Int
     ): ServicesResponse
 
+    @GET("service/{id}/reviews")
+    suspend fun getReviews(
+        @Path("id") query: String
+    ): ServiceReviewsResponse
+
     @GET("buyer/jobs/{id}/offers")
     suspend fun getJobOffers(@Path("id") id: String, @Query("page") page: Int): JobOffersResponse
 

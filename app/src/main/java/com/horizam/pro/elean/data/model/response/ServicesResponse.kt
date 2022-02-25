@@ -20,7 +20,7 @@ data class ServiceDetail(
     @SerializedName("id") val id: String = "",
     @SerializedName("s_description") val s_description: String,
     @SerializedName("description") val description: String,
-    @SerializedName("price") val price: Int,
+    @SerializedName("price") val price: Double,
     @SerializedName("favourite") val favourite: Int,
     @SerializedName("service_rating") val service_rating: Int,
     @SerializedName("lat") val lat: Double,

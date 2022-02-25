@@ -327,7 +327,6 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
     }
 
 
-
     private fun setMessageRead() {
         var membersInfo = MembersInfo()
         for (item in inbox!!.membersInfo) {
@@ -337,12 +336,22 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
         }
         membersInfo.hasReadLastMessage = false
         db.collection(FIREBASE_DATABASE_ROOT).document(inbox!!.id)
-            .update("membersInfo", FieldValue.arrayRemove(membersInfo) , "members" , FieldValue.arrayRemove(membersInfo.id))
+            .update(
+                "membersInfo",
+                FieldValue.arrayRemove(membersInfo),
+                "members",
+                FieldValue.arrayRemove(membersInfo.id)
+            )
             .addOnCompleteListener { removeTask ->
                 if (removeTask.isSuccessful) {
                     membersInfo.hasReadLastMessage = true
                     db.collection(FIREBASE_DATABASE_ROOT).document(inbox!!.id)
-                        .update("membersInfo", FieldValue.arrayUnion(membersInfo) , "members" , FieldValue.arrayUnion(membersInfo.id))
+                        .update(
+                            "membersInfo",
+                            FieldValue.arrayUnion(membersInfo),
+                            "members",
+                            FieldValue.arrayUnion(membersInfo.id)
+                        )
                         .addOnCompleteListener { addTask ->
                             if (addTask.isSuccessful) {
                                 Log.wtf("mytag", "Update complete.")
