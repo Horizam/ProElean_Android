@@ -20,6 +20,7 @@ import com.horizam.pro.elean.App
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
+import com.horizam.pro.elean.data.model.MessageGig
 import com.horizam.pro.elean.data.model.requests.FavouriteRequest
 import com.horizam.pro.elean.data.model.response.GeneralResponse
 import com.horizam.pro.elean.data.model.response.ServiceDetail
@@ -28,6 +29,7 @@ import com.horizam.pro.elean.databinding.FragmentSavedBinding
 import com.horizam.pro.elean.ui.base.ViewModelFactory
 import com.horizam.pro.elean.ui.main.adapter.MyLoadStateAdapter
 import com.horizam.pro.elean.ui.main.adapter.SavedAdapter
+import com.horizam.pro.elean.ui.main.callbacks.ContactSellerHandler
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
 import com.horizam.pro.elean.ui.main.callbacks.SavedGigsHandler
 import com.horizam.pro.elean.ui.main.viewmodel.SavedViewModel
@@ -36,7 +38,8 @@ import com.horizam.pro.elean.utils.Resource
 import com.horizam.pro.elean.utils.Status
 
 
-class SavedFragment : Fragment(), SavedGigsHandler, SwipeRefreshLayout.OnRefreshListener {
+class SavedFragment : Fragment(), SavedGigsHandler, SwipeRefreshLayout.OnRefreshListener,
+    ContactSellerHandler {
 
     private lateinit var binding: FragmentSavedBinding
     private lateinit var adapter: SavedAdapter
@@ -213,13 +216,29 @@ class SavedFragment : Fragment(), SavedGigsHandler, SwipeRefreshLayout.OnRefresh
     }
 
     override fun <T> contactSeller(item: T) {
-//        if (item is SavedGig) {
-//            if (prefManager.userId != item.userId) {
-//                SavedFragmentDirections.actionSavedFragmentToMessagesFragment(item.userId).also {
-//                    findNavController().navigate(it)
-//                }
-//            }
-//        }
+        if (item is ServiceDetail) {
+            try {
+                if (prefManager.userId != item.service_user.id && item.service_user.id != "") {
+                    val messageGig = MessageGig(
+                        gigId = item.id,
+                        gigImage = item.service_media[0].media,
+                        gigTitle = item.s_description,
+                        gigUsername = item.service_user.username
+                    )
+                    SavedFragmentDirections.actionSavedFragmentToMessagesFragment(
+                        userName = item.service_user.name,
+                        photo = item.service_user.image,
+                        id = item.service_user.id,
+                        refersGig = true,
+                        messageGig = messageGig
+                    ).also {
+                        findNavController().navigate(it)
+                    }
+                }
+            } catch (e: Exception) {
+                genericHandler.showErrorMessage(e.message.toString())
+            }
+        }
     }
 
     override fun onRefresh() {

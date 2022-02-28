@@ -38,7 +38,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:text="@string/str_order_title"
+                android:text="@string/str_order_detail"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/_16ssp"
                 android:textStyle="bold"
@@ -52,17 +52,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                tools:text="@string/str_seller"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:background="@drawable/bg_shape_white_corners_rectangle"
+                android:paddingHorizontal="@dimen/_3sdp"
+                android:paddingVertical="@dimen/_3sdp"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/_12ssp"
                 android:textStyle="bold"
-                android:paddingHorizontal="@dimen/_3sdp"
-                android:paddingVertical="@dimen/_3sdp"
-                android:background="@drawable/bg_shape_white_corners_rectangle"
-                android:layout_marginEnd="@dimen/_10sdp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="@string/str_seller" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -307,5 +307,6 @@
     <string name="str_manage_detail">Manage Detail</string>
     <string name="str_withdrawal_account">Withdrawal Account</string>
     <string name="str_search_by_price">Search By Price</string>
+    <string name="str_order_detail">Order Detail</string>
 
 </resources>

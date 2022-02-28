@@ -128,7 +128,7 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
             }
         } else {
             binding.autoCompleteTextView.setText(args.query)
-            exeSearch()
+//            exeSearch()
         }
     }
 
@@ -174,12 +174,16 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
                     spinnerPriceModel.value.contains("+") -> {
                         filter = "price>"
                         filterValue = spinnerPriceModel.filterValue
-                        searchManagement()
+                        if (from == 1) {
+                            searchManagement()
+                        }
                     }
                     else -> {
                         filter = "price"
                         filterValue = spinnerPriceModel.filterValue
-                        searchManagement()
+                        if (from == 1) {
+                            searchManagement()
+                        }
                     }
                 }
             }

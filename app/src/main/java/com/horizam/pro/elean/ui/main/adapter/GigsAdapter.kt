@@ -73,6 +73,7 @@ class GigsAdapter(
             binding.apply {
                 tvTitleGig.text = serviceDetail.s_description
                 tvDescriptionGig.text = serviceDetail.description
+                tvPrice.text = "${serviceDetail.price}${Constants.CURRENCY}"
                 ratingGig.rating = serviceDetail.service_rating.toFloat()
                 val imageResource: Int = if (serviceDetail.favourite == 0) {
                     R.drawable.ic_not_liked

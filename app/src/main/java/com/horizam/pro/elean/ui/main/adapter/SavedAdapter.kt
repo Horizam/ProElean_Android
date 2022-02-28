@@ -78,6 +78,7 @@ class SavedAdapter(
                     tvTitleGig.text = serviceDetail.s_description
                     tvDescriptionGig.text = serviceDetail.description
                     ratingGig.rating = serviceDetail.service_rating.toFloat()
+                    tvPrice.text = "${serviceDetail.price}${Constants.CURRENCY}"
                     Glide.with(itemView)
                         .load(Constants.BASE_URL.plus(serviceDetail.service_user.image))
                         .error(R.drawable.img_profile)

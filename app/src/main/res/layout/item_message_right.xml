@@ -37,7 +37,6 @@
         android:background="@drawable/bg_gradient_two"
         android:ellipsize="end"
         android:maxWidth="@dimen/_210sdp"
-        android:maxLines="2"
         android:textIsSelectable="true"
         android:paddingHorizontal="@dimen/_10sdp"
         android:paddingVertical="@dimen/_7sdp"
