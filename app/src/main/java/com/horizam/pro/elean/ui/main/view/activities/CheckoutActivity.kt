@@ -114,7 +114,7 @@ class CheckoutActivity : AppCompatActivity(), CoroutineScope {
             bindingDialogOrderSuccessBinding.btnContinue.setOnClickListener {
                 dialogOrderStatus.dismiss()
                 startActivity(Intent(this@CheckoutActivity, HomeActivity::class.java).apply {
-                    putExtra("order" , 1)
+                    putExtra("order", 1)
                 })
                 finish()
             }

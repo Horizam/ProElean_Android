@@ -101,12 +101,12 @@ class HomeFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefre
                 }
             }
 
-//            if (requireActivity().intent.hasExtra("order")) {
-//                if (requireActivity().intent.getIntExtra("order", 0) == 1) {
-//                    this.findNavController().navigate(R.id.orderFragment)
-//                }
-//                requireActivity().intent.removeExtra("order")
-//            }
+            if (requireActivity().intent.hasExtra("order")) {
+                if (requireActivity().intent.getIntExtra("order", 0) == 1) {
+                    this.findNavController().navigate(R.id.ordersFragment)
+                }
+                requireActivity().intent.removeExtra("order")
+            }
         }
     }
 
