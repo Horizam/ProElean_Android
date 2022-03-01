@@ -19,6 +19,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.gson.Gson
 import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
@@ -47,7 +48,7 @@ import com.horizam.pro.elean.utils.Status
 
 
 class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
-    ContactSellerHandler, AdapterView.OnItemSelectedListener {
+    ContactSellerHandler, AdapterView.OnItemSelectedListener ,   SwipeRefreshLayout.OnRefreshListener{
 
     private lateinit var binding: FragmentServiceGigsBinding
     private lateinit var adapter: GigsAdapter
@@ -64,6 +65,7 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
     private var from: Int = 0
     private var delay: Long = 0
     private var delayCheck = 0
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -132,7 +134,16 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
         }
     }
 
+    override fun onRefresh() {
+        if (swipeRefreshLayout.isRefreshing) {
+            swipeRefreshLayout.isRefreshing = false
+        }
+        executeApi()
+    }
+
     private fun initViews() {
+        swipeRefreshLayout = binding.swipeRefresh
+        swipeRefreshLayout.setOnRefreshListener(this)
         from = args.from
         prefManager = PrefManager(requireContext())
         adapter = GigsAdapter(this, this, this)

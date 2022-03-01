@@ -16,6 +16,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.horizam.pro.elean.App
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.api.ApiHelper
@@ -34,7 +35,8 @@ import com.horizam.pro.elean.utils.Resource
 import com.horizam.pro.elean.utils.Status
 
 
-class BuyerRequestsFragment : Fragment(), OnItemClickListener, BuyerRequestsHandler {
+class BuyerRequestsFragment : Fragment(), OnItemClickListener, BuyerRequestsHandler,
+    SwipeRefreshLayout.OnRefreshListener {
 
     private lateinit var binding: FragmentBuyerRequestsBinding
     private lateinit var adapter: BuyerRequestsAdapter
@@ -45,7 +47,7 @@ class BuyerRequestsFragment : Fragment(), OnItemClickListener, BuyerRequestsHand
     private lateinit var bindingDeleteDialog: DialogDeleteBinding
     private lateinit var dialogFilterBuyerRequests: Dialog
     private lateinit var bindingDialog: DialogFilterBuyerRequestsBinding
-
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -67,6 +69,13 @@ class BuyerRequestsFragment : Fragment(), OnItemClickListener, BuyerRequestsHand
         return binding.root
     }
 
+    override fun onRefresh() {
+        if (swipeRefreshLayout.isRefreshing) {
+            swipeRefreshLayout.isRefreshing = false
+        }
+        exeApi()
+    }
+
     private fun exeApi() {
         genericHandler.showProgressBar(true)
         viewModel.getBuyerRequestsCall()
@@ -75,6 +84,8 @@ class BuyerRequestsFragment : Fragment(), OnItemClickListener, BuyerRequestsHand
     private fun initViews() {
         adapter = BuyerRequestsAdapter(this, this)
         recyclerView = binding.rvBuyerRequests
+        swipeRefreshLayout = binding.swipeRefresh
+        swipeRefreshLayout.setOnRefreshListener(this)
         initDeleteDialog()
         initFilterDialog()
     }

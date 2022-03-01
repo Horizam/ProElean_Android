@@ -16,6 +16,7 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
@@ -30,13 +31,15 @@ import com.horizam.pro.elean.ui.main.viewmodel.ServiceCategoriesViewModel
 import com.horizam.pro.elean.utils.BaseUtils.Companion.hideKeyboard
 
 
-class ServiceCategoriesFragment : Fragment(), OnItemClickListener {
+class ServiceCategoriesFragment : Fragment(), OnItemClickListener,
+    SwipeRefreshLayout.OnRefreshListener {
 
     private lateinit var binding: FragmentServiceCategoriesBinding
     private lateinit var adapter: CategoryAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewModel: ServiceCategoriesViewModel
     private lateinit var genericHandler: GenericHandler
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private val args: ServiceCategoriesFragmentArgs by navArgs()
 
     override fun onAttach(context: Context) {
@@ -60,14 +63,23 @@ class ServiceCategoriesFragment : Fragment(), OnItemClickListener {
     }
 
     private fun executeApi() {
-        if(viewModel.subcategories.value == null){
+        if (viewModel.subcategories.value == null) {
             viewModel.getSubcategories(args.id)
         }
+    }
+
+    override fun onRefresh() {
+        if (swipeRefreshLayout.isRefreshing) {
+            swipeRefreshLayout.isRefreshing = false
+        }
+        viewModel.getSubcategories(args.id)
     }
 
     private fun initViews() {
         adapter = CategoryAdapter(this)
         recyclerView = binding.rvServiceCategories
+        swipeRefreshLayout = binding.swipeRefresh
+        swipeRefreshLayout.setOnRefreshListener(this)
     }
 
     private fun setRecyclerView() {
@@ -141,7 +153,7 @@ class ServiceCategoriesFragment : Fragment(), OnItemClickListener {
             val id = item.id
             val action =
                 ServiceCategoriesFragmentDirections.actionServiceCategoriesFragmentToServiceGigsFragment(
-                    id = id ,
+                    id = id,
                     from = 0
                 )
             findNavController().navigate(action)

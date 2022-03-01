@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
 import com.horizam.pro.elean.data.model.response.ServiceReviews
@@ -24,13 +25,14 @@ import com.horizam.pro.elean.ui.main.viewmodel.ProfileViewModel
 import com.horizam.pro.elean.utils.Status
 
 
-class ReviewsUserFragment : Fragment(), OnItemClickListener {
+class ReviewsUserFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     private lateinit var binding: FragmentUserReviewsBinding
     private lateinit var adapter: UserReviewsAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewModel: ProfileViewModel
     private lateinit var genericHandler: GenericHandler
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -42,10 +44,28 @@ class ReviewsUserFragment : Fragment(), OnItemClickListener {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentUserReviewsBinding.inflate(layoutInflater, container, false)
+        initComponent()
         setupViewModel()
         setupObservers()
         setRecyclerView()
+        exeApi()
         return binding.root
+    }
+
+    override fun onRefresh() {
+        if (swipeRefreshLayout.isRefreshing) {
+            swipeRefreshLayout.isRefreshing = false
+        }
+        exeApi()
+    }
+
+    private fun exeApi() {
+        viewModel.reviewRequestCall()
+    }
+
+    private fun initComponent() {
+        swipeRefreshLayout = binding.swipeRefresh
+        swipeRefreshLayout.setOnRefreshListener(this)
     }
 
     private fun setRecyclerView() {
@@ -68,7 +88,11 @@ class ReviewsUserFragment : Fragment(), OnItemClickListener {
                     Status.SUCCESS -> {
                         genericHandler.showProgressBar(false)
                         resource.data?.let { response ->
-                            handleResponse(response.data , response.avg_rating , response.total_reviews)
+                            handleResponse(
+                                response.data,
+                                response.avg_rating,
+                                response.total_reviews
+                            )
                         }
                     }
                     Status.ERROR -> {
@@ -88,11 +112,11 @@ class ReviewsUserFragment : Fragment(), OnItemClickListener {
             binding.apply {
                 tvUserRating.text = avgRating
                 tvRatingNumber.text = "(".plus(totalReviews).plus(")")
-                if (reviews.isNotEmpty()){
+                if (reviews.isNotEmpty()) {
                     adapter.submitList(reviews)
                     tvPlaceholder.isVisible = false
                     recyclerView.isVisible = true
-                }else{
+                } else {
                     tvPlaceholder.isVisible = true
                     recyclerView.isVisible = false
                 }

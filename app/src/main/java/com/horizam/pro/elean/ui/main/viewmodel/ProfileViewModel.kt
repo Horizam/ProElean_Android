@@ -20,7 +20,7 @@ class ProfileViewModel(private val mainRepository: MainRepository) : ViewModel()
     private val userServicesRequest = MutableLiveData<String>()
     private val addToWishlistRequest = MutableLiveData<FavouriteRequest>()
     private val logoutRequest = MutableLiveData<String>()
-    private val getReviewRequest = MutableLiveData(DEFAULT_REVIEW_REQUEST)
+    private val getReviewRequest = MutableLiveData<String>()
 
     val profileData = profileDataRequest.switchMap {
         liveData(Dispatchers.IO) {
@@ -130,10 +130,12 @@ class ProfileViewModel(private val mainRepository: MainRepository) : ViewModel()
         logoutRequest.value = request
     }
 
+    fun reviewRequestCall(){
+        getReviewRequest.value = "defaultRequest"
+    }
 
     companion object {
         const val DEFAULT_PROFILE_REQUEST = "profileDataRequest"
-        const val DEFAULT_REVIEW_REQUEST = "reviewRequest"
     }
 
 }

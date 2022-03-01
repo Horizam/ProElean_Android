@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
 import com.horizam.pro.elean.data.model.requests.FavouriteRequest
@@ -30,7 +31,8 @@ import com.horizam.pro.elean.utils.Status
 import java.lang.Exception
 
 
-class GigsUserFragment : Fragment(), OnItemClickListener, FavouriteHandler {
+class GigsUserFragment : Fragment(), OnItemClickListener, FavouriteHandler,
+    SwipeRefreshLayout.OnRefreshListener {
 
     private lateinit var binding: FragmentUserGigsBinding
     private lateinit var adapter: UserGigsAdapter
@@ -38,6 +40,7 @@ class GigsUserFragment : Fragment(), OnItemClickListener, FavouriteHandler {
     private lateinit var viewModel: ProfileViewModel
     private lateinit var genericHandler: GenericHandler
     private lateinit var prefManager: PrefManager
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
 
     override fun onAttach(context: Context) {
@@ -59,7 +62,16 @@ class GigsUserFragment : Fragment(), OnItemClickListener, FavouriteHandler {
         return binding.root
     }
 
+    override fun onRefresh() {
+        if (swipeRefreshLayout.isRefreshing) {
+            swipeRefreshLayout.isRefreshing = false
+        }
+        exeApi()
+    }
+
     private fun initComponents() {
+        swipeRefreshLayout = binding.swipeRefresh
+        swipeRefreshLayout.setOnRefreshListener(this)
         prefManager = PrefManager(requireContext())
     }
 
@@ -92,7 +104,7 @@ class GigsUserFragment : Fragment(), OnItemClickListener, FavouriteHandler {
 
     private fun setRecyclerView() {
         recyclerView = binding.rvUserGigs
-        adapter = UserGigsAdapter(this, this , prefManager.userId)
+        adapter = UserGigsAdapter(this, this, prefManager.userId)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
     }
