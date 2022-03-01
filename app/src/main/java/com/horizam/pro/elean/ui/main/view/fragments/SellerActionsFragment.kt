@@ -202,13 +202,13 @@ class SellerActionsFragment : Fragment(), OnItemClickListener,
         sellerActionList.add(
             SellerActionModel(
                 title = "Create Service",
-                image = R.drawable.ic_create_service
+                image = R.drawable.img_create_service
             )
         )
         sellerActionList.add(
             SellerActionModel(
                 title = "Buyer Requests",
-                image = R.drawable.ic_buyer_request
+                image = R.drawable.img_buyer_request
             )
         )
         sellerActionList.add(

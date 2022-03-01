@@ -111,15 +111,26 @@ class LoginFragment : Fragment() {
     }
 
     private fun validateData() {
+        removeTextFieldsErrors()
+
         if (!Validator.isValidEmail(binding.etEmail)) {
             genericHandler.showErrorMessage(getString(R.string.str_enter_valid_email_address))
             return
-        } else if (!Validator.isValidPassword(binding.etPassword.text.toString().trim())) {
+        } else if (binding.etPassword.text.toString().isEmpty()) {
             genericHandler.showErrorMessage(getString(R.string.str_password_not_entered))
+            binding.textFieldPassword.error = getString(R.string.str_password_not_entered)
             return
+        } else if (binding.etPassword.text.toString().length < 6) {
+            genericHandler.showErrorMessage("Password must be atleast 6 character")
+            binding.textFieldPassword.error = "Password must be atleast 6 character"
         } else {
             executeApi()
         }
+    }
+
+    private fun removeTextFieldsErrors() {
+        binding.textFieldEmail.error = null;
+        binding.textFieldPassword.error = null;
     }
 
     private fun executeApi() {

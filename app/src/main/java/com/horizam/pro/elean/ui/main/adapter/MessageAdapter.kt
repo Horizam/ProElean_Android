@@ -225,6 +225,7 @@ class MessageAdapter(val listener: MessagesHandler, myInfo: MessageUser?, userIn
                         Log.i("Exception",e.message.toString())
                     }
                 }
+                if(Constants.MESSAGE_TYPE_TEXT == message.attachmentType)
                 binding.layoutGigRefer.isVisible = message.refersGig
             }
         }
@@ -404,7 +405,9 @@ class MessageAdapter(val listener: MessagesHandler, myInfo: MessageUser?, userIn
                         Log.i("Exception",e.message.toString())
                     }
                 }
-                binding.layoutGigRefer.isVisible = message.refersGig
+                if(Constants.MESSAGE_TYPE_TEXT == message.attachmentType){
+                    binding.layoutGigRefer.isVisible = message.refersGig
+                }
             }
         }
 

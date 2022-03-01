@@ -67,7 +67,8 @@ class ManageServicesAdapter(val listener: ManageServiceHandler) :
                 tvServiceTitle.text = userService.s_description
                 tvDescriptionGigsUser.text = userService.description
                 tvClick.text = userService.total_clicks.toString()
-                tvOrder.text = userService.price.toString()
+                tvOrder.text = userService.total_orders.toString()
+                tvPrice.text = "${userService.price.toString()}${Constants.CURRENCY}"
             }
         }
     }
