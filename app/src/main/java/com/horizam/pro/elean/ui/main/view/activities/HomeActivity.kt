@@ -211,11 +211,16 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
 //        }
         val bundle = intent.extras
         if (bundle != null) {
-            if (bundle!!.containsKey(Constants.CONTENT_ID)) {
-                val intent1 = Intent(this, OrderDetailsActivity::class.java)
-                intent1.putExtra(Constants.ORDER_ID, bundle.get(Constants.CONTENT_ID).toString())
-                intent.removeExtra(Constants.CONTENT_ID)
-                startActivity(intent1)
+            if (bundle!!.containsKey(Constants.TYPE)) {
+                if (bundle.get(Constants.TYPE) == Constants.TYPE_ORDER) {
+                    val intent1 = Intent(this, OrderDetailsActivity::class.java)
+                    intent1.putExtra(
+                        Constants.ORDER_ID,
+                        bundle.get(Constants.CONTENT_ID).toString()
+                    )
+                    intent.removeExtra(Constants.CONTENT_ID)
+                    startActivity(intent1)
+                }
             }
         }
     }

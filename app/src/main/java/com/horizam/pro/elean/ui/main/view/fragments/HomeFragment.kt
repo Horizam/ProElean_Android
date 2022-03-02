@@ -41,6 +41,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.TextView.OnEditorActionListener
 import com.horizam.pro.elean.data.model.BottomNotification
 import com.horizam.pro.elean.ui.main.view.activities.ManageSalesActivity
+import com.horizam.pro.elean.ui.main.view.activities.OrderDetailsActivity
 import com.horizam.pro.elean.utils.PrefManager
 import org.greenrobot.eventbus.EventBus
 
@@ -98,6 +99,11 @@ class HomeFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefre
                         findNavController().navigate(it)
                         requireActivity().intent.removeExtra(Constants.TYPE)
                     }
+                } else if ((requireActivity().intent.getStringExtra(Constants.TYPE)) == Constants.TYPE_OFFER) {
+                    val bundle = requireActivity().intent.extras
+                    val id = bundle!!.getString(Constants.CONTENT_ID)
+                    findNavController().navigate(R.id.postedJobsFragment)
+                    requireActivity().intent.removeExtra(Constants.TYPE)
                 }
             }
 

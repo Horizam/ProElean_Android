@@ -49,6 +49,18 @@
             app:layout_constraintTop_toTopOf="@id/iv_profile" />
 
         <TextView
+            android:id="@+id/total_number_of_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/_11ssp"
+            android:textColor="@color/colorBlack"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="@dimen/_9sdp"
+            android:layout_marginStart="@dimen/_8sdp"
+            app:layout_constraintStart_toEndOf="@id/rating_gig"
+            android:text="(0)"/>
+
+        <TextView
             android:id="@+id/tv_title_gig"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

@@ -48,7 +48,7 @@ import com.horizam.pro.elean.utils.Status
 
 
 class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
-    ContactSellerHandler, AdapterView.OnItemSelectedListener ,   SwipeRefreshLayout.OnRefreshListener{
+    ContactSellerHandler, AdapterView.OnItemSelectedListener, SwipeRefreshLayout.OnRefreshListener {
 
     private lateinit var binding: FragmentServiceGigsBinding
     private lateinit var adapter: GigsAdapter

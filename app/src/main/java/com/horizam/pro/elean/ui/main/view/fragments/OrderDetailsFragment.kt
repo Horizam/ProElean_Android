@@ -126,6 +126,10 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
         }
     }
 
+    private fun revisionAvailable(): Boolean {
+        return order.revision > 0
+    }
+
     private fun setSellerData(pair: Pair<Int, Int>) {
         binding.apply {
             when (pair.second) {
@@ -270,11 +274,11 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                 }
                 BuyerOrders.Delivered -> {
                     changeViewsVisibility(
-                        deliveryNote = true,
+                        deliveryNote = false,
                         btnResubmit = false,
                         buttonDispute = true,
                         buttonProceedDispute = false,
-                        buttonRevision = true,
+                        buttonRevision = revisionAvailable(),
                         buttonCompleted = true,
                         buttonRateOrder = false
                     )

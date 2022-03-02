@@ -22,7 +22,7 @@ class Constants {
         const val LOCATION_KEY = "locationKey"
         const val SPLASH_DISPLAY_LENGTH = 2000
         const val DOWNLOAD_NOTIFICATION_ID = 99
-        const val GENERAL_NOTIFICATION_ID = 199
+        var GENERAL_NOTIFICATION_ID = 199
         const val DOWNLOAD_NOTIFICATION_CHANNEL_NAME = "Download Completed"
         const val STATUS_OK = 200
         const val REQUEST_CODE = 1211
@@ -85,6 +85,7 @@ class Constants {
         const val MESSAGESCREEN = "message_screen"
         const val TYPE_MESSAGE = "message"
         const val TYPE_ORDER = "order"
+        const val TYPE_OFFER = "offer"
         const val ORDER_ID = "order_id"
         const val CONTENT_ID = "contentID"
         const val MESSAGE = "message"

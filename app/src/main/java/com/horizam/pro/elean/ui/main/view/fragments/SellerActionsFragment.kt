@@ -91,6 +91,11 @@ class SellerActionsFragment : Fragment(), OnItemClickListener,
                             findNavController().navigate(it)
                             requireActivity().intent.removeExtra(Constants.TYPE)
                         }
+                } else if ((requireActivity().intent.getStringExtra(Constants.TYPE)) == Constants.TYPE_OFFER) {
+                    val bundle = requireActivity().intent.extras
+                    val id = bundle!!.getString(Constants.CONTENT_ID)
+                    findNavController().navigate(R.id.postedJobsFragment)
+                    requireActivity().intent.removeExtra(Constants.TYPE)
                 }
             }
 //            else if (requireActivity().intent.hasExtra(Constants.ORDER)) {

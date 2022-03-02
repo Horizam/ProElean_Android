@@ -1,12 +1,12 @@
 package com.horizam.pro.elean.ui.main.adapter
 
+import android.graphics.Color
 import android.graphics.Typeface
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
-import androidx.navigation.findNavController
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -15,13 +15,8 @@ import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.model.Inbox
 import com.horizam.pro.elean.data.model.MembersInfo
-import com.horizam.pro.elean.data.model.User
-import com.horizam.pro.elean.data.model.response.Offer
 import com.horizam.pro.elean.databinding.ItemInboxBinding
-import com.horizam.pro.elean.databinding.ItemViewOfferBinding
 import com.horizam.pro.elean.ui.main.callbacks.InboxHandler
-import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
-import com.horizam.pro.elean.ui.main.callbacks.ViewOffersHandler
 import com.horizam.pro.elean.utils.BaseUtils
 import java.lang.Exception
 
@@ -38,7 +33,7 @@ class InboxAdapter(private val listener: InboxHandler) :
     override fun onBindViewHolder(holder: DataViewHolder, position: Int) {
         val currentItem = getItem(position)
         if (currentItem != null) {
-            holder.bind(currentItem)
+            holder.bind(currentItem , holder)
         }
     }
 
@@ -67,7 +62,7 @@ class InboxAdapter(private val listener: InboxHandler) :
             }
         }
 
-        fun bind(inbox: Inbox) {
+        fun bind(inbox: Inbox, holder: DataViewHolder) {
             binding.apply {
                 try {
                     for (memberInfo in inbox.membersInfo) {
@@ -76,6 +71,7 @@ class InboxAdapter(private val listener: InboxHandler) :
                                 tvMessage.typeface = Typeface.DEFAULT
                             } else {
                                 tvMessage.typeface = Typeface.DEFAULT_BOLD
+                                tvMessage.setTextColor(Color.parseColor("#000000"))
                             }
                         }
                     }

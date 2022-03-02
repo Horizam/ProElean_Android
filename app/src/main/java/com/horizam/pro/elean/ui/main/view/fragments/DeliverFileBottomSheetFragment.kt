@@ -63,7 +63,7 @@ class DeliverFileBottomSheetFragment(
             } else if (binding.etDescription.text.toString().trimStart().length < 15) {
                 binding.etDescription.error = "Description is too short"
             } else if (imagePath.isEmpty()) {
-                genericHandler.showErrorMessage("PLease select file to deliever")
+                binding.tvFileName.error = "Please Select File"
             }
         }
 

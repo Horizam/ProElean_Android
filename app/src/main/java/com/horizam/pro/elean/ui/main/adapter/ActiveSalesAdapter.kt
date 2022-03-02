@@ -53,7 +53,7 @@ class ActiveSalesAdapter(val listener: OnItemClickListener) :
                 tvUserName.text = order.username
                 tvDate.text = BaseUtils.utcToLocal(order.created_at)
                 tvDescription.text = order.description
-                tvPrice.text = order.amount.toString().plus(order.currency)
+                tvPrice.text = order.amount.toString().plus(Constants.CURRENCY)
                 Glide.with(itemView)
                     .load(Constants.BASE_URL.plus(order.image))
                     .error(R.drawable.bg_splash)

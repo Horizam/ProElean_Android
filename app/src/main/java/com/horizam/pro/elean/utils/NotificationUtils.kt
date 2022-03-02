@@ -62,6 +62,7 @@ class NotificationUtils {
         }
 
         fun showNotification(
+            id: String,
             context: Context,
             title: String,
             description: String,
@@ -73,7 +74,7 @@ class NotificationUtils {
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 val notificationChannel = NotificationChannel(
-                    Constants.NOTIFICATION_CHANNEL_ID,
+                    id,
                     Constants.DOWNLOAD_NOTIFICATION_CHANNEL_NAME,
                     NotificationManager.IMPORTANCE_DEFAULT
                 )

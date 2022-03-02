@@ -77,6 +77,7 @@ class InboxFragment : Fragment(), InboxHandler, SwipeRefreshLayout.OnRefreshList
     }
 
     private fun getInboxData() {
+        genericHandler.showProgressBar()
         myId = prefManager.userId
         if (myId != "") {
             adapter.setMyId(myId)

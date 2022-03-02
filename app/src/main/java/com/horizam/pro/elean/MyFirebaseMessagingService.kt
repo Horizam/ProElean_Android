@@ -67,6 +67,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                 intent
             )
             NotificationUtils.showNotification(
+                remoteMessage.data[Constants.SENDER_ID].toString(),
                 applicationContext,
                 remoteMessage.data[Constants.SENDER_NAME].toString(),
                 remoteMessage.data[Constants.MESSAGE].toString(),
@@ -96,12 +97,39 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             )
             //show notification in status bar
             NotificationUtils.showNotification(
+                contentID.toString(),
                 applicationContext,
                 title!!,
                 "$message",
                 pendingIntent
             )
 
+        } else if (type == Constants.TYPE_OFFER) {
+            val title = remoteMessage.data["subject"]
+            val message = remoteMessage.data["body"]
+            val contentID = remoteMessage.data[Constants.CONTENT_ID]
+            val bundle = Bundle()
+            bundle.putString(
+                Constants.CONTENT_ID, contentID
+            )
+            bundle.putString(
+                Constants.TYPE,
+                remoteMessage.data[Constants.TYPE]
+            )
+
+            val intent = Intent(this, HomeActivity::class.java)
+            intent.putExtras(bundle)
+            val pendingIntent = setPendingIntent(
+                intent
+            )
+            //show notification in status bar
+            NotificationUtils.showNotification(
+                contentID.toString(),
+                applicationContext,
+                title!!,
+                "$message",
+                pendingIntent
+            )
         }
     }
 
@@ -109,9 +137,14 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         intent: Intent,
     ): PendingIntent? {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-
+        Constants.GENERAL_NOTIFICATION_ID++;
         val pendingIntent =
-            PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT)
+            PendingIntent.getActivity(
+                this,
+                Constants.GENERAL_NOTIFICATION_ID,
+                intent,
+                PendingIntent.FLAG_ONE_SHOT
+            )
         return pendingIntent
     }
 

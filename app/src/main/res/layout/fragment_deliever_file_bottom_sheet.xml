@@ -66,12 +66,13 @@
             android:id="@+id/tv_file_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:lines="1"
-            android:text=""
-            android:maxWidth="@dimen/_150sdp"
             android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/_32sdp"
-            android:textSize="@dimen/_13ssp"/>
+            android:lines="1"
+            android:maxWidth="@dimen/_150sdp"
+            android:minWidth="@dimen/_150sdp"
+            android:text=""
+            android:textSize="@dimen/_13ssp" />
 
         <TextView
             android:id="@+id/tv_remove"

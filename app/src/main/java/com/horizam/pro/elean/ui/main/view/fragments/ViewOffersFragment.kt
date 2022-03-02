@@ -253,11 +253,11 @@ class ViewOffersFragment : Fragment(), OnItemClickListener, ViewOffersHandler, C
 
     override fun <T> askQuestion(item: T) {
         if (item is Offer) {
-            if (prefManager.userId != item.id) {
+            if (prefManager.userId != item.profile.id) {
                 ViewOffersFragmentDirections.actionViewOffersFragmentToMessagesFragment(
-                    userName = "",
-                    photo = "",
-                    id = item.id
+                    userName = item.profile.name,
+                    photo = item.profile.image,
+                    id = item.profile.id
                 )
                     .also {
                         findNavController().navigate(it)
