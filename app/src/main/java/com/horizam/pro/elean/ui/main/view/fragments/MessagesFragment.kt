@@ -168,17 +168,15 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
 
     private fun handleResponse(response: GeneralResponse) {
         genericHandler.showSuccessMessage(response.message)
-        if (response.status == Constants.STATUS_OK) {
-            if (offerMessage != null) {
-                db.collection(Constants.FIREBASE_DATABASE_ROOT).document(inbox!!.id)
-                    .collection("Messages").document(offerMessage!!.id).update(
-                        mapOf(
-                            "messageOffer.status" to Constants.OFFER_ACCEPTED
-                        )
-                    ).addOnSuccessListener {
+        if (offerMessage != null) {
+            db.collection(Constants.FIREBASE_DATABASE_ROOT).document(inbox!!.id)
+                .collection("Messages").document(offerMessage!!.id).update(
+                    mapOf(
+                        "messageOffer.status" to Constants.OFFER_ACCEPTED
+                    )
+                ).addOnSuccessListener {
 //                        startActivity(Intent(requireActivity(), ManageOrdersActivity::class.java))
-                    }
-            }
+                }
         }
     }
 
