@@ -92,7 +92,7 @@
                         android:ellipsize="end"
                         android:gravity="center"
                         android:maxLines="2"
-                        android:text="@string/str_search_by_price"
+                        android:text="@string/str_filter_by_price"
                         android:textColor="@color/colorWhite"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"

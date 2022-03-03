@@ -310,16 +310,14 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
             for (dc in snapshots!!.documentChanges) {
                 when (dc.type) {
                     DocumentChange.Type.ADDED -> {
-                        adapter.refresh()
                     }
                     DocumentChange.Type.MODIFIED -> {
-                        adapter.refresh()
                     }
                     DocumentChange.Type.REMOVED -> {
-                        adapter.refresh()
                     }
                 }
             }
+            adapter.refresh()
             genericHandler.showProgressBar(false)
         }
     }

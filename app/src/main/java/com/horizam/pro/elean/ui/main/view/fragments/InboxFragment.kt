@@ -110,7 +110,7 @@ class InboxFragment : Fragment(), InboxHandler, SwipeRefreshLayout.OnRefreshList
                     }
                 }
             }
-            genericHandler.showProgressBar(false)
+//            genericHandler.showProgressBar(false)
         }
     }
 
