@@ -72,6 +72,7 @@
             android:maxWidth="@dimen/_150sdp"
             android:minWidth="@dimen/_150sdp"
             android:text=""
+
             android:textSize="@dimen/_13ssp" />
 
         <TextView

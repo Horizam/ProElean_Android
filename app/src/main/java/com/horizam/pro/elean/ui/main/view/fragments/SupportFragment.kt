@@ -66,8 +66,16 @@ class SupportFragment : Fragment() {
                 binding.textFieldSubject.error = getString(R.string.str_enter_valid_subject)
                 return
             }
+            binding.etSubject.text.toString().trim().length < 4 -> {
+                binding.textFieldSubject.error = getString(R.string.str_subject_minimum_character)
+                return
+            }
             binding.etDescription.text.toString().trim().isEmpty() -> {
                 binding.textFieldDescription.error = getString(R.string.str_enter_valid_description)
+                return
+            }
+            binding.etDescription.text.toString().trim().length < 15 -> {
+                binding.textFieldDescription.error = getString(R.string.str_description_minimum)
                 return
             }
             else -> {

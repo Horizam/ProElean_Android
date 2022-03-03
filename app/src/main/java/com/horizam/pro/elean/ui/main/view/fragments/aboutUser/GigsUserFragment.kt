@@ -10,9 +10,11 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.gson.Gson
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
 import com.horizam.pro.elean.data.model.requests.FavouriteRequest
@@ -24,6 +26,7 @@ import com.horizam.pro.elean.ui.main.callbacks.FavouriteHandler
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
 import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
 import com.horizam.pro.elean.ui.main.view.activities.UserGigDetailsActivity
+import com.horizam.pro.elean.ui.main.view.fragments.ServiceGigsFragmentDirections
 import com.horizam.pro.elean.ui.main.viewmodel.ProfileViewModel
 import com.horizam.pro.elean.utils.PrefManager
 import com.horizam.pro.elean.utils.Resource
@@ -159,6 +162,15 @@ class GigsUserFragment : Fragment(), OnItemClickListener, FavouriteHandler,
 
     override fun <T> onItemClick(item: T) {
         if (item is ServiceDetail) {
+//            if (item is ServiceDetail) {
+//                val gson = Gson()
+//                val serviceData = gson.toJson(item)
+//                val action =
+//                    ServiceGigsFragmentDirections.actionServiceGigsFragmentToGigDetailsFragment(
+//                        serviceData
+//                    )
+//                findNavController().navigate(action)
+//            }
             Intent(requireActivity(), UserGigDetailsActivity::class.java).also {
                 it.putExtra("uuid", item.id)
                 startActivity(it)

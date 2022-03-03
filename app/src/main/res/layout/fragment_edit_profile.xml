@@ -67,7 +67,7 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/_15sdp"
+                    android:layout_marginHorizontal="@dimen/_10sdp"
                     android:layout_marginTop="@dimen/_20sdp"
                     android:hint="@string/str_full_name"
                     app:counterEnabled="true"
@@ -117,7 +117,7 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/_15sdp"
+                    android:layout_marginHorizontal="@dimen/_10sdp"
                     android:hint="@string/str_phone"
                     app:counterEnabled="true"
                     app:counterMaxLength="20"
@@ -140,7 +140,7 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/_15sdp"
+                    android:layout_marginHorizontal="@dimen/_10sdp"
                     android:hint="@string/str_address"
                     app:counterEnabled="true"
                     app:counterMaxLength="50"
@@ -186,17 +186,18 @@
                 <Button
                     android:id="@+id/submit_btn"
                     style="@style/New.TextButton"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_5sdp"
                     android:backgroundTint="@color/colorButtons"
                     android:elevation="@dimen/_10sdp"
+                    android:layout_marginHorizontal="@dimen/_10sdp"
                     android:paddingHorizontal="@dimen/_16sdp"
                     android:text="@string/str_submit"
                     android:textColor="@color/colorWhite"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/text_field_password" />
+                    app:layout_constraintBottom_toBottomOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

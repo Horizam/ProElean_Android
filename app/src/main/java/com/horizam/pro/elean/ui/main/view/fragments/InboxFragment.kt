@@ -2,10 +2,12 @@ package com.horizam.pro.elean.ui.main.view.fragments
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -14,6 +16,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FirebaseFirestore
@@ -50,6 +53,7 @@ class InboxFragment : Fragment(), InboxHandler, SwipeRefreshLayout.OnRefreshList
     private var myId: String = ""
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private lateinit var viewModel: InboxViewModel
+    private lateinit var mAuth: FirebaseAuth
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -63,12 +67,34 @@ class InboxFragment : Fragment(), InboxHandler, SwipeRefreshLayout.OnRefreshList
         binding = FragmentInboxBinding.inflate(layoutInflater, container, false)
         setToolbarData()
         initViews()
+        if (prefManager.anonymousUser == "") {
+            anonymousLogin()
+        } else {
+            Log.wtf("mytag", "anonymous user already login")
+        }
         setupViewModel()
         setupObservers()
         setRecyclerView()
         setClickListeners()
         getInboxData()
         return binding.root
+    }
+
+    private fun anonymousLogin() {
+        mAuth = FirebaseAuth.getInstance()
+        val currentUser = mAuth.currentUser
+        if (currentUser != null) {
+            prefManager.anonymousUser = currentUser.uid
+        } else {
+            mAuth.signInAnonymously()
+                .addOnSuccessListener { result ->
+                    val user = mAuth.currentUser
+                    prefManager.anonymousUser = user!!.uid.toString()
+                    Log.wtf("mytag", user!!.uid.toString())
+                }.addOnFailureListener { e ->
+                    Log.wtf("mytag", e.toString())
+                }
+        }
     }
 
     override fun onStart() {

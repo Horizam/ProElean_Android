@@ -16,6 +16,10 @@ class PrefManager(_context: Context) {
         get() = pref.getString(Constants.ACCESS_TOKEN, "")!!
         set(value) = pref.edit().putString(Constants.ACCESS_TOKEN, value).apply()
 
+    var anonymousUser: String
+        get() = pref.getString(Constants.ANONYMOUS_USER, "")!!
+        set(value) = pref.edit().putString(Constants.ANONYMOUS_USER, value).apply()
+
     var fcmToken: String
         get() = pref.getString(Constants.FCM_TOKEN, "")!!
         set(value) = pref.edit().putString(Constants.FCM_TOKEN, value).apply()

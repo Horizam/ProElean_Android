@@ -308,5 +308,8 @@
     <string name="str_withdrawal_account">Withdrawal Account</string>
     <string name="str_filter_by_price">Filter By Price</string>
     <string name="str_order_detail">Order Detail</string>
+    <string name="str_subject_minimum_character">Subject atleast be 4 chracter</string>
+    <string name="str_description_minimum">Description at least must b 15 characters</string>
+    <string name="str_please_select_file">Please Select File</string>
 
 </resources>

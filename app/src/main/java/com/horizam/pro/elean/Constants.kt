@@ -13,6 +13,7 @@ class Constants {
         const val STRIPE_PUBLISH_KEY =
             "pk_test_51JjiUJEo1VO7fqooIIFHdo9uVkpnmnG5BkshucX4IxQ9M5A6Z4rRpuBe6B4wZrkAivLQURv0u5891hkqW5y8LAg500wyyLYrYT"
         const val ACCESS_TOKEN = "accessToken"
+        const val ANONYMOUS_USER = "anonymousUser"
         const val FCM_TOKEN = "fcmToken"
         const val USER_ID = "userId"
         const val USER_IMAGE = "userImage"

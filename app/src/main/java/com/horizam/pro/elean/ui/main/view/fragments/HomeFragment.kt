@@ -39,11 +39,9 @@ import java.lang.Exception
 
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView.OnEditorActionListener
-import com.horizam.pro.elean.data.model.BottomNotification
+import com.google.firebase.auth.FirebaseAuth
 import com.horizam.pro.elean.ui.main.view.activities.ManageSalesActivity
-import com.horizam.pro.elean.ui.main.view.activities.OrderDetailsActivity
 import com.horizam.pro.elean.utils.PrefManager
-import org.greenrobot.eventbus.EventBus
 
 
 class HomeFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
@@ -59,6 +57,7 @@ class HomeFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefre
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private var sliderView: SliderView? = null
     private var sliderAdapter: SliderAdapter? = null
+    private lateinit var mAuth: FirebaseAuth
 
 
     override fun onAttach(context: Context) {
@@ -75,6 +74,11 @@ class HomeFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefre
         binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
         getIntentData()
         initViews()
+        if (prefManager.anonymousUser == "") {
+            anonymousLogin()
+        } else {
+            Log.wtf("mytag", "anonymous user already login")
+        }
         setupViewModel()
         setupObservers()
         setRecyclerViews()
@@ -116,11 +120,29 @@ class HomeFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefre
         }
     }
 
+    private fun anonymousLogin() {
+        mAuth = FirebaseAuth.getInstance()
+        val currentUser = mAuth.currentUser
+        if (currentUser != null) {
+            prefManager.anonymousUser = currentUser.uid
+        } else {
+            mAuth.signInAnonymously()
+                .addOnSuccessListener { result ->
+                    val user = mAuth.currentUser
+                    prefManager.anonymousUser = user!!.uid.toString()
+                    Log.wtf("mytag", user!!.uid.toString())
+                }.addOnFailureListener { e ->
+                    Log.wtf("mytag", e.toString())
+                }
+        }
+    }
+
     private fun initViews() {
+        mAuth = FirebaseAuth.getInstance()
         adapterServices = ServicesAdapter(this)
         adapterGigs = HomeGigsAdapter(this)
         sliderView = binding.imageSlider
-        sliderAdapter = SliderAdapter(requireContext())
+        sliderAdapter = SliderAdapter(this)
         swipeRefreshLayout = binding.swipeRefresh
         swipeRefreshLayout.setOnRefreshListener(this)
         binding.toolbar.ivSecond.setImageResource(R.drawable.ic_notifications)
@@ -164,7 +186,6 @@ class HomeFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefre
             it.scrollTimeInSec = 2 //set scroll delay in seconds :
             it.startAutoCycle()
         }
-
     }
 
     private fun setClickListeners() {

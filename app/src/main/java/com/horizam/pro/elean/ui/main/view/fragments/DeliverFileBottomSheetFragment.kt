@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -54,6 +55,8 @@ class DeliverFileBottomSheetFragment(
             onClickRequestPermission()
         }
         binding.btnSubmit.setOnClickListener {
+            removeAllTextFieldsErrors()
+
             if (imagePath.isNotEmpty() && binding.etDescription.text!!.length >= 10) {
                 deliverOrderFileHandler.sendFilePath(
                     filePath = imagePath,
@@ -63,7 +66,9 @@ class DeliverFileBottomSheetFragment(
             } else if (binding.etDescription.text.toString().trimStart().length < 15) {
                 binding.etDescription.error = "Description is too short"
             } else if (imagePath.isEmpty()) {
-                binding.tvFileName.error = "Please Select File"
+                binding.rlFileName.visibility = View.VISIBLE
+                binding.tvFileName.text = getString(R.string.str_please_select_file)
+                binding.tvFileName.setTextColor(Color.parseColor("#FF0000"))
             }
         }
 
@@ -72,6 +77,10 @@ class DeliverFileBottomSheetFragment(
             imagePath = ""
             binding.rlFileName.visibility = View.INVISIBLE
         }
+    }
+
+    private fun removeAllTextFieldsErrors() {
+        binding.tvFileName.setTextColor(Color.parseColor("#000000"))
     }
 
     var resultLauncher =

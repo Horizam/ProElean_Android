@@ -1,22 +1,21 @@
 package com.horizam.pro.elean.ui.main.adapter
 
-import android.content.Context
 import android.graphics.Color
-import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.target.Target
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.model.SliderItem
+import com.horizam.pro.elean.ui.main.view.fragments.HomeFragment
+import com.horizam.pro.elean.ui.main.view.fragments.HomeFragmentDirections
 import com.smarteist.autoimageslider.SliderViewAdapter
 
 
- class SliderAdapter(private val context: Context) :
+class SliderAdapter(private val context: HomeFragment) :
     SliderViewAdapter<SliderAdapter.SliderAdapterVH>() {
 
     private var mSliderItems: MutableList<SliderItem> = ArrayList()
@@ -52,11 +51,9 @@ import com.smarteist.autoimageslider.SliderViewAdapter
             .fitCenter()
             .into(viewHolder.imageViewBackground)
         viewHolder.itemView.setOnClickListener {
-            /*Toast.makeText(
-                context,
-                "This is item in position $position",
-                Toast.LENGTH_SHORT
-            ).show()*/
+            val id = "cU1VOWVkQVVpVElJdll4eThYOXpBZz09"
+            val action = HomeFragmentDirections.actionHomeFragmentToServiceCategoriesFragment(id)
+            context.findNavController().navigate(action)
         }
     }
 

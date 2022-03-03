@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.firebase.auth.FirebaseAuth
 import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.api.ApiHelper
@@ -50,6 +51,7 @@ class AboutUserFragment : Fragment(), OnItemClickListener {
     private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var dialogDelete: Dialog
     private lateinit var bindingDeleteDialog: DialogDeleteBinding
+    private lateinit var mAuth: FirebaseAuth
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -116,6 +118,8 @@ class AboutUserFragment : Fragment(), OnItemClickListener {
         binding.clLogout.setOnClickListener {
             dialogDelete.show()
             dialogDelete.btn_yes.setOnClickListener {
+                mAuth.signOut()
+                prefManager.anonymousUser = ""
                 executeLogoutApi()
                 dialogDelete.dismiss()
             }
@@ -144,6 +148,7 @@ class AboutUserFragment : Fragment(), OnItemClickListener {
     }
 
     private fun initComponent() {
+        mAuth = FirebaseAuth.getInstance()
         sellerActionList = ArrayList()
         prefManager = PrefManager(requireContext())
         binding.switchSellerMode.isChecked = prefManager.sellerMode != 0
