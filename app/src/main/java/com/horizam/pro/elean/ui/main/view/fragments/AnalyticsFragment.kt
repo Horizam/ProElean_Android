@@ -25,7 +25,7 @@ import com.horizam.pro.elean.ui.main.adapter.NotificationsAdapter
 class AnalyticsFragment : Fragment() {
 
     private lateinit var binding: FragmentAnalyticsBinding
-    private val navController:NavController by lazy {
+    private val navController: NavController by lazy {
         this.findNavController()
     }
 
@@ -33,7 +33,7 @@ class AnalyticsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentAnalyticsBinding.inflate(layoutInflater,container,false)
+        binding = FragmentAnalyticsBinding.inflate(layoutInflater, container, false)
         setToolbarData()
         initViews()
         setOnClickListeners()

@@ -39,6 +39,7 @@ import com.google.android.play.core.install.InstallStateUpdatedListener
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.InstallStatus
 import com.google.android.play.core.install.model.UpdateAvailability
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -86,6 +87,7 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
     private var isUserFreelancer: Int = 0
     private var userId: String = ""
     private lateinit var job: Job
+    private lateinit var mAuth: FirebaseAuth
     private var unreadMsg = 0
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main + job
@@ -109,12 +111,38 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
         setData()
         setBottomNavigation()
         setDrawerStopFromOpening()
+        anonymousLogin()
 
         //call function for every 5 seconds
         handler.postDelayed(Runnable {
             handler.postDelayed(runnable!!, delay.toLong())
             getTotalNumberUnreadMsg()
         }.also { runnable = it }, delay.toLong())
+    }
+
+    private fun anonymousLogin() {
+        if (prefManager.anonymousUser == "") {
+            anonymousLoginOperate()
+        } else {
+            Log.wtf("mytag", "anonymous user already login")
+        }
+    }
+
+    private fun anonymousLoginOperate() {
+        mAuth = FirebaseAuth.getInstance()
+        val currentUser = mAuth.currentUser
+        if (currentUser != null) {
+            prefManager.anonymousUser = currentUser.uid
+        } else {
+            mAuth.signInAnonymously()
+                .addOnSuccessListener { result ->
+                    val user = mAuth.currentUser
+                    prefManager.anonymousUser = user!!.uid.toString()
+                    Log.wtf("mytag", user!!.uid.toString())
+                }.addOnFailureListener { e ->
+                    Log.wtf("mytag", e.toString())
+                }
+        }
     }
 
     private fun updateApp() {

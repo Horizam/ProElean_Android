@@ -54,6 +54,7 @@ class InboxFragment : Fragment(), InboxHandler, SwipeRefreshLayout.OnRefreshList
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private lateinit var viewModel: InboxViewModel
     private lateinit var mAuth: FirebaseAuth
+    private var chatLoad = 0;
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -67,34 +68,12 @@ class InboxFragment : Fragment(), InboxHandler, SwipeRefreshLayout.OnRefreshList
         binding = FragmentInboxBinding.inflate(layoutInflater, container, false)
         setToolbarData()
         initViews()
-        if (prefManager.anonymousUser == "") {
-            anonymousLogin()
-        } else {
-            Log.wtf("mytag", "anonymous user already login")
-        }
         setupViewModel()
         setupObservers()
         setRecyclerView()
         setClickListeners()
         getInboxData()
         return binding.root
-    }
-
-    private fun anonymousLogin() {
-        mAuth = FirebaseAuth.getInstance()
-        val currentUser = mAuth.currentUser
-        if (currentUser != null) {
-            prefManager.anonymousUser = currentUser.uid
-        } else {
-            mAuth.signInAnonymously()
-                .addOnSuccessListener { result ->
-                    val user = mAuth.currentUser
-                    prefManager.anonymousUser = user!!.uid.toString()
-                    Log.wtf("mytag", user!!.uid.toString())
-                }.addOnFailureListener { e ->
-                    Log.wtf("mytag", e.toString())
-                }
-        }
     }
 
     override fun onStart() {

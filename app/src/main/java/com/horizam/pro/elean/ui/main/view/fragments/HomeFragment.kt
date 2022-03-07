@@ -74,11 +74,6 @@ class HomeFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefre
         binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
         getIntentData()
         initViews()
-        if (prefManager.anonymousUser == "") {
-            anonymousLogin()
-        } else {
-            Log.wtf("mytag", "anonymous user already login")
-        }
         setupViewModel()
         setupObservers()
         setRecyclerViews()
@@ -117,23 +112,6 @@ class HomeFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefre
                 }
                 requireActivity().intent.removeExtra("order")
             }
-        }
-    }
-
-    private fun anonymousLogin() {
-        mAuth = FirebaseAuth.getInstance()
-        val currentUser = mAuth.currentUser
-        if (currentUser != null) {
-            prefManager.anonymousUser = currentUser.uid
-        } else {
-            mAuth.signInAnonymously()
-                .addOnSuccessListener { result ->
-                    val user = mAuth.currentUser
-                    prefManager.anonymousUser = user!!.uid.toString()
-                    Log.wtf("mytag", user!!.uid.toString())
-                }.addOnFailureListener { e ->
-                    Log.wtf("mytag", e.toString())
-                }
         }
     }
 
