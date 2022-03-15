@@ -53,8 +53,6 @@ class InboxFragment : Fragment(), InboxHandler, SwipeRefreshLayout.OnRefreshList
     private var myId: String = ""
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private lateinit var viewModel: InboxViewModel
-    private lateinit var mAuth: FirebaseAuth
-    private var chatLoad = 0;
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

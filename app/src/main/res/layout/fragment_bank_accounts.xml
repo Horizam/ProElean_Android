@@ -17,7 +17,7 @@
         android:layout_marginHorizontal="@dimen/_10sdp"
         android:layout_marginTop="@dimen/_20sdp"
         android:elevation="@dimen/_5sdp"
-        app:cardCornerRadius="@dimen/_10sdp"
+        app:cardCornerRadius="@dimen/_8sdp"
         app:cardMaxElevation="@dimen/_5sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -58,6 +58,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
+                android:maxWidth="@dimen/_200sdp"
                 app:layout_constraintTop_toBottomOf="@+id/tv_bank_name"
                 app:layout_constraintStart_toEndOf="@+id/account_name_title"
                 android:layout_marginStart="@dimen/_5sdp"
@@ -65,7 +66,7 @@
                 android:ellipsize="marquee"
                 android:singleLine="true"
                 android:textColor="@color/colorBlack"
-                android:text="talha" />
+                android:text="talha tahir" />
 
             <TextView
                 android:id="@+id/account_number_title"
@@ -88,7 +89,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginStart="@dimen/_5sdp"
                 android:textSize="@dimen/_11ssp"
-                android:maxLines="2"
+                android:singleLine="true"
                 android:textColor="@color/colorBlack"
                 android:ellipsize="marquee"
                 android:layout_marginEnd="@dimen/_15sdp"

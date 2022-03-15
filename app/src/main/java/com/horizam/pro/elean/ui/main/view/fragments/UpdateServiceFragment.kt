@@ -25,6 +25,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.horizam.pro.elean.App
+import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
@@ -139,7 +140,11 @@ class UpdateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
                     genericHandler.showErrorMessage(getString(R.string.str_enter_valid_description))
                     return
                 }
-                etPrice.editableText.trim().isEmpty() -> {
+                etPrice.text.toString().toDouble() < Constants.MINIMUM_ORDER_PRICE -> {
+                    genericHandler.showErrorMessage("Minimum ${Constants.MINIMUM_ORDER_PRICE}${Constants.CURRENCY} must be entered")
+                    return
+                }
+                etPrice.text!!.trim().toString().toFloat() < 5.0 -> {
                     genericHandler.showErrorMessage(getString(R.string.str_enter_valid_price))
                     return
                 }
