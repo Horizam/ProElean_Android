@@ -7,11 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import com.airbnb.lottie.utils.Utils
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.horizam.pro.elean.databinding.FragmentProfileBinding
 import com.horizam.pro.elean.ui.main.adapter.ViewPagerFragmentAdapter
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
+import com.horizam.pro.elean.utils.BaseUtils
 import com.horizam.pro.elean.utils.PrefManager
 
 class ProfileFragment : Fragment() {
@@ -25,6 +27,16 @@ class ProfileFragment : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         genericHandler = context as GenericHandler
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        BaseUtils.isUserProfileScreen = true
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        BaseUtils.isUserProfileScreen = false
     }
 
     override fun onCreateView(

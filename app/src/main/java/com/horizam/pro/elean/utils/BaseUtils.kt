@@ -51,6 +51,7 @@ class BaseUtils {
         var screenHeight: Int = 0
         var screenWidth: Int = 0
         var DEVICE_ID: String = ""
+        var isUserProfileScreen: Boolean = false
 
         fun isInternetAvailable(context: Context): Boolean {
             var result = false

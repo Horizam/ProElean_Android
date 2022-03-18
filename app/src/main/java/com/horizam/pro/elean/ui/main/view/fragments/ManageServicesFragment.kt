@@ -29,13 +29,16 @@ import com.horizam.pro.elean.ui.base.ViewModelFactory
 import com.horizam.pro.elean.ui.main.adapter.ManageServicesAdapter
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
 import com.horizam.pro.elean.ui.main.callbacks.ManageServiceHandler
+import com.horizam.pro.elean.ui.main.view.fragments.manageSales.ProfileFragmentDirections
 import com.horizam.pro.elean.ui.main.viewmodel.ManageServicesViewModel
+import com.horizam.pro.elean.utils.BaseUtils
 import com.horizam.pro.elean.utils.Resource
 import com.horizam.pro.elean.utils.Status
 import java.lang.Exception
 
 
-class ManageServicesFragment : Fragment(), ManageServiceHandler , SwipeRefreshLayout.OnRefreshListener{
+class ManageServicesFragment : Fragment(), ManageServiceHandler,
+    SwipeRefreshLayout.OnRefreshListener {
 
     private lateinit var binding: FragmentManageServicesBinding
     private lateinit var adapter: ManageServicesAdapter
@@ -96,8 +99,14 @@ class ManageServicesFragment : Fragment(), ManageServiceHandler , SwipeRefreshLa
         recyclerView = binding.rvManageServices
         initFilterDialog()
         initDeleteDialog()
+
         swipeRefreshLayout = binding.swipeRefresh
         swipeRefreshLayout.setOnRefreshListener(this)
+        if (BaseUtils.isUserProfileScreen) {
+            binding.toolbar.root.visibility = View.GONE
+        } else {
+            binding.toolbar.root.visibility = View.VISIBLE
+        }
     }
 
     private fun initFilterDialog() {
@@ -237,7 +246,7 @@ class ManageServicesFragment : Fragment(), ManageServiceHandler , SwipeRefreshLa
         if (item is ServiceDetail) {
             val gson = Gson()
             val serviceData = gson.toJson(item)
-            ManageServicesFragmentDirections.actionManageServicesFragmentToServiceDetailsFragment(
+            ProfileFragmentDirections.actionManageServicesFragmentToServiceDetailsFragment(
                 serviceDetail = serviceData,
                 isEditable = true
             ).also {
