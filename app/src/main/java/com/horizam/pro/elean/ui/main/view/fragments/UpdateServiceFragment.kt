@@ -126,6 +126,12 @@ class UpdateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
             when {
                 etShortDes.editableText.trim().isEmpty() -> {
                     genericHandler.showErrorMessage(getString(R.string.str_enter_valid_short_description))
+                    binding.etShortDes.requestFocus()
+                    return
+                }
+                etShortDes.editableText.trimStart().length < 6 -> {
+                    genericHandler.showErrorMessage(getString(R.string.str_short_description_must_be_at_least_6_characters))
+                    binding.etShortDes.requestFocus()
                     return
                 }
                 categoryId == "" -> {

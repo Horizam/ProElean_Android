@@ -106,6 +106,7 @@ class InboxFragment : Fragment(), InboxHandler, SwipeRefreshLayout.OnRefreshList
                         adapter.refresh()
                     }
                     DocumentChange.Type.MODIFIED -> {
+
                         adapter.refresh()
                     }
                     DocumentChange.Type.REMOVED -> {

@@ -124,7 +124,7 @@ class DeliverFileBottomSheetFragment(
                 Manifest.permission.READ_EXTERNAL_STORAGE
             ) == PackageManager.PERMISSION_GRANTED -> {
                 val imageIntent = Intent().apply {
-                    type = "image/*"
+                    type = "*/*"
                     action = Intent.ACTION_GET_CONTENT
                 }
                 resultLauncher.launch(imageIntent)

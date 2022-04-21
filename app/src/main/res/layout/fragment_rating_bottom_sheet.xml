@@ -28,7 +28,6 @@
         android:hint="@string/str_description"
         app:counterEnabled="true"
         app:counterMaxLength="200"
-        app:endIconMode="clear_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
        app:layout_constraintTop_toBottomOf="@+id/tv_rating">

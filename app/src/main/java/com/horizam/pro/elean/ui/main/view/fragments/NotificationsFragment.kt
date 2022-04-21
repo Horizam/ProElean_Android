@@ -127,7 +127,7 @@ class NotificationsFragment : Fragment(), NotificationsHandler {
 
     private fun handleResponse(response: NotificationsResponse) {
         try {
-            setUIData(response.notificationsList)
+            setUIData(response.data)
         } catch (e: Exception) {
             genericHandler.showErrorMessage(e.message.toString())
         }

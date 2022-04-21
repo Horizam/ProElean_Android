@@ -12,13 +12,12 @@ android {
         applicationId "com.horizam.pro.elean"
         minSdkVersion 21
         targetSdkVersion 31
-        versionCode 17
-        versionName "2.7"
+        versionCode 18
+        versionName "2.8"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
-        zs
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'

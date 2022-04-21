@@ -20,6 +20,7 @@ class ApiHelper(private val apiService: ApiService) {
     suspend fun sendOffer(request: SendOfferRequest) = apiService.sendOffer(request)
     suspend fun submitQuery(request: SubmitQueryRequest) = apiService.submitQuery(request)
     suspend fun customOrder(request: CustomOrderRequest) = apiService.customOrder(request)
+    suspend fun getToken(request: CardModel) = apiService.getToken(request)
     suspend fun chatOrder(request: ChatOfferRequest) = apiService.chatOrder(request)
     suspend fun sellerActions(sellerHashMap: HashMap<String, Any>) =
         apiService.sellerActions(sellerHashMap)
@@ -107,6 +108,7 @@ class ApiHelper(private val apiService: ApiService) {
         apiService.changePassword(changePasswordRequest)
 
     suspend fun orderByID(request: Int) = apiService.orderByID(request)
+    suspend fun extendTime(request: ExtendDeliveryTimeModel) = apiService.extendTime(request)
     suspend fun getSellerData() = apiService.getSellerData()
     suspend fun sendNotification(notificationRequest: FirebaseNotificationRequest) =
         apiService.sendFirebaseNotification(

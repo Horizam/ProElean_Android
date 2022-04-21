@@ -177,6 +177,9 @@ interface ApiService {
     @POST("buyer/custom_order")
     suspend fun customOrder(@Body request: CustomOrderRequest): GeneralResponse
 
+    @POST("token")
+    suspend fun getToken(@Body request: CardModel): TokenModel
+
     @POST("buyer/chat_order")
     suspend fun chatOrder(@Body request: ChatOfferRequest): GeneralResponse
 
@@ -248,6 +251,8 @@ interface ApiService {
     @GET("get_order/{id}")
     suspend fun orderByID(@Path("id") orderId: Int): Order
 
+    @POST("seller/extend_order")
+    suspend fun extendTime(@Body orderId: ExtendDeliveryTimeModel): GeneralResponse
 
     @POST("sendNotifications")
     suspend fun sendFirebaseNotification(

@@ -1,6 +1,5 @@
 package com.horizam.pro.elean.ui.main.viewmodel
 
-
 data class FirebaseNotificationRequest(
     val subject: String,
     val reciever_id: String,

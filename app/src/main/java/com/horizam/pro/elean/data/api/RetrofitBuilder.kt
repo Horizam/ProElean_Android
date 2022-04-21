@@ -26,6 +26,7 @@ object RetrofitBuilder {
                 .build()
         }
     }
+
     // offline intercepter
     var offlineInterceptor: Interceptor = object : Interceptor {
         @Throws(IOException::class)
@@ -41,6 +42,7 @@ object RetrofitBuilder {
             return chain.proceed(request)
         }
     }
+
     // Cache size
     var cacheSize = 10 * 1024 * 1024 // 10 MB
     var cache: Cache = Cache(App.getAppContext()!!.cacheDir, cacheSize.toLong())
@@ -50,24 +52,22 @@ object RetrofitBuilder {
 
 
     private fun buildClient(): OkHttpClient {
-
         val manager = PrefManager(App.getAppContext()!!)
-
         clientBuilder.addInterceptor(getLoggingInterceptor())
             .addInterceptor { chain ->
                 val newRequest: Request = chain.request().newBuilder()
                     .addHeader("Authorization", "Bearer ${manager.accessToken}")
-                    .addHeader("Accept" , "application/json")
-                    .addHeader("Device-Id" , BaseUtils.DEVICE_ID)
-                    .addHeader("Device-Type" , "android")
+                    .addHeader("Accept", "application/json")
+                    .addHeader("Device-Id", BaseUtils.DEVICE_ID)
+                    .addHeader("Device-Type", "android")
                     .build()
                 chain.proceed(newRequest)
             }
             .writeTimeout(60, TimeUnit.SECONDS).connectTimeout(5, TimeUnit.SECONDS)
             .readTimeout(60, TimeUnit.SECONDS)
-            /*.addInterceptor(offlineInterceptor)
-            .addNetworkInterceptor(onlineInterceptor)
-            .cache(cache)*/
+        /*.addInterceptor(offlineInterceptor)
+        .addNetworkInterceptor(onlineInterceptor)
+        .cache(cache)*/
         return clientBuilder.build()
     }
 
@@ -76,7 +76,6 @@ object RetrofitBuilder {
         httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
         return httpLoggingInterceptor
     }
-
 
     private fun getRetrofit(): Retrofit {
         val gson = GsonBuilder()

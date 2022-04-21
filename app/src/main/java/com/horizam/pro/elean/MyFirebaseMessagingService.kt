@@ -95,7 +95,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             val pendingIntent = setPendingIntent(
                 intent
             )
-            //show notification in status bar
+//            show notification in status bar
             NotificationUtils.showNotification(
                 contentID.toString(),
                 applicationContext,

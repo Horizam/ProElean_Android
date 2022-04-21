@@ -17,8 +17,10 @@ import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
+import com.horizam.pro.elean.data.model.requests.CardModel
 import com.horizam.pro.elean.data.model.requests.CustomOrderRequest
 import com.horizam.pro.elean.data.model.response.GeneralResponse
+import com.horizam.pro.elean.data.model.response.TokenModel
 import com.horizam.pro.elean.databinding.ActivityCheckoutBinding
 import com.horizam.pro.elean.databinding.DialogFileUploadingBinding
 import com.horizam.pro.elean.databinding.DialogOrderSuccessBinding
@@ -84,6 +86,26 @@ class CheckoutActivity : AppCompatActivity(), CoroutineScope {
                 }
             }
         })
+
+        viewModel.getToken.observe(this, {
+            it?.let { resource ->
+                when (resource.status) {
+                    Status.SUCCESS -> {
+                        showProgressBar(false)
+                        resource.data?.let { response ->
+                            sendToken(response.token)
+                        }
+                    }
+                    Status.ERROR -> {
+                        showProgressBar(false)
+                        showMessage(it.message.toString())
+                    }
+                    Status.LOADING -> {
+                        showProgressBar(true)
+                    }
+                }
+            }
+        })
     }
 
     private fun handleResponse(response: GeneralResponse) {
@@ -94,23 +116,19 @@ class CheckoutActivity : AppCompatActivity(), CoroutineScope {
     private fun setOnClickListeners() {
         binding.apply {
             btnPay.setOnClickListener {
-                hideKeyboard()
-                customOrderRequest?.let {
-                    // set currency here
-                    if (cardInputWidget.cardParams != null) {
-                        stripe = Stripe(
-                            applicationContext,
-                            PaymentConfiguration.getInstance(applicationContext).publishableKey
-                        )
-                        stripe.createCardToken(
-                            cardInputWidget.cardParams!!,
-                            callback = stripeTokenCallback
-                        )
-                    } else {
-                        showMessage(getString(R.string.str_enter_all_card_details))
-                    }
-                }
+                var cardNumber = binding.cardInputWidget.cardNumberEditText.text!!.toString().trim()
+                    .replace(" ", "")
+                var cvc = binding.cardInputWidget.cvcEditText.text.toString()
+                var date = binding.cardInputWidget.expiryDateEditText.text.toString()
+                var dateList = date.split("/")
+                var cardModel: CardModel = CardModel()
+                cardModel.number = cardNumber
+                cardModel.cvc = cvc
+                cardModel.exp_month = dateList[0].toString().toInt()
+                cardModel.exp_year = dateList[1].toString().toInt() + 2000
+                viewModel.getToken(cardModel)
             }
+
             bindingDialogOrderSuccessBinding.btnContinue.setOnClickListener {
                 dialogOrderStatus.dismiss()
                 startActivity(Intent(this@CheckoutActivity, HomeActivity::class.java).apply {
@@ -121,20 +139,9 @@ class CheckoutActivity : AppCompatActivity(), CoroutineScope {
         }
     }
 
-    private val stripeTokenCallback = object : ApiResultCallback<Token> {
-        override fun onError(e: Exception) {
-            showMessage(e.message.toString())
-        }
-
-        override fun onSuccess(result: Token) {
-            sendToken(result)
-        }
-
-    }
-
-    private fun sendToken(token: Token) {
+    private fun sendToken(token: String) {
         customOrderRequest?.let {
-            it.token = token.id
+            it.token = token
             viewModel.customOrderCall(it)
         }
     }

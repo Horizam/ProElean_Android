@@ -31,12 +31,9 @@ data class Category(
 @Parcelize
 data class FeaturedGig(
     @SerializedName("id") val id: String = "",
-    @SerializedName("user_id") val user_id: String,
-    @SerializedName("category_id") val category_id: String,
-    @SerializedName("sub_category_id") val sub_category_id: String,
     @SerializedName("s_description") val s_description: String,
     @SerializedName("description") val description: String,
-    @SerializedName("price") val price: Int,
+    @SerializedName("price") val price: Double,
     @SerializedName("favourite") val favourite: Int,
     @SerializedName("service_rating") val service_rating: Int,
     @SerializedName("lat") val lat: Double,
@@ -51,5 +48,4 @@ data class FeaturedGig(
     @SerializedName("sub_category") val sub_category: Subcategory,
     @SerializedName("service_user") val service_user: ServiceUser,
     @SerializedName("service_media") val service_media: List<Service_media>,
-    @SerializedName("service_reviews") val service_reviews: List<String>
 ) : Parcelable

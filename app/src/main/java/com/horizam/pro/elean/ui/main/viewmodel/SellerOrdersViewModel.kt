@@ -19,6 +19,7 @@ class SellerOrdersViewModel(
     private val orderTimelineRequest = MutableLiveData<OrderTimelineRequest>()
     private val ratingOrderRequest = MutableLiveData<RatingOrderRequest>()
     private val orderByIdRequest = MutableLiveData<Int>()
+    private val extendTimeRequest = MutableLiveData<ExtendDeliveryTimeModel>()
 
     //we used seller hashmap when we send different value that required due to backend issues
     private val sellerHashMap = MutableLiveData<HashMap<String, Any>>()
@@ -110,6 +111,18 @@ class SellerOrdersViewModel(
         }
     }
 
+    val extendTime = extendTimeRequest.switchMap {
+        liveData(Dispatchers.IO) {
+            emit(Resource.loading(data = null))
+            try {
+                emit(Resource.success(data = mainRepository.extendTime(it)))
+            } catch (exception: Exception) {
+                val errorMessage = BaseUtils.getError(exception)
+                emit(Resource.error(data = null, message = errorMessage))
+            }
+        }
+    }
+
     fun getSellerOrdersCall(id: Int) {
         sellerOrdersRequest.value = id
     }
@@ -137,4 +150,9 @@ class SellerOrdersViewModel(
     fun getOrderById(request: Int) {
         orderByIdRequest.value = request
     }
+
+    fun requestExtendTime(request: ExtendDeliveryTimeModel) {
+        extendTimeRequest.value = request
+    }
+
 }

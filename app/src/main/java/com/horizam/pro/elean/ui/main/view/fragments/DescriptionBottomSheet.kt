@@ -11,7 +11,8 @@ import com.horizam.pro.elean.ui.main.callbacks.DescriptionHandler
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
 import com.horizam.pro.elean.utils.BaseUtils.Companion.hideKeyboard
 
-class DescriptionBottomSheet(var fragment: OrderDetailsFragment , var userType: Int, var type: Int) : BottomSheetDialogFragment() {
+class DescriptionBottomSheet(var fragment: OrderDetailsFragment, var userType: Int, var type: Int) :
+    BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentDescriptionBottomSheetBinding
     private lateinit var genericHandler: GenericHandler
@@ -46,12 +47,18 @@ class DescriptionBottomSheet(var fragment: OrderDetailsFragment , var userType: 
     }
 
     private fun validateData() {
-        if(binding.etDescription.length() < 10){
+        removeTextFieldsErrors()
+        if (binding.etDescription.length() < 10) {
             genericHandler.showErrorMessage("Description is too short")
-        }else{
-            descriptionHandler.getDescription(binding.etDescription.text.toString() , userType , type)
+            binding.textFieldDescription.error = "Description is too short"
+        } else {
+            descriptionHandler.getDescription(binding.etDescription.text.toString(), userType, type)
             hideKeyboard()
             dismiss()
         }
+    }
+
+    private fun removeTextFieldsErrors() {
+        binding.textFieldDescription.error = null
     }
 }

@@ -78,7 +78,6 @@
                 android:hint="@string/str_describe_your_offer"
                 app:counterEnabled="true"
                 app:counterMaxLength="300"
-                app:endIconMode="clear_text"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/iv_service"
@@ -107,7 +106,6 @@
             android:hint="@string/str_total_offer_dollars"
             app:counterEnabled="true"
             app:counterMaxLength="10"
-            app:endIconMode="clear_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/text_field_description">

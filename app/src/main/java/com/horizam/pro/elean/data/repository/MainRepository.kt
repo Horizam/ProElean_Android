@@ -26,6 +26,7 @@ class MainRepository(private val apiHelper: ApiHelper) {
     suspend fun sendOffer(request: SendOfferRequest) = apiHelper.sendOffer(request)
     suspend fun submitQuery(request: SubmitQueryRequest) = apiHelper.submitQuery(request)
     suspend fun customOrder(request: CustomOrderRequest) = apiHelper.customOrder(request)
+    suspend fun getToken(request: CardModel) = apiHelper.getToken(request)
     suspend fun chatOrder(request: ChatOfferRequest) = apiHelper.chatOrder(request)
     suspend fun sellerActions(sellerHashMap: HashMap<String, Any>) =
         apiHelper.sellerActions(sellerHashMap)
@@ -77,6 +78,7 @@ class MainRepository(private val apiHelper: ApiHelper) {
         apiHelper.changePassword(changePasswordRequest)
 
     suspend fun orderByID(request: Int) = apiHelper.orderByID(request)
+    suspend fun extendTime(request: ExtendDeliveryTimeModel) = apiHelper.extendTime(request)
     suspend fun getSellerData() = apiHelper.getSellerData()
     fun getSubcategories(id: String, query: String) = Pager(
         config = PagingConfig(

@@ -37,6 +37,13 @@
             {
               "client_id": "41257031786-i2urikr50damdfh4r3467dqp7pksshng.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "41257031786-dudnobi7aedr7340s07ss4m9d62nam38.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.horizam.proelean"
+              }
             }
           ]
         }

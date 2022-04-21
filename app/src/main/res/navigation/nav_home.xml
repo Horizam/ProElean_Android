@@ -14,8 +14,8 @@
             android:id="@+id/action_homeFragment_to_serviceCategoriesFragment"
             app:destination="@id/serviceCategoriesFragment" />
         <action
-            android:id="@+id/action_homeFragment_to_featuredGigsDetailsFragment"
-            app:destination="@id/featuredGigsDetailsFragment" />
+            android:id="@+id/action_homeFragment_to_gigDetailsFragment"
+            app:destination="@id/gigDetailsFragment" />
         <action
             android:id="@+id/action_homeFragment_to_serviceGigsFragment"
             app:destination="@id/serviceGigsFragment" />

@@ -219,7 +219,7 @@ class ViewOffersFragment : Fragment(), OnItemClickListener, ViewOffersHandler, C
     }
 
     private fun handleResponse(response: GeneralResponse) {
-        dialogOrderStatus.show()
+//        dialogOrderStatus.show()
         exeApi()
         genericHandler.showSuccessMessage(response.message)
     }

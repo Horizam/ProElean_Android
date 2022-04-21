@@ -50,11 +50,11 @@ class NotificationsAdapter(val listener: NotificationsHandler) :
             binding.apply {
                 tvNotificationTitle.text = notification.name
                 tvNotification.text = notification.body
-                tvNotificationDate.text = notification.createdAt
-                val pair: Pair<Int, Int> = getImageAndColor(notification.type)
-                tvNotificationTitle.setTextColor(ContextCompat.getColor(itemView.context,pair.first))
+                tvNotificationDate.text = notification.created_at
+//                val pair: Pair<Int, Int> = getImageAndColor(notification.type)
+//                tvNotificationTitle.setTextColor(ContextCompat.getColor(itemView.context,pair.first))
                 Glide.with(itemView)
-                    .load(pair.second)
+                    .load(Constants.BASE_URL + notification.sender_pic)
                     .error(R.drawable.bg_splash)
                     .into(ivNotification)
             }

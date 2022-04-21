@@ -40,6 +40,8 @@ import java.lang.Exception
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView.OnEditorActionListener
 import com.google.firebase.auth.FirebaseAuth
+import com.google.gson.Gson
+import com.horizam.pro.elean.data.model.response.ServiceDetail
 import com.horizam.pro.elean.ui.main.view.activities.ManageSalesActivity
 import com.horizam.pro.elean.utils.PrefManager
 
@@ -270,8 +272,12 @@ class HomeFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefre
             val action = HomeFragmentDirections.actionHomeFragmentToServiceCategoriesFragment(id)
             findNavController().navigate(action)
         } else if (item is FeaturedGig) {
-            val id = item.id
-            val action = HomeFragmentDirections.actionHomeFragmentToFeaturedGigsDetailsFragment(id)
+            val gson = Gson()
+            val serviceData = gson.toJson(item)
+            val action =
+                HomeFragmentDirections.actionHomeFragmentToGigDetailsFragment(
+                    serviceData
+                )
             findNavController().navigate(action)
         }
     }

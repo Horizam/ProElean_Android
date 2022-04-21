@@ -130,7 +130,8 @@ class PostJobFragment : Fragment(), AdapterView.OnItemSelectedListener {
     }
 
     private fun removeAllTextFieldsErrors() {
-
+        binding.textFieldDescription.error = null
+        binding.textFieldPrice
     }
 
     private fun executeApi() {

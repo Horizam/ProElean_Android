@@ -222,12 +222,6 @@ class SellerActionsFragment : Fragment(), OnItemClickListener,
                 image = R.drawable.ic_list
             )
         )
-        sellerActionList.add(
-            SellerActionModel(
-                title = "Analytics",
-                image = R.drawable.ic_analytics
-            )
-        )
         sellerActionList.add(SellerActionModel(title = "Earnings", image = R.drawable.ic_budget))
     }
 
@@ -278,13 +272,6 @@ class SellerActionsFragment : Fragment(), OnItemClickListener,
                     )
                 }
                 3 -> {
-//                    navController.navigate(
-//                        R.id.analyticsFragment,
-//                        null,
-//                        BaseUtils.animationOpenScreen()
-//                    )
-                }
-                4 -> {
                     navController.navigate(
                         R.id.earningsFragment,
                         null,
