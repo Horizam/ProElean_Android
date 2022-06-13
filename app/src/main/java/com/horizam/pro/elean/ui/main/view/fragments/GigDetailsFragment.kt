@@ -1,6 +1,7 @@
 package com.horizam.pro.elean.ui.main.view.fragments
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -36,6 +37,7 @@ import com.google.gson.Gson
 import com.horizam.pro.elean.data.model.MessageGig
 import com.horizam.pro.elean.data.model.response.ServiceDetail
 import com.horizam.pro.elean.ui.main.adapter.ReviewsAdapter
+import com.horizam.pro.elean.ui.main.view.activities.AuthenticationActivity
 import com.horizam.pro.elean.utils.PrefManager
 
 
@@ -80,7 +82,7 @@ class GigDetailsFragment : Fragment(), OnItemClickListener,
     private fun executeApi() {
         val gson = Gson()
         val serviceDetail = gson.fromJson(args.serviceDetail, ServiceDetail::class.java)
-        viewModel.addClickGigs(serviceDetail.id)
+//        viewModel.addClickGigs(serviceDetail.id)
         setData(serviceDetail)
     }
 
@@ -132,40 +134,50 @@ class GigDetailsFragment : Fragment(), OnItemClickListener,
             executeApi()
         }
         binding.btnPurchase.setOnClickListener {
-            val serviceId: String = gig!!.id
-            if (serviceId.isNotEmpty()) {
-                val customOrderBottomSheet = CustomOrderBottomSheet()
-                bundle.putString(Constants.SERVICE_ID, serviceId)
-                bundle.putStringArrayList(Constants.DAYS_LIST, deliveryDaysList)
-                customOrderBottomSheet.arguments = bundle
-                customOrderBottomSheet.show(
-                    requireActivity().supportFragmentManager,
-                    CustomOrderBottomSheet.TAG
-                )
+            if (prefManager.accessToken.isEmpty()) {
+                var intent = Intent(activity, AuthenticationActivity::class.java)
+                startActivity(intent)
+            } else {
+                val serviceId: String = gig!!.id
+                if (serviceId.isNotEmpty()) {
+                    val customOrderBottomSheet = CustomOrderBottomSheet()
+                    bundle.putString(Constants.SERVICE_ID, serviceId)
+                    bundle.putStringArrayList(Constants.DAYS_LIST, deliveryDaysList)
+                    customOrderBottomSheet.arguments = bundle
+                    customOrderBottomSheet.show(
+                        requireActivity().supportFragmentManager,
+                        CustomOrderBottomSheet.TAG
+                    )
+                }
             }
         }
         binding.btnContactSeller.setOnClickListener {
-            try {
-                if (prefManager.userId != userId && userId != "" && gig != null) {
-                    val serviceGig = gig!!
-                    val messageGig = MessageGig(
-                        gigId = serviceGig.id,
-                        gigImage = serviceGig.service_media[0].media,
-                        gigTitle = serviceGig.s_description,
-                        gigUsername = serviceGig.service_user.name
-                    )
-                    GigDetailsFragmentDirections.actionGigDetailsFragmentToMessagesFragment(
-                        userName = serviceGig.service_user.name,
-                        photo = serviceGig.service_user.image,
-                        id = userId,
-                        refersGig = true,
-                        messageGig = messageGig
-                    ).also {
-                        findNavController().navigate(it)
+            if (prefManager.accessToken.isEmpty()) {
+                var intent = Intent(activity, AuthenticationActivity::class.java)
+                startActivity(intent)
+            } else {
+                try {
+                    if (prefManager.userId != userId && userId != "" && gig != null) {
+                        val serviceGig = gig!!
+                        val messageGig = MessageGig(
+                            gigId = serviceGig.id,
+                            gigImage = serviceGig.service_media[0].media,
+                            gigTitle = serviceGig.s_description,
+                            gigUsername = serviceGig.service_user.name
+                        )
+                        GigDetailsFragmentDirections.actionGigDetailsFragmentToMessagesFragment(
+                            userName = serviceGig.service_user.name,
+                            photo = serviceGig.service_user.image,
+                            id = userId,
+                            refersGig = true,
+                            messageGig = messageGig
+                        ).also {
+                            findNavController().navigate(it)
+                        }
                     }
+                } catch (e: Exception) {
+                    genericHandler.showErrorMessage(e.message.toString())
                 }
-            } catch (e: Exception) {
-                genericHandler.showErrorMessage(e.message.toString())
             }
         }
     }

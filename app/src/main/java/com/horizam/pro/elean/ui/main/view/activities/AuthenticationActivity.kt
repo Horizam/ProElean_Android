@@ -61,15 +61,22 @@ class AuthenticationActivity : AppCompatActivity(), GenericHandler {
             message, Snackbar.LENGTH_LONG
         )
         val snackBarView = snackbar.view
-        val tvMessage = snackBarView.findViewById<TextView>(com.google.android.material.R.id.snackbar_text)
-        tvMessage.setTextColor(ResourcesCompat.getColor(resources , R.color.colorWhite , null))
+        val tvMessage =
+            snackBarView.findViewById<TextView>(com.google.android.material.R.id.snackbar_text)
+        tvMessage.setTextColor(ResourcesCompat.getColor(resources, R.color.colorWhite, null))
         tvMessage.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             tvMessage.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         } else {
             tvMessage.setGravity(Gravity.CENTER_HORIZONTAL);
         }
-        snackBarView.setBackgroundColor(ResourcesCompat.getColor(resources , R.color.color_red , null))
+        snackBarView.setBackgroundColor(
+            ResourcesCompat.getColor(
+                resources,
+                R.color.color_red,
+                null
+            )
+        )
         snackbar.show()
     }
 
@@ -79,15 +86,22 @@ class AuthenticationActivity : AppCompatActivity(), GenericHandler {
             message, Snackbar.LENGTH_LONG
         )
         val snackBarView = snackbar.view
-        val tvMessage = snackBarView.findViewById<TextView>(com.google.android.material.R.id.snackbar_text)
-        tvMessage.setTextColor(ResourcesCompat.getColor(resources , R.color.colorWhite , null))
+        val tvMessage =
+            snackBarView.findViewById<TextView>(com.google.android.material.R.id.snackbar_text)
+        tvMessage.setTextColor(ResourcesCompat.getColor(resources, R.color.colorWhite, null))
         tvMessage.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             tvMessage.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         } else {
             tvMessage.setGravity(Gravity.CENTER_HORIZONTAL);
         }
-        snackBarView.setBackgroundColor(ResourcesCompat.getColor(resources , R.color.color_green , null))
+        snackBarView.setBackgroundColor(
+            ResourcesCompat.getColor(
+                resources,
+                R.color.color_green,
+                null
+            )
+        )
         snackbar.show()
     }
 

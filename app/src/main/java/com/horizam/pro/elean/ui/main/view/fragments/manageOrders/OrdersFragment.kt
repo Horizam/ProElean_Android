@@ -14,6 +14,7 @@ import android.widget.RadioGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -32,6 +33,7 @@ import com.horizam.pro.elean.ui.base.ViewModelFactory
 import com.horizam.pro.elean.ui.main.adapter.ActiveOrdersAdapter
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
 import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
+import com.horizam.pro.elean.ui.main.view.activities.AuthenticationActivity
 import com.horizam.pro.elean.ui.main.view.activities.OrderDetailsActivity
 import com.horizam.pro.elean.ui.main.viewmodel.BuyersOrdersViewModel
 import com.horizam.pro.elean.utils.PrefManager
@@ -61,11 +63,18 @@ class OrdersFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRef
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentOrdersBinding.inflate(layoutInflater, container, false)
+
         initViews()
-        setupViewModel()
-        setupObservers()
-        setRecyclerView()
-        setOnClickListeners()
+        if (prefManager.accessToken.isEmpty()) {
+            this.findNavController().popBackStack()
+            var intent = Intent(activity, AuthenticationActivity::class.java)
+            startActivity(intent)
+        } else {
+            setupViewModel()
+            setupObservers()
+            setRecyclerView()
+            setOnClickListeners()
+        }
         return binding.root
     }
 

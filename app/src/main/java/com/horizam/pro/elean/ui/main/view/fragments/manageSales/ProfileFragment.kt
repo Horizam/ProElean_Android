@@ -1,6 +1,7 @@
 package com.horizam.pro.elean.ui.main.view.fragments.manageSales
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,6 +14,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.horizam.pro.elean.databinding.FragmentProfileBinding
 import com.horizam.pro.elean.ui.main.adapter.ViewPagerFragmentAdapter
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
+import com.horizam.pro.elean.ui.main.view.activities.AuthenticationActivity
 import com.horizam.pro.elean.utils.BaseUtils
 import com.horizam.pro.elean.utils.PrefManager
 
@@ -46,8 +48,14 @@ class ProfileFragment : Fragment() {
         binding = FragmentProfileBinding.inflate(layoutInflater, container, false)
 
         initViews()
-        setTabs()
-        setClickListeners()
+        if (prefManager.accessToken.isEmpty()) {
+            this.findNavController().popBackStack()
+            var intent = Intent(activity, AuthenticationActivity::class.java)
+            startActivity(intent)
+        } else {
+            setTabs()
+            setClickListeners()
+        }
 
         return binding.root
     }

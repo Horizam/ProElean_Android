@@ -1,6 +1,7 @@
 package com.horizam.pro.elean.ui.main.view.fragments
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.text.Editable
@@ -36,10 +37,8 @@ import com.horizam.pro.elean.ui.base.ViewModelFactory
 import com.horizam.pro.elean.ui.main.adapter.GigsAdapter
 import com.horizam.pro.elean.ui.main.adapter.MyLoadStateAdapter
 import com.horizam.pro.elean.ui.main.adapter.PriceAdapter
-import com.horizam.pro.elean.ui.main.callbacks.ContactSellerHandler
-import com.horizam.pro.elean.ui.main.callbacks.FavouriteHandler
-import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
-import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
+import com.horizam.pro.elean.ui.main.callbacks.*
+import com.horizam.pro.elean.ui.main.view.activities.AuthenticationActivity
 import com.horizam.pro.elean.ui.main.viewmodel.ServiceGigsViewModel
 import com.horizam.pro.elean.utils.BaseUtils.Companion.hideKeyboard
 import com.horizam.pro.elean.utils.PrefManager
@@ -48,7 +47,8 @@ import com.horizam.pro.elean.utils.Status
 
 
 class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
-    ContactSellerHandler, AdapterView.OnItemSelectedListener, SwipeRefreshLayout.OnRefreshListener {
+    ContactSellerHandler, AdapterView.OnItemSelectedListener, SwipeRefreshLayout.OnRefreshListener,
+    LogoutHandler {
 
     private lateinit var binding: FragmentServiceGigsBinding
     private lateinit var adapter: GigsAdapter
@@ -146,7 +146,7 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
         swipeRefreshLayout.setOnRefreshListener(this)
         from = args.from
         prefManager = PrefManager(requireContext())
-        adapter = GigsAdapter(this, this, this)
+        adapter = GigsAdapter(this, this, this, this, this)
         recyclerView = binding.rvServiceGigs
         setPriceSpinner()
     }
@@ -357,6 +357,11 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
         if (!hasFocus) {
             hideKeyboard()
         }
+    }
+
+    override fun checkLogout() {
+        var intent = Intent(activity, AuthenticationActivity::class.java)
+        startActivity(intent)
     }
 
 }

@@ -14,12 +14,18 @@ import com.horizam.pro.elean.data.model.response.ServiceDetail
 import com.horizam.pro.elean.databinding.ItemGigsBinding
 import com.horizam.pro.elean.ui.main.callbacks.ContactSellerHandler
 import com.horizam.pro.elean.ui.main.callbacks.FavouriteHandler
+import com.horizam.pro.elean.ui.main.callbacks.LogoutHandler
 import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
+import com.horizam.pro.elean.ui.main.view.fragments.ServiceGigsFragment
+import com.horizam.pro.elean.ui.main.view.fragments.ServiceGigsFragmentArgs
+import com.horizam.pro.elean.utils.PrefManager
 
 class GigsAdapter(
     private val listener: OnItemClickListener,
     private val favouriteHandler: FavouriteHandler,
-    private val contactSellerHandler: ContactSellerHandler
+    private val contactSellerHandler: ContactSellerHandler,
+    private val logoutHandler: LogoutHandler,
+    private val serviceGigsFragment: ServiceGigsFragment
 ) :
     PagingDataAdapter<ServiceDetail, GigsAdapter.DataViewHolder>(ITEM_COMPARATOR) {
 
@@ -59,11 +65,16 @@ class GigsAdapter(
                 }
             }
             binding.btnContactSeller.setOnClickListener {
-                val position = bindingAdapterPosition
-                if (position != RecyclerView.NO_POSITION) {
-                    val item = getItem(position)
-                    if (item != null) {
-                        contactSellerHandler.contactSeller(item)
+                var prefManager = PrefManager(serviceGigsFragment.requireContext())
+                if (prefManager.accessToken.isEmpty()) {
+                    logoutHandler.checkLogout()
+                } else {
+                    val position = bindingAdapterPosition
+                    if (position != RecyclerView.NO_POSITION) {
+                        val item = getItem(position)
+                        if (item != null) {
+                            contactSellerHandler.contactSeller(item)
+                        }
                     }
                 }
             }

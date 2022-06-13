@@ -115,7 +115,7 @@ class SplashActivity : AppCompatActivity() {
         val prefManager = PrefManager(this)
         BaseUtils.DEVICE_ID = prefManager.accessToken.toString()
         val intent: Intent = if (prefManager.accessToken.isEmpty()) {
-            Intent(this@SplashActivity, AuthenticationActivity::class.java)
+            Intent(this@SplashActivity, HomeActivity::class.java)
         } else {
             Intent(this@SplashActivity, HomeActivity::class.java)
         }

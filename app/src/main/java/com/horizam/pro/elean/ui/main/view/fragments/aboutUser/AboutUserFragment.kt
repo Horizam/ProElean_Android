@@ -36,7 +36,6 @@ import com.horizam.pro.elean.utils.Status
 import kotlinx.android.synthetic.main.dialog_delete.*
 import java.lang.Exception
 
-
 class AboutUserFragment : Fragment(), OnItemClickListener {
 
     private lateinit var binding: FragmentUserAboutBinding
@@ -220,8 +219,7 @@ class AboutUserFragment : Fragment(), OnItemClickListener {
         val fcmToken = prefManager.fcmToken
         prefManager.clearAll()
         prefManager.fcmToken = fcmToken
-        startActivity(Intent(activity, AuthenticationActivity::class.java))
-        requireActivity().finish()
+        this.findNavController().popBackStack()
     }
 
     private fun handleResponse(response: ProfileInfo) {

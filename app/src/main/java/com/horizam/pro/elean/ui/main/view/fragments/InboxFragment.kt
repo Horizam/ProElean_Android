@@ -1,6 +1,7 @@
 package com.horizam.pro.elean.ui.main.view.fragments
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -36,6 +37,7 @@ import com.horizam.pro.elean.ui.main.adapter.InboxAdapter
 import com.horizam.pro.elean.ui.main.adapter.MyLoadStateAdapter
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
 import com.horizam.pro.elean.ui.main.callbacks.InboxHandler
+import com.horizam.pro.elean.ui.main.view.activities.AuthenticationActivity
 import com.horizam.pro.elean.ui.main.viewmodel.InboxViewModel
 import com.horizam.pro.elean.utils.PrefManager
 import org.greenrobot.eventbus.EventBus
@@ -66,11 +68,18 @@ class InboxFragment : Fragment(), InboxHandler, SwipeRefreshLayout.OnRefreshList
         binding = FragmentInboxBinding.inflate(layoutInflater, container, false)
         setToolbarData()
         initViews()
-        setupViewModel()
-        setupObservers()
-        setRecyclerView()
-        setClickListeners()
-        getInboxData()
+
+        if (prefManager.accessToken.isEmpty()) {
+            this.findNavController().popBackStack()
+            var intent = Intent(activity, AuthenticationActivity::class.java)
+            startActivity(intent)
+        } else {
+            setupViewModel()
+            setupObservers()
+            setRecyclerView()
+            setClickListeners()
+            getInboxData()
+        }
         return binding.root
     }
 

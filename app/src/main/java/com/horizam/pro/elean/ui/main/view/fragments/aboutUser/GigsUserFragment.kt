@@ -45,7 +45,6 @@ class GigsUserFragment : Fragment(), OnItemClickListener, FavouriteHandler,
     private lateinit var prefManager: PrefManager
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
         genericHandler = context as GenericHandler
