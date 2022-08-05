@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="@dimen/_4sdp"
@@ -67,7 +68,7 @@
             android:layout_marginStart="@dimen/_5sdp"
             android:layout_marginEnd="@dimen/_10sdp"
             android:ellipsize="end"
-            android:maxLines="1"
+            android:maxLines="2"
             android:text="@string/str_title"
             android:textColor="@color/colorBlack"
             android:textSize="@dimen/_12ssp"
@@ -82,7 +83,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_5sdp"
             android:ellipsize="end"
-            android:maxLines="2"
+            android:maxLines="4"
             android:text="@string/str_description"
             android:textColor="@color/colorBlack"
             android:textSize="@dimen/_10ssp"
@@ -127,8 +128,18 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
+       <ImageView
+            android:id="@+id/iv_share"
+            android:layout_width="@dimen/_22sdp"
+            android:layout_height="@dimen/_22sdp"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:clickable="true"
+            android:foregroundTint="#FFF"
+            app:srcCompat="@drawable/ic_share"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/btn_contact_seller"
+            app:layout_constraintTop_toBottomOf="@id/tv_description_gig" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 </com.google.android.material.card.MaterialCardView>

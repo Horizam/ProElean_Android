@@ -116,7 +116,6 @@ class HomeFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefre
             }
         }
     }
-
     private fun initViews() {
         mAuth = FirebaseAuth.getInstance()
         adapterServices = ServicesAdapter(this)
@@ -307,7 +306,8 @@ class HomeFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefre
         false
     }
 
-    private val focusChangeListener = View.OnFocusChangeListener { v, hasFocus ->
+    private val focusChangeListener = View.OnFocusChangeListener {
+            v, hasFocus ->
         if (!hasFocus) {
             hideKeyboard()
         }

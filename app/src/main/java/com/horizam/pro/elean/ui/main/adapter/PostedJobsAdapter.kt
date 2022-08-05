@@ -20,7 +20,8 @@ import com.horizam.pro.elean.databinding.ItemPostedJobBinding
 import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
 import com.horizam.pro.elean.ui.main.callbacks.PostedJobsHandler
 
-class PostedJobsAdapter(private val listener: OnItemClickListener,private val jobsListener:PostedJobsHandler) :
+class PostedJobsAdapter(
+    private val listener: OnItemClickListener,private val jobsListener:PostedJobsHandler) :
     PagingDataAdapter<PostedJob, PostedJobsAdapter.DataViewHolder>(ITEM_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder {

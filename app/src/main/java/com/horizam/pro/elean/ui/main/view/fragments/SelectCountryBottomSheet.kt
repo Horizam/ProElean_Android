@@ -13,7 +13,8 @@ import com.horizam.pro.elean.databinding.FragmentSelectCountryBottomSheetBinding
 import com.horizam.pro.elean.ui.main.adapter.CountryAdapter
 import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
 
-class SelectCountryBottomSheet(private var countriesArrayList: List<SpinnerModel> , private var onItemClickListener: OnItemClickListener) :
+class SelectCountryBottomSheet(private var countriesArrayList: List<SpinnerModel>
+, private var onItemClickListener: OnItemClickListener) :
     BottomSheetDialogFragment(){
 
     private lateinit var binding: FragmentSelectCountryBottomSheetBinding

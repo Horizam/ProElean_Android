@@ -25,6 +25,7 @@ import androidx.core.content.res.ResourcesCompat
 import kotlinx.android.synthetic.main.simple_spinner_dropdown_item.*
 
 
+@Suppress("DEPRECATION")
 class AuthenticationActivity : AppCompatActivity(), GenericHandler {
 
     private lateinit var navController: NavController
@@ -56,9 +57,7 @@ class AuthenticationActivity : AppCompatActivity(), GenericHandler {
     }
 
     override fun showErrorMessage(message: String) {
-        val snackbar = Snackbar.make(
-            findViewById(android.R.id.content),
-            message, Snackbar.LENGTH_LONG
+        val snackbar = Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG
         )
         val snackBarView = snackbar.view
         val tvMessage =

@@ -17,8 +17,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:defaultNavHost="true"
         app:navGraph="@navigation/nav_authentication" />
-
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/progress_layout"
         android:layout_width="match_parent"

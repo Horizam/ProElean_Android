@@ -1,4 +1,4 @@
-//package com.horizam.pro.elean.ui.main.view.activities
+package com.horizam.pro.elean.ui.main.view.activities
 //
 //import android.os.Bundle
 //import android.view.Window

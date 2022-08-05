@@ -19,7 +19,8 @@ class SelectLanguageBottomSheet(var languageList: List<String>) : BottomSheetDia
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentSelectLanguageBottomSheetBinding.inflate(layoutInflater, container, false)
+        binding = FragmentSelectLanguageBottomSheetBinding.
+        inflate(layoutInflater, container, false)
 
         loadData()
         setOnClickListener()

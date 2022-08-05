@@ -109,7 +109,9 @@ class ApiHelper(private val apiService: ApiService) {
 
     suspend fun orderByID(request: Int) = apiService.orderByID(request)
     suspend fun extendTime(request: ExtendDeliveryTimeModel) = apiService.extendTime(request)
+
     suspend fun getSellerData() = apiService.getSellerData()
+
     suspend fun sendNotification(notificationRequest: FirebaseNotificationRequest) =
         apiService.sendFirebaseNotification(
             notificationRequest

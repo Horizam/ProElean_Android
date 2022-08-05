@@ -7,9 +7,10 @@ class Constants {
         const val FIREBASE_SERVER_KEY =
             "AAAACZscWGo:APA91bFaEgC97RCJ7cLWT75xnjuBGFe12IfUSNvedfoZjzyEY5tahwSRjpGG94aprnH8EFjx5CIqNE0d3fepm5pHRut6T6xkotvRvbN4Exoduzo8uS594-q7kymeoKq9lAAuTMdLqmtn"
         const val PREF_NAME = "AppPrefs"
+        const val dex_Url="https://dex.proelean.com/"
 
         //const val BASE_URL = "https://5e510330f2c0d300147c034c.mockapi.io/"
-        const val BASE_URL = "https://api.proelean.com/"
+        const val BASE_URL = "https://api.dex.proelean.com/"
         const val STRIPE_PUBLISH_KEY =
             "pk_test_51JjiUJEo1VO7fqooIIFHdo9uVkpnmnG5BkshucX4IxQ9M5A6Z4rRpuBe6B4wZrkAivLQURv0u5891hkqW5y8LAg500wyyLYrYT"
         const val ACCESS_TOKEN = "accessToken"

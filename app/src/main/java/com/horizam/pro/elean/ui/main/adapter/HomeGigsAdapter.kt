@@ -19,7 +19,8 @@ import com.horizam.pro.elean.databinding.ItemServicesAndGigsBinding
 import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
 
 
-class HomeGigsAdapter(val listener: OnItemClickListener) : ListAdapter<FeaturedGig,HomeGigsAdapter.DataViewHolder>(COMPARATOR) {
+class HomeGigsAdapter(val listener: OnItemClickListener) :
+    ListAdapter<FeaturedGig,HomeGigsAdapter.DataViewHolder>(COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder {
         val binding = ItemServicesAndGigsBinding.inflate(LayoutInflater.from(parent.context),parent,false)
@@ -44,7 +45,6 @@ class HomeGigsAdapter(val listener: OnItemClickListener) : ListAdapter<FeaturedG
                 }
             }
         }
-
         fun bind(featuredGig: FeaturedGig) {
             binding.apply {
                 Glide.with(itemView)

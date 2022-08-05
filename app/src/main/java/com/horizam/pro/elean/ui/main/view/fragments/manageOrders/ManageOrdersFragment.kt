@@ -34,6 +34,7 @@ import java.lang.Exception
 
 class ManageOrdersFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
 
+
     private lateinit var binding: FragmentOrdersGenericBinding
     private lateinit var adapter: ManageOrdersAdapter
     private lateinit var recyclerView: RecyclerView

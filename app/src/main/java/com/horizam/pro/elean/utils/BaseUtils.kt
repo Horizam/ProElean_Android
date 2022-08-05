@@ -3,6 +3,7 @@ package com.horizam.pro.elean.utils
 import android.R
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.media.MediaScannerConnection
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
@@ -248,5 +249,13 @@ class BaseUtils {
                 }
             }
         }
+        fun shareOutSideIntent(context: Context, data: String) {
+            val intent = Intent(Intent.ACTION_SEND)
+            intent.type = "text/plain"
+            intent.putExtra(Intent.EXTRA_SUBJECT,"Pro eLean")
+            intent.putExtra(Intent.EXTRA_TEXT, data)
+            context.startActivity(Intent.createChooser(intent, "choose one"))
+        }
     }
 }
+

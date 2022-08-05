@@ -214,9 +214,9 @@ class ViewOffersFragment : Fragment(), OnItemClickListener, ViewOffersHandler, C
                 Status.LOADING -> {
                     genericHandler.showProgressBar(true)
                 }
-            }
-        }
+            }}
     }
+
 
     private fun handleResponse(response: GeneralResponse) {
 //        dialogOrderStatus.show()

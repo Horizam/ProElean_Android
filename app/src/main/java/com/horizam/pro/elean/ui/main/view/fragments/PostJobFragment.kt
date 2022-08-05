@@ -202,7 +202,8 @@ class PostJobFragment : Fragment(), AdapterView.OnItemSelectedListener {
     }
 
     private fun setSpinnerSubcategories(response: SubcategoriesDataResponse) {
-        subcategoriesArrayList = response.subcategoriesList.map { spinnerSubcategories ->
+        subcategoriesArrayList = response.subcategoriesList.map {
+                spinnerSubcategories ->
             SpinnerModel(id = spinnerSubcategories.id, value = spinnerSubcategories.title)
         }
         subcategoriesAdapter = SpinnerAdapter(

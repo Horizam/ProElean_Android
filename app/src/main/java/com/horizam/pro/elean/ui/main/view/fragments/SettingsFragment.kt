@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.horizam.pro.elean.App
@@ -88,7 +89,8 @@ class SettingsFragment : Fragment() {
             findNavController().navigate(R.id.changePasswordFragment)
         }
         binding.tvAddAccount.setOnClickListener {
-            this.findNavController().navigate(R.id.bankAccountsFragment)
+//            this.findNavController().navigate(R.id.bankAccountsFragment)
+            Toast.makeText(requireContext(), "You can perform this action only on Desktop", Toast.LENGTH_SHORT).show()
         }
     }
 

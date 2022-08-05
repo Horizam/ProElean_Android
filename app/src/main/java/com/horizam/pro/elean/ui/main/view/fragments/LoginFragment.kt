@@ -135,7 +135,7 @@ class LoginFragment : Fragment() {
 
     private fun executeApi() {
         if (prefManager.fcmToken.isEmpty()) {
-            genericHandler.showErrorMessage("Please try again latter")
+            genericHandler.showErrorMessage("Please try again later")
             return
         }
         genericHandler.showProgressBar(true)

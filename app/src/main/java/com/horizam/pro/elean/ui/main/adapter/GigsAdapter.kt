@@ -1,14 +1,18 @@
 package com.horizam.pro.elean.ui.main.adapter
 
+import android.content.Intent
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.core.content.ContextCompat.startActivity
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.horizam.pro.elean.Constants
+import com.horizam.pro.elean.Constants.Companion.BASE_URL
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.model.response.ServiceDetail
 import com.horizam.pro.elean.databinding.ItemGigsBinding
@@ -18,6 +22,7 @@ import com.horizam.pro.elean.ui.main.callbacks.LogoutHandler
 import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
 import com.horizam.pro.elean.ui.main.view.fragments.ServiceGigsFragment
 import com.horizam.pro.elean.ui.main.view.fragments.ServiceGigsFragmentArgs
+import com.horizam.pro.elean.ui.main.viewmodel.ServiceGigsViewModel
 import com.horizam.pro.elean.utils.PrefManager
 
 class GigsAdapter(
@@ -82,6 +87,15 @@ class GigsAdapter(
 
         fun bind(serviceDetail: ServiceDetail) {
             binding.apply {
+               ivShare.setOnClickListener {
+                   val intent = Intent(Intent.ACTION_SEND)
+                   intent.setType("text/plain")
+                   intent.putExtra(Intent.EXTRA_SUBJECT,"Pro elean")
+                   intent.putExtra(Intent.EXTRA_TEXT,"${Constants.dex_Url}gig-detail/${serviceDetail.id}")
+                   itemView.context.startActivity(intent)
+
+
+               }
                 tvTitleGig.text = serviceDetail.s_description
                 tvDescriptionGig.text = serviceDetail.description
                 tvPrice.text = "${serviceDetail.price}${Constants.CURRENCY}"

@@ -20,7 +20,8 @@ class SubcategoryPagingSource(
         val position = params.key ?: Constants.STARTING_PAGE_INDEX
 
         return try {
-            val response = apiHelper.getSubcategories(id,position,query)
+            val response = apiHelper.
+            getSubcategories(id,position,query)
             val subcategories = response.subcategoriesList
             LoadResult.Page(
                 data = subcategories,

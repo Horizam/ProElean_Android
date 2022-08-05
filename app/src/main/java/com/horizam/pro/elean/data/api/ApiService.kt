@@ -148,8 +148,7 @@ interface ApiService {
     ): ServicesResponse
 
     @GET("seller/getEarnings")
-    suspend fun getSellerData(
-    ): SellerDataModel
+    suspend fun getSellerData(): SellerDataModel
 
     @GET("seller/services")
     suspend fun getSellerServicesByID(

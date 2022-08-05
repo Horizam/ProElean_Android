@@ -8,7 +8,8 @@ import com.horizam.pro.elean.data.model.response.ServiceReviews
 import retrofit2.HttpException
 import java.io.IOException
 
-class GetGigsPagingSource(val apiHelper: ApiHelper, val id: String) : PagingSource<Int, ServiceReviews>() {
+class GetGigsPagingSource(val apiHelper: ApiHelper, val id: String)
+    : PagingSource<Int, ServiceReviews>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, ServiceReviews> {
         val position = params.key ?: Constants.STARTING_PAGE_INDEX

@@ -102,7 +102,8 @@ class InboxFragment : Fragment(), InboxHandler, SwipeRefreshLayout.OnRefreshList
     }
 
     private fun observeInboxData(query: Query) {
-        query.addSnapshotListener { snapshots, e ->
+        query.addSnapshotListener {
+                snapshots, e ->
             if (e != null) {
                 genericHandler.showProgressBar(false)
                 genericHandler.showErrorMessage(e.message.toString())
