@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -16,17 +17,19 @@ import com.horizam.pro.elean.App
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
+import com.horizam.pro.elean.data.model.response.EarningsResponse
 import com.horizam.pro.elean.databinding.*
 import com.horizam.pro.elean.ui.base.ViewModelFactory
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
 import com.horizam.pro.elean.ui.main.viewmodel.EarningsViewModel
 import com.horizam.pro.elean.utils.Status
+import java.lang.Exception
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.data.PieData
 
 import com.github.mikephil.charting.data.PieDataSet
 import com.horizam.pro.elean.data.model.AnalyticModel
-
+import kotlinx.android.synthetic.main.fragment_earnings.*
 
 
 class EarningsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
@@ -86,13 +89,7 @@ class EarningsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         setupObservers()
     }
 
-    private fun setPieChartGraph(
-        analytics: AnalyticModel = AnalyticModel(),
-        total: Int?, year: Int?,
-        monthly: String
-        //    weeklyClicks:str,
-        //   weeklyImpression: Int
-    ) {
+    private fun setPieChartGraph(analytics: AnalyticModel) {
         binding.chart.isDrawHoleEnabled = true
         binding.chart.setDrawEntryLabels(false)
         binding.chart.setHoleColor(ContextCompat.getColor(requireContext(), R.color.colorAccent))
@@ -102,11 +99,11 @@ class EarningsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         //initializing data
         val amountMap: HashMap<String, Int> = HashMap()
         val colors: ArrayList<Int> = ArrayList()
-        amountMap["Total Earning=${total}"] = analytics.totalEarning!!.toInt()
+        amountMap["Total Earning"] = analytics.totalEarning!!.toInt()
         colors.add(ContextCompat.getColor(requireContext(), R.color.colorThree))
-        amountMap["This Year Earning${year}"] = analytics.yearEarning!!.toInt()
+        amountMap["This Year Earning"] = analytics.yearEarning!!.toInt()
         colors.add(ContextCompat.getColor(requireContext(), R.color.color_green))
-        amountMap["This Month Earning${monthly}"] = analytics.monthlyEarning!!.toInt()
+        amountMap["This Month Earning"] = analytics.monthlyEarning!!.toInt()
         colors.add(ContextCompat.getColor(requireContext(), R.color.colorGolden))
 
         for (type in amountMap.keys) {
@@ -143,17 +140,21 @@ class EarningsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
             }
         }
         binding.btnWithdraw.setOnClickListener {
-            if (accountVerified == 0) {
-                this.findNavController().navigate(R.id.bankDetailsFragment)
-            } else {
-                dialogWithdrawalAmount.show()
-                val window: Window = dialogWithdrawalAmount.window!!
-                window.setLayout(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT
-                )
-            }
+
+            Toast.makeText(requireContext(),getString(R.string.str_withdrawal),Toast.LENGTH_LONG).show()
+
         }
+//            if (accountVerified == 0) {
+//                this.findNavController().navigate(R.id.bankDetailsFragment)
+//            } else {
+//                dialogWithdrawalAmount.show()
+//                val window: Window = dialogWithdrawalAmount.window!!
+//                window.setLayout(
+//                    ViewGroup.LayoutParams.MATCH_PARENT,
+//                    ViewGroup.LayoutParams.WRAP_CONTENT
+//                )
+//            }
+//        }
     }
 
     private fun initChooseImageDialog() {
@@ -225,7 +226,7 @@ class EarningsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                     item.yearEarning?.let {
                         item.weeklyEarning?.let { it1 ->
                             item.monthlyEarning?.let { it2 ->
-                     //           setPieChartGraph()
+                                setPieChartGraph(AnalyticModel(yearEarning = item.yearEarning, monthlyEarning = item.monthlyEarning, weeklyEarning = item.weeklyEarning))
                             }
                         }
                     }
