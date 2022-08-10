@@ -3,15 +3,11 @@ package com.horizam.pro.elean.ui.main.view.fragments
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
-import android.text.Spannable
-import android.text.SpannableStringBuilder
-import android.text.style.ForegroundColorSpan
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -22,11 +18,9 @@ import com.github.mikephil.charting.data.BarEntry
 import com.horizam.pro.elean.App
 import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
-import com.horizam.pro.elean.R.color.white_grey_color
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
 import com.horizam.pro.elean.data.model.SellerActionModel
-import com.horizam.pro.elean.data.model.response.SellerDataModel
 import com.horizam.pro.elean.databinding.FragmentSellerActionsBinding
 import com.horizam.pro.elean.ui.base.ViewModelFactory
 import com.horizam.pro.elean.ui.main.adapter.SellerActionAdapter
@@ -38,10 +32,10 @@ import com.horizam.pro.elean.utils.PrefManager
 import com.horizam.pro.elean.utils.Status
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
-import com.horizam.pro.elean.data.model.Score
 import com.github.mikephil.charting.components.*
 import com.github.mikephil.charting.formatter.LargeValueFormatter
-import com.horizam.pro.elean.data.model.response.Analytics
+import com.horizam.pro.elean.data.model.AnalyticModel
+import com.horizam.pro.elean.data.model.Analytics
 
 
 class SellerActionsFragment : Fragment(), OnItemClickListener,
@@ -135,54 +129,61 @@ class SellerActionsFragment : Fragment(), OnItemClickListener,
 
     private fun <T> handleResponse(item: T) {
         when (item) {
-            is SellerDataModel -> {
+            is AnalyticModel -> {
                 binding.apply {
                     item.apply {
                         tvPersonalBalanceValue.text =
-                            "${getString(R.string.str_currency_sign)}$availabe_balance"
+                            "${getString(R.string.str_currency_sign)}$currentBalance"
                         tvAvgSellingPriceValue.text =
-                            "${getString(R.string.str_currency_sign)}$average_selling"
-                        tvPendingClearanceValue.text =
-                            "${getString(R.string.str_currency_sign)}$pending_balance"
+                            "${getString(R.string.str_currency_sign)}$yearEarning"
                         tvEarningInDecemberValue.text =
-                            "${getString(R.string.str_currency_sign)}$monthly_selling"
+                            "${getString(R.string.str_currency_sign)}$monthlyEarning"
+//                        tvPendingClearanceValue.text =
+//                            "${getString(R.string.str_currency_sign)}$pending_balance"
+                        tvEarningInDecemberValue.text =
+                            "${getString(R.string.str_currency_sign)}$monthlyEarning"
                         tvActiveOrdersrValue.apply {
                             text = ""
-                            append("$active_orders")
-                            val spannable =
-                                SpannableStringBuilder(" (${getString(R.string.str_currency_sign)}$active_orders_balance)")
-                            spannable.setSpan(
-                                ForegroundColorSpan(
-                                    ContextCompat.getColor(
-                                        context,
-                                        white_grey_color
-                                    )
-                                ),
-                                0, spannable.length,
-                                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-                            )
-                            append(spannable)
+                            append("$activeOrders")
+                     //       val spannable =
+//                                SpannableStringBuilder(" (${getString(R.string.str_currency_sign)}$active_orders_balance)")
+                          //  spannable.setSpan(
+                            //    ForegroundColorSpan(
+                              //      ContextCompat.getColor(
+                                //        context,
+                                  //      white_grey_color
+                                   // )
+                                //),
+                                //0, spannable.length,
+                                //Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                            //)
+                            //append(spannable)
                         }
-                        tvCancelledOrdersValue.apply {
-                            text = ""
-                            append("$cancelled_orders")
-                            val spannable =
-                                SpannableStringBuilder(" (-${getString(R.string.str_currency_sign)}$cancelled_orders_balance)")
-                            spannable.setSpan(
-                                ForegroundColorSpan(
-                                    ContextCompat.getColor(
-                                        context,
-                                        white_grey_color
-                                    )
-                                ),
-                                0, spannable.length,
-                                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-                            )
-                            append(spannable)
-                        }
+//                        tvCancelledOrdersValue.apply {
+//                            text = ""
+//                            append("$cancelled_orders")
+//                            val spannable =
+//                                SpannableStringBuilder(" (-${getString(R.string.str_currency_sign)}$cancelled_orders_balance)")
+//                            spannable.setSpan(
+//                                ForegroundColorSpan(
+//                                    ContextCompat.getColor(
+//                                        context,
+//                                        white_grey_color
+//                                    )
+//                                ),
+//                                0, spannable.length,
+//                                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+//                            )
+//                            append(spannable)
+       //                 }
                     }
                 }
-                populateGraphData(item.analytics, item.weekly_clicks, item.weekly_impression)
+                item.totalImpressions?.let {
+                    item.totalClicks?.let { it1 ->
+                        populateGraphData(item.analytics,
+                            it, it1)
+                    }
+                }
             }
         }
     }
@@ -398,8 +399,10 @@ class SellerActionsFragment : Fragment(), OnItemClickListener,
         var barDataSet2: BarDataSet
 
         for (i in 6 downTo 0) {
-            yValueGroup1.add(BarEntry((i + 1).toFloat(), analytics[i].impressions.toFloat()))
-            yValueGroup2.add(BarEntry((i + 1).toFloat(), analytics[i].clicks.toFloat()))
+            analytics[i].impressions?.let { BarEntry((i + 1).toFloat(), it.toFloat()) }
+                ?.let { yValueGroup1.add(it) }
+            analytics[i].clicks?.let { BarEntry((i + 1).toFloat(), it.toFloat()) }
+                ?.let { yValueGroup2.add(it) }
         }
 
         barDataSet1 = BarDataSet(yValueGroup1, "")
@@ -420,8 +423,8 @@ class SellerActionsFragment : Fragment(), OnItemClickListener,
     private fun setXAxisValue(analytics: ArrayList<Analytics>): ArrayList<String> {
         var xAxisValues = ArrayList<String>()
         for (i in 6 downTo 0) {
-            xAxisValues.add(analytics[i].day)
-            xAxisValues.add(analytics[i].day)
+            analytics[i].day?.let { xAxisValues.add(it) }
+            analytics[i].day?.let { xAxisValues.add(it) }
         }
         return xAxisValues
     }

@@ -1,5 +1,6 @@
 package com.horizam.pro.elean.data.api
 
+import com.horizam.pro.elean.data.model.AnalyticModel
 import com.horizam.pro.elean.data.model.requests.*
 import com.horizam.pro.elean.data.model.response.*
 import com.horizam.pro.elean.ui.main.viewmodel.FirebaseNotificationRequest
@@ -147,8 +148,8 @@ interface ApiService {
         @Query("status") status: String,
     ): ServicesResponse
 
-    @GET("seller/getEarnings")
-    suspend fun getSellerData(): SellerDataModel
+    @GET("seller/analytics")
+    suspend fun getSellerData(): AnalyticModel
 
     @GET("seller/services")
     suspend fun getSellerServicesByID(
@@ -213,7 +214,7 @@ interface ApiService {
         @Part("order_no") orderNumber: RequestBody,
         @Part("type") typeUser: RequestBody,
         @Part("delivery_note") deliveryNote: RequestBody,
-        @Part image: MultipartBody.Part,
+        @Part ("delivered_file") image: MultipartBody.Part,
     ): GeneralResponse
 
     @DELETE("buyer/jobs/{id}")
@@ -222,8 +223,8 @@ interface ApiService {
     @GET("buyer/orders")
     suspend fun getBuyerOrders(@Query("status") status: String): OrdersResponse
 
-    @GET("seller/earningDetails")
-    suspend fun getEarnings(): EarningsResponse
+    @GET("seller/analytics")
+    suspend fun getEarnings(): AnalyticModel
 
     @FormUrlEncoded
     @POST("seller/withdrawRequest")

@@ -531,7 +531,7 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                 }
             }
             btnProceedWithSupport.setOnClickListener {
-                openWebUrl("https://app.prolean.com/support")
+                openWebUrl("https://api.dex.proelean.com/help-support")
             }
             tvDownload.setOnClickListener {
                 when (pair.first) {
@@ -596,7 +596,7 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
             }
         })
 
-        viewModel.sellerActionWithFile.observe(viewLifecycleOwner, {
+        viewModel.sellerActionWithFile.observe(viewLifecycleOwner) {
             it?.let { resource ->
                 when (resource.status) {
                     Status.SUCCESS -> {
@@ -614,7 +614,7 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                     }
                 }
             }
-        })
+        }
 
         viewModel.buyerActions.observe(viewLifecycleOwner, {
             it?.let { resource ->

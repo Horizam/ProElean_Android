@@ -65,7 +65,7 @@ class AuthenticationActivity : AppCompatActivity(), GenericHandler {
         tvMessage.setTextColor(ResourcesCompat.getColor(resources, R.color.colorWhite, null))
         tvMessage.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            tvMessage.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            tvMessage.textAlignment = View.TEXT_ALIGNMENT_CENTER;
         } else {
             tvMessage.setGravity(Gravity.CENTER_HORIZONTAL);
         }

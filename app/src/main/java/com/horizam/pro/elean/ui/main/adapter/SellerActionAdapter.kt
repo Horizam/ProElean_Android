@@ -22,8 +22,11 @@ class SellerActionAdapter(
         holder.binding.tvTitle.text = sellerActionList[position].title
         holder.binding.ivImage.setImageResource(sellerActionList[position].image)
         holder.binding.sellerActionListItem.setOnClickListener {
-            listener.onItemClick(position)
+
+                listener.onItemClick(position)
+
         }
+
     }
 
     override fun getItemCount(): Int {

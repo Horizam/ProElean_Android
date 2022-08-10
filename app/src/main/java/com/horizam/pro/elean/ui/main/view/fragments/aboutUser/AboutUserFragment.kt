@@ -172,7 +172,7 @@ class AboutUserFragment : Fragment(), OnItemClickListener {
     }
 
     private fun setupObservers() {
-        viewModel.freelancerProfileData.observe(viewLifecycleOwner, {
+        viewModel.freelancerProfileData.observe(viewLifecycleOwner) {
             it?.let { resource ->
                 when (resource.status) {
                     Status.SUCCESS -> {
@@ -190,7 +190,7 @@ class AboutUserFragment : Fragment(), OnItemClickListener {
                     }
                 }
             }
-        })
+        }
 
         // logout observer
         viewModel.logoutUser.observe(viewLifecycleOwner, {
@@ -243,10 +243,15 @@ class AboutUserFragment : Fragment(), OnItemClickListener {
                 tvLocation.text = profile.address
                 tvResponse.text = profile.created_at
                 tvRecentDelivery.text = profile.recent_delivery
-                if (profile.user_languages.isEmpty()) {
+                if (profile.user_languages==null) {
                     tvLanguage.text = getString(R.string.str_no_language_available)
                 } else {
                     tvLanguage.text = profile.user_languages  //.joinToString(separator = ", ")
+                }
+                if (profile.languages==null) {
+                    tvLanguage.text = getString(R.string.str_no_language_available)
+                } else {
+                    tvLanguage.text = profile.languages  //.joinToString(separator = ", ")
                 }
                 if (profile.description.trim().isEmpty()) {
                     tvDescAboutUser.text = "No description has been added"

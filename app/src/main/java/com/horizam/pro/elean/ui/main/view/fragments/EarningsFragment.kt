@@ -16,18 +16,17 @@ import com.horizam.pro.elean.App
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
-import com.horizam.pro.elean.data.model.response.EarningsResponse
 import com.horizam.pro.elean.databinding.*
 import com.horizam.pro.elean.ui.base.ViewModelFactory
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
 import com.horizam.pro.elean.ui.main.viewmodel.EarningsViewModel
 import com.horizam.pro.elean.utils.Status
-import java.lang.Exception
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.data.PieData
 
 import com.github.mikephil.charting.data.PieDataSet
-import com.horizam.pro.elean.data.model.response.EarningsData
+import com.horizam.pro.elean.data.model.AnalyticModel
+
 
 
 class EarningsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
@@ -87,7 +86,13 @@ class EarningsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         setupObservers()
     }
 
-    private fun setPieChartGraph(data: EarningsData) {
+    private fun setPieChartGraph(
+        analytics: AnalyticModel = AnalyticModel(),
+        total: Int?, year: Int?,
+        monthly: String
+        //    weeklyClicks:str,
+        //   weeklyImpression: Int
+    ) {
         binding.chart.isDrawHoleEnabled = true
         binding.chart.setDrawEntryLabels(false)
         binding.chart.setHoleColor(ContextCompat.getColor(requireContext(), R.color.colorAccent))
@@ -97,12 +102,11 @@ class EarningsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         //initializing data
         val amountMap: HashMap<String, Int> = HashMap()
         val colors: ArrayList<Int> = ArrayList()
-
-        amountMap["Total Earning"] = data.total_earning.toInt()
+        amountMap["Total Earning=${total}"] = analytics.totalEarning!!.toInt()
         colors.add(ContextCompat.getColor(requireContext(), R.color.colorThree))
-        amountMap["This Year Earning"] = data.year_earning.toInt()
+        amountMap["This Year Earning${year}"] = analytics.yearEarning!!.toInt()
         colors.add(ContextCompat.getColor(requireContext(), R.color.color_green))
-        amountMap["This Month Earning"] = data.monthly_earning.toInt()
+        amountMap["This Month Earning${monthly}"] = analytics.monthlyEarning!!.toInt()
         colors.add(ContextCompat.getColor(requireContext(), R.color.colorGolden))
 
         for (type in amountMap.keys) {
@@ -179,7 +183,7 @@ class EarningsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     }
 
     private fun setupObservers() {
-        viewModel.earnings.observe(viewLifecycleOwner, {
+        viewModel.earnings.observe(viewLifecycleOwner) {
             it?.let { resource ->
                 when (resource.status) {
                     Status.SUCCESS -> {
@@ -197,31 +201,63 @@ class EarningsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                     }
                 }
             }
-        })
-    }
-
-    private fun handleResponse(response: EarningsResponse) {
-        try {
-            accountVerified = response.data.bankaccount_verified
-            setPieChartGraph(response.data)
-            setUIData(response.data)
-        } catch (e: Exception) {
-            genericHandler.showErrorMessage(e.message.toString())
         }
     }
 
-    private fun setUIData(earningsData: EarningsData) {
-        binding.apply {
-            tvCurrentBalanceValue.text =
-                "${getString(R.string.str_currency_sign)}${earningsData.current_balance}"
-            tvTotalEarningValue.text =
-                "${getString(R.string.str_currency_sign)}${earningsData.total_earning}"
-            tvEarningThisYearValue.text =
-                "${getString(R.string.str_currency_sign)}${earningsData.year_earning}"
-            tvEarningThisMonthValue.text =
-                "${getString(R.string.str_currency_sign)}${earningsData.monthly_earning}"
-            tvEarningThisWeekValue.text =
-                "${getString(R.string.str_currency_sign)}${earningsData.weekly_earning}"
+    private fun <T> handleResponse(item: T) {
+        when (item) {
+            is AnalyticModel -> {
+                binding.apply {
+                    item.apply {
+                        tvCurrentBalanceValue.text =
+                            "${getString(R.string.str_currency_sign)}$currentBalance"
+                        tvTotalEarningValue.text =
+                            "${getString(R.string.str_currency_sign)}$totalEarning"
+                        tvEarningThisYearValue.text =
+                            "${getString(R.string.str_currency_sign)}$yearEarning"
+//                        tvPendingClearanceValue.text =
+//                            "${getString(R.string.str_currency_sign)}$pending_balance"
+                        tvEarningThisMonthValue.text =
+                            "${getString(R.string.str_currency_sign)}$monthlyEarning"
+                        tvEarningThisWeekValue.text =
+                            "${getString(R.string.str_currency_sign)}$weeklyEarning"
+                    }
+                    item.yearEarning?.let {
+                        item.weeklyEarning?.let { it1 ->
+                            item.monthlyEarning?.let { it2 ->
+                     //           setPieChartGraph()
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }
+
+
+//    private fun handleResponse() {
+//        try {
+////            accountVerified = response.data.bankaccount_verified
+//             setPieChartGraph()
+//            setUIData()
+//        } catch (e: Exception) {
+//            genericHandler.showErrorMessage(e.message.toString())
+//        }
+//    }
+//
+//    private fun setUIData() {
+//        var analytics=AnalyticModel()
+//        binding.apply {
+//            tvCurrentBalanceValue.text =
+//                "${getString(R.string.str_currency_sign)}${analytics.currentBalance}"
+//            tvTotalEarningValue.text =
+//                "${getString(R.string.str_currency_sign)}${analytics.totalEarning}"
+//            tvEarningThisYearValue.text =
+//                "${getString(R.string.str_currency_sign)}${analytics.yearEarning}"
+//            tvEarningThisMonthValue.text =
+//                "${getString(R.string.str_currency_sign)}${analytics.monthlyEarning}"
+//            tvEarningThisWeekValue.text =
+//                "${getString(R.string.str_currency_sign)}${analytics.weeklyEarning}"
+//        }
+//    }

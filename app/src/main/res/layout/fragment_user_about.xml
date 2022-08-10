@@ -182,7 +182,6 @@
                 app:layout_constraintStart_toEndOf="@+id/iv_location"
                 app:layout_constraintTop_toTopOf="parent"
                 app:tint="@color/colorDarkGrey" />
-
             <TextView
                 android:id="@+id/tv_response_time"
                 android:layout_width="wrap_content"
@@ -195,7 +194,6 @@
                 app:layout_constraintBottom_toTopOf="@id/tv_response"
                 app:layout_constraintStart_toEndOf="@id/iv_time"
                 app:layout_constraintTop_toTopOf="@id/iv_time" />
-
             <TextView
                 android:id="@+id/tv_response"
                 android:layout_width="wrap_content"

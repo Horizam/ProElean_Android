@@ -217,22 +217,6 @@
                 app:layout_constraintStart_toEndOf="@id/tv_revision"
                 app:layout_constraintTop_toTopOf="@id/tv_revision"
                 tools:text="@string/str_revision" />
-
-            <Button
-                android:id="@+id/btn_edit_service"
-                style="@style/New.TextButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/_20sdp"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:backgroundTint="@color/colorButtons"
-                android:elevation="@dimen/_10sdp"
-                android:text="@string/str_edit_service"
-                android:textColor="@color/colorWhite"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_no_of_revision" />
-
             <View
                 android:id="@+id/view_bottom"
                 android:layout_width="0dp"
@@ -241,8 +225,7 @@
                 android:background="@color/colorDarkGrey"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/btn_edit_service" />
-
+                app:layout_constraintTop_toBottomOf="@id/tv_no_of_revision" />
             <TextView
                 android:id="@+id/tv_rating"
                 android:layout_width="@dimen/_100sdp"
@@ -271,7 +254,6 @@
                 app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintStart_toEndOf="@id/tv_rating"
                 app:layout_constraintTop_toTopOf="@id/tv_rating" />
-
             <TextView
                 android:id="@+id/tv_rating_value"
                 android:layout_width="wrap_content"
@@ -281,7 +263,6 @@
                 app:layout_constraintBottom_toBottomOf="@id/tv_rating"
                 app:layout_constraintStart_toEndOf="@id/rating_bar"
                 app:layout_constraintTop_toTopOf="@id/tv_rating" />
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_reviews"
                 android:layout_width="match_parent"
@@ -307,7 +288,20 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_rating" />
-
+            <Button
+                android:id="@+id/btn_edit_service"
+                style="@style/New.TextButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:backgroundTint="@color/colorButtons"
+                android:elevation="@dimen/_10sdp"
+                android:text="@string/str_edit_service"
+                android:textColor="@color/colorWhite"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/rv_reviews" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView

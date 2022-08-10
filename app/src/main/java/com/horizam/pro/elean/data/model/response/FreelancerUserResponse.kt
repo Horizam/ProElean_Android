@@ -28,6 +28,7 @@ data class ProfileInfo(
     @SerializedName("user_rating") val user_rating: Int,
     @SerializedName("recent_delivery") val recent_delivery: String,
     @SerializedName("user_languages") val user_languages: String,
+    @SerializedName("languages") val languages:String,
     @SerializedName("user_skills") val user_skills: List<String>
 ) : Parcelable
 

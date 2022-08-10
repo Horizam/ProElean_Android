@@ -158,10 +158,10 @@ class UpdateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
                     genericHandler.showErrorMessage(getString(R.string.str_enter_valid_delivery_time))
                     return
                 }
-                noOfRevision == -1 -> {
+                noOfRevision == -1 ||noOfRevision == 0-> {
                     genericHandler.showErrorMessage(getString(R.string.str_enter_a_valid_no_of_Revision))
                     return
-                }
+                    }
                 imagesArrayList.isEmpty() -> {
                     genericHandler.showErrorMessage(getString(R.string.str_enter_valid_images))
                     return
