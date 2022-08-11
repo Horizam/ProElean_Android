@@ -7,29 +7,26 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.github.mikephil.charting.animation.Easing
 import com.horizam.pro.elean.App
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
-import com.horizam.pro.elean.data.model.response.EarningsResponse
 import com.horizam.pro.elean.databinding.*
 import com.horizam.pro.elean.ui.base.ViewModelFactory
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
 import com.horizam.pro.elean.ui.main.viewmodel.EarningsViewModel
 import com.horizam.pro.elean.utils.Status
-import java.lang.Exception
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.data.PieData
 
 import com.github.mikephil.charting.data.PieDataSet
 import com.horizam.pro.elean.data.model.AnalyticModel
-import kotlinx.android.synthetic.main.fragment_earnings.*
 
 
 class EarningsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
@@ -88,23 +85,50 @@ class EarningsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         }
         setupObservers()
     }
+    private fun setPieChartData(
+        weekly: Int,
+        yearly: Int,
+        monthly:Int)
+    {
+        val listPie = ArrayList<PieEntry>()
+        val listColors = ArrayList<Int>()
+        listPie.add(PieEntry(35F,"Yearly:${yearly}"))
+        listColors.add(ContextCompat.getColor(requireContext(), R.color.colorThree))
+        listPie.add(PieEntry(35F,"Weekly:${weekly}"))
+        listColors.add(ContextCompat.getColor(requireContext(), R.color.color_green))
+        listPie.add(PieEntry(30F,"Monthly:${monthly}"))
+        listColors.add(ContextCompat.getColor(requireContext(), R.color.colorGolden))
+        val pieDataSet = PieDataSet(listPie, "")
+        pieDataSet.colors = listColors
+        val pieData = PieData(pieDataSet)
+        pieDataSet.valueTextSize = 12f
+        binding.chart.data=pieData
+        binding.chart.setUsePercentValues(true)
+        binding.chart.isDrawHoleEnabled=false
+        binding.chart.description.isEnabled=false
+        binding.chart.setEntryLabelColor(R.color.colorAccent)
+        binding.chart.animateY(1400,Easing.EaseInOutQuad)
+    }
 
-    private fun setPieChartGraph(analytics: AnalyticModel) {
+    fun setPieChartGraph( weekly: Int,
+                        yearly: Int) {
+        val analytics =AnalyticModel()
+
         binding.chart.isDrawHoleEnabled = true
         binding.chart.setDrawEntryLabels(false)
         binding.chart.setHoleColor(ContextCompat.getColor(requireContext(), R.color.colorAccent))
         val pieEntries: ArrayList<PieEntry> = ArrayList()
         val label = ""
-
         //initializing data
         val amountMap: HashMap<String, Int> = HashMap()
         val colors: ArrayList<Int> = ArrayList()
-        amountMap["Total Earning"] = analytics.totalEarning!!.toInt()
         colors.add(ContextCompat.getColor(requireContext(), R.color.colorThree))
-        amountMap["This Year Earning"] = analytics.yearEarning!!.toInt()
-        colors.add(ContextCompat.getColor(requireContext(), R.color.color_green))
-        amountMap["This Month Earning"] = analytics.monthlyEarning!!.toInt()
+        amountMap["Total Earning${weekly}"]= analytics.totalEarning!!.toInt()
+        colors.add(ContextCompat.getColor(requireContext(), R.color.colorThree))
+        amountMap["This Year Earning${yearly}"] = analytics.yearEarning!!.toInt()
         colors.add(ContextCompat.getColor(requireContext(), R.color.colorGolden))
+        amountMap["This Month Earning"] = analytics.monthlyEarning!!.toInt()
+
 
         for (type in amountMap.keys) {
             pieEntries.add(PieEntry(amountMap[type]!!.toFloat(), type))
@@ -122,8 +146,12 @@ class EarningsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
         pieData.setDrawValues(true)
 
         binding.chart.data = pieData
-        binding.chart.description.setEnabled(false);
-        binding.chart.invalidate()
+        binding.chart.description.setEnabled(false)
+        binding.chart.setUsePercentValues(true)
+        binding.chart.isDrawHoleEnabled=false
+        binding.chart.description.isEnabled=false
+        binding.chart.setEntryLabelColor(R.color.colorAccent)
+        binding.chart.animateY(1400,Easing.EaseInOutQuad)
 
     }
 
@@ -223,18 +251,15 @@ class EarningsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
                         tvEarningThisWeekValue.text =
                             "${getString(R.string.str_currency_sign)}$weeklyEarning"
                     }
-                    item.yearEarning?.let {
-                        item.weeklyEarning?.let { it1 ->
-                            item.monthlyEarning?.let { it2 ->
-                                setPieChartGraph(AnalyticModel(yearEarning = item.yearEarning, monthlyEarning = item.monthlyEarning, weeklyEarning = item.weeklyEarning))
+                 //    setPieChartGraph(item.yearEarning!!.toInt(),item.weeklyEarning!!.toInt())
+                   setPieChartData(item.yearEarning!!.toInt(),item.weeklyEarning!!.toInt(),item.monthlyEarning!!.toInt())
+                   // item.weeklyEarning?.let { setPieChartGraph(it) }
                             }
                         }
                     }
                 }
-            }
-        }
-    }
 }
+
 
 
 //    private fun handleResponse() {

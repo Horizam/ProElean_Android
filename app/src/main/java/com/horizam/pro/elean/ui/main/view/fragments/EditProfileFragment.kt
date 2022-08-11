@@ -11,7 +11,6 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,6 +19,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
@@ -33,22 +33,21 @@ import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
 import com.horizam.pro.elean.data.model.requests.UpdateProfileRequest
 import com.horizam.pro.elean.data.model.response.ProfileInfo
-import com.horizam.pro.elean.databinding.*
+import com.horizam.pro.elean.databinding.DialogChoosePictureBinding
+import com.horizam.pro.elean.databinding.FragmentEditProfileBinding
 import com.horizam.pro.elean.ui.base.ViewModelFactory
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
 import com.horizam.pro.elean.ui.main.callbacks.UpdateProfileHandler
 import com.horizam.pro.elean.ui.main.viewmodel.ProfileViewModel
 import com.horizam.pro.elean.utils.*
 import com.horizam.pro.elean.utils.BaseUtils.Companion.hideKeyboard
-import kotlinx.coroutines.*
+import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
 import java.io.IOException
-import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.HashMap
 
 
 class EditProfileFragment : Fragment() {
@@ -195,7 +194,7 @@ class EditProfileFragment : Fragment() {
     }
 
     private fun setupObservers() {
-        viewModel.profileData.observe(viewLifecycleOwner, {
+        viewModel.profileData.observe(viewLifecycleOwner) {
             it?.let { resource ->
                 when (resource.status) {
                     Status.SUCCESS -> {
@@ -216,7 +215,7 @@ class EditProfileFragment : Fragment() {
                     }
                 }
             }
-        })
+        }
         viewModel.updateProfile.observe(viewLifecycleOwner, updateProfileObserver)
     }
 
@@ -263,14 +262,17 @@ class EditProfileFragment : Fragment() {
     }
 
     private fun setUiData(profileInfo: ProfileInfo) {
+
         binding.apply {
             Glide.with(this@EditProfileFragment)
                 .load(Constants.BASE_URL.plus(profileInfo.image))
                 .error(R.drawable.img_profile)
                 .placeholder(R.drawable.img_loading)
                 .into(binding.ivProfile)
-            etFullName.setText(profileInfo.name)
+            etAddress==null
             etAddress.setText(profileInfo.address)
+            etPhone==null
+            etFullName.setText(profileInfo.name)
             etPhone.setText(profileInfo.phone)
             //etCarrierNumber.setText(profile.phone)
         }
@@ -441,28 +443,27 @@ class EditProfileFragment : Fragment() {
         }
 
     private fun validateData() {
-        removeAllEditTextError()
-        binding.apply {
-            when {
-                etFullName.editableText.trim().isEmpty() -> {
-                    genericHandler.showErrorMessage(getString(R.string.str_enter_valid_username))
-                    return
-                }
-                etPhone.editableText.trim().isEmpty() -> {
-                    genericHandler.showErrorMessage(getString(R.string.str_enter_valid_phone))
-                    return
-                }
-                etAddress.editableText.trim().isEmpty() -> {
-                    genericHandler.showErrorMessage(getString(R.string.str_enter_valid_address))
-                    return
-                }
-                else -> {
+//        removeAllEditTextError()
+//        binding.apply {
+//            when {
+//                etFullName.editableText.trim().isEmpty() -> {
+//                    genericHandler.showErrorMessage(getString(R.string.str_enter_valid_username))
+//                    return
+//                }
+//               !Validator.isValidPhone(etPhone.editableText.toString().trim())->{
+//                   genericHandler.showErrorMessage(getString(R.string.str_enter_valid_phone))
+//
+//                   return
+//               }
+//                !Validator.isValidAddress(etAddress.editableText.toString().trim()) -> {
+//                    genericHandler.showErrorMessage(getString(R.string.str_enter_valid_address))
+//                    return
+//              }
+//                else -> {
                     createMultipartData()
                 }
-            }
-        }
-    }
-
+//        }
+//    }
     private fun removeAllEditTextError() {
         binding.etFullName.error = null
         binding.etPhone.error = null
@@ -489,9 +490,7 @@ class EditProfileFragment : Fragment() {
                 BaseUtils.createRequestBodyFromString(binding.etAddress.text.toString().trim())
             exeApi(image, map)
         }
-    }
-
-    private fun exeApi(
+    }    private fun exeApi(
         image: MultipartBody.Part?,
         map: java.util.HashMap<String, RequestBody>
     ) {

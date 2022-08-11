@@ -23,6 +23,7 @@ import com.horizam.pro.elean.data.model.response.ProfileInfo
 import com.horizam.pro.elean.databinding.DialogDeleteBinding
 import com.horizam.pro.elean.databinding.FragmentUserAboutBinding
 import com.horizam.pro.elean.ui.base.ViewModelFactory
+import com.horizam.pro.elean.ui.main.adapter.LanguageAdapter
 import com.horizam.pro.elean.ui.main.adapter.SellerActionAdapter
 import com.horizam.pro.elean.ui.main.adapter.SkillsAdapter
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
@@ -40,6 +41,7 @@ class AboutUserFragment : Fragment(), OnItemClickListener {
 
     private lateinit var binding: FragmentUserAboutBinding
     private lateinit var adapter: SkillsAdapter
+    private lateinit var languageAdapter: LanguageAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewModel: ProfileViewModel
     private lateinit var genericHandler: GenericHandler
@@ -193,7 +195,7 @@ class AboutUserFragment : Fragment(), OnItemClickListener {
         }
 
         // logout observer
-        viewModel.logoutUser.observe(viewLifecycleOwner, {
+        viewModel.logoutUser.observe(viewLifecycleOwner) {
             it?.let { resource ->
                 when (resource.status) {
                     Status.SUCCESS -> {
@@ -212,7 +214,7 @@ class AboutUserFragment : Fragment(), OnItemClickListener {
                     }
                 }
             }
-        })
+        }
     }
 
     private fun logout() {
@@ -248,10 +250,11 @@ class AboutUserFragment : Fragment(), OnItemClickListener {
                 } else {
                     tvLanguage.text = profile.user_languages  //.joinToString(separator = ", ")
                 }
-                if (profile.languages==null) {
+                if (profile.languages.isEmpty()) {
                     tvLanguage.text = getString(R.string.str_no_language_available)
                 } else {
-                    tvLanguage.text = profile.languages  //.joinToString(separator = ", ")
+                    languageAdapter.submitList(profile.languages)
+               //     tvLanguage.text =profile.  //.joinToString(separator = ", ")
                 }
                 if (profile.description.trim().isEmpty()) {
                     tvDescAboutUser.text = "No description has been added"

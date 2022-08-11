@@ -314,5 +314,4 @@
     <string name="str_extend_time">Extend Time</string>
     <string name="str_short_description_must_be_at_least_6_characters">Short description must be at least 6 characters</string>
     <string name="str_withdrawal">You can perform this action only on Desktop</string>
-
 </resources>

@@ -2,6 +2,7 @@ package com.horizam.pro.elean.data.model.response
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import com.horizam.pro.elean.data.model.Analytics
 import kotlinx.android.parcel.Parcelize
 
 data class FreelancerUserResponse(
@@ -28,8 +29,8 @@ data class ProfileInfo(
     @SerializedName("user_rating") val user_rating: Int,
     @SerializedName("recent_delivery") val recent_delivery: String,
     @SerializedName("user_languages") val user_languages: String,
-    @SerializedName("languages") val languages:String,
-    @SerializedName("user_skills") val user_skills: List<String>
+    @SerializedName("languages") val languages:List<String>,
+    @SerializedName("user_skills") val user_skills: List<String>,
 ) : Parcelable
 
 @Parcelize
