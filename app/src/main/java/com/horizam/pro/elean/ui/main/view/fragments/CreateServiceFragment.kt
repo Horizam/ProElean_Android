@@ -226,8 +226,7 @@ class CreateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
 
     private fun setToolbarData() {
         binding.toolbar.ivToolbar.setImageResource(R.drawable.ic_back)
-        binding.toolbar.tvToolbar.text =
-            App.getAppContext()!!.getString(R.string.str_create_service)
+        binding.toolbar.tvToolbar.text = getString(R.string.str_create_service)
     }
 
     private fun setupViewModel() {

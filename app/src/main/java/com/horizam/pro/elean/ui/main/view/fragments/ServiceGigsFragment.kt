@@ -146,7 +146,7 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
         swipeRefreshLayout.setOnRefreshListener(this)
         from = args.from
         prefManager = PrefManager(requireContext())
-        adapter = GigsAdapter(this, this, this, this, this)
+        adapter = GigsAdapter(this, this, this, this,this,this)
         recyclerView = binding.rvServiceGigs
         setPriceSpinner()
     }

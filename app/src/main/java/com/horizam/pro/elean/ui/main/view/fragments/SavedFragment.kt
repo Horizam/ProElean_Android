@@ -144,7 +144,7 @@ class SavedFragment : Fragment(), SavedGigsHandler, SwipeRefreshLayout.OnRefresh
 
     private fun setToolbarData() {
         binding.toolbar.ivToolbar.setImageResource(R.drawable.ic_back)
-        binding.toolbar.tvToolbar.text = App.getAppContext()!!.getString(R.string.str_saved)
+        binding.toolbar.tvToolbar.text =getString(R.string.str_saved)
     }
 
     private fun setupViewModel() {

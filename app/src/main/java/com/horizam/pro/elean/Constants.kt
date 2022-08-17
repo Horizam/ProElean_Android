@@ -11,6 +11,7 @@ class Constants {
 
         //const val BASE_URL = "https://5e510330f2c0d300147c034c.mockapi.io/"
         const val BASE_URL = "https://api.dex.proelean.com/"
+        const val LANG = "language"
         const val STRIPE_PUBLISH_KEY =
             "pk_test_51JjiUJEo1VO7fqooIIFHdo9uVkpnmnG5BkshucX4IxQ9M5A6Z4rRpuBe6B4wZrkAivLQURv0u5891hkqW5y8LAg500wyyLYrYT"
         const val ACCESS_TOKEN = "accessToken"

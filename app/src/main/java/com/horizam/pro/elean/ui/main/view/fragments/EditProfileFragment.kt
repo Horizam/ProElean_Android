@@ -26,6 +26,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.textfield.TextInputEditText
 import com.horizam.pro.elean.App
 import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
@@ -250,7 +251,7 @@ class EditProfileFragment : Fragment() {
             if (response is ProfileInfo) {
                 setUiData(response)
                 if (check == 1) {
-                    genericHandler.showSuccessMessage("Profile Successfully Updated")
+                    genericHandler.showSuccessMessage(getString(R.string.str_profile_sucessfully_upated))
                     prefManager.userImage = response.image
                     updateProfileHandler.updateProfile()
                     this.findNavController().popBackStack()
@@ -274,6 +275,9 @@ class EditProfileFragment : Fragment() {
             etPhone==null
             etFullName.setText(profileInfo.name)
             etPhone.setText(profileInfo.phone)
+            etDescription.setText(profileInfo.description)
+            etLang==null
+            etLang.setText(profileInfo.user_languages)
             //etCarrierNumber.setText(profile.phone)
         }
     }
@@ -339,7 +343,7 @@ class EditProfileFragment : Fragment() {
                         genericHandler.showErrorMessage(e.message.toString())
                     }
                 } else {
-                    genericHandler.showErrorMessage("Invalid data")
+                    genericHandler.showErrorMessage(getString(R.string.str_invalid_data))
                 }
             }
         }
@@ -400,7 +404,7 @@ class EditProfileFragment : Fragment() {
                     .placeholder(R.drawable.img_loading)
                     .into(binding.ivProfile)
             } else {
-                genericHandler.showErrorMessage("Choose valid image")
+                genericHandler.showErrorMessage(getString(R.string.str_valid_image))
             }
         }
     }
@@ -468,6 +472,7 @@ class EditProfileFragment : Fragment() {
         binding.etFullName.error = null
         binding.etPhone.error = null
         binding.etAddress.error = null
+    binding.etDescription.error=null
     }
 
     private fun createMultipartData() {
@@ -488,6 +493,10 @@ class EditProfileFragment : Fragment() {
                 BaseUtils.createRequestBodyFromString(binding.etPhone.text.toString().trim())
             map["address"] =
                 BaseUtils.createRequestBodyFromString(binding.etAddress.text.toString().trim())
+            map["description"]=
+                BaseUtils.createRequestBodyFromString(binding.etDescription.text.toString().trim())
+            map["language"]=
+                BaseUtils.createRequestBodyFromString(binding.etLang.text.toString().trim())
             exeApi(image, map)
         }
     }    private fun exeApi(
@@ -499,3 +508,4 @@ class EditProfileFragment : Fragment() {
     }
 
 }
+

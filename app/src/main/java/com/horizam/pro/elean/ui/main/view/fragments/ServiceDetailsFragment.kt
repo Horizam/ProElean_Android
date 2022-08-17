@@ -142,8 +142,7 @@ class ServiceDetailsFragment : Fragment(), BaseSliderView.OnSliderClickListener,
 
     private fun setToolbarData() {
         binding.toolbar.ivToolbar.setImageResource(R.drawable.ic_back)
-        binding.toolbar.tvToolbar.text =
-            App.getAppContext()!!.getString(R.string.str_service_details)
+        binding.toolbar.tvToolbar.text =getString(R.string.str_service_details)
     }
 
     private fun setupViewModel() {

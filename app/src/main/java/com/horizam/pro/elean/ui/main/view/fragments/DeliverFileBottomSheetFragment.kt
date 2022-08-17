@@ -64,7 +64,7 @@ class DeliverFileBottomSheetFragment(
                 )
                 dismiss()
             } else if (binding.etDescription.text.toString().trimStart().length < 15) {
-                binding.etDescription.error = "Description is too short"
+                binding.etDescription.error = getString(R.string.str_description_is_short)
             } else if (imagePath.isEmpty()) {
                 binding.rlFileName.visibility = View.VISIBLE
                 binding.tvFileName.text = getString(R.string.str_please_select_file)
@@ -89,7 +89,7 @@ class DeliverFileBottomSheetFragment(
                 if (result.data != null) {
                     handlePickerResult(result.data!!)
                 } else {
-                    genericHandler.showErrorMessage("Invalid data")
+                    genericHandler.showErrorMessage(getString(R.string.str_invalid_data))
                 }
             }
         }

@@ -48,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:text="Earnings"
+                android:text="@string/str_earnings"
                 android:textColor="@color/colorBlack"
                 android:textSize="@dimen/_13ssp"
                 android:textStyle="bold"
@@ -99,7 +99,7 @@
                             android:id="@+id/tv_personal_balance"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Balance"
+                            android:text="@string/str_balance"
                             android:textColor="@color/colorWhite"
                             android:textSize="@dimen/_11sdp" />
                     </LinearLayout>
@@ -139,7 +139,7 @@
                             android:id="@+id/tv_earning_in_december"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Earning This Month"
+                            android:text="@string/str_earning_this_month"
                             android:textColor="@color/colorWhite"
                             android:textSize="@dimen/_11ssp" />
                     </LinearLayout>
@@ -166,9 +166,10 @@
 
                         <TextView
                             android:id="@+id/tv_avg_selling_price"
-                            android:layout_width="wrap_content"
+                            android:layout_width="@dimen/_100ssp"
                             android:layout_height="wrap_content"
-                            android:text="Avg Order Price"
+                            android:maxLines="2"
+                            android:text="@string/str_avg_order_price"
                             android:textColor="@color/colorWhite"
                             android:textSize="@dimen/_11ssp" />
                     </LinearLayout>
@@ -207,7 +208,7 @@
                             android:id="@+id/tv_active_orders"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Active Orders"
+                            android:text="@string/str_active_orders"
                             android:textColor="@color/colorWhite"
                             android:textSize="@dimen/_11ssp" />
                     </LinearLayout>
@@ -286,7 +287,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:text="Weekly Analytics"
+                android:text="@string/str_weekly_analytics"
                 android:textColor="@color/colorBlack"
                 android:textSize="@dimen/_13ssp"
                 android:textStyle="bold"

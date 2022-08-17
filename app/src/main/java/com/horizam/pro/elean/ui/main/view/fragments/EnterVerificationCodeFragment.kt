@@ -27,7 +27,7 @@ class EnterVerificationCodeFragment : Fragment() {
     private lateinit var binding: FragmentEnterVerificationCodeBinding
     private lateinit var genericHandler: GenericHandler
     private lateinit var viewModel: ForgotPasswordViewModel
-    val args: EnterVerificationCodeFragmentArgs by navArgs()
+    val args: EnterVerificationCodeFragmentArgs by this.navArgs()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

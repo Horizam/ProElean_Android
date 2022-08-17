@@ -205,7 +205,7 @@ class InboxFragment : Fragment(), InboxHandler, SwipeRefreshLayout.OnRefreshList
 
     private fun setToolbarData() {
         binding.toolbar.ivToolbar.setImageResource(R.drawable.ic_back)
-        binding.toolbar.tvToolbar.text = App.getAppContext()!!.getString(R.string.str_inbox)
+        binding.toolbar.tvToolbar.text = getString(R.string.str_inbox)
     }
 
     override fun <T> onItemClick(item: T) {

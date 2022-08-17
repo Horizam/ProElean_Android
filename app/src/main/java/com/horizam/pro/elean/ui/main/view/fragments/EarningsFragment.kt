@@ -92,11 +92,20 @@ class EarningsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
     {
         val listPie = ArrayList<PieEntry>()
         val listColors = ArrayList<Int>()
-        listPie.add(PieEntry(35F,"Yearly:${yearly}"))
+        listPie.add(PieEntry(35F, buildString {
+        append(getString(R.string.str_yearly))
+        append(yearly)
+    }))
         listColors.add(ContextCompat.getColor(requireContext(), R.color.colorThree))
-        listPie.add(PieEntry(35F,"Weekly:${weekly}"))
+        listPie += PieEntry(35F, buildString {
+        append(getString(R.string.str_weekly))
+        append(weekly)
+    })
         listColors.add(ContextCompat.getColor(requireContext(), R.color.color_green))
-        listPie.add(PieEntry(30F,"Monthly:${monthly}"))
+        listPie.add(PieEntry(30F, buildString {
+        append(getString(R.string.str_monthly))
+        append(monthly)
+    }))
         listColors.add(ContextCompat.getColor(requireContext(), R.color.colorGolden))
         val pieDataSet = PieDataSet(listPie, "")
         pieDataSet.colors = listColors
@@ -201,7 +210,7 @@ class EarningsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
 
     private fun setToolbarData() {
         binding.toolbar.ivToolbar.setImageResource(R.drawable.ic_back)
-        binding.toolbar.tvToolbar.text = App.getAppContext()!!.getString(R.string.str_earnings)
+        binding.toolbar.tvToolbar.text =getString(R.string.str_earnings)
     }
 
     private fun setupViewModel() {

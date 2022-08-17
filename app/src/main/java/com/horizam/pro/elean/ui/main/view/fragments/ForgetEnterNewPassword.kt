@@ -36,7 +36,7 @@ class ForgetEnterNewPassword : Fragment() {
     private fun setClickListener() {
         binding.btnChangePassword.setOnClickListener {
             if (binding.etEnterNewPassword.text.toString().length < 6) {
-                genericHandler.showErrorMessage("Password must contain at least 6 character")
+                genericHandler.showErrorMessage(getString(R.string.str_password_contain))
             } else if (binding.etEnterNewPassword.text.toString() != binding.etEnterNewPassword.text.toString()) {
                 genericHandler.showErrorMessage(getString(R.string.str_password_not_matched))
             } else {

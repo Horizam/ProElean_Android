@@ -170,7 +170,7 @@ class BecomeFreelancerTwoFragment : Fragment(), AdapterView.OnItemSelectedListen
     }
 
     private fun setupObservers() {
-        viewModel.spinnerData.observe(viewLifecycleOwner, {
+        viewModel.spinnerData.observe(viewLifecycleOwner) {
             it?.let { resource ->
                 when (resource.status) {
                     Status.SUCCESS -> {
@@ -188,7 +188,7 @@ class BecomeFreelancerTwoFragment : Fragment(), AdapterView.OnItemSelectedListen
                     }
                 }
             }
-        })
+        }
         viewModel.becomeFreelancer.observe(viewLifecycleOwner, becomeFreelancerObserver)
     }
 

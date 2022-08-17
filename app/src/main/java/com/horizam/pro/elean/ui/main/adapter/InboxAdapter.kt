@@ -97,7 +97,7 @@ class InboxAdapter(private val listener: InboxHandler) :
         }
 
         private fun ItemInboxBinding.checkPhotoEmpty(member: MembersInfo) {
-            if (member.photo.isEmpty()) {
+            if (member.photo==null) {
                 ivInbox.setImageResource(R.color.colorAccent)
                 tvLetter.isVisible = false
                 tvLetter.text = member.name.first().toString()

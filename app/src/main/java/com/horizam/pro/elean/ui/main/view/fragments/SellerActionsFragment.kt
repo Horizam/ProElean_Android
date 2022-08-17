@@ -207,23 +207,23 @@ class SellerActionsFragment : Fragment(), OnItemClickListener,
     private fun setDetailSellerActionList() {
         sellerActionList.add(
             SellerActionModel(
-                title = "Create Service",
+                title = getString(R.string.str_create_service),
                 image = R.drawable.img_create_service
             )
         )
         sellerActionList.add(
             SellerActionModel(
-                title = "Buyer Requests",
+                title = getString(R.string.str_buyer_request),
                 image = R.drawable.img_buyer_request
             )
         )
         sellerActionList.add(
             SellerActionModel(
-                title = "Manage Services",
+                title = getString(R.string.str_manage_service),
                 image = R.drawable.ic_list
             )
         )
-        sellerActionList.add(SellerActionModel(title = "Earnings", image = R.drawable.ic_budget))
+        sellerActionList.add(SellerActionModel(title = getString(R.string.str_earnings), image = R.drawable.ic_budget))
     }
 
     private fun initViews() {
@@ -244,8 +244,7 @@ class SellerActionsFragment : Fragment(), OnItemClickListener,
 
     private fun setToolbarData() {
         binding.toolbar.ivToolbar.setImageResource(R.drawable.ic_back)
-        binding.toolbar.tvToolbar.text =
-            App.getAppContext()!!.getString(R.string.str_seller_actions)
+        binding.toolbar.tvToolbar.text =getString(R.string.str_seller_actions)
     }
 
     override fun <T> onItemClick(item: T) {
@@ -331,7 +330,11 @@ class SellerActionsFragment : Fragment(), OnItemClickListener,
 
         legenedEntries.add(
             LegendEntry(
-                "Impressions=${weeklyImpression}, ",
+                buildString {
+        append(getString(R.string.str_impression))
+        append(weeklyImpression)
+        append(", ")
+    },
                 Legend.LegendForm.SQUARE,
                 10f,
                 10f,
@@ -341,7 +344,10 @@ class SellerActionsFragment : Fragment(), OnItemClickListener,
         )
         legenedEntries.add(
             LegendEntry(
-                "Clicks=${weeklyClicks}",
+                buildString {
+        append(getString(R.string.str_clicks))
+        append(weeklyClicks)
+    },
                 Legend.LegendForm.SQUARE,
                 10f,
                 10f,
@@ -407,12 +413,12 @@ class SellerActionsFragment : Fragment(), OnItemClickListener,
 
         barDataSet1 = BarDataSet(yValueGroup1, "")
         barDataSet1.setColors(Color.BLUE)
-        barDataSet1.label = "Impressions"
+        barDataSet1.label = getString(R.string.str_impression)
         barDataSet1.setDrawIcons(false)
         barDataSet1.setDrawValues(true)
 
         barDataSet2 = BarDataSet(yValueGroup2, "")
-        barDataSet2.label = "Clicks"
+        barDataSet2.label = getString(R.string.str_clicks)
         barDataSet2.setColors(Color.GREEN)
         barDataSet2.setDrawIcons(false)
         barDataSet2.setDrawValues(true)

@@ -83,7 +83,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_5sdp"
             android:ellipsize="end"
-            android:maxLines="4"
+            android:maxLines="10"
             android:text="@string/str_description"
             android:textColor="@color/colorBlack"
             android:textSize="@dimen/_10ssp"
@@ -94,26 +94,37 @@
         <Button
             android:id="@+id/btn_contact_seller"
             style="@style/New.TextButton"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/_100ssp"
             android:layout_height="wrap_content"
             android:layout_marginVertical="@dimen/_2sdp"
             android:layout_marginStart="@dimen/_5sdp"
             android:backgroundTint="@color/colorButtons"
             android:paddingHorizontal="@dimen/_10sdp"
+            android:maxLines="2"
             android:text="@string/str_contact_seller"
             android:textColor="@color/colorWhite"
-            android:textSize="@dimen/_9ssp"
+            android:textSize="@dimen/_8ssp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/iv_main"
             app:layout_constraintTop_toBottomOf="@id/tv_description_gig" />
 
-        <ImageView
+<!--        <ImageView-->
+<!--            android:id="@+id/iv_favorite"-->
+<!--            android:layout_width="@dimen/_25sdp"-->
+<!--            android:layout_height="@dimen/_25sdp"-->
+<!--            android:layout_marginTop="@dimen/_5sdp"-->
+<!--            android:layout_marginEnd="@dimen/_10sdp"-->
+<!--            android:src="@drawable/ic_not_liked"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
+        <CheckBox
             android:id="@+id/iv_favorite"
             android:layout_width="@dimen/_25sdp"
             android:layout_height="@dimen/_25sdp"
             android:layout_marginTop="@dimen/_5sdp"
             android:layout_marginEnd="@dimen/_10sdp"
-            android:src="@drawable/ic_not_liked"
+            app:useMaterialThemeColors="false"
+            android:button="@drawable/selector_wishlist"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

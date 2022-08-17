@@ -5,12 +5,22 @@ import android.content.SharedPreferences
 import android.location.Location
 import com.google.gson.GsonBuilder
 import com.horizam.pro.elean.Constants
+import com.horizam.pro.elean.Constants.Companion.LANG
 import com.horizam.pro.elean.data.model.MyLocation
 
 class PrefManager(_context: Context) {
 
-    var pref: SharedPreferences =
-        _context.getSharedPreferences(Constants.PREF_NAME, Context.MODE_PRIVATE)
+    var pref: SharedPreferences = _context.getSharedPreferences(Constants.PREF_NAME, Context.MODE_PRIVATE)
+    private val editor: SharedPreferences.Editor = pref.edit()
+    var setLanguage: String?
+        get() = pref.getString(LANG,"0")
+        set(value) {
+            if (value != null) {
+                editor.putString(LANG,value)
+            }
+            editor.apply()
+            editor.commit()
+        }
 
     var accessToken: String
         get() = pref.getString(Constants.ACCESS_TOKEN, "")!!

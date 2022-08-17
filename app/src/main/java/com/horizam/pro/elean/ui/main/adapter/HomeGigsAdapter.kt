@@ -55,6 +55,7 @@ class HomeGigsAdapter(val listener: OnItemClickListener) :
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .into(ivService)
                 tvServiceName.text = featuredGig.s_description
+
             }
         }
     }

@@ -907,7 +907,7 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
         val firebaseNotification = FirebaseNotificationRequest(
             subject = myInfo!!.name,
             reciever_id = userId,
-            body = messageModel.message,
+            body = "send",
             data = notificationMessage
         )
         viewModel.sendNotificationCall(firebaseNotification)
@@ -1025,7 +1025,7 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
 
     private fun setToolbarData() {
         binding.toolbar.ivToolbar.setImageResource(R.drawable.ic_back)
-        binding.toolbar.tvToolbar.text = App.getAppContext()!!.getString(R.string.str_messages)
+        binding.toolbar.tvToolbar.text =getString(R.string.str_messages)
     }
 
     private fun downloadFile(fileUrl: String, fileType: String) {

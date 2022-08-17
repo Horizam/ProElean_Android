@@ -49,7 +49,7 @@ class ExtendDeliveryTimeBottomSheetFragment(var orderDetailsFragment: OrderDetai
     private fun setListener() {
         binding.btnSubmit.setOnClickListener {
             if (binding.etDescription.text!!.isEmpty()) {
-                binding.tiDescription.error = "Please enter description"
+                binding.tiDescription.error = getString(R.string.str_please_enter_description)
             } else {
                 dismiss()
                 orderDetailsFragment.extendDeliveryTime(

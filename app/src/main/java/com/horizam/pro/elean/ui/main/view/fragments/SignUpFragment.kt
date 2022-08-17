@@ -90,7 +90,7 @@ class SignUpFragment : Fragment() {
                 if (BaseUtils.isNumber(referralCode)) {
                     executeApi(referralCode)
                 } else {
-                    genericHandler.showErrorMessage("Referral code must be numeric")
+                    genericHandler.showErrorMessage(getString(R.string.str_referral))
                 }
             } else {
                 executeApi()
