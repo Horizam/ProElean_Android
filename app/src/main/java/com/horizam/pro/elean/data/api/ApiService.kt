@@ -214,7 +214,7 @@ interface ApiService {
         @Part("order_no") orderNumber: RequestBody,
         @Part("type") typeUser: RequestBody,
         @Part("delivery_note") deliveryNote: RequestBody,
-        @Part ("delivered_file") image: MultipartBody.Part,
+        @Part image: MultipartBody.Part?,
     ): GeneralResponse
 
     @DELETE("buyer/jobs/{id}")

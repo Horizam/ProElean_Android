@@ -612,7 +612,7 @@ class OrderMessagesFragment(var order: Order) : Fragment(), MessagesHandler, Cre
                         genericHandler.showErrorMessage(e.message.toString())
                     }
                 } else {
-                    genericHandler.showErrorMessage("Invalid data")
+                    genericHandler.showErrorMessage(getString(R.string.str_invalid_data))
                 }
             }
         }
@@ -632,7 +632,7 @@ class OrderMessagesFragment(var order: Order) : Fragment(), MessagesHandler, Cre
             if (!imagePath.isNullOrEmpty()) {
                 uploadImageToStorage(imagePath)
             } else {
-                genericHandler.showErrorMessage("Choose valid image")
+                genericHandler.showErrorMessage(getString(R.string.str_choose_valid_file))
             }
         }
     }

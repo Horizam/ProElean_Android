@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.horizam.pro.elean.R
 import com.horizam.pro.elean.databinding.FragmentDescriptionBottomSheetBinding
 import com.horizam.pro.elean.ui.main.callbacks.DescriptionHandler
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
@@ -49,8 +50,8 @@ class DescriptionBottomSheet(var fragment: OrderDetailsFragment, var userType: I
     private fun validateData() {
         removeTextFieldsErrors()
         if (binding.etDescription.length() < 10) {
-            genericHandler.showErrorMessage("Description is too short")
-            binding.textFieldDescription.error = "Description is too short"
+            genericHandler.showErrorMessage(getString(R.string.str_description_is_short))
+            binding.textFieldDescription.error = getString(R.string.str_description_is_short)
         } else {
             descriptionHandler.getDescription(binding.etDescription.text.toString(), userType, type)
             hideKeyboard()

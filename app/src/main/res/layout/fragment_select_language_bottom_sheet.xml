@@ -18,33 +18,26 @@
         android:textSize="@dimen/_16ssp"
         android:textStyle="bold"
         android:textColor="@color/colorBlack" />
-
-    <RadioGroup
-        android:id="@+id/radioGroup"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_language"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_select_language"
         android:layout_marginTop="@dimen/_10sdp"
-        android:layoutDirection="rtl"
-        android:layout_marginHorizontal="@dimen/_25sdp">
-    </RadioGroup>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_submit"
-        style="@style/New.TextButton"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_40sdp"
-        android:layout_marginHorizontal="@dimen/_40sdp"
-        android:layout_marginTop="@dimen/_20sdp"
-        android:backgroundTint="@color/colorButtons"
-        android:text="@string/str_submit"
-        android:textAllCaps="false"
-        android:textColor="@color/colorWhite"
-        app:cornerRadius="@dimen/_50sdp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/radioGroup" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_select_language"/>
+<!--    <com.google.android.material.button.MaterialButton-->
+<!--        android:id="@+id/btn_submit"-->
+<!--        style="@style/New.TextButton"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="@dimen/_40sdp"-->
+<!--        android:layout_marginHorizontal="@dimen/_40sdp"-->
+<!--        android:layout_marginTop="@dimen/_20sdp"-->
+<!--        android:backgroundTint="@color/colorButtons"-->
+<!--        android:text="@string/str_submit"-->
+<!--        android:textAllCaps="false"-->
+<!--        android:textColor="@color/colorWhite"-->
+<!--        app:cornerRadius="@dimen/_50sdp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/rv_language" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

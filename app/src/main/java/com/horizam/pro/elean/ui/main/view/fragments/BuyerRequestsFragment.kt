@@ -159,8 +159,7 @@ class BuyerRequestsFragment : Fragment(), OnItemClickListener, BuyerRequestsHand
     private fun setToolbarData() {
         binding.toolbar.ivToolbar.setImageResource(R.drawable.ic_back)
         binding.toolbar.ivSecond.isVisible = true
-        binding.toolbar.tvToolbar.text =
-            App.getAppContext()!!.getString(R.string.str_buyer_requests)
+        binding.toolbar.tvToolbar.text = getString(R.string.str_buyer_requests)
     }
 
     private fun setupViewModel() {

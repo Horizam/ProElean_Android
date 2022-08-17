@@ -2,12 +2,11 @@ package com.horizam.pro.elean.ui.main.view.fragments.aboutUser
 
 import android.app.Dialog
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,25 +22,22 @@ import com.horizam.pro.elean.data.model.response.ProfileInfo
 import com.horizam.pro.elean.databinding.DialogDeleteBinding
 import com.horizam.pro.elean.databinding.FragmentUserAboutBinding
 import com.horizam.pro.elean.ui.base.ViewModelFactory
-import com.horizam.pro.elean.ui.main.adapter.LanguageAdapter
+import com.horizam.pro.elean.ui.main.adapter.LanguagesAdapter
 import com.horizam.pro.elean.ui.main.adapter.SellerActionAdapter
 import com.horizam.pro.elean.ui.main.adapter.SkillsAdapter
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
 import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
 import com.horizam.pro.elean.ui.main.callbacks.SellerActionModeHandler
-import com.horizam.pro.elean.ui.main.view.activities.AuthenticationActivity
 import com.horizam.pro.elean.ui.main.viewmodel.ProfileViewModel
 import com.horizam.pro.elean.utils.BaseUtils
 import com.horizam.pro.elean.utils.PrefManager
 import com.horizam.pro.elean.utils.Status
 import kotlinx.android.synthetic.main.dialog_delete.*
-import java.lang.Exception
 
 class AboutUserFragment : Fragment(), OnItemClickListener {
 
     private lateinit var binding: FragmentUserAboutBinding
     private lateinit var adapter: SkillsAdapter
-    private lateinit var languageAdapter: LanguageAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewModel: ProfileViewModel
     private lateinit var genericHandler: GenericHandler
@@ -53,6 +49,7 @@ class AboutUserFragment : Fragment(), OnItemClickListener {
     private lateinit var dialogDelete: Dialog
     private lateinit var bindingDeleteDialog: DialogDeleteBinding
     private lateinit var mAuth: FirebaseAuth
+    private lateinit var languagesAdapter: LanguagesAdapter
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -88,13 +85,13 @@ class AboutUserFragment : Fragment(), OnItemClickListener {
     private fun setDetailBuyerActionList() {
         sellerActionList.add(
             SellerActionModel(
-                title = "Post a Job",
+                title = getString(R.string.str_post_a_job),
                 image = R.drawable.img_post_job
             )
         )
         sellerActionList.add(
             SellerActionModel(
-                title = "View Posted Jobs",
+                title = getString(R.string.str_view_posted_jobs),
                 image = R.drawable.img_posted_job
             )
         )
@@ -243,24 +240,26 @@ class AboutUserFragment : Fragment(), OnItemClickListener {
                 tvUserRating.text = profile.user_rating.toString()
                 tvRatingNumber.text = "(".plus(profile.total_reviews.toString()).plus(")")
                 tvLocation.text = profile.address
+                tvLanguage.text=profile.user_languages
+                tvDescAboutUser.text=profile.description
                 tvResponse.text = profile.created_at
                 tvRecentDelivery.text = profile.recent_delivery
                 if (profile.user_languages==null) {
                     tvLanguage.text = getString(R.string.str_no_language_available)
                 } else {
-                    tvLanguage.text = profile.user_languages  //.joinToString(separator = ", ")
+                    tvLanguage.text =profile.user_languages//.joinToString(separator = ", ")
                 }
-                if (profile.languages.isEmpty()) {
-                    tvLanguage.text = getString(R.string.str_no_language_available)
-                } else {
-                    languageAdapter.submitList(profile.languages)
-               //     tvLanguage.text =profile.  //.joinToString(separator = ", ")
-                }
-                if (profile.description.trim().isEmpty()) {
-                    tvDescAboutUser.text = "No description has been added"
-                } else {
-                    tvDescAboutUser.text = profile.description
-                }
+//                if (profile..isEmpty()) {
+//                    tvLanguage.text = getString(R.string.str_no_language_available)
+//                } else {
+//              //      languagesAdapter.Holder(profile.languages)
+//               //     tvLanguage.text =profile.  //.joinToString(separator = ", ")
+//                }
+//                if (profile.description.trim().isEmpty()) {
+//                    tvDescAboutUser.text = "No description has been added"
+//                } else {
+//                    tvDescAboutUser.text = profile.description
+//                }
                 adapter.submitList(profile.user_skills)
             }
         }

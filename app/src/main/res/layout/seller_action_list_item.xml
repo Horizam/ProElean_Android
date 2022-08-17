@@ -28,7 +28,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_15sdp"
-        android:text="Create Service"
+        android:text="@string/str_create_service"
         android:textColor="@color/colorBlack"
         android:textSize="@dimen/_10ssp"
         android:fontFamily="@font/roboto_bold"

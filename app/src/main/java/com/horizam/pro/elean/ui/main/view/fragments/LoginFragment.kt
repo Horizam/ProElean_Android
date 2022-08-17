@@ -121,8 +121,8 @@ class LoginFragment : Fragment() {
             binding.textFieldPassword.error = getString(R.string.str_password_not_entered)
             return
         } else if (binding.etPassword.text.toString().length < 6) {
-            genericHandler.showErrorMessage("Password must be atleast 6 character")
-            binding.textFieldPassword.error = "Password must be atleast 6 character"
+            genericHandler.showErrorMessage(getString(R.string.str_password_contain))
+            binding.textFieldPassword.error = getString(R.string.str_password_contain)
         } else {
             executeApi()
         }
@@ -135,7 +135,7 @@ class LoginFragment : Fragment() {
 
     private fun executeApi() {
         if (prefManager.fcmToken.isEmpty()) {
-            genericHandler.showErrorMessage("Please try again later")
+            genericHandler.showErrorMessage(getString(R.string.str_retry))
             return
         }
         genericHandler.showProgressBar(true)

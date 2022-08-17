@@ -1,6 +1,7 @@
 package com.horizam.pro.elean.ui.main.view.activities
 
 import android.content.Intent
+import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.DisplayMetrics
@@ -12,19 +13,40 @@ import com.google.android.play.core.install.InstallStateUpdatedListener
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.InstallStatus
 import com.google.android.play.core.install.model.UpdateAvailability
+import com.horizam.pro.elean.App
 import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.utils.BaseUtils
 import com.horizam.pro.elean.utils.BaseUtils.Companion.screenHeight
 import com.horizam.pro.elean.utils.BaseUtils.Companion.screenWidth
 import com.horizam.pro.elean.utils.PrefManager
+import java.util.*
 
+@Suppress("DEPRECATION")
 class SplashActivity : AppCompatActivity() {
     private val bundle = Bundle()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
+
+
+            var manager: PrefManager = PrefManager(App.getAppContext()!!)
+            if (manager.setLanguage == "0") {
+                setLocal("en")
+            } else {
+                setLocal("fi")
+            }
+        }
+    private fun setLocal(lang: String, ) {
+        val locale = Locale(lang)
+        Locale.setDefault(locale)
+        val configuration = Configuration()
+        configuration.locale = locale
+        baseContext.resources.updateConfiguration(
+            configuration,
+            baseContext.resources.displayMetrics
+        )
 
         if (intent!!.hasExtra(Constants.TYPE)) {
             if (intent.getStringExtra(Constants.TYPE).toString() == Constants.MESSAGE) {

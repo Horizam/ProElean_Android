@@ -1,28 +1,21 @@
 package com.horizam.pro.elean.ui.main.adapter
 
 import android.content.Intent
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.core.content.ContextCompat.startActivity
+import android.widget.Toast
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.horizam.pro.elean.Constants
-import com.horizam.pro.elean.Constants.Companion.BASE_URL
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.model.response.ServiceDetail
 import com.horizam.pro.elean.databinding.ItemGigsBinding
-import com.horizam.pro.elean.ui.main.callbacks.ContactSellerHandler
-import com.horizam.pro.elean.ui.main.callbacks.FavouriteHandler
-import com.horizam.pro.elean.ui.main.callbacks.LogoutHandler
-import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
+import com.horizam.pro.elean.ui.main.callbacks.*
 import com.horizam.pro.elean.ui.main.view.fragments.ServiceGigsFragment
-import com.horizam.pro.elean.ui.main.view.fragments.ServiceGigsFragmentArgs
-import com.horizam.pro.elean.ui.main.viewmodel.ServiceGigsViewModel
 import com.horizam.pro.elean.utils.PrefManager
 
 class GigsAdapter(
@@ -30,6 +23,7 @@ class GigsAdapter(
     private val favouriteHandler: FavouriteHandler,
     private val contactSellerHandler: ContactSellerHandler,
     private val logoutHandler: LogoutHandler,
+    private val savedGigsHandler: ServiceGigsFragment,
     private val serviceGigsFragment: ServiceGigsFragment
 ) :
     PagingDataAdapter<ServiceDetail, GigsAdapter.DataViewHolder>(ITEM_COMPARATOR) {
@@ -55,12 +49,20 @@ class GigsAdapter(
                 val position = bindingAdapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     val item = getItem(position)
+                    //val item = fetchItem()
                     if (item != null) {
                         listener.onItemClick(item)
+                        //  savedGigsHandler.onItemClick(item)
+
                     }
+
                 }
             }
             binding.ivFavorite.setOnClickListener {
+//                //val item = fetchItem()
+//                if (item != null) {
+//                    savedGigsHandler.addRemoveWishList(item)
+//                }
                 val position = bindingAdapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     val item = getItem(position)
@@ -74,6 +76,7 @@ class GigsAdapter(
                 if (prefManager.accessToken.isEmpty()) {
                     logoutHandler.checkLogout()
                 } else {
+//
                     val position = bindingAdapterPosition
                     if (position != RecyclerView.NO_POSITION) {
                         val item = getItem(position)
@@ -101,20 +104,37 @@ class GigsAdapter(
                 tvPrice.text = "${serviceDetail.price}${Constants.CURRENCY}"
                 ratingGig.rating = serviceDetail.service_rating.toFloat()
                 totalNumberOfRating.text = "(${serviceDetail.total_reviews})"
-                val imageResource: Int = if (serviceDetail.favourite == 0) {
-                    R.drawable.ic_not_liked
-                } else {
-                    R.drawable.ic_liked
+
+                binding.ivFavorite.setOnCheckedChangeListener { checkbox, isChecked ->
+                    run {
+                        if (serviceDetail.favourite == 1) {
+                           if(isChecked)
+                           {
+
+                           }
+                        }
+                        else{
+
+                        }
+                    }
                 }
+//                val imageResource: Int=if (serviceDetail.favourite == 1) {
+//                    R.drawable.ic_liked
+//
+//                }
+//                else{
+//                    R.drawable.ic_not_liked
+//                }
+
                 if (serviceDetail.service_media.size > 0) {
                     setImage("${Constants.BASE_URL}${serviceDetail.service_media[0].media}", ivMain)
+
                 }
 
                 setImage("${Constants.BASE_URL}${serviceDetail.service_user.image}", ivProfile)
-                setImage(imageResource, ivFavorite)
+
             }
         }
-
         private fun <T> setImage(source: T, imageView: ImageView) {
             Glide.with(itemView)
                 .load(source)

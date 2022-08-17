@@ -20,14 +20,14 @@
         android:id="@+id/serviceGigsFragment"
         android:enabled="true"
         android:icon="@drawable/img_search"
-        android:title="Search"
+        android:title="@string/str_search"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/ordersFragment"
         android:enabled="true"
         android:icon="@drawable/img_order"
-        android:title="Order"
+        android:title="@string/str_order"
         app:showAsAction="ifRoom" />
 
     <item

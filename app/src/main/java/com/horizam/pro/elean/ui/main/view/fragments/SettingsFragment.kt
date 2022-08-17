@@ -14,13 +14,13 @@ import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
-import com.horizam.pro.elean.data.model.response.LanguageAndCurrencyResponse
 import com.horizam.pro.elean.data.model.response.PrivacyPolicyResponse
 import com.horizam.pro.elean.databinding.FragmentSettingsBinding
 import com.horizam.pro.elean.ui.base.ViewModelFactory
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
 import com.horizam.pro.elean.ui.main.viewmodel.SettingsViewModel
 import com.horizam.pro.elean.utils.Status
+import com.horizam.pro.elean.data.model.response.LanguageAndCurrencyResponse as LanguageAndCurrencyResponse1
 
 class SettingsFragment : Fragment() {
 
@@ -28,7 +28,7 @@ class SettingsFragment : Fragment() {
     private lateinit var viewModel: SettingsViewModel
     private lateinit var genericHandler: GenericHandler
     private lateinit var privacyPolicyResponse: PrivacyPolicyResponse
-    private lateinit var languageAndCurrencyResponse: LanguageAndCurrencyResponse
+    private lateinit var languageAndCurrencyResponse: LanguageAndCurrencyResponse1
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -82,8 +82,9 @@ class SettingsFragment : Fragment() {
             showSelectCurrencyBottomSheet(currencyList)
         }
         binding.tvSelectLanguage.setOnClickListener {
-            val languageList = languageAndCurrencyResponse.languageAndCurrencyData.languages
-            showSelectLanguageBottomSheet(languageList)
+            val languageList = languageAndCurrencyResponse.languageAndCurrencyData.languages.apply {
+                showSelectLanguageBottomSheet(this)
+            }
         }
         binding.tvChangePassword.setOnClickListener {
             findNavController().navigate(R.id.changePasswordFragment)
@@ -103,7 +104,7 @@ class SettingsFragment : Fragment() {
     }
 
     private fun showSelectLanguageBottomSheet(languageList: List<String>) {
-        val selectLanguageBottomSheet = SelectLanguageBottomSheet(languageList)
+        val selectLanguageBottomSheet = SelectLanguageBottomSheet()
         selectLanguageBottomSheet.show(
             requireActivity().supportFragmentManager,
             "SelectLanguageBottomSheet"
@@ -143,7 +144,7 @@ class SettingsFragment : Fragment() {
             }
         })
 
-        viewModel.languageAndCurrency.observe(viewLifecycleOwner, {
+        viewModel.languageAndCurrency.observe(viewLifecycleOwner) {
             it?.let { resource ->
                 when (resource.status) {
                     Status.SUCCESS -> {
@@ -161,7 +162,7 @@ class SettingsFragment : Fragment() {
                     }
                 }
             }
-        })
+        }
     }
 
     private fun handleResponse(response: PrivacyPolicyResponse) {

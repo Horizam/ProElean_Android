@@ -84,7 +84,7 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                     tvBuyer.text = order.username
                     tvBuyer.isVisible = true
                     tvBuyerTitle.isVisible = true
-                    btnDispute.text = "REQUEST BUYER TO CANCEL ORDER"
+                    btnDispute.text = getString(R.string.str_request_buyer_to_cancel)
                 } else {
                     tvSeller.text = order.username
                     tvSeller.isVisible = true

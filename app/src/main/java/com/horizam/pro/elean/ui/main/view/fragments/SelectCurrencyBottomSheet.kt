@@ -33,7 +33,10 @@ class SelectCurrencyBottomSheet(var currencyList: List<String>) : BottomSheetDia
     private fun loadData() {
         for(element in currencyList){
             val radioButton = RadioButton(requireContext())
-            radioButton.text = "Currency ${element}"
+            radioButton.text = buildString {
+        append(getString(R.string.str_currency))
+        append(element)
+    }
             radioButton.id = View.generateViewId()
             val radioGroup = RadioGroup.LayoutParams(RadioGroup.LayoutParams.FILL_PARENT, RadioGroup.LayoutParams.WRAP_CONTENT)
             binding.radioGroup.addView(radioButton, radioGroup)

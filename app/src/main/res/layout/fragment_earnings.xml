@@ -42,7 +42,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_15sdp"
                         android:layout_marginTop="@dimen/_5sdp"
-                        android:text="Current Balance"
+                        android:text="@string/str_current_balance"
                         android:textColor="@color/colorWhite"
                         android:textSize="@dimen/_14ssp"
                         app:layout_constraintStart_toStartOf="parent"
@@ -67,7 +67,7 @@
                         android:layout_height="@dimen/_30sdp"
                         android:layout_marginEnd="@dimen/_15sdp"
                         android:backgroundTint="@color/colorButtons"
-                        android:text="WithDraw"
+                        android:text="@string/str_withdraw"
                         android:textAllCaps="false"
                         android:textColor="@color/colorWhite"
                         android:textSize="@dimen/_9ssp"
@@ -85,7 +85,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:text="Earnings"
+                android:text="@string/str_earnings"
                 android:textColor="@color/colorBlack"
                 android:textSize="@dimen/_13ssp"
                 android:textStyle="bold"
@@ -136,7 +136,7 @@
                             android:id="@+id/tv_total_earning"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Total Earnings"
+                            android:text="@string/str_total_earnings"
                             android:textColor="@color/colorWhite"
                             android:textSize="@dimen/_11sdp" />
                     </LinearLayout>
@@ -176,7 +176,7 @@
                             android:id="@+id/tv_earning_this_year"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Earning This Year"
+                            android:text="@string/str_earning_this_year"
                             android:textColor="@color/colorWhite"
                             android:textSize="@dimen/_11ssp" />
                     </LinearLayout>
@@ -205,7 +205,7 @@
                             android:id="@+id/tv_earning_this_month"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Earning this month"
+                            android:text="@string/str_earning_this_month"
                             android:textColor="@color/colorWhite"
                             android:textSize="@dimen/_11ssp" />
                     </LinearLayout>
@@ -244,7 +244,7 @@
                             android:id="@+id/tv_earning_this_week"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Earning this week"
+                            android:text="@string/str_earning_this_week"
                             android:textColor="@color/colorWhite"
                             android:textSize="@dimen/_11ssp" />
                     </LinearLayout>
@@ -330,7 +330,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:text="Gigs Analytics"
+                android:text="@string/str_gigs_analytics"
                 android:textColor="@color/colorBlack"
                 android:textSize="@dimen/_13ssp"
                 android:textStyle="bold"

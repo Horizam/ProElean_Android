@@ -49,19 +49,19 @@ class OrderFragment : Fragment() {
         binding.toolbar.iv_toolbar.visibility = View.INVISIBLE
         prefManager = PrefManager(requireContext())
         listFragmentTitles = arrayListOf(
-            "Active",
-            "Late",
-            "Delivered",
-            "Revision",
-            "Completed",
-            "Cancel",
-            "Disputed"
+            getString(R.string.str_active),
+            getString(R.string.str_late),
+            getString(R.string.str_delivered),
+            getString(R.string.str_revision),
+            getString(R.string.str_completed),
+            getString(R.string.str_cancel),
+            getString(R.string.str_disputed)
         )
         if (prefManager.sellerMode == 0) {
-            binding.tvUserMode.text = "Buyer"
+            binding.tvUserMode.text = getString(R.string.str_buyer)
             viewPagerOrdersFragmentAdapter = ViewPagerManageOrdersAdapter(this, listFragmentTitles)
         }else{
-            binding.tvUserMode.text = "Seller"
+            binding.tvUserMode.text = getString(R.string.str_seller)
             viewPagerSalesFragmentAdapter = ViewPagerManageSalesAdapter(this,listFragmentTitles)
         }
     }

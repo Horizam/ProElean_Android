@@ -280,7 +280,7 @@ class CreateOfferBottomSheet(private val createOfferHandler: CreateOfferHandler)
             it.id == serviceId
         }.also { service ->
             serviceTitle = service.s_description
-            if (!service.service_media.isNullOrEmpty()) {
+            if (service.service_media!=null) {
                 Glide.with(requireContext())
                     .load(Constants.BASE_URL.plus(service.service_media[0].media))
                     .error(R.drawable.bg_splash)

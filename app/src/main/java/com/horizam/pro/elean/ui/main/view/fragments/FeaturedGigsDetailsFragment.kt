@@ -119,7 +119,7 @@ class FeaturedGigsDetailsFragment : Fragment(), OnItemClickListener,
                 try {
                     if (prefManager.userId != userId && userId != "") {
                         FeaturedGigsDetailsFragmentDirections.actionFeaturedGigsDetailsFragmentToMessagesFragment(
-                            userName = serviceDetail.service_user.name,
+                            userName = serviceDetail.service_user.username,
                             photo = serviceDetail.service_user.image,
                             id = userId
                         ).also {
@@ -135,7 +135,7 @@ class FeaturedGigsDetailsFragment : Fragment(), OnItemClickListener,
                 if (serviceId.isNotEmpty()) {
                     val customOrderBottomSheet = CustomOrderBottomSheet()
                     bundle.putString("service_name", serviceDetail.s_description)
-                    bundle.putString("seller_name", serviceDetail.service_user.name)
+                    bundle.putString("seller_name", serviceDetail.service_user.username)
                     bundle.putString("price", serviceDetail.price.toString())
                     bundle.putString(Constants.SERVICE_ID, serviceId)
                     bundle.putStringArrayList(Constants.DAYS_LIST, arrayListOf("1 day"))
@@ -204,7 +204,7 @@ class FeaturedGigsDetailsFragment : Fragment(), OnItemClickListener,
 
     private fun setUIData(serviceDetail: ServiceDetail) {
         binding.apply {
-            tvUserName.text = serviceDetail.service_user.name
+            tvUserName.text = serviceDetail.service_user.username
             tvCategoryPrice.text = Constants.CURRENCY.plus(" ").plus(serviceDetail.price.toString())
             tvServiceDetailTitle.text = serviceDetail.s_description
             tvCategoryName.text = serviceDetail.category.title

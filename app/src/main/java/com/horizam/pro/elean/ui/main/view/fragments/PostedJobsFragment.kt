@@ -151,7 +151,7 @@ class PostedJobsFragment : Fragment(), OnItemClickListener, PostedJobsHandler,
     private fun setToolbarData() {
         binding.toolbar.ivToolbar.setImageResource(R.drawable.ic_back)
         binding.toolbar.ivSecond.visibility = View.VISIBLE
-        binding.toolbar.tvToolbar.text = App.getAppContext()!!.getString(R.string.str_jobs)
+        binding.toolbar.tvToolbar.text = getString(R.string.str_jobs)
     }
 
     private fun setupViewModel() {

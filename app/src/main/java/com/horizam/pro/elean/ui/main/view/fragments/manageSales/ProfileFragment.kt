@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.airbnb.lottie.utils.Utils
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.horizam.pro.elean.R
 import com.horizam.pro.elean.databinding.FragmentProfileBinding
 import com.horizam.pro.elean.ui.main.adapter.ViewPagerFragmentAdapter
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
@@ -64,9 +65,9 @@ class ProfileFragment : Fragment() {
         binding.ivToolbar.visibility = View.INVISIBLE
         prefManager = PrefManager(requireContext())
         if (prefManager.sellerMode == 0) {
-            listFragmentTitles = arrayListOf("About", "Reviews")
+            listFragmentTitles = arrayListOf(getString(R.string.str_about), getString(R.string.str_reviews))
         } else if (prefManager.sellerMode == 1) {
-            listFragmentTitles = arrayListOf("About", "Services", "Reviews")
+            listFragmentTitles = arrayListOf(getString(R.string.str_about), getString(R.string.str_services),getString(R.string.str_reviews))
         }
         viewPagerFragmentAdapter = ViewPagerFragmentAdapter(this, listFragmentTitles, prefManager)
     }
