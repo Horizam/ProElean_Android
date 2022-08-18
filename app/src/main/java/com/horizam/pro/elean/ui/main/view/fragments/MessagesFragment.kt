@@ -187,6 +187,7 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
             referGig = args.refersGig
             myId = prefManager.userId
             myName = prefManager.username!!
+
             if (userId != "" && myId != "") {
                 try {
                     checkIfChatExists()
@@ -497,7 +498,8 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
                     dialogChooseAttachment.dismiss()
                     onClickRequestFilePermission()
                 }
-                bindingChooseAttachmentDialog.btnNo.setOnClickListener { dialogChooseAttachment.dismiss() }
+                bindingChooseAttachmentDialog.btnNo.setOnClickListener {
+                    dialogChooseAttachment.dismiss() }
             }
             tvCreateOffer.setOnClickListener {
                 val createOfferBottomSheet = CreateOfferBottomSheet(this@MessagesFragment)

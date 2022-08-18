@@ -184,31 +184,6 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/text_field_lang"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/_10sdp"
-                    android:hint="@string/languages"
-                    app:counterEnabled="true"
-                    app:counterMaxLength="50"
-                    app:endIconMode="clear_text"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/text_field_description">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/et_lang"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="text"
-                        android:maxLength="50" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-
-
-
-                <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/text_field_password"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"

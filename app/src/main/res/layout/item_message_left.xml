@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="@dimen/_5sdp"
+    android:layout_marginHorizontal="@dimen/_6sdp"
     android:layout_marginTop="@dimen/_2sdp">
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -53,8 +53,9 @@
         android:id="@+id/layout_media"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_2sdp"
+        android:layout_marginEnd="60dp"
         android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/tv_sender_name_message"
         app:layout_constraintTop_toBottomOf="@+id/tv_sender_message">
 
@@ -161,12 +162,14 @@
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cv_sender_offer"
-            android:layout_width="@dimen/_230sdp"
+            android:layout_width="@dimen/_200sdp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
             android:elevation="10dp"
+            android:ellipsize="end"
             android:visibility="gone"
             app:cardCornerRadius="@dimen/_7sdp"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:strokeColor="@color/colorAccent"
             app:strokeWidth="@dimen/_1sdp">
@@ -174,6 +177,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:ellipsize="end"
                 android:padding="@dimen/_4sdp">
 
                 <TextView
@@ -355,13 +359,13 @@
                         android:layout_marginEnd="@dimen/_10sdp"
                         android:ellipsize="end"
                         android:maxLines="2"
-                        tools:text="@string/str_title"
                         android:textColor="@color/colorBlack"
                         android:textSize="@dimen/_10ssp"
                         android:textStyle="bold"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/iv_main"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="@string/str_title" />
 
                     <TextView
                         android:id="@+id/tv_description_gig"
@@ -371,12 +375,12 @@
                         android:layout_marginBottom="@dimen/_5sdp"
                         android:ellipsize="end"
                         android:maxLines="2"
-                        tools:text="@string/str_description"
                         android:textColor="@color/colorDarkGrey"
                         android:textSize="@dimen/_9ssp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/iv_main" />
+                        app:layout_constraintStart_toEndOf="@id/iv_main"
+                        tools:text="@string/str_description" />
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>

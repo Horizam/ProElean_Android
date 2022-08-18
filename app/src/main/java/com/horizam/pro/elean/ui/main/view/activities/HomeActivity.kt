@@ -638,15 +638,16 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
         val bageDashboard: BadgeDrawable = binding.bottomNav.getOrCreateBadge(R.id.orderFragment)
         bageDashboard.backgroundColor = ContextCompat.getColor(this, R.color.color_light_green)
         bageDashboard.badgeTextColor = Color.WHITE
-        bageDashboard.isVisible = value == 1
+        bageDashboard.isVisible = value == 0
     }
 
     private fun setMessageBottomNotification(value: Int) {
         val bageDashboard: BadgeDrawable = binding.bottomNav.getOrCreateBadge(R.id.inboxFragment)
         bageDashboard.backgroundColor = ContextCompat.getColor(this, R.color.color_light_green)
         bageDashboard.badgeTextColor = Color.WHITE
-        bageDashboard.isVisible = value == 1
+        bageDashboard.isVisible = value == 0
     }
+
 
     override fun callHomeApi() {
         viewModel.homeDataCall()
@@ -669,15 +670,15 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
     private fun setBuyerBottomNavigation() {
         val menu = binding.bottomNav.menu
         menu.clear()
-        menu.add(Menu.NONE, R.id.homeFragment, Menu.NONE, "Home")
+        menu.add(Menu.NONE, R.id.homeFragment, Menu.NONE, getString(R.string.str_home))
             .setIcon(R.drawable.img_home)
-        menu.add(Menu.NONE, R.id.inboxFragment, Menu.NONE, "Inbox")
+        menu.add(Menu.NONE, R.id.inboxFragment, Menu.NONE, getString(R.string.str_inbox))
             .setIcon(R.drawable.img_inbox)
-        menu.add(Menu.NONE, R.id.serviceGigsFragment, Menu.NONE, "Search")
+        menu.add(Menu.NONE, R.id.serviceGigsFragment, Menu.NONE, getString(R.string.str_search))
             .setIcon(R.drawable.img_search)
-        menu.add(Menu.NONE, R.id.ordersFragment, Menu.NONE, "Order")
+        menu.add(Menu.NONE, R.id.ordersFragment, Menu.NONE, getString(R.string.str_order))
             .setIcon(R.drawable.img_order)
-        menu.add(Menu.NONE, R.id.profile_fragment, Menu.NONE, "Profile")
+        menu.add(Menu.NONE, R.id.profile_fragment, Menu.NONE, getString(R.string.str_profile))
             .setIcon(R.drawable.img_profile_)
         binding.bottomNav.selectedItemId = R.id.homeFragment
         setStartDestinationBuyer()
@@ -686,13 +687,13 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
     private fun setSellerBottomNavigation() {
         val menu = binding.bottomNav.menu
         menu.clear()
-        menu.add(Menu.NONE, R.id.sellerActionsFragment, Menu.NONE, "Home")
+        menu.add(Menu.NONE, R.id.sellerActionsFragment, Menu.NONE, getString(R.string.str_home))
             .setIcon(R.drawable.img_home)
-        menu.add(Menu.NONE, R.id.inboxFragment, Menu.NONE, "Inbox")
+        menu.add(Menu.NONE, R.id.inboxFragment, Menu.NONE, getString(R.string.str_inbox))
             .setIcon(R.drawable.img_inbox)
-        menu.add(Menu.NONE, R.id.salesFragment, Menu.NONE, "Order")
+        menu.add(Menu.NONE, R.id.salesFragment, Menu.NONE, getString(R.string.str_order))
             .setIcon(R.drawable.img_order)
-        menu.add(Menu.NONE, R.id.profile_fragment, Menu.NONE, "Profile")
+        menu.add(Menu.NONE, R.id.profile_fragment, Menu.NONE, getString(R.string.str_profile))
             .setIcon(R.drawable.img_profile_)
         binding.bottomNav.selectedItemId = R.id.sellerActionsFragment
         setStartDestinationSeller()

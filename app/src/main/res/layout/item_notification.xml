@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/iv_notification"
+        android:id="@+id/iv_notificationpic"
         android:layout_width="@dimen/_40sdp"
         android:layout_height="@dimen/_40sdp"
         android:layout_margin="@dimen/_5sdp"
@@ -28,7 +28,7 @@
         android:textSize="@dimen/_12ssp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/iv_notification"
+        app:layout_constraintStart_toEndOf="@id/iv_notificationpic"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView

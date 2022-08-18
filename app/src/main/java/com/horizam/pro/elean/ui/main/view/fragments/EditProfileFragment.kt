@@ -276,8 +276,6 @@ class EditProfileFragment : Fragment() {
             etFullName.setText(profileInfo.name)
             etPhone.setText(profileInfo.phone)
             etDescription.setText(profileInfo.description)
-            etLang==null
-            etLang.setText(profileInfo.user_languages)
             //etCarrierNumber.setText(profile.phone)
         }
     }
@@ -495,8 +493,6 @@ class EditProfileFragment : Fragment() {
                 BaseUtils.createRequestBodyFromString(binding.etAddress.text.toString().trim())
             map["description"]=
                 BaseUtils.createRequestBodyFromString(binding.etDescription.text.toString().trim())
-            map["language"]=
-                BaseUtils.createRequestBodyFromString(binding.etLang.text.toString().trim())
             exeApi(image, map)
         }
     }    private fun exeApi(

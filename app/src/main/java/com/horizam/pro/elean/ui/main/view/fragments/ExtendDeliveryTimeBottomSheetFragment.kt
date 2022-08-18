@@ -35,7 +35,7 @@ class ExtendDeliveryTimeBottomSheetFragment(var orderDetailsFragment: OrderDetai
 
     private fun setNoOfDaysSpinner() {
         for (pos in 0 until 59) {
-            daysArrayList.add("${pos}days")
+            daysArrayList.add("${pos}day")
         }
         daysAdapter = ArrayAdapter(
             requireContext(),

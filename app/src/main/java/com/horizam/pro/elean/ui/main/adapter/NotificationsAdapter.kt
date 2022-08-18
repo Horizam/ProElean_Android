@@ -54,9 +54,9 @@ class NotificationsAdapter(val listener: NotificationsHandler) :
 //                val pair: Pair<Int, Int> = getImageAndColor(notification.type)
 //                tvNotificationTitle.setTextColor(ContextCompat.getColor(itemView.context,pair.first))
                 Glide.with(itemView)
-                    .load(Constants.BASE_URL + notification.sender_pic)
+                    .load(Constants.BASE_URL.plus(notification.sender_pic))
                     .error(R.drawable.bg_splash)
-                    .into(ivNotification)
+                    .into(ivNotificationpic)
             }
         }
 
