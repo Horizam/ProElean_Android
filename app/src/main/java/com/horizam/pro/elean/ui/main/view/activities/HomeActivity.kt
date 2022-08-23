@@ -617,19 +617,20 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onEvent(bottomNotification: BottomNotification) {
-        if ((bottomNotification.type == Constants.MESSAGE) && (bottomNotification.value == 1)) {
+        if ((bottomNotification.type == Constants.MESSAGE) && (bottomNotification.value == 0)) {
             val a = binding.bottomNav.selectedItemId
             val b = R.id.inboxFragment
             if (binding.bottomNav.selectedItemId != R.id.inboxFragment) {
                 setMessageBottomNotification(1)
+
             }
-        } else if (bottomNotification.type == Constants.MESSAGE && (bottomNotification.value == 0)) {
+        } else if (bottomNotification.type == Constants.MESSAGE && (bottomNotification.value == 1)) {
             setMessageBottomNotification(0)
         } else if (bottomNotification.type == Constants.ORDER && (bottomNotification.value == 1)) {
             if (binding.bottomNav.selectedItemId != R.id.orderFragment) {
                 setOrderBottomNotification(1)
             }
-        } else if (bottomNotification.type == Constants.ORDER && (bottomNotification.value == 0)) {
+        } else if (bottomNotification.type == Constants.ORDER && (bottomNotification.value == 1)) {
             setOrderBottomNotification(0)
         }
     }
@@ -638,7 +639,14 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
         val bageDashboard: BadgeDrawable = binding.bottomNav.getOrCreateBadge(R.id.orderFragment)
         bageDashboard.backgroundColor = ContextCompat.getColor(this, R.color.color_light_green)
         bageDashboard.badgeTextColor = Color.WHITE
-        bageDashboard.isVisible = value == 0
+        if(value==0) {
+            bageDashboard.isVisible = value == 0
+        }
+        else
+        {
+            bageDashboard.backgroundColor = ContextCompat.getColor(this, R.color.colorWhite)
+
+        }
     }
 
     private fun setMessageBottomNotification(value: Int) {
@@ -646,6 +654,7 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
         bageDashboard.backgroundColor = ContextCompat.getColor(this, R.color.color_light_green)
         bageDashboard.badgeTextColor = Color.WHITE
         bageDashboard.isVisible = value == 0
+
     }
 
 
@@ -676,7 +685,7 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
             .setIcon(R.drawable.img_inbox)
         menu.add(Menu.NONE, R.id.serviceGigsFragment, Menu.NONE, getString(R.string.str_search))
             .setIcon(R.drawable.img_search)
-        menu.add(Menu.NONE, R.id.ordersFragment, Menu.NONE, getString(R.string.str_order))
+        menu.add(Menu.NONE, R.id.ordersFragment, Menu.NONE, "orders")
             .setIcon(R.drawable.img_order)
         menu.add(Menu.NONE, R.id.profile_fragment, Menu.NONE, getString(R.string.str_profile))
             .setIcon(R.drawable.img_profile_)
@@ -691,7 +700,7 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
             .setIcon(R.drawable.img_home)
         menu.add(Menu.NONE, R.id.inboxFragment, Menu.NONE, getString(R.string.str_inbox))
             .setIcon(R.drawable.img_inbox)
-        menu.add(Menu.NONE, R.id.salesFragment, Menu.NONE, getString(R.string.str_order))
+        menu.add(Menu.NONE, R.id.salesFragment, Menu.NONE, "orders")
             .setIcon(R.drawable.img_order)
         menu.add(Menu.NONE, R.id.profile_fragment, Menu.NONE, getString(R.string.str_profile))
             .setIcon(R.drawable.img_profile_)

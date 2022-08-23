@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -36,6 +37,7 @@ import com.glide.slider.library.tricks.ViewPagerEx
 import com.google.gson.Gson
 import com.horizam.pro.elean.data.model.MessageGig
 import com.horizam.pro.elean.data.model.response.ServiceDetail
+import com.horizam.pro.elean.data.model.response.Subcategory
 import com.horizam.pro.elean.ui.main.adapter.ReviewsAdapter
 import com.horizam.pro.elean.ui.main.view.activities.AuthenticationActivity
 import com.horizam.pro.elean.utils.PrefManager
@@ -43,7 +45,9 @@ import com.horizam.pro.elean.utils.PrefManager
 
 class GigDetailsFragment : Fragment(), OnItemClickListener,
     BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener {
-
+    private val navController: NavController by lazy {
+        this.findNavController()
+    }
     private lateinit var binding: FragmentGigDetailsBinding
     private lateinit var adapter: ReviewsAdapter
     private lateinit var recyclerView: RecyclerView
@@ -119,7 +123,8 @@ class GigDetailsFragment : Fragment(), OnItemClickListener,
 
     private fun setOnClickListeners() {
         binding.toolbar.ivToolbar.setOnClickListener {
-            findNavController().popBackStack()
+
+            navController.popBackStack()
         }
         binding.ivUser.setOnClickListener {
 //            if (userId == "") {
@@ -195,7 +200,7 @@ class GigDetailsFragment : Fragment(), OnItemClickListener,
     }
 
     private fun setupObservers() {
-        viewModel.gigDetails.observe(viewLifecycleOwner, {
+        viewModel.gigDetails.observe(viewLifecycleOwner) {
             it?.let { resource ->
                 when (resource.status) {
                     Status.SUCCESS -> {
@@ -216,9 +221,9 @@ class GigDetailsFragment : Fragment(), OnItemClickListener,
                     }
                 }
             }
-        })
+        }
 
-        viewModel.clickGigs.observe(viewLifecycleOwner, {
+        viewModel.clickGigs.observe(viewLifecycleOwner) {
             it?.let { resource ->
                 when (resource.status) {
                     Status.SUCCESS -> {
@@ -239,7 +244,7 @@ class GigDetailsFragment : Fragment(), OnItemClickListener,
                     }
                 }
             }
-        })
+        }
     }
 
     private fun changeViewVisibility(textView: Boolean, button: Boolean, layout: Boolean) {

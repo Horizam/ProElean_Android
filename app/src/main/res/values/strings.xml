@@ -123,7 +123,7 @@
     <string name="str_budget">Budget</string>
     <string name="str_no_offers_yet">No Offers Yet</string>
     <string name="str_click">Click |</string>
-    <string name="str_order">Tilaus</string>
+    <string name="str_order">Tilaus|</string>
     <string name="str_order_title">Order</string>
     <string name="str_april_17_2020">April 17, 2020</string>
     <string name="str_completed">Complete</string>
@@ -345,4 +345,6 @@
     <string name="str_password_contain">Salasanan tulee sisältää vähintään 6 merkkiä</string>
     <string name="str_request_buyer_to_cancel">PYYDÄ OSTAJAA PERUUTAMAAN TILAUS</string>
     <string name="str_referral">Suosituskoodin on oltava numeerinen</string>
+    <string name="str_late_order">Late Order</string>
+    <string name="str_late_submission">Late Submission</string>
 </resources>

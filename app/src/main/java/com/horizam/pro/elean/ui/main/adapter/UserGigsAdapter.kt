@@ -16,6 +16,7 @@ import com.horizam.pro.elean.data.model.response.ServiceDetail
 import com.horizam.pro.elean.databinding.ItemUserGigBinding
 import com.horizam.pro.elean.ui.main.callbacks.FavouriteHandler
 import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
+import kotlinx.android.synthetic.main.item_gigs.view.*
 
 class UserGigsAdapter(
     val listener: OnItemClickListener,
@@ -58,6 +59,15 @@ class UserGigsAdapter(
             }
         }
 
+        private fun fetchItem(): ServiceDetail? {
+            val position = bindingAdapterPosition
+            return if (position != RecyclerView.NO_POSITION) {
+                getItem(position)
+            } else {
+                null
+            }
+        }
+
         fun bind(service: ServiceDetail) {
             binding.apply {
                 if (userID == service.service_user.id) {
@@ -69,25 +79,28 @@ class UserGigsAdapter(
                 tvUserRating.text = service.service_rating.toString()
                 tvRatingNumber.text = "(".plus(service.total_reviews).plus(")")
                 tvPriceGigsUser.text = service.price.toString().plus(Constants.CURRENCY)
-                val imageResource: Int = if (service.favourite == 0) {
-                    R.drawable.ic_not_liked
+                val imageResource: Int = if (service.favourite == 1) {
+                   R.drawable.ic_liked
                 } else {
-                    R.drawable.ic_liked
+                    R.drawable.ic_not_liked
                 }
-                if (service.service_media.isNotEmpty()) {
+                if (service.service_media==null) {
                     val image = service.service_media[Constants.STARTING_ARRAY_INDEX].media
                     setImage("${Constants.BASE_URL}${image}", ivMain)
                 }
                 setImage(imageResource, ivHeartGigsUser)
             }
         }
-
         private fun <T> setImage(source: T, imageView: ImageView) {
             Glide.with(itemView)
                 .load(source)
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                 .error(R.drawable.ic_error)
                 .into(imageView)
+            Glide.with(itemView)
+                .load(R.drawable.ic_liked)
+                .error(R.drawable.ic_not_liked)
+                .into(binding.ivHeartGigsUser)
         }
     }
 

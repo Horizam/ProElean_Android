@@ -87,10 +87,10 @@ class SavedAdapter(
                         .load(Constants.BASE_URL.plus(serviceDetail.service_media[0].media))
                         .error(R.drawable.bg_splash)
                         .into(ivMain)
-//                    Glide.with(itemView)
-//                        .load(R.drawable.ic_liked)
-//                        .error(R.drawable.ic_not_liked)
-//                        .into(ivFavorite)
+                    Glide.with(itemView)
+                        .load(R.drawable.ic_liked)
+                        .error(R.drawable.ic_not_liked)
+                        .into(ivFavorite)
                 } catch (exception: Exception) {
                     Log.i(BuyerRequestsAdapter::class.java.simpleName, exception.message.toString())
                 }

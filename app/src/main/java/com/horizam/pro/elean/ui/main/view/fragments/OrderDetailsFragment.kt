@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
@@ -31,10 +32,13 @@ import com.horizam.pro.elean.data.model.requests.RatingOrderRequest
 import com.horizam.pro.elean.data.model.requests.SellerActionRequestMultipart
 import com.horizam.pro.elean.ui.main.callbacks.*
 import com.horizam.pro.elean.utils.BaseUtils
+import kotlinx.android.synthetic.main.fragment_gig_details.view.*
+import kotlinx.android.synthetic.main.fragment_order_details.*
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
 import java.util.*
 import kotlin.collections.HashMap
+import kotlin.time.hours
 
 
 class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int, Int>) :
@@ -119,7 +123,9 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                     buttonRevision = false,
                     buttonCompleted = false,
                     buttonRateOrder = false,
-                    extendTime = false
+                    extendTime = false,
+                    btnlate = false
+
                 )
             }
         }
@@ -141,7 +147,8 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                         buttonRevision = false,
                         buttonCompleted = true,
                         buttonRateOrder = false,
-                        extendTime = true
+                        extendTime = true,
+                        btnlate = false
                     )
                     startTimer()
                     binding.countdownTimer.isVisible = true
@@ -154,13 +161,15 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                         buttonDispute = true,
                         buttonProceedDispute = false,
                         buttonRevision = false,
-                        buttonCompleted = true,
+                        buttonCompleted = false,
                         buttonRateOrder = false,
-                        extendTime = false
+                        extendTime = false,
+                        btnlate = false
+
                     )
                     startTimer()
-                    binding.countdownTimer.isVisible = true
-                    btnCompleted.text = getString(R.string.str_deliver_work)
+                    binding.countdownTimer.isVisible = false
+                    btnCompleted.text="late order"
                 }
                 SellerOrders.Delivered -> {
                     changeViewsVisibility(
@@ -171,7 +180,8 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                         buttonRevision = false,
                         buttonCompleted = false,
                         buttonRateOrder = false,
-                        extendTime = false
+                        extendTime = false,
+                        btnlate = false
                     )
                 }
                 SellerOrders.Revision -> {
@@ -183,7 +193,8 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                         buttonRevision = false,
                         buttonCompleted = false,
                         buttonRateOrder = false,
-                        extendTime = false
+                        extendTime = false,
+                        btnlate = false
                     )
                 }
                 SellerOrders.Completed -> {
@@ -195,7 +206,8 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                         buttonRevision = false,
                         buttonCompleted = false,
                         buttonRateOrder = false,
-                        extendTime = false
+                        extendTime = false,
+                        btnlate = false
                     )
                 }
                 SellerOrders.Cancel -> {
@@ -207,7 +219,8 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                         buttonRevision = false,
                         buttonCompleted = false,
                         buttonRateOrder = false,
-                        extendTime = false
+                        extendTime = false,
+                    btnlate = false
                     )
                 }
                 SellerOrders.Disputed -> {
@@ -220,7 +233,8 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                             buttonRevision = false,
                             buttonCompleted = false,
                             buttonRateOrder = false,
-                            extendTime = false
+                            extendTime = false,
+                            btnlate = false
                         )
                         btnAgree.isVisible = false
                         btnCancelRequest.isVisible = true
@@ -233,7 +247,8 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                             buttonRevision = false,
                             buttonCompleted = false,
                             buttonRateOrder = false,
-                            extendTime = false
+                            extendTime = false,
+                            btnlate = false
                         )
                         btnAgree.isVisible = true
                         btnCancelRequest.isVisible = false
@@ -248,6 +263,7 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
         val endTime = BaseUtils.getMillisecondsFromUtc(order.end_date)
         val remainingTime = endTime.minus(startTime)
         binding.countdownTimer.start(remainingTime)
+
     }
 
     private fun setBuyerData(pair: Pair<Int, Int>) {
@@ -262,7 +278,9 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                         buttonRevision = false,
                         buttonCompleted = false,
                         buttonRateOrder = false,
-                        extendTime = false
+                        extendTime = false,
+                        btnlate = false
+
                     )
                     startTimer()
                     binding.countdownTimer.isVisible = true
@@ -270,16 +288,20 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                 BuyerOrders.Late -> {
                     changeViewsVisibility(
                         deliveryNote = false,
-                        btnResubmit = false,
-                        buttonDispute = true,
+                        btnResubmit = true,
+                        buttonDispute = false,
                         buttonProceedDispute = false,
                         buttonRevision = false,
                         buttonCompleted = false,
                         buttonRateOrder = false,
-                        extendTime = false
+                        extendTime = false,
+                        btnlate = true
+
+
                     )
                     startTimer()
-                    binding.countdownTimer.isVisible = true
+                    binding.countdownTimer.isVisible =false
+                    btnCompleted.text="late order"
                 }
                 BuyerOrders.Delivered -> {
                     changeViewsVisibility(
@@ -290,7 +312,9 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                         buttonRevision = revisionAvailable(),
                         buttonCompleted = true,
                         buttonRateOrder = false,
-                        extendTime = false
+                        extendTime = false,
+                        btnlate = true
+
                     )
                 }
                 BuyerOrders.Revision -> {
@@ -302,7 +326,8 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                         buttonRevision = false,
                         buttonCompleted = true,
                         buttonRateOrder = false,
-                        extendTime = false
+                        extendTime = false,
+                        btnlate = true
                     )
                 }
                 BuyerOrders.Completed -> {
@@ -314,7 +339,8 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                         buttonRevision = false,
                         buttonCompleted = false,
                         buttonRateOrder = checkRating(),
-                        extendTime = false
+                        extendTime = false,
+                        btnlate = false
                     )
                 }
                 BuyerOrders.Cancel -> {
@@ -326,7 +352,8 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                         buttonRevision = false,
                         buttonCompleted = false,
                         buttonRateOrder = false,
-                        extendTime = false
+                        extendTime = false,
+                        btnlate = false
                     )
                 }
                 BuyerOrders.Disputed -> {
@@ -339,7 +366,8 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                             buttonRevision = false,
                             buttonCompleted = false,
                             buttonRateOrder = false,
-                            extendTime = false
+                            extendTime = false,
+                            btnlate = false
                         )
                         btnAgree.isVisible = false
                         btnCancelRequest.isVisible = true
@@ -352,7 +380,9 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                             buttonRevision = false,
                             buttonCompleted = false,
                             buttonRateOrder = false,
-                            extendTime = false
+                            extendTime = false,
+                            btnlate = false
+
                         )
                         btnAgree.isVisible = true
                         btnCancelRequest.isVisible = false
@@ -370,7 +400,10 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
         buttonRevision: Boolean,
         buttonCompleted: Boolean,
         buttonRateOrder: Boolean,
-        extendTime: Boolean
+        extendTime: Boolean,
+        btnlate:Boolean
+
+
     ) {
         cardViewDeliveryNote.isVisible = deliveryNote
         btnResubmitOrder.isVisible = btnResubmit
@@ -380,6 +413,7 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
         btnCompleted.isVisible = buttonCompleted
         btnRateOrder.isVisible = buttonRateOrder
         btnExtendTime.isVisible = extendTime
+        btnLate.isVisible=btnlate
     }
 
     private fun checkRating(): Boolean {

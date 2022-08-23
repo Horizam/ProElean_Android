@@ -1,25 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="@dimen/_4sdp"
-    android:layout_marginTop="@dimen/_5sdp"
+    android:layout_marginHorizontal="@dimen/_2sdp"
+    android:layout_marginTop="@dimen/_3sdp"
     app:cardCornerRadius="@dimen/_5sdp"
     app:cardElevation="0dp">
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_rowWeight="1"
+        android:layout_columnWeight="1"
+        android:layout_margin="5dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="6dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bg_shape_rectangle">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/iv_main"
             android:layout_width="@dimen/_100sdp"
-            android:layout_height="0dp"
+            android:layout_height="@dimen/_90sdp"
+            android:layout_marginStart="@dimen/_5sdp"
             android:scaleType="centerCrop"
             android:src="@drawable/bg_splash"
+
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -71,7 +81,7 @@
             android:maxLines="2"
             android:text="@string/str_title"
             android:textColor="@color/colorBlack"
-            android:textSize="@dimen/_12ssp"
+            android:textSize="@dimen/_10ssp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/iv_main"
@@ -83,10 +93,10 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_5sdp"
             android:ellipsize="end"
-            android:maxLines="10"
+            android:maxLines="2"
             android:text="@string/str_description"
             android:textColor="@color/colorBlack"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_8ssp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/iv_main"
             app:layout_constraintTop_toBottomOf="@id/tv_title_gig" />
@@ -108,25 +118,25 @@
             app:layout_constraintStart_toEndOf="@id/iv_main"
             app:layout_constraintTop_toBottomOf="@id/tv_description_gig" />
 
-<!--        <ImageView-->
-<!--            android:id="@+id/iv_favorite"-->
-<!--            android:layout_width="@dimen/_25sdp"-->
-<!--            android:layout_height="@dimen/_25sdp"-->
-<!--            android:layout_marginTop="@dimen/_5sdp"-->
-<!--            android:layout_marginEnd="@dimen/_10sdp"-->
-<!--            android:src="@drawable/ic_not_liked"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent" />-->
-        <CheckBox
+        <ImageView
             android:id="@+id/iv_favorite"
             android:layout_width="@dimen/_25sdp"
             android:layout_height="@dimen/_25sdp"
             android:layout_marginTop="@dimen/_5sdp"
             android:layout_marginEnd="@dimen/_10sdp"
-            app:useMaterialThemeColors="false"
-            android:button="@drawable/selector_wishlist"
+            android:src="@drawable/ic_not_liked"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+<!--        <CheckBox-->
+<!--            android:id="@+id/iv_favorite"-->
+<!--            android:layout_width="@dimen/_25sdp"-->
+<!--            android:layout_height="@dimen/_25sdp"-->
+<!--            android:layout_marginTop="@dimen/_5sdp"-->
+<!--            android:layout_marginEnd="@dimen/_10sdp"-->
+<!--            app:useMaterialThemeColors="false"-->
+<!--            android:button="@drawable/selector_wishlist"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
 
         <TextView
             android:id="@+id/tv_price"
@@ -152,5 +162,6 @@
             app:layout_constraintTop_toBottomOf="@id/tv_description_gig" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 
 </com.google.android.material.card.MaterialCardView>

@@ -309,7 +309,6 @@
                 app:timeBgSize="40dp"
                 app:timeTextColor="@color/colorWhite"
                 app:timeTextSize="22sp" />
-
             <Button
                 android:id="@+id/btn_extend_time"
                 style="@style/New.TextButton"
@@ -321,7 +320,6 @@
                 android:elevation="0dp"
                 android:text="@string/str_extend_time"
                 android:textColor="@color/colorWhite"
-                app:layout_constraintBottom_toTopOf="@id/btn_revision"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/countdown_timer"
@@ -345,6 +343,23 @@
                 app:layout_constraintTop_toBottomOf="@id/btn_extend_time"
                 app:layout_constraintVertical_bias="1"
                 app:layout_constraintVertical_chainStyle="packed" />
+            <Button
+                android:id="@+id/btn_late"
+                style="@style/New.TextButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_20sdp"
+                android:backgroundTint="@color/colorButtons"
+                android:elevation="0dp"
+                android:text="Late"
+                android:textColor="@color/colorWhite"
+                app:layout_constraintBottom_toTopOf="@id/btn_completed"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btn_extend_time"
+                app:layout_constraintVertical_bias="1"
+                app:layout_constraintVertical_chainStyle="packed" />
+
 
             <Button
                 android:id="@+id/btn_revision"

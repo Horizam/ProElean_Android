@@ -61,14 +61,14 @@
 
         <ImageView
             android:id="@+id/ivHeartGigsUser"
-            android:layout_width="@dimen/_20sdp"
-            android:layout_height="@dimen/_20sdp"
-            android:contentDescription="@string/content_description"
-            android:src="@drawable/ic_not_liked"
+            android:layout_width="20dp"
+            android:layout_height="17dp"
             android:layout_marginTop="@dimen/_5sdp"
             android:layout_marginEnd="@dimen/_10sdp"
+            android:contentDescription="@string/content_description"
+            android:src="@drawable/ic_not_liked"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
 
         <TextView

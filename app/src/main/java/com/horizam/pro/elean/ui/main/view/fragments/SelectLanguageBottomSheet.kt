@@ -30,7 +30,7 @@ class SelectLanguageBottomSheet : BottomSheetDialogFragment() ,LanguageChangeLis
 
         initViews()
         setRecyclerView()
-            // loadData()
+        // loadData()
         // setOnClickListener()
         // setRadioGroupListener()
 
@@ -53,6 +53,46 @@ class SelectLanguageBottomSheet : BottomSheetDialogFragment() ,LanguageChangeLis
     override fun onLanguageChange() {
         startActivity(Intent(requireContext(), SplashActivity::class.java))
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //
 //    private fun loadData() {

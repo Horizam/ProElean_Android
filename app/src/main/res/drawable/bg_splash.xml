@@ -4,6 +4,7 @@
     <item android:drawable="@color/colorPrimary"/>
     <item>
         <bitmap
+
             android:gravity="center"
             android:src="@drawable/img_logo_transparent"/>
     </item>

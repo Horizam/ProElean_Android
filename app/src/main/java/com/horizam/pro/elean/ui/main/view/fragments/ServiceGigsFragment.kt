@@ -124,13 +124,13 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
     }
 
     private fun executeApi() {
-        if (from == Constants.NORMAL_FLOW) {
-            if (viewModel.sellers.value == null) {
-                viewModel.getServicesBySubCategories(args.id)
+//        if (from == Constants.NORMAL_FLOW) {
+        if(from==prefManager.sellerMode)
+        {
+        if (viewModel.sellers.value == null) {
+            viewModel.getServicesBySubCategories(args.id)
             }
-        } else {
-            binding.autoCompleteTextView.setText(args.query)
-//            exeSearch()
+//
         }
     }
 

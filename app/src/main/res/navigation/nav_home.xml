@@ -163,7 +163,6 @@
             android:name="query"
             android:defaultValue=""
             app:argType="string" />
-
         <action
             android:id="@+id/action_serviceGigsFragment_to_gigDetailsFragment"
             app:destination="@id/gigDetailsFragment" />
@@ -183,6 +182,9 @@
         <action
             android:id="@+id/action_gigDetailsFragment_to_messagesFragment"
             app:destination="@id/messagesFragment" />
+        <action
+            android:id="@+id/action_gigDetailsFragment_to_serviceGigsFragment"
+            app:destination="@id/serviceGigsFragment" />
     </fragment>
 
     <fragment

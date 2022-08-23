@@ -4,7 +4,6 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -49,10 +48,8 @@ class GigsAdapter(
                 val position = bindingAdapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     val item = getItem(position)
-                    //val item = fetchItem()
                     if (item != null) {
                         listener.onItemClick(item)
-                        //  savedGigsHandler.onItemClick(item)
 
                     }
 
@@ -90,44 +87,30 @@ class GigsAdapter(
 
         fun bind(serviceDetail: ServiceDetail) {
             binding.apply {
-               ivShare.setOnClickListener {
-                   val intent = Intent(Intent.ACTION_SEND)
-                   intent.setType("text/plain")
-                   intent.putExtra(Intent.EXTRA_SUBJECT,"Pro elean")
-                   intent.putExtra(Intent.EXTRA_TEXT,"${Constants.dex_Url}gig-detail/${serviceDetail.id}")
-                   itemView.context.startActivity(intent)
+                ivShare.setOnClickListener {
+                    val intent = Intent(Intent.ACTION_SEND)
+                    intent.setType("text/plain")
+                    intent.putExtra(Intent.EXTRA_SUBJECT,"Pro elean")
+                    intent.putExtra(Intent.EXTRA_TEXT,"${Constants.dex_Url}gig-detail/${serviceDetail.id}")
+                    itemView.context.startActivity(intent)
 
 
-               }
+                }
                 tvTitleGig.text = serviceDetail.s_description
                 tvDescriptionGig.text = serviceDetail.description
                 tvPrice.text = "${serviceDetail.price}${Constants.CURRENCY}"
                 ratingGig.rating = serviceDetail.service_rating.toFloat()
                 totalNumberOfRating.text = "(${serviceDetail.total_reviews})"
-
-                binding.ivFavorite.setOnCheckedChangeListener { checkbox, isChecked ->
-                    run {
-                        if (serviceDetail.favourite == 1) {
-                           if(isChecked)
-                           {
-
-                           }
-                        }
-                        else{
-
-                        }
-                    }
+                val imageResource: Int=if (serviceDetail.favourite == 1) {
+                    R.drawable.ic_liked
                 }
-//                val imageResource: Int=if (serviceDetail.favourite == 1) {
-//                    R.drawable.ic_liked
-//
-//                }
-//                else{
-//                    R.drawable.ic_not_liked
-//                }
-
+                else
+                {
+                    R.drawable.ic_not_liked
+                }
                 if (serviceDetail.service_media.size > 0) {
                     setImage("${Constants.BASE_URL}${serviceDetail.service_media[0].media}", ivMain)
+                    setImage(imageResource,ivFavorite)
 
                 }
 

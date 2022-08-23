@@ -5,22 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true">
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/main_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="invisible"
             tools:visibility="visible">
-
             <include
                 android:id="@+id/toolbar"
                 layout="@layout/toolbar_layout" />
-
             <com.glide.slider.library.SliderLayout
                 android:id="@+id/img_slider"
                 android:layout_width="match_parent"
@@ -126,7 +122,7 @@
                 android:layout_marginHorizontal="@dimen/_7sdp"
                 android:layout_marginTop="@dimen/_7sdp"
                 android:ellipsize="end"
-                android:maxLines="1"
+                android:maxLines="2"
                 tools:text="@string/service_as_described"
                 android:textColor="@color/colorBlack"
                 android:textSize="@dimen/_14ssp"

@@ -112,7 +112,7 @@ class GigsUserFragment : Fragment(), OnItemClickListener, FavouriteHandler,
     }
 
     private fun setupObservers() {
-        viewModel.userServices.observe(viewLifecycleOwner, {
+        viewModel.userServices.observe(viewLifecycleOwner) {
             it?.let { resource ->
                 when (resource.status) {
                     Status.SUCCESS -> {
@@ -130,7 +130,7 @@ class GigsUserFragment : Fragment(), OnItemClickListener, FavouriteHandler,
                     }
                 }
             }
-        })
+        }
     }
 
     private fun handleResponse(servicesResponse: ServicesResponse) {

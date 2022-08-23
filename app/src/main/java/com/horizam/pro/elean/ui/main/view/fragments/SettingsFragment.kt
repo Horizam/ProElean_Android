@@ -82,7 +82,7 @@ class SettingsFragment : Fragment() {
             showSelectCurrencyBottomSheet(currencyList)
         }
         binding.tvSelectLanguage.setOnClickListener {
-            val languageList = languageAndCurrencyResponse.languageAndCurrencyData.languages.apply {
+           languageAndCurrencyResponse.languageAndCurrencyData.languages.apply {
                 showSelectLanguageBottomSheet(this)
             }
         }
