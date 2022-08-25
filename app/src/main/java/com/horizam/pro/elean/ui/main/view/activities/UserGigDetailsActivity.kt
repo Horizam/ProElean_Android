@@ -155,9 +155,9 @@ class UserGigDetailsActivity : AppCompatActivity(), GenericHandler,
     }
 
     private fun setClickListeners() {
-        binding.toolbar.ivToolbar.setOnClickListener {
-            finish()
-        }
+//        binding.toolbar.givToolbar.setOnClickListener {
+//            finish()
+//        }
         binding.btnRetry.setOnClickListener {
             executeApi()
         }

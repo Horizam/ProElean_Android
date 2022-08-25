@@ -33,6 +33,8 @@ import com.horizam.pro.elean.ui.main.adapter.ReviewsAdapter
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
 import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
 import com.horizam.pro.elean.ui.main.viewmodel.GigDetailsViewModel
+import com.horizam.pro.elean.ui.main.viewmodel.ServiceGigsViewModel
+import com.horizam.pro.elean.utils.PrefManager
 import java.lang.Exception
 
 
@@ -42,11 +44,13 @@ class ServiceDetailsFragment : Fragment(), BaseSliderView.OnSliderClickListener,
     private lateinit var binding: FragmentServiceDetailsBinding
     private lateinit var viewModel: GigDetailsViewModel
     private lateinit var genericHandler: GenericHandler
+    private lateinit var view:ServiceGigsViewModel
     private lateinit var glideSliderLayout: SliderLayout
     private lateinit var requestOptions: RequestOptions
     private val args: ServiceDetailsFragmentArgs by navArgs()
     private var service: ServiceDetail? = null
     private lateinit var adapter: ReviewsAdapter
+    private lateinit var prefManager: PrefManager
     private lateinit var recyclerView: RecyclerView
 
     override fun onAttach(context: Context) {
@@ -124,6 +128,7 @@ class ServiceDetailsFragment : Fragment(), BaseSliderView.OnSliderClickListener,
         binding.apply {
             toolbar.ivToolbar.setOnClickListener {
                 findNavController().popBackStack()
+
             }
             btnEditService.setOnClickListener {
                 service?.let {

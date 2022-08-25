@@ -39,6 +39,7 @@ import java.lang.Exception
 
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView.OnEditorActionListener
+import androidx.recyclerview.widget.GridLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.Gson
 import com.horizam.pro.elean.data.model.response.ServiceDetail
@@ -120,12 +121,13 @@ class HomeFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefre
         mAuth = FirebaseAuth.getInstance()
         adapterServices = ServicesAdapter(this)
         adapterGigs = HomeGigsAdapter(this)
-        sliderView = binding.imageSlider
+      //  sliderView = binding.imageSlider
         sliderAdapter = SliderAdapter(this)
         swipeRefreshLayout = binding.swipeRefresh
         swipeRefreshLayout.setOnRefreshListener(this)
         binding.toolbar.ivSecond.setImageResource(R.drawable.ic_notifications)
         binding.toolbar.ivSecond.visibility = View.VISIBLE
+        binding.mainLayout.isVisible =true
         binding.toolbar.rlNoOfNotification.visibility = View.VISIBLE
         binding.toolbar.ivSale.visibility = View.GONE
         binding.toolbar.rlNoOfNotification.visibility = View.GONE
@@ -140,16 +142,17 @@ class HomeFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefre
 
     private fun gigsRecyclerview() {
         binding.rvFeaturedGigs.apply {
-            layoutManager =
-                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            val gridLayoutManager = GridLayoutManager(requireContext(), 1)
+            layoutManager=gridLayoutManager
             adapter = adapterGigs
         }
     }
 
     private fun serviceRecyclerview() {
         binding.rvServiceCategories.apply {
-            layoutManager =
-                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+//            setHasFixedSize(true)
+            val gridLayoutManager = GridLayoutManager(requireContext(), 1)
+            layoutManager=gridLayoutManager
             adapter = adapterServices
         }
     }
@@ -194,7 +197,7 @@ class HomeFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefre
     }
 
     private fun setupObservers() {
-        viewModel.homeData.observe(viewLifecycleOwner, {
+        viewModel.homeData.observe(viewLifecycleOwner) {
             it?.let { resource ->
                 when (resource.status) {
                     Status.SUCCESS -> {
@@ -215,7 +218,7 @@ class HomeFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefre
                     }
                 }
             }
-        })
+        }
     }
 
     private fun changeViewVisibility(textView: Boolean, button: Boolean, layout: Boolean) {

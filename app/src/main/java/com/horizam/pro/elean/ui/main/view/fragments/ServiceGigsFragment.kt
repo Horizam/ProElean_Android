@@ -44,6 +44,7 @@ import com.horizam.pro.elean.utils.BaseUtils.Companion.hideKeyboard
 import com.horizam.pro.elean.utils.PrefManager
 import com.horizam.pro.elean.utils.Resource
 import com.horizam.pro.elean.utils.Status
+import kotlinx.android.synthetic.main.item_gigs.*
 
 
 class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
@@ -67,16 +68,12 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
     private var delayCheck = 0
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        genericHandler = context as GenericHandler
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setupViewModel()
-        setupFavoritesObservers()
-    }
+//
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//        setupViewModel()
+//        setupFavoritesObservers()
+//    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -84,14 +81,26 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
     ): View {
         binding = FragmentServiceGigsBinding.inflate(layoutInflater, container, false)
         initViews()
+        setupViewModel()
+        setupFavoritesObservers()
 //        setupViewModel()
         setupObservers()
         setRecyclerview()
         setSearchFieldsListener()
         setOnClickListeners()
-        executeApi()
+//        execuexeteApi()
         return binding.root
     }
+    override fun onResume() {
+        super.onResume()
+        executeApi()
+    }
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        genericHandler = context as GenericHandler
+    }
+
+
 
     private fun setSearchFieldsListener() {
         binding.autoCompleteTextView.addTextChangedListener(object : TextWatcher {
@@ -99,7 +108,7 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                searchManagement()
+                executeApi()
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -126,13 +135,13 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
     private fun executeApi() {
 //        if (from == Constants.NORMAL_FLOW) {
         if(from==prefManager.sellerMode)
-        {
-        if (viewModel.sellers.value == null) {
-            viewModel.getServicesBySubCategories(args.id)
-            }
+            {
+                if (viewModel.sellers.value == null) {
+                    viewModel.getServicesBySubCategories(args.id)
+                }
 //
+            }
         }
-    }
 
     override fun onRefresh() {
         if (swipeRefreshLayout.isRefreshing) {
@@ -185,22 +194,29 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
                     spinnerPriceModel.value.contains("+") -> {
                         filter = "price>"
                         filterValue = spinnerPriceModel.filterValue
-                        if (from == 1) {
+                        if (from == 0) {
+                           executeApi()
+                        }
+                        else
+                        {
                             searchManagement()
                         }
                     }
                     else -> {
-                        filter = "price"
+                        filter = "price>"
                         filterValue = spinnerPriceModel.filterValue
-                        if (from == 1) {
-                            searchManagement()
+                        if (from == 0) {
+                           executeApi()
+                        }
+                        else
+                        {
+                                searchManagement()
+                            }
                         }
                     }
                 }
             }
         }
-    }
-
     override fun onNothingSelected(parent: AdapterView<*>?) {
 
     }
@@ -249,6 +265,7 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
             btnSearch.setOnClickListener {
                 from = 1
                 hideKeyboard()
+                //executeApi()
                 exeSearch()
             }
         }
@@ -284,8 +301,9 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
     }
 
     private fun setupFavoritesObservers() {
-        viewModel.makeFavourite.observe(this, makeFavouriteObserver)
+        viewModel.makeFavourite.observe(viewLifecycleOwner, makeFavouriteObserver)
     }
+
 
     private val makeFavouriteObserver = Observer<Resource<GeneralResponse>> {
         it?.let { resource ->
@@ -294,8 +312,6 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
                     genericHandler.showProgressBar(false)
                     if (from == Constants.NORMAL_FLOW) {
                         viewModel.getServicesBySubCategories(args.id)
-                    } else {
-                        exeSearch()
                     }
                 }
                 Status.ERROR -> {

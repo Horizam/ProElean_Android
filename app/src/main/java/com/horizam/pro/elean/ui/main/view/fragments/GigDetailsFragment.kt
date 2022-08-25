@@ -38,8 +38,10 @@ import com.google.gson.Gson
 import com.horizam.pro.elean.data.model.MessageGig
 import com.horizam.pro.elean.data.model.response.ServiceDetail
 import com.horizam.pro.elean.data.model.response.Subcategory
+import com.horizam.pro.elean.ui.main.adapter.GigsAdapter
 import com.horizam.pro.elean.ui.main.adapter.ReviewsAdapter
 import com.horizam.pro.elean.ui.main.view.activities.AuthenticationActivity
+import com.horizam.pro.elean.ui.main.viewmodel.ServiceGigsViewModel
 import com.horizam.pro.elean.utils.PrefManager
 
 
@@ -53,14 +55,20 @@ class GigDetailsFragment : Fragment(), OnItemClickListener,
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewModel: GigDetailsViewModel
     private lateinit var genericHandler: GenericHandler
+    private lateinit var adapterr: GigsAdapter
+    private var from: Int = 0
     private lateinit var glideSliderLayout: SliderLayout
     private lateinit var requestOptions: RequestOptions
     private lateinit var deliveryDaysList: ArrayList<String>
     private lateinit var prefManager: PrefManager
+    private lateinit var viewModell: ServiceGigsViewModel
     private var gig: ServiceDetail? = null
+    private lateinit var serviceGigsFragment:ServiceGigsFragment
     private val args: GigDetailsFragmentArgs by navArgs()
+    private val argss: ServiceGigsFragmentArgs by navArgs()
     private var userId: String = ""
     private val bundle = Bundle()
+
 
 
     override fun onAttach(context: Context) {
@@ -89,10 +97,18 @@ class GigDetailsFragment : Fragment(), OnItemClickListener,
 //        viewModel.addClickGigs(serviceDetail.id)
         setData(serviceDetail)
     }
-
+        private fun ecxecuteApi() {
+            if (from == 0) {
+                if (viewModell.sellers.value == null) {
+                    viewModell.getServicesBySubCategories(argss.id)
+                }
+//
+            }
+        }
     private fun initViews() {
         prefManager = PrefManager(requireContext())
         deliveryDaysList = ArrayList()
+        serviceGigsFragment= ServiceGigsFragment()
         adapter = ReviewsAdapter(this)
         recyclerView = binding.rvReviews
         requestOptions = RequestOptions().centerCrop()
@@ -110,6 +126,7 @@ class GigDetailsFragment : Fragment(), OnItemClickListener,
         }
     }
 
+
     private fun setRecyclerview() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.addItemDecoration(
@@ -123,8 +140,7 @@ class GigDetailsFragment : Fragment(), OnItemClickListener,
 
     private fun setOnClickListeners() {
         binding.toolbar.ivToolbar.setOnClickListener {
-
-            navController.popBackStack()
+            findNavController().popBackStack()
         }
         binding.ivUser.setOnClickListener {
 //            if (userId == "") {

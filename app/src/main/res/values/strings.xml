@@ -347,4 +347,7 @@
     <string name="str_referral">Suosituskoodin on oltava numeerinen</string>
     <string name="str_late_order">Late Order</string>
     <string name="str_late_submission">Late Submission</string>
+    <string name="str_find_the_perfect_freelance">Find The Perfect Freelance.</string>
+    <string name="str_explore_the_market">Explore the marketplace</string>
+    <string name="str_top_picks_for_you">Top picks for you</string>
 </resources>

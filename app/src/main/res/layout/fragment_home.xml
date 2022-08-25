@@ -10,101 +10,146 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true">
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/main_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/main_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/bg"
+                android:background="@color/colorWhite"
                 android:clickable="true"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:visibility="invisible"
                 tools:visibility="visible">
-
-                <include
-                    android:id="@+id/toolbar"
-                    layout="@layout/toolbar_layout" />
-
                 <EditText
                     android:id="@+id/autoComplete_text_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/_10sdp"
-                    android:background="@color/colorGrey"
+                    android:background="@drawable/search_item"
                     android:drawableStart="@drawable/ic_search"
                     android:drawablePadding="@dimen/_5sdp"
+                    android:elevation="@dimen/_300sdp"
                     android:hint="@string/str_what_are_you_looking_for"
                     android:imeOptions="actionSearch"
                     android:inputType="text"
                     android:maxLines="1"
                     android:padding="@dimen/_7sdp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/toolbar" />
+                    app:layout_constraintBottom_toBottomOf="@+id/bg_pic"
+                    app:layout_constraintEnd_toEndOf="@+id/bg_pic"
+                    app:layout_constraintStart_toStartOf="@+id/bg_pic"
+                    app:layout_constraintTop_toTopOf="@+id/tv_des" />
+                <include
+                    android:id="@+id/toolbar"
+                    layout="@layout/toolbar_layout" />
 
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/bg_pic"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_450sdp"
+                    app:layout_constraintTop_toBottomOf="@id/toolbar"
+                    android:background="@drawable/img_banner"
+                    tools:ignore="MissingConstraints">
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_450sdp"
+                        android:background="#A6000000"
+                                                />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+                <TextView
+                    android:id="@+id/tv_title"
+                    android:layout_width="@dimen/_200sdp"
+                    android:layout_height="wrap_content"
+                    android:maxLines="5"
+                    android:padding="@dimen/_15ssp"
+                    android:layout_marginStart="@dimen/_5ssp"
+                    android:layout_margin="@dimen/_10sdp"
+                    android:text="@string/str_find_the_perfect_freelance"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/_25ssp"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/poppins_bold"
+                    app:layout_constraintTop_toBottomOf="@id/toolbar"
+                    tools:ignore="MissingConstraints" />
+
+                <TextView
+                    android:id="@+id/tv_des"
+                    android:layout_width="@dimen/_300sdp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="220dp"
+                    android:fontFamily="sans-serif-light"
+                    android:maxLines="5"
+                    android:padding="@dimen/_15ssp"
+                    android:textStyle="bold"
+                    android:text="The eFreelancers in Pro eLean work fast and reliably. Inspired with projects made by our eFreelancers. "
+                    android:textColor="#e7e9e2"
+                    android:textSize="@dimen/_15ssp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="MissingConstraints" />
                 <TextView
                     android:id="@+id/tv_service_categories"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/_10sdp"
-                    android:text="@string/str_service_categories"
+                    android:text="@string/str_explore_the_market"
                     android:textColor="@color/colorBlack"
-                    android:textSize="@dimen/_12ssp"
+                    android:textSize="@dimen/_14ssp"
+                    android:fontFamily="@font/poppins_bold"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toTopOf="@id/rv_service_categories"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/autoComplete_text_view" />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/bg_pic" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_service_categories"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_110sdp"
-                    android:layout_marginStart="@dimen/_7sdp"
-                    android:layout_marginTop="@dimen/_7sdp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_3sdp"
                     android:layoutAnimation="@anim/layout_animation_slide_right"
                     android:visibility="visible"
+                    android:orientation="vertical"
                     app:layout_constrainedHeight="true"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    android:nestedScrollingEnabled="false"
                     app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:listitem="@layout/item_services_and_gigs"
                     app:layout_constraintTop_toBottomOf="@id/tv_service_categories" />
 
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/cv_ads"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_margin="@dimen/_10sdp"
-                    app:cardCornerRadius="@dimen/_4sdp"
-                    app:cardElevation="@dimen/_10sdp"
-                    app:layout_constraintBottom_toTopOf="@id/tv_featured_gigs"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/rv_service_categories">
-                    <com.smarteist.autoimageslider.SliderView
-                        android:id="@+id/imageSlider"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:sliderAnimationDuration="600"
-                        app:sliderAutoCycleDirection="back_and_forth"
-                        app:sliderAutoCycleEnabled="true"
-                        app:sliderIndicatorAnimationDuration="600"
-                        app:sliderIndicatorEnabled="false"
-                        app:sliderIndicatorGravity="center_horizontal|bottom"
-                        app:sliderIndicatorMargin="@dimen/_10sdp"
-                        app:sliderIndicatorOrientation="horizontal"
-                        app:sliderIndicatorPadding="@dimen/_2sdp"
-                        app:sliderIndicatorRadius="@dimen/_1sdp"
-                        app:sliderIndicatorSelectedColor="#5A5A5A"
-                        app:sliderIndicatorUnselectedColor="#FFF"
-                        app:sliderScrollTimeInSec="1"
-                        app:sliderStartAutoCycle="true" />
+<!--                <com.google.android.material.card.MaterialCardView-->
+<!--                    android:id="@+id/cv_ads"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="0dp"-->
+<!--                    android:layout_margin="@dimen/_10sdp"-->
+<!--                    app:cardCornerRadius="@dimen/_4sdp"-->
+<!--                    app:cardElevation="@dimen/_10sdp"-->
+<!--                    app:layout_constraintBottom_toTopOf="@id/tv_featured_gigs"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintTop_toBottomOf="@id/rv_service_categories">-->
+<!--&lt;!&ndash;                    <com.smarteist.autoimageslider.SliderView&ndash;&gt;-->
+<!--&lt;!&ndash;                        android:id="@+id/imageSlider"&ndash;&gt;-->
+<!--&lt;!&ndash;                        android:layout_width="match_parent"&ndash;&gt;-->
+<!--&lt;!&ndash;                        android:layout_height="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;                        app:sliderAnimationDuration="600"&ndash;&gt;-->
+<!--&lt;!&ndash;                        app:sliderAutoCycleDirection="back_and_forth"&ndash;&gt;-->
+<!--&lt;!&ndash;                        app:sliderAutoCycleEnabled="true"&ndash;&gt;-->
+<!--&lt;!&ndash;                        app:sliderIndicatorAnimationDuration="600"&ndash;&gt;-->
+<!--&lt;!&ndash;                        app:sliderIndicatorEnabled="false"&ndash;&gt;-->
+<!--&lt;!&ndash;                        app:sliderIndicatorGravity="center_horizontal|bottom"&ndash;&gt;-->
+<!--&lt;!&ndash;                        app:sliderIndicatorMargin="@dimen/_10sdp"&ndash;&gt;-->
+<!--&lt;!&ndash;                        app:sliderIndicatorOrientation="horizontal"&ndash;&gt;-->
+<!--&lt;!&ndash;                        app:sliderIndicatorPadding="@dimen/_2sdp"&ndash;&gt;-->
+<!--&lt;!&ndash;                        app:sliderIndicatorRadius="@dimen/_1sdp"&ndash;&gt;-->
+<!--&lt;!&ndash;                        app:sliderIndicatorSelectedColor="#5A5A5A"&ndash;&gt;-->
+<!--&lt;!&ndash;                        app:sliderIndicatorUnselectedColor="#FFF"&ndash;&gt;-->
+<!--&lt;!&ndash;                        app:sliderScrollTimeInSec="1"&ndash;&gt;-->
+<!--&lt;!&ndash;                        app:sliderStartAutoCycle="true" />&ndash;&gt;-->
 
-                </com.google.android.material.card.MaterialCardView>
+<!--                </com.google.android.material.card.MaterialCardView>-->
 
                 <TextView
                     android:id="@+id/tv_placeholder_ads"
@@ -113,37 +158,38 @@
                     android:elevation="@dimen/_10sdp"
                     android:text="@string/str_no_data_available"
                     android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="@id/cv_ads"
-                    app:layout_constraintEnd_toEndOf="@id/cv_ads"
-                    app:layout_constraintStart_toStartOf="@id/cv_ads"
-                    app:layout_constraintTop_toTopOf="@id/cv_ads" />
+                    app:layout_constraintBottom_toBottomOf="@id/rv_featured_gigs"
+                    app:layout_constraintEnd_toEndOf="@id/rv_featured_gigs"
+                    app:layout_constraintStart_toStartOf="@id/rv_featured_gigs"
+                    app:layout_constraintTop_toTopOf="@id/rv_featured_gigs" />
 
                 <TextView
                     android:id="@+id/tv_featured_gigs"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
                     android:layout_marginHorizontal="@dimen/_10sdp"
-                    android:text="@string/str_featured_gigs"
+                    android:text="@string/str_top_picks_for_you"
                     android:textColor="@color/colorBlack"
-                    android:textSize="@dimen/_12ssp"
+                    android:fontFamily="@font/poppins_bold"
+                    android:textSize="@dimen/_14ssp"
                     android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toTopOf="@id/rv_featured_gigs"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/cv_ads" />
+                    app:layout_constraintTop_toBottomOf="@id/rv_service_categories" />
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_featured_gigs"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_110sdp"
-                    android:layout_marginStart="@dimen/_7sdp"
-                    android:layout_marginTop="@dimen/_7sdp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_3sdp"
                     android:layoutAnimation="@anim/layout_animation_slide_right"
-                    android:orientation="horizontal"
+                    android:orientation="vertical"
                     android:visibility="visible"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constrainedHeight="true"
                     app:layout_constraintBottom_toTopOf="@id/view_bottom"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_featured_gigs"
                     tools:listitem="@layout/item_services_and_gigs" />

@@ -20,7 +20,7 @@ class Constants {
         const val USER_ID = "userId"
         const val USER_IMAGE = "userImage"
         const val IS_FREELANCER = "isFreelancer"
-        const val SELLER_MODE = "seller_mode"
+        var SELLER_MODE = "seller_mode"
         const val USER_NAME = "userName"
         const val LOCATION_KEY = "locationKey"
         const val SPLASH_DISPLAY_LENGTH = 2000
@@ -31,7 +31,7 @@ class Constants {
         const val REQUEST_CODE = 1211
         const val RESULT_CODE = 1212
         const val LOADING_ITEM = 0
-        const val NORMAL_FLOW = 0
+        var NORMAL_FLOW = 0
         const val DATA_ITEM = 1
         const val STARTING_PAGE_INDEX = 1
         const val STARTING_ARRAY_INDEX = 0

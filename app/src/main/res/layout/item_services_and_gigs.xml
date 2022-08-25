@@ -1,23 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/_2sdp"
-    android:layout_marginEnd="@dimen/_7sdp"
-    app:cardBackgroundColor="@android:color/transparent"
-    app:strokeColor="@color/colorAccent"
-    app:strokeWidth="@dimen/_1sdp">
+    android:layout_marginHorizontal="@dimen/_2sdp"
+    android:layout_marginTop="@dimen/_7sdp"
+  android:layout_marginStart="@dimen/_6sdp"
+    app:cardCornerRadius="@dimen/_5sdp"
+    app:cardElevation="0dp">
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_rowWeight="1"
+        android:layout_columnWeight="1"
+        android:layout_margin="5dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="6dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/container"
-        android:layout_width="@dimen/_100sdp"
-        android:layout_height="wrap_content">
+        android:layout_width="@dimen/_280sdp"
+        android:layout_height="@dimen/_130sdp">
 
         <ImageView
             android:id="@+id/ivService"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_80sdp"
+            android:layout_height="@dimen/_100sdp"
             android:contentDescription="@string/content_description"
             android:scaleType="centerCrop"
             android:src="@drawable/bg_splash"
@@ -28,19 +38,20 @@
         <TextView
             android:id="@+id/tvServiceName"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorGrey"
+            android:layout_height="0dp"
+            android:background="@color/bg_primary"
             android:ellipsize="end"
             android:gravity="center"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_12ssp"
             android:maxLines="1"
             android:padding="@dimen/_3sdp"
             android:text="@string/service_name"
+            android:fontFamily="sans-serif-condensed-medium"
             android:textColor="@color/colorBlack"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/ivService"
             app:layout_constraintBottom_toBottomOf="parent"/>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 </com.google.android.material.card.MaterialCardView>

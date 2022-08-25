@@ -21,7 +21,7 @@ data class ServiceDetail(
     @SerializedName("s_description") val s_description: String,
     @SerializedName("description") val description: String,
     @SerializedName("price") val price: Double,
-    @SerializedName("favourite") val favourite: Int,
+    @SerializedName("favourite") var favourite: Int,
     @SerializedName("service_rating") val service_rating: Int,
     @SerializedName("lat") val lat: Double,
     @SerializedName("lng") val lng: Double,
