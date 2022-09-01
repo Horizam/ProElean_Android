@@ -31,7 +31,6 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
-import com.horizam.pro.elean.App
 import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.api.ApiHelper
@@ -58,7 +57,6 @@ import com.horizam.pro.elean.ui.main.callbacks.*
 import com.horizam.pro.elean.ui.main.viewmodel.FirebaseNotificationRequest
 import com.horizam.pro.elean.ui.main.viewmodel.NotificationMessage
 import com.horizam.pro.elean.utils.*
-import kotlinx.android.synthetic.main.item_review.*
 
 class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, CheckoutHandler {
 

@@ -21,7 +21,6 @@ import com.horizam.pro.elean.utils.BaseUtils
 import com.horizam.pro.elean.utils.BaseUtils.Companion.hideKeyboard
 import com.horizam.pro.elean.utils.Status
 import com.horizam.pro.elean.utils.Validator
-import kotlinx.android.synthetic.main.fragment_sign_up.*
 
 
 class SignUpFragment : Fragment() {

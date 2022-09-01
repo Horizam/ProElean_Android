@@ -24,7 +24,7 @@ data class Order(
     @SerializedName("orderNo") val orderNo : String,
     @SerializedName("is_rated") val is_rated : Int,
     @SerializedName("type") val type : String,
-    @SerializedName("status_id") val status_id : Int,
+    @SerializedName("status") val status : Int,
     @SerializedName("watch") val watch : String,
     @SerializedName("notes") val notes : String,
     @SerializedName("started") val started : Int,
@@ -33,5 +33,5 @@ data class Order(
     @SerializedName("delivery_time") val delivery_time : String,
     @SerializedName("delivery_note") val delivery_note : String,
     @SerializedName("delivered_file") val delivered_file : String,
-    @SerializedName("revision") val revision : Int
-)
+    @SerializedName("revision") val revision : Int,
+    @SerializedName("has_pending_extension_request") val pending_req : Int)

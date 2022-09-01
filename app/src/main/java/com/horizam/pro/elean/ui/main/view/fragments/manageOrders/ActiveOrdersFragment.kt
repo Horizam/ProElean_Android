@@ -67,7 +67,6 @@ class ActiveOrdersFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout
     private fun exeApi() {
         viewModel.getBuyerOrdersCall(BuyerOrders.Active)
     }
-
     private fun initViews() {
         adapter = ActiveOrdersAdapter(this)
         recyclerView = binding.rvOrders

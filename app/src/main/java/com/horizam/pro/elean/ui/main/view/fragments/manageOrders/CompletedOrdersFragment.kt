@@ -67,7 +67,6 @@ class CompletedOrdersFragment : Fragment(), OnItemClickListener, SwipeRefreshLay
     private fun exeApi() {
         viewModel.getBuyerOrdersCall(BuyerOrders.Completed)
     }
-
     private fun initViews() {
         adapter = CompletedOrdersAdapter(this)
         recyclerView = binding.rvOrders

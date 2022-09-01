@@ -1,7 +1,5 @@
 package com.horizam.pro.elean.ui.main.view.activities
 
-import android.graphics.Color
-import android.graphics.Typeface
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -22,7 +20,6 @@ import com.horizam.pro.elean.R
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
-import kotlinx.android.synthetic.main.simple_spinner_dropdown_item.*
 
 
 @Suppress("DEPRECATION")

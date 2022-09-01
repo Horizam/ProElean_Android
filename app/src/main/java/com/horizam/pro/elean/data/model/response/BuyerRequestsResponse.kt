@@ -25,3 +25,6 @@ data class BuyerRequest(
     @SerializedName("created_at") val created_at : String,
     @SerializedName("user") val user : Profile
 )
+data class request(
+    @SerializedName("description"      ) var description     : String?                 = null,
+)

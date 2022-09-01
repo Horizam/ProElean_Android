@@ -4,6 +4,7 @@ import android.R
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.media.MediaScannerConnection
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
@@ -164,10 +165,10 @@ class BaseUtils {
         }
 
         fun utcToLocal(dateString: String): String {
-            val df = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)
+            var df=SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.getDefault())
             df.timeZone = TimeZone.getTimeZone("UTC")
-            val date = df.parse(dateString)
             df.timeZone = TimeZone.getDefault()
+            val date = df.parse(dateString)
             return df.format(date!!)
         }
 

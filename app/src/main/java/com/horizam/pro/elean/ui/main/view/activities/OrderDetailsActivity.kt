@@ -25,7 +25,8 @@ import com.horizam.pro.elean.ui.main.viewmodel.SellerOrdersViewModel
 import com.horizam.pro.elean.utils.PrefManager
 import com.horizam.pro.elean.utils.Status
 
-class OrderDetailsActivity : AppCompatActivity(), GenericHandler {
+class
+OrderDetailsActivity : AppCompatActivity(), GenericHandler {
 
     private lateinit var binding: ActivityOrderDetailsBinding
     private lateinit var listFragmentTitles:ArrayList<String>
@@ -44,7 +45,6 @@ class OrderDetailsActivity : AppCompatActivity(), GenericHandler {
         setupObservers()
         setClickListeners()
     }
-
     private fun setupObservers() {
         viewModel.orderByID.observe(this, {
             it?.let { resource ->
@@ -140,7 +140,7 @@ class OrderDetailsActivity : AppCompatActivity(), GenericHandler {
         }
         val pair: Pair<Int, Int> = Pair(
             userRole,
-            order.status_id
+            order.status
         )
         viewPagerFragmentAdapter =
             ViewPagerOrderDetailsAdapter(this, listFragmentTitles, order, pair)

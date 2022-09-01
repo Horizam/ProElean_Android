@@ -5,40 +5,36 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.horizam.pro.elean.BuyerOrders
 import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
+import com.horizam.pro.elean.SellerOrders
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
+import com.horizam.pro.elean.data.model.BuyerActionRequestMultipart
+import com.horizam.pro.elean.data.model.requests.*
 import com.horizam.pro.elean.data.model.response.GeneralResponse
 import com.horizam.pro.elean.data.model.response.Order
 import com.horizam.pro.elean.databinding.FragmentOrderDetailsBinding
 import com.horizam.pro.elean.ui.base.ViewModelFactory
+import com.horizam.pro.elean.ui.main.callbacks.*
+import com.horizam.pro.elean.ui.main.view.activities.HomeActivity
 import com.horizam.pro.elean.ui.main.viewmodel.SellerOrdersViewModel
+import com.horizam.pro.elean.utils.BaseUtils
 import com.horizam.pro.elean.utils.PrefManager
 import com.horizam.pro.elean.utils.Status
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.horizam.pro.elean.SellerOrders
-import com.horizam.pro.elean.data.model.requests.ExtendDeliveryTimeModel
-import com.horizam.pro.elean.data.model.requests.RatingOrderRequest
-import com.horizam.pro.elean.data.model.requests.SellerActionRequestMultipart
-import com.horizam.pro.elean.ui.main.callbacks.*
-import com.horizam.pro.elean.utils.BaseUtils
-import kotlinx.android.synthetic.main.fragment_gig_details.view.*
-import kotlinx.android.synthetic.main.fragment_order_details.*
+import kotlinx.android.synthetic.main.fragment_description_bottom_sheet.*
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
 import java.util.*
-import kotlin.collections.HashMap
-import kotlin.time.hours
 
 
 class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int, Int>) :
@@ -59,7 +55,7 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         binding = FragmentOrderDetailsBinding.inflate(layoutInflater, container, false)
         initViews()
@@ -68,6 +64,44 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
         setupObservers()
         setOnClickListeners()
         return binding.root
+    }
+
+    private fun executeApi(code: String, description: String) {
+        genericHandler.showProgressBar(true)
+        val request = BuyerActionRequestMultipart(
+            description = description
+        )
+
+        viewModel.buyerActionsCall(order.id, request)
+    }
+
+    private fun executeCancelDisputeApi(code: String) {
+        genericHandler.showProgressBar(true)
+
+        viewModel.cancelRequest(order.id)
+    }
+    private fun executeRejectDisputeApi(code: String) {
+        genericHandler.showProgressBar(true)
+        viewModel. rejectDisputeRequest(order.id)
+    }
+
+
+    private fun executeCompleteApi(code: String, description: String) {
+        genericHandler.showProgressBar(true)
+        val request = BuyerActionRequestMultipart(
+            description = description
+        )
+
+        viewModel.buyerCompleteActions(order.id, request)
+    }
+
+    private fun executeExtendedApi(code: String, description: String,extended_days:String) {
+        genericHandler.showProgressBar(true)
+        val request = ExtendDeliveryTimeModel(
+            description = description,
+            extended_delivery_days = extended_days
+        )
+        viewModel.requestExtendTime(order.id, request)
     }
 
     private fun initViews() {
@@ -88,7 +122,7 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                     tvBuyer.text = order.username
                     tvBuyer.isVisible = true
                     tvBuyerTitle.isVisible = true
-                    btnDispute.text = getString(R.string.str_request_buyer_to_cancel)
+                    btnDispute.text = "REQUEST BUYER TO CANCEL ORDER"
                 } else {
                     tvSeller.text = order.username
                     tvSeller.isVisible = true
@@ -114,7 +148,7 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                     }
                 }
             } catch (e: Exception) {
-                genericHandler.showErrorMessage(e.message.toString())
+                genericHandler.showSuccessMessage(e.message.toString())
                 changeViewsVisibility(
                     deliveryNote = false,
                     btnResubmit = false,
@@ -125,16 +159,13 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                     buttonRateOrder = false,
                     extendTime = false,
                     btnlate = false
-
                 )
             }
         }
     }
-
     private fun revisionAvailable(): Boolean {
         return order.revision > 0
     }
-
     private fun setSellerData(pair: Pair<Int, Int>) {
         binding.apply {
             when (pair.second) {
@@ -161,15 +192,14 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                         buttonDispute = true,
                         buttonProceedDispute = false,
                         buttonRevision = false,
-                        buttonCompleted = false,
+                        buttonCompleted = true,
                         buttonRateOrder = false,
                         extendTime = false,
                         btnlate = false
-
                     )
                     startTimer()
                     binding.countdownTimer.isVisible = false
-                    btnCompleted.text="late order"
+                    btnCompleted.text = "late order"
                 }
                 SellerOrders.Delivered -> {
                     changeViewsVisibility(
@@ -220,7 +250,7 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                         buttonCompleted = false,
                         buttonRateOrder = false,
                         extendTime = false,
-                    btnlate = false
+                        btnlate = false
                     )
                 }
                 SellerOrders.Disputed -> {
@@ -246,7 +276,7 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                             buttonProceedDispute = true,
                             buttonRevision = false,
                             buttonCompleted = false,
-                            buttonRateOrder = false,
+                            buttonRateOrder = false ,
                             extendTime = false,
                             btnlate = false
                         )
@@ -263,7 +293,6 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
         val endTime = BaseUtils.getMillisecondsFromUtc(order.end_date)
         val remainingTime = endTime.minus(startTime)
         binding.countdownTimer.start(remainingTime)
-
     }
 
     private fun setBuyerData(pair: Pair<Int, Int>) {
@@ -280,7 +309,6 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                         buttonRateOrder = false,
                         extendTime = false,
                         btnlate = false
-
                     )
                     startTimer()
                     binding.countdownTimer.isVisible = true
@@ -288,32 +316,30 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                 BuyerOrders.Late -> {
                     changeViewsVisibility(
                         deliveryNote = false,
-                        btnResubmit = true,
-                        buttonDispute = false,
+                        btnResubmit = false,
+                        buttonDispute = true,
                         buttonProceedDispute = false,
                         buttonRevision = false,
                         buttonCompleted = false,
                         buttonRateOrder = false,
                         extendTime = false,
-                        btnlate = true
-
+                        btnlate = false
 
                     )
                     startTimer()
-                    binding.countdownTimer.isVisible =false
-                    btnCompleted.text="late order"
+                    binding.countdownTimer.isVisible = true
                 }
                 BuyerOrders.Delivered -> {
                     changeViewsVisibility(
-                        deliveryNote = false,
+                        deliveryNote = true,
                         btnResubmit = false,
                         buttonDispute = true,
                         buttonProceedDispute = false,
-                        buttonRevision = revisionAvailable(),
+                        buttonRevision = true,
                         buttonCompleted = true,
                         buttonRateOrder = false,
                         extendTime = false,
-                        btnlate = true
+                        btnlate = false
 
                     )
                 }
@@ -327,7 +353,7 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                         buttonCompleted = true,
                         buttonRateOrder = false,
                         extendTime = false,
-                        btnlate = true
+                        btnlate = false
                     )
                 }
                 BuyerOrders.Completed -> {
@@ -338,9 +364,9 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                         buttonProceedDispute = false,
                         buttonRevision = false,
                         buttonCompleted = false,
-                        buttonRateOrder = checkRating(),
                         extendTime = false,
-                        btnlate = false
+                        btnlate = false,
+                        buttonRateOrder = checkRating()
                     )
                 }
                 BuyerOrders.Cancel -> {
@@ -382,7 +408,6 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                             buttonRateOrder = false,
                             extendTime = false,
                             btnlate = false
-
                         )
                         btnAgree.isVisible = true
                         btnCancelRequest.isVisible = false
@@ -400,10 +425,8 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
         buttonRevision: Boolean,
         buttonCompleted: Boolean,
         buttonRateOrder: Boolean,
-        extendTime: Boolean,
+        extendTime:Boolean,
         btnlate:Boolean
-
-
     ) {
         cardViewDeliveryNote.isVisible = deliveryNote
         btnResubmitOrder.isVisible = btnResubmit
@@ -421,36 +444,28 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
     }
 
     private fun setOnClickListeners() {
-        /*binding.toolbar.ivToolbar.setOnClickListener {
-            navController.popBackStack()
-        }*/
         binding.apply {
             btnCompleted.setOnClickListener {
                 when (pair.first) {
                     Constants.BUYER_USER -> {
-                        // Completed order
-                        val hashMap: HashMap<String, Any> = HashMap()
-                        hashMap["order_no"] = order.orderNo
-                        hashMap["type"] = 4
-                        viewModel.buyerActionsCall(hashMap)
-                    }
-                    Constants.SELLER_USER -> {
-                        // deliver your work
-                        val deliverFileBottomSheetFragment =
-                            DeliverFileBottomSheetFragment(this@OrderDetailsFragment)
-                        deliverFileBottomSheetFragment.show(
+                        //Complete order
+                        val descriptionBottomSheet = DescriptionBottomSheet(
+                            this@OrderDetailsFragment,
+                            Constants.BUYER_USER,
+                            4
+                        )
+                        descriptionBottomSheet.show(
                             requireActivity().supportFragmentManager,
                             ""
                         )
                     }
-                }
-            }
-            btnExtendTime.setOnClickListener {
-                when (pair.first) {
                     Constants.SELLER_USER -> {
-                        val descriptionBottomSheet =
-                            ExtendDeliveryTimeBottomSheetFragment(this@OrderDetailsFragment)
-                        descriptionBottomSheet.show(
+                        // deliver your work
+                        val deliverFileBottomSheetFragment =
+                            DeliverFileBottomSheetFragment(
+                                this@OrderDetailsFragment
+                            )
+                        deliverFileBottomSheetFragment.show(
                             requireActivity().supportFragmentManager,
                             ""
                         )
@@ -478,6 +493,21 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                             Constants.SELLER_USER,
                             5
                         )
+                        descriptionBottomSheet.show(
+                            requireActivity().supportFragmentManager,
+                            ""
+                        )
+                    }
+                }
+            }
+            btnExtendTime.setOnClickListener {
+                when (pair.first) {
+                    Constants.SELLER_USER -> {
+                        val descriptionBottomSheet =
+                            ExtendDeliveryTimeBottomSheetFragment(this@OrderDetailsFragment,
+                        Constants.SELLER_USER,
+                                5
+                                )
                         descriptionBottomSheet.show(
                             requireActivity().supportFragmentManager,
                             ""
@@ -522,13 +552,15 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                         val hashMap: HashMap<String, Any> = HashMap()
                         hashMap["order_no"] = order.orderNo
                         hashMap["type"] = 9
-                        viewModel.buyerActionsCall(hashMap)
+//                         viewModel.buyerActionsCall(hashMap)
+                        executeCancelDisputeApi(order.id)
                     }
                     Constants.SELLER_USER -> {
                         val hashMap: HashMap<String, Any> = HashMap()
                         hashMap["order_no"] = order.orderNo
                         hashMap["type"] = 9
-                        viewModel.sellerActionsCall(hashMap)
+                        viewModel.AcceptDisputeRequest(order.id)
+
                     }
                 }
             }
@@ -537,13 +569,13 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                     Constants.BUYER_USER -> {
                         val hashMap: HashMap<String, Any> = HashMap()
                         hashMap["order_no"] = order.orderNo
-                        hashMap["type"] = 8
-                        viewModel.buyerActionsCall(hashMap)
+                        hashMap["type"] = 6
+                        executeCancelDisputeApi(order.id)
                     }
                     Constants.SELLER_USER -> {
                         val hashMap: HashMap<String, Any> = HashMap()
                         hashMap["order_no"] = order.orderNo
-                        hashMap["type"] = 8
+                        hashMap["type"] = 6
                         viewModel.sellerActionsCall(hashMap)
                     }
                 }
@@ -565,35 +597,35 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                 }
             }
             btnProceedWithSupport.setOnClickListener {
-                openWebUrl("https://api.dex.proelean.com/help-support")
+                executeRejectDisputeApi(order.id)
             }
             tvDownload.setOnClickListener {
                 when (pair.first) {
                     Constants.BUYER_USER -> {
                         // Download source code
-                        genericHandler.showErrorMessage("Coming soon")
+                        genericHandler.showSuccessMessage("Coming soon")
                     }
                     Constants.SELLER_USER -> {
 
                     }
                 }
             }
-//            tvSeller.setOnClickListener {
-//                Intent(requireActivity(), HomeActivity::class.java).also {
-//                    it.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-//                    it.putExtra("startChat", 0)
-//                    it.putExtra("id", order.seller_id)
-//                    startActivity(it)
-//                }
-//            }
-//            tvBuyer.setOnClickListener {
-//                Intent(requireActivity(), HomeActivity::class.java).also {
-//                    it.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-//                    it.putExtra("startChat", 0)
-//                    it.putExtra("id", order.buyer_id)
-//                    startActivity(it)
-//                }
-//            }
+            tvSeller.setOnClickListener {
+                Intent(requireActivity(), HomeActivity::class.java).also {
+                    it.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    it.putExtra("startChat", 0)
+                    it.putExtra("id", order.seller_id)
+                    startActivity(it)
+                }
+            }
+            tvBuyer.setOnClickListener {
+                Intent(requireActivity(), HomeActivity::class.java).also {
+                    it.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    it.putExtra("startChat", 0)
+                    it.putExtra("id", order.buyer_id)
+                    startActivity(it)
+                }
+            }
         }
     }
 
@@ -610,7 +642,7 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
     }
 
     private fun setupObservers() {
-        viewModel.sellerActions.observe(viewLifecycleOwner, {
+        viewModel.sellerActions.observe(viewLifecycleOwner) {
             it?.let { resource ->
                 when (resource.status) {
                     Status.SUCCESS -> {
@@ -628,8 +660,26 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                     }
                 }
             }
-        })
-
+        }
+        viewModel.extendTime.observe(viewLifecycleOwner) {
+            it?.let { resource ->
+                when (resource.status) {
+                    Status.SUCCESS -> {
+                        genericHandler.showProgressBar(false)
+                        resource.data?.let { response ->
+                            handleResponse(response)
+                        }
+                    }
+                    Status.ERROR -> {
+                        genericHandler.showProgressBar(false)
+                        genericHandler.showErrorMessage(it.message.toString())
+                    }
+                    Status.LOADING -> {
+                        genericHandler.showProgressBar(true)
+                    }
+                }
+            }
+        }
         viewModel.sellerActionWithFile.observe(viewLifecycleOwner) {
             it?.let { resource ->
                 when (resource.status) {
@@ -650,7 +700,7 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
             }
         }
 
-        viewModel.buyerActions.observe(viewLifecycleOwner, {
+        viewModel.User.observe(viewLifecycleOwner) {
             it?.let { resource ->
                 when (resource.status) {
                     Status.SUCCESS -> {
@@ -668,9 +718,86 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                     }
                 }
             }
-        })
+        }
+        viewModel.buyerComplete.observe(viewLifecycleOwner) {
+            it?.let { resource ->
+                when (resource.status) {
+                    Status.SUCCESS -> {
+                        genericHandler.showProgressBar(false)
+                        resource.data?.let { response ->
+                            handleResponse(response)
+                        }
+                    }
+                    Status.ERROR -> {
+                        genericHandler.showProgressBar(false)
+                        genericHandler.showErrorMessage(it.message.toString())
+                    }
+                    Status.LOADING -> {
+                        genericHandler.showProgressBar(true)
+                    }
+                }
+            }
+        }
+//        }
+        viewModel.buyerCancelDispute.observe(viewLifecycleOwner) {
+            it?.let { resource ->
+                when (resource.status) {
+                    Status.SUCCESS -> {
+                        genericHandler.showProgressBar(false)
+                        resource.data?.let { response ->
+                            handleResponse(response)
+                        }
+                    }
+                    Status.ERROR -> {
+                        genericHandler.showProgressBar(false)
+                        genericHandler.showErrorMessage(it.message.toString())
+                    }
+                    Status.LOADING -> {
+                        genericHandler.showProgressBar(true)
+                    }
+                }
+            }
+        }
+        viewModel.rejectDispute.observe(viewLifecycleOwner) {
+            it?.let { resource ->
+                when (resource.status) {
+                    Status.SUCCESS -> {
+                        genericHandler.showProgressBar(false)
+                        resource.data?.let { response ->
+                            handleResponse(response)
+                        }
+                    }
+                    Status.ERROR -> {
+                        genericHandler.showProgressBar(false)
+                        genericHandler.showErrorMessage(it.message.toString())
+                    }
+                    Status.LOADING -> {
+                        genericHandler.showProgressBar(true)
+                    }
+                }
+            }
+        }
+        viewModel.acceptDispute.observe(viewLifecycleOwner) {
+            it?.let { resource ->
+                when (resource.status) {
+                    Status.SUCCESS -> {
+                        genericHandler.showProgressBar(false)
+                        resource.data?.let { response ->
+                            handleResponse(response)
+                        }
+                    }
+                    Status.ERROR -> {
+                        genericHandler.showProgressBar(false)
+                        genericHandler.showErrorMessage(it.message.toString())
+                    }
+                    Status.LOADING -> {
+                        genericHandler.showProgressBar(true)
+                    }
+                }
+            }
+        }
 
-        viewModel.ratingOrder.observe(viewLifecycleOwner, {
+        viewModel.ratingOrder.observe(viewLifecycleOwner) {
             it?.let { resource ->
                 when (resource.status) {
                     Status.SUCCESS -> {
@@ -688,35 +815,17 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                     }
                 }
             }
-        })
-
-        viewModel.extendTime.observe(viewLifecycleOwner, {
-            it?.let { resource ->
-                when (resource.status) {
-                    Status.SUCCESS -> {
-                        genericHandler.showProgressBar(false)
-                        resource.data?.let { response ->
-                            handleResponse(response)
-                        }
-                    }
-                    Status.ERROR -> {
-                        genericHandler.showProgressBar(false)
-                        genericHandler.showErrorMessage(it.message.toString())
-                    }
-                    Status.LOADING -> {
-                        genericHandler.showProgressBar(true)
-                    }
-                }
-            }
-        })
+        }
     }
 
     private fun handleResponse(response: GeneralResponse) {
         try {
             genericHandler.showSuccessMessage(response.message)
-            requireActivity().apply {
-                setResult(Activity.RESULT_OK)
-                finish()
+            if (response.status == Constants.STATUS_OK) {
+                requireActivity().apply {
+                    setResult(Activity.RESULT_OK)
+                    finish()
+                }
             }
         } catch (e: java.lang.Exception) {
             genericHandler.showErrorMessage(e.message.toString())
@@ -739,15 +848,16 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
         lifecycleScope.launch {
             val orderNumber = BaseUtils.createRequestBodyFromString(order.orderNo)
             val typeUser = BaseUtils.createRequestBodyFromString("2")
-            val deliveryNote = BaseUtils.createRequestBodyFromString(description)
+            val deliveryNote = description
             val image: MultipartBody.Part = BaseUtils.compressAndCreateImageData(
                 filePath,
                 "delivered_file",
                 requireContext()
             )
 
-            val request = SellerActionRequestMultipart(orderNumber, typeUser, deliveryNote, image)
-            viewModel.sellerActionsCallWithFile(request)
+            val request = SellerActionRequestMultipart(
+                description, image, typeUser, orderNumber)
+            viewModel.sellerActionsCallWithFile(order.id, request)
         }
     }
 
@@ -758,37 +868,33 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
             rating = rating,
             description = description
         )
-        viewModel.ratingOrderCall(request)
+        viewModel.ratingOrderCall(order.id, request)
     }
 
     override fun getDescription(description: String, userType: Int, type: Int) {
         val hashMap: HashMap<String, Any> = HashMap()
+        val request = BuyerActionRequestMultipart(
+            description = description)
+        var refferal = order.id
         if (userType == Constants.BUYER_USER) {
-            if (type == 3) {
-                hashMap["revision_description"] = description
+            if (type == 5) {
+                hashMap["description"] = description
                 hashMap["order_no"] = order.orderNo
                 hashMap["type"] = type
-                viewModel.buyerActionsCall(hashMap)
-
-            } else {
-                hashMap["dispute_description"] = description
-                hashMap["order_no"] = order.orderNo
-                hashMap["type"] = type
-                viewModel.buyerActionsCall(hashMap)
-            }
-        } else if (userType == Constants.SELLER_USER) {
-            hashMap["order_no"] = order.orderNo
-            hashMap["type"] = type
-            hashMap["dispute_description"] = description
-            viewModel.sellerActionsCall(hashMap)
+                executeApi(order.id, request.description)
+            } else
+                executeCompleteApi(order.id, request.description)
         }
     }
-
-    override fun extendDeliveryTime(selectedDays: String, description: String) {
-        var extendDeliveryTimeModel = ExtendDeliveryTimeModel()
-        extendDeliveryTimeModel.order_id = order.id
-        extendDeliveryTimeModel.extended_delivery_days = "2days"
-        extendDeliveryTimeModel.description = description
-        viewModel.requestExtendTime(extendDeliveryTimeModel)
+    override fun extendDeliveryTime(selectedDays: String, description: String, userType: Int, status: Int) {
+        val hashMap: HashMap<String, Any> = HashMap()
+        val request = ExtendDeliveryTimeModel(
+            description = description, extended_delivery_days = selectedDays
+        )
+        hashMap["description"] = description
+        hashMap["order_no"] = order.orderNo
+        hashMap["type"] = status
+        hashMap["extended_delivery_days"]=selectedDays
+        executeExtendedApi(order.id,request.description,request.extended_delivery_days)
     }
 }

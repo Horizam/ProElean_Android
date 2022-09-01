@@ -1,6 +1,8 @@
 package com.horizam.pro.elean.data.api
 
+import androidx.lifecycle.MutableLiveData
 import com.horizam.pro.elean.data.model.AnalyticModel
+import com.horizam.pro.elean.data.model.BuyerActionRequestMultipart
 import com.horizam.pro.elean.data.model.requests.*
 import com.horizam.pro.elean.data.model.response.*
 import com.horizam.pro.elean.ui.main.viewmodel.FirebaseNotificationRequest
@@ -19,6 +21,29 @@ interface ApiService {
         @Body request: RegisterRequest,
         @Query("referal_code") referralCode: String
     ): RegisterResponse
+    //create and cancel dispute
+    @POST("buyer/orders/:{order_id}/cancel_and_create_dispute")
+    suspend fun buyerActions(
+        @Path("order_id") orderId:String,
+        @Body request: BuyerActionRequestMultipart):
+            GeneralResponse
+    //cancelDispute
+    @POST("buyer/orders/:{order_id}/cancel_request")
+    suspend fun cancelDispute(
+        @Path ("order_id") orderId: String):GeneralResponse
+    //Reject_Dispute
+    @POST("seller/orders/:{order_id}/reject_dispute")
+    suspend fun rejectDispute(
+        @Path ("order_id") orderId: String):GeneralResponse
+    //Accept_Dispute
+    @POST("seller/orders/:{order_id}/accept_dispute")
+    suspend fun acceptDispute(
+        @Path ("order_id") orderId: String):GeneralResponse
+    //Completed
+    @POST("buyer/orders/:{order_id}/completed")
+    suspend fun buyerCompleted(
+        @Path ("order_id") orderId: String,
+        @Body request: BuyerActionRequestMultipart):GeneralResponse
 
     @POST("login")
     suspend fun loginUser(@Body request: LoginRequest): LoginResponse
@@ -202,19 +227,12 @@ interface ApiService {
         @FieldMap sellerHashMap: HashMap<String, Any>
     ): GeneralResponse
 
-    @FormUrlEncoded
-    @POST("buyer/manage_order")
-    suspend fun buyerActions(
-        @FieldMap buyerHashMap: HashMap<String, Any>
-    ): GeneralResponse
-
     @Multipart
-    @POST("seller/manage_order")
+    @POST("seller/orders/:{order_id}/deliver_order")
     suspend fun sellerActionsWithFile(
-        @Part("order_no") orderNumber: RequestBody,
-        @Part("type") typeUser: RequestBody,
-        @Part("delivery_note") deliveryNote: RequestBody,
-        @Part image: MultipartBody.Part?,
+        @Path("order_id") order_id:String,
+        @Part("description") deliveryNote:String ,
+        @Part image: MultipartBody.Part,
     ): GeneralResponse
 
     @DELETE("buyer/jobs/{id}")
@@ -242,8 +260,10 @@ interface ApiService {
     @DELETE("seller/cancel_offer/{uid}")
     suspend fun cancelBuyerRequests(@Path("uid") uid: String): GeneralResponse
 
-    @POST("buyer/manage_order")
-    suspend fun ratingOrder(@Body request: RatingOrderRequest): GeneralResponse
+    @POST("buyer/orders/:{order_id}/review")
+    suspend fun ratingOrder(
+        @Path ("order_id") orderId: String,
+        @Body request: RatingOrderRequest): GeneralResponse
 
     @POST("update_password")
     suspend fun changePassword(@Body request: ChangePasswordRequest): GeneralResponse
@@ -251,8 +271,10 @@ interface ApiService {
     @GET("get_order/{id}")
     suspend fun orderByID(@Path("id") orderId: Int): Order
 
-    @POST("seller/extend_order")
-    suspend fun extendTime(@Body orderId: ExtendDeliveryTimeModel): GeneralResponse
+    @POST("seller/orders/:{order_id}/extend_order_request")
+    suspend fun extendTime(
+        @Path ("order_id") orderId: String,
+        @Body request: ExtendDeliveryTimeModel): GeneralResponse
 
     @POST("sendNotifications")
     suspend fun sendFirebaseNotification(

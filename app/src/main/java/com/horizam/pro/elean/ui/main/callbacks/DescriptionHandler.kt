@@ -1,5 +1,5 @@
 package com.horizam.pro.elean.ui.main.callbacks
 
 interface DescriptionHandler {
-    fun getDescription(description: String , userType: Int , type: Int)
+    fun getDescription(description: String , userType: Int , status: Int)
 }

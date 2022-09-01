@@ -5,6 +5,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.liveData
 import com.google.firebase.firestore.Query
 import com.horizam.pro.elean.data.api.ApiHelper
+import com.horizam.pro.elean.data.model.BuyerActionRequestMultipart
 import com.horizam.pro.elean.data.model.requests.*
 import com.horizam.pro.elean.data.pagingsource.*
 import com.horizam.pro.elean.ui.main.viewmodel.FirebaseNotificationRequest
@@ -13,7 +14,12 @@ class MainRepository(private val apiHelper: ApiHelper) {
 
     suspend fun registerUser(request: RegisterRequest, referralCode: String) =
         apiHelper.registerUser(request, referralCode)
-
+    suspend fun buyerAction(order_id: String,request: BuyerActionRequestMultipart)=
+        apiHelper.buyerAction(order_id,request)
+    suspend fun buyerCancelDispute(order_id: String)=apiHelper.buyerCancelDispute(order_id)
+    suspend fun sellerRejectDispute(order_id: String)=apiHelper.sellerRejectDispute(order_id)
+    suspend fun sellerAccepttDispute(order_id: String)=apiHelper.sellerAcceptDispute(order_id)
+    suspend fun buyerCompleted(order_id: String, request: BuyerActionRequestMultipart)=apiHelper.buyerCompleted(order_id,request)
     suspend fun loginUser(request: LoginRequest) = apiHelper.loginUser(request)
     suspend fun addAccountDetail(request: BankDetail) = apiHelper.addAccountDetail(request)
     suspend fun getAccountDetail() = apiHelper.getAccountDetail()
@@ -31,12 +37,8 @@ class MainRepository(private val apiHelper: ApiHelper) {
     suspend fun sellerActions(sellerHashMap: HashMap<String, Any>) =
         apiHelper.sellerActions(sellerHashMap)
 
-    suspend fun sellerActionsWithFile(request: SellerActionRequestMultipart) =
-        apiHelper.sellerActionsWithFile(request)
-
-    suspend fun buyerActions(buyerHashMap: HashMap<String, Any>) =
-        apiHelper.buyerActions(buyerHashMap)
-
+    suspend fun sellerActionsWithFile(order_id:String,request: SellerActionRequestMultipart) =
+        apiHelper.sellerActionsWithFile(order_id,request)
     suspend fun orderTimeline(request: OrderTimelineRequest) = apiHelper.orderTimeline(request)
     suspend fun storeUserInfo(request: StoreUserInfoRequest) = apiHelper.storeUserInfo(request)
     suspend fun addRemoveWishlist(request: FavouriteRequest) = apiHelper.addRemoveWishlist(request)
@@ -73,12 +75,12 @@ class MainRepository(private val apiHelper: ApiHelper) {
     suspend fun sendNotification(notificationRequest: FirebaseNotificationRequest) =
         apiHelper.sendNotification(notificationRequest)
 
-    suspend fun ratingOrder(request: RatingOrderRequest) = apiHelper.ratingOrder(request)
+    suspend fun ratingOrder(order_id: String,request: RatingOrderRequest) = apiHelper.ratingOrder(order_id,request)
     suspend fun changePassword(changePasswordRequest: ChangePasswordRequest) =
         apiHelper.changePassword(changePasswordRequest)
 
     suspend fun orderByID(request: Int) = apiHelper.orderByID(request)
-    suspend fun extendTime(request: ExtendDeliveryTimeModel) = apiHelper.extendTime(request)
+    suspend fun extendTime(order_id: String,request: ExtendDeliveryTimeModel) = apiHelper.extendTime(order_id,request)
 
     suspend fun getSellerData() = apiHelper.getSellerData()
 

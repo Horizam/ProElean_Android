@@ -1,20 +1,22 @@
 package com.horizam.pro.elean.data.api
 
+import com.horizam.pro.elean.data.model.BuyerActionRequestMultipart
 import com.horizam.pro.elean.data.model.requests.*
 import com.horizam.pro.elean.ui.main.viewmodel.FirebaseNotificationRequest
 
 class ApiHelper(private val apiService: ApiService) {
 
-    suspend fun registerUser(request: RegisterRequest, referralCode: String) =
-        apiService.registerUser(request, referralCode)
-
+    suspend fun registerUser(request: RegisterRequest, referralCode: String) = apiService.registerUser(request, referralCode)
+    suspend fun buyerAction(order_id: String,request: BuyerActionRequestMultipart)= apiService.buyerActions(order_id,request)
+    suspend fun buyerCancelDispute(order_id: String)=apiService.cancelDispute(order_id)
+    suspend fun sellerRejectDispute(order_id: String)=apiService.rejectDispute(order_id)
+    suspend fun sellerAcceptDispute(order_id: String)=apiService.acceptDispute(order_id)
+    suspend fun buyerCompleted(order_id: String,request: BuyerActionRequestMultipart)=apiService.buyerCompleted(order_id,request)
     suspend fun loginUser(request: LoginRequest) = apiService.loginUser(request)
     suspend fun addAccountDetail(request: BankDetail) = apiService.addAccountDetail(request)
     suspend fun getAccountDetail() = apiService.getAccountDetail()
     suspend fun forgotPassword(request: ForgotPasswordRequest) = apiService.forgotPassword(request)
-    suspend fun forgotChangePassword(request: ForgetChangePasswordRequest) =
-        apiService.forgotChangePassword(request)
-
+    suspend fun forgotChangePassword(request: ForgetChangePasswordRequest) = apiService.forgotChangePassword(request)
     suspend fun postJob(request: PostJobRequest) = apiService.postJob(request)
     suspend fun acceptOrder(request: AcceptOrderRequest) = apiService.acceptOrder(request)
     suspend fun sendOffer(request: SendOfferRequest) = apiService.sendOffer(request)
@@ -25,16 +27,9 @@ class ApiHelper(private val apiService: ApiService) {
     suspend fun sellerActions(sellerHashMap: HashMap<String, Any>) =
         apiService.sellerActions(sellerHashMap)
 
-    suspend fun sellerActionsWithFile(request: SellerActionRequestMultipart) =
+    suspend fun sellerActionsWithFile(order_id: String,request: SellerActionRequestMultipart) =
         apiService.sellerActionsWithFile(
-            request.orderNumber,
-            request.typeUser,
-            request.deliveryNote,
-            request.image
-        )
-
-    suspend fun buyerActions(buyerHashMap: HashMap<String, Any>) =
-        apiService.buyerActions(buyerHashMap)
+            order_id,request.description,request.image)
 
     suspend fun orderTimeline(request: OrderTimelineRequest) =
         apiService.orderTimeline(request.order_no)
@@ -103,12 +98,12 @@ class ApiHelper(private val apiService: ApiService) {
     suspend fun updateProfile(request: UpdateProfileRequest) =
         apiService.updateProfile(request.partMap, request.image)
 
-    suspend fun ratingOrder(request: RatingOrderRequest) = apiService.ratingOrder(request)
+    suspend fun ratingOrder(order_id: String,request: RatingOrderRequest) = apiService.ratingOrder(order_id,request)
     suspend fun changePassword(changePasswordRequest: ChangePasswordRequest) =
         apiService.changePassword(changePasswordRequest)
 
     suspend fun orderByID(request: Int) = apiService.orderByID(request)
-    suspend fun extendTime(request: ExtendDeliveryTimeModel) = apiService.extendTime(request)
+    suspend fun extendTime(order_id: String,request: ExtendDeliveryTimeModel) = apiService.extendTime(order_id,request)
 
     suspend fun getSellerData() = apiService.getSellerData()
 

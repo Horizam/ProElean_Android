@@ -243,7 +243,7 @@ class SalesFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefr
                 } else {
                     it.putExtra(Constants.ORDER_USER_ROLE, Constants.SELLER_USER)
                 }
-                it.putExtra(Constants.ORDER_USER_ACTION, item.status_id)
+                it.putExtra(Constants.ORDER_USER_ACTION, item.status)
                 resultLauncher.launch(it)
             }
         }

@@ -5,8 +5,8 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 
 data class SellerActionRequestMultipart(
-    val orderNumber: RequestBody,
+    val description: String,
+    val image: MultipartBody.Part,
     val typeUser: RequestBody,
-    val deliveryNote: RequestBody,
-    val image: MultipartBody.Part
+    val orderNumber: RequestBody
 )

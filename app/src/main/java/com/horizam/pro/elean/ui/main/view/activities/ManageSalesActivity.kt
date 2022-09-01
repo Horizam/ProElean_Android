@@ -11,7 +11,6 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.databinding.ActivityManageSalesBinding
-import com.horizam.pro.elean.ui.main.adapter.ViewPagerManageOrdersAdapter
 import com.horizam.pro.elean.ui.main.adapter.ViewPagerManageSalesAdapter
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
 

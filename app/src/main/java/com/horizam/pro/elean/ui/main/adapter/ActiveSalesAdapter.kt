@@ -58,7 +58,7 @@ class ActiveSalesAdapter(val listener: OnItemClickListener) :
                     .load(Constants.BASE_URL.plus(order.image))
                     .error(R.drawable.bg_splash)
                     .into(ivUser)
-                when (order.status_id) {
+                when (order.status) {
                     SellerOrders.Active -> {
                         tvStatus.text = itemView.context.getString(R.string.str_active)
                         tvStatus.setTextColor(

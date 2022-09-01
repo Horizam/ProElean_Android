@@ -10,13 +10,13 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.databinding.FragmentExtendDeliveryTimeBottomSheetBinding
 
-class ExtendDeliveryTimeBottomSheetFragment(var orderDetailsFragment: OrderDetailsFragment) :
+class ExtendDeliveryTimeBottomSheetFragment(var orderDetailsFragment: OrderDetailsFragment,var userType: Int ,var status: Int) :
     BottomSheetDialogFragment(),
     AdapterView.OnItemSelectedListener {
     private lateinit var binding: FragmentExtendDeliveryTimeBottomSheetBinding
     private lateinit var daysAdapter: ArrayAdapter<String>
     private lateinit var daysArrayList: ArrayList<String>
-    private var selectedDays: String = ""
+    private var selectedDays: String = "2day"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,16 +54,16 @@ class ExtendDeliveryTimeBottomSheetFragment(var orderDetailsFragment: OrderDetai
                 dismiss()
                 orderDetailsFragment.extendDeliveryTime(
                     selectedDays,
-                    binding.etDescription.text.toString()
+                    binding.etDescription.text.toString(),
+                    userType,status
                 )
             }
         }
     }
-
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         when (parent!!.id) {
             binding.spinnerDeliveryTime.id -> {
-                selectedDays = daysArrayList[position]
+                selectedDays = parent.selectedItem.toString()
             }
         }
     }
@@ -74,4 +74,5 @@ class ExtendDeliveryTimeBottomSheetFragment(var orderDetailsFragment: OrderDetai
     private fun initComponent() {
         daysArrayList = ArrayList()
     }
+
 }
