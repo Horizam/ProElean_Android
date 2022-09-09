@@ -18,7 +18,7 @@ import com.horizam.pro.elean.databinding.ItemReviewBinding
 import com.horizam.pro.elean.ui.main.callbacks.NotificationsHandler
 import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
 
-class NotificationsAdapter(val listener: NotificationsHandler) :
+class NotificationsAdapter(val listener: OnItemClickListener) :
     ListAdapter<Notification, NotificationsAdapter.DataViewHolder>(COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder {

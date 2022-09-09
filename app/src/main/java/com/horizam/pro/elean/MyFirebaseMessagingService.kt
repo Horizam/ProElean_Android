@@ -41,39 +41,40 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         Log.d(TAG, "Refreshed token: $token")
         sendRegistrationToServer(token)
     }
-
+//
     private fun scheduleJob(remoteMessage: RemoteMessage) {
-        /*val work = OneTimeWorkRequest.Builder(MyWorker::class.java).build()
+    /*val work = OneTimeWorkRequest.Builder(MyWorker::class.java).build()
         WorkManager.getInstance(this).beginWith(work).enqueue()*/
-        val type = remoteMessage.data[Constants.TYPE]
-        if (type == Constants.MESSAGE) {
-            EventBus.getDefault().post(BottomNotification(Constants.MESSAGE))
-            val bundle = Bundle()
-            bundle.putString(
-                Constants.TYPE,
-                remoteMessage.data[Constants.TYPE]
-            )
-            bundle.putString(
-                Constants.MESSAGE,
-                remoteMessage.data[Constants.MESSAGE]
-            )
-            bundle.putString(
-                Constants.SENDER_ID,
-                remoteMessage.data[Constants.SENDER_ID]
-            )
-            val intent = Intent(this, HomeActivity::class.java)
-            intent.putExtras(bundle)
-            val pendingIntent = setPendingIntent(
-                intent
-            )
-            NotificationUtils.showNotification(
-                remoteMessage.data[Constants.SENDER_ID].toString(),
-                applicationContext,
-                remoteMessage.data[Constants.SENDER_NAME].toString(),
-                remoteMessage.data[Constants.MESSAGE].toString(),
-                pendingIntent
-            )
-        } else if (type == Constants.ORDER) {
+    val type = remoteMessage.data[Constants.TYPE]
+    if (type == Constants.MESSAGE) {
+        EventBus.getDefault().post(BottomNotification(Constants.MESSAGE))
+        val bundle = Bundle()
+        bundle.putString(
+            Constants.TYPE,
+            remoteMessage.data[Constants.TYPE]
+        )
+        bundle.putString(
+            Constants.MESSAGE,
+            remoteMessage.data[Constants.MESSAGE]
+        )
+        bundle.putString(
+            Constants.SENDER_ID,
+            remoteMessage.data[Constants.SENDER_ID]
+        )
+        val intent = Intent(this, HomeActivity::class.java)
+        intent.putExtras(bundle)
+        val pendingIntent = setPendingIntent(
+            intent
+        )
+        NotificationUtils.showNotification(
+            remoteMessage.data[Constants.SENDER_ID].toString(),
+            applicationContext,
+            remoteMessage.data[Constants.SENDER_NAME].toString(),
+            remoteMessage.data[Constants.MESSAGE].toString(),
+            pendingIntent
+        )
+    }
+ else if (type == Constants.TYPE_ORDER) {
             EventBus.getDefault().post(BottomNotification(Constants.ORDER))
             //get data from data notification
             val title = remoteMessage.data["subject"]
@@ -90,7 +91,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                 remoteMessage.data[Constants.TYPE]
             )
 
-            val intent = Intent(this, HomeActivity::class.java)
+            val intent = Intent(this, OrderDetailsActivity::class.java)
             intent.putExtras(bundle)
             val pendingIntent = setPendingIntent(
                 intent
@@ -131,8 +132,8 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                 pendingIntent
             )
         }
-    }
-
+//    }
+}
     private fun setPendingIntent(
         intent: Intent,
     ): PendingIntent? {
@@ -143,7 +144,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                 this,
                 Constants.GENERAL_NOTIFICATION_ID,
                 intent,
-                PendingIntent.FLAG_ONE_SHOT
+                PendingIntent.FLAG_UPDATE_CURRENT
             )
         return pendingIntent
     }

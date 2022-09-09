@@ -23,6 +23,9 @@ class SellerOrdersViewModel(
     private val orderByIdRequest = MutableLiveData<Int>()
     private val extendTimeRequest = MutableLiveData<ExtendDeliveryTimeModel>()
     private val cancelRequest=MutableLiveData<String>()
+    private val disageeeRequest=MutableLiveData<String>()
+    private val acceptRequest=MutableLiveData<String>()
+    private val rejectRequest=MutableLiveData<String>()
     private val CompleteRequest=MutableLiveData<BuyerActionRequestMultipart>()
 
     //we used seller hashmap when we send different value that required due to backend issues
@@ -78,7 +81,7 @@ class SellerOrdersViewModel(
             }
         }
     }
-    val buyerCancelDispute = cancelRequest.switchMap {
+    val buyerCancelDispute = disageeeRequest.switchMap {
         liveData(Dispatchers.IO) {
             emit(Resource.loading(data = null))
             try {
@@ -159,6 +162,29 @@ class SellerOrdersViewModel(
         }
     }
 
+    val accept = acceptRequest.switchMap {
+        liveData(Dispatchers.IO) {
+            emit(Resource.loading(data = null))
+            try {
+                emit(Resource.success(data = mainRepository.acceptExtension(order_id)))
+            } catch (exception: Exception) {
+                val errorMessage = BaseUtils.getError(exception)
+                emit(Resource.error(data = null, message = errorMessage))
+            }
+        }
+    }
+    val reject = rejectRequest.switchMap {
+        liveData(Dispatchers.IO) {
+            emit(Resource.loading(data = null))
+            try {
+                emit(Resource.success(data = mainRepository.rejectExtension(order_id)))
+            } catch (exception: Exception) {
+                val errorMessage = BaseUtils.getError(exception)
+                emit(Resource.error(data = null, message = errorMessage))
+            }
+        }
+    }
+
     val extendTime = extendTimeRequest.switchMap {
         liveData(Dispatchers.IO) {
             emit(Resource.loading(data = null))
@@ -189,7 +215,7 @@ class SellerOrdersViewModel(
     fun cancelRequest(id:String)
     {
         order_id=id
-        cancelRequest.value=id
+        disageeeRequest.value=id
     }
     fun rejectDisputeRequest(id:String)
     {
@@ -200,6 +226,16 @@ class SellerOrdersViewModel(
     {
         order_id=id
         cancelRequest.value=id
+    }
+    fun acceptExtensionRequest(id:String)
+    {
+        order_id=id
+        acceptRequest.value=id
+    }
+    fun rejectExtensionRequest(id:String)
+    {
+        order_id=id
+        rejectRequest.value=id
     }
 
 

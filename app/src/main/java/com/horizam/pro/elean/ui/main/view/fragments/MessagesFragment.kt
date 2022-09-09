@@ -902,7 +902,7 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
             message = messageModel.message,
             type = Constants.MESSAGE,
             sender_id = myId,
-            sender_name = myInfo!!.name
+            sender_name = userInfo!!.name
         )
         val firebaseNotification = FirebaseNotificationRequest(
             subject = myInfo!!.name,

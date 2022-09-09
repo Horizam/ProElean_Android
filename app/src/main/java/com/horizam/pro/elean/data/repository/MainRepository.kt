@@ -54,6 +54,7 @@ class MainRepository(private val apiHelper: ApiHelper) {
     suspend fun getPrivacyTerms() = apiHelper.getPrivacyTerms()
     suspend fun getLanguageAndCurrency() = apiHelper.getLanguageAndCurrency()
     suspend fun getNotifications() = apiHelper.getNotifications()
+    suspend fun getNotificationsRead() = apiHelper.getNotificationsRead()
     suspend fun getEarnings() = apiHelper.getEarnings()
     suspend fun withdrawalAmount(amount: Double) = apiHelper.withdrawalAmount(amount)
     suspend fun getSpinnerSubcategories(id: String) = apiHelper.getSpinnerSubcategories(id)
@@ -81,6 +82,8 @@ class MainRepository(private val apiHelper: ApiHelper) {
 
     suspend fun orderByID(request: Int) = apiHelper.orderByID(request)
     suspend fun extendTime(order_id: String,request: ExtendDeliveryTimeModel) = apiHelper.extendTime(order_id,request)
+    suspend fun acceptExtension(order_id: String) = apiHelper.acceptExtension(order_id)
+    suspend fun rejectExtension(order_id: String) = apiHelper.rejectExtension(order_id)
 
     suspend fun getSellerData() = apiHelper.getSellerData()
 

@@ -16,6 +16,7 @@ data class Notification(
     @SerializedName("body") val body : String,
     @SerializedName("name") val name : String,
     @SerializedName("type") val type : String,
+    @SerializedName("viewed") val viewed : Int,
     @SerializedName("content_id") val content_id : String,
     @SerializedName("created_at") val created_at : String
 )

@@ -322,10 +322,9 @@
                 android:textColor="@color/colorWhite"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/countdown_timer"
                 app:layout_constraintVertical_bias="1"
-                app:layout_constraintVertical_chainStyle="packed"
-                android:visibility="gone"/>
+                app:layout_constraintTop_toBottomOf="@id/countdown_timer"
+                app:layout_constraintVertical_chainStyle="packed" />
 
             <Button
                 android:id="@+id/btn_completed"
@@ -340,7 +339,7 @@
                 app:layout_constraintBottom_toTopOf="@id/btn_revision"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/btn_extend_time"
+                app:layout_constraintTop_toBottomOf="@id/countdown_timer"
                 app:layout_constraintVertical_bias="1"
                 app:layout_constraintVertical_chainStyle="packed" />
             <Button
@@ -351,7 +350,7 @@
                 android:layout_marginHorizontal="@dimen/_20sdp"
                 android:backgroundTint="@color/colorButtons"
                 android:elevation="0dp"
-                android:text="Late"
+                android:text="Accept Extension"
                 android:visibility="gone"
                 android:textColor="@color/colorWhite"
                 app:layout_constraintBottom_toTopOf="@id/btn_completed"

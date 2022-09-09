@@ -340,7 +340,7 @@ class UpdateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
 
     private fun setUIData(response: CategoriesCountriesResponse) {
         categoriesArrayList = response.categoriesCountriesData.categories.map { spinnerCategories ->
-            SpinnerModel(id = spinnerCategories.id, value = spinnerCategories.title)
+            SpinnerModel(id = spinnerCategories.id!!, value = spinnerCategories.title!!)
         }
         val selectedCategoryPosition: Int = categoriesArrayList.indexOfFirst {
             it.id == args.serviceDetail.category.id

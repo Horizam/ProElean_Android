@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.core.view.plusAssign
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -16,6 +17,7 @@ import com.horizam.pro.elean.App
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
+import com.horizam.pro.elean.data.model.response.GeneralResponse
 import com.horizam.pro.elean.data.model.response.Notification
 import com.horizam.pro.elean.data.model.response.NotificationsResponse
 import com.horizam.pro.elean.databinding.FragmentNotificationsBinding
@@ -23,22 +25,25 @@ import com.horizam.pro.elean.ui.base.ViewModelFactory
 import com.horizam.pro.elean.ui.main.adapter.NotificationsAdapter
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
 import com.horizam.pro.elean.ui.main.callbacks.NotificationsHandler
+import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
 import com.horizam.pro.elean.ui.main.viewmodel.NotificationsViewModel
 import com.horizam.pro.elean.utils.Status
+import kotlinx.android.synthetic.main.item_manage_service.view.*
 import java.lang.Exception
 
 
-class NotificationsFragment : Fragment(), NotificationsHandler {
+class NotificationsFragment : Fragment(), NotificationsHandler, OnItemClickListener {
 
     private lateinit var binding: FragmentNotificationsBinding
+    private lateinit var homeFragment: HomeFragment
     private lateinit var adapter: NotificationsAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewModel: NotificationsViewModel
     private lateinit var genericHandler: GenericHandler
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
         genericHandler = context as GenericHandler
+
     }
 
     override fun onCreateView(
@@ -46,12 +51,17 @@ class NotificationsFragment : Fragment(), NotificationsHandler {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentNotificationsBinding.inflate(layoutInflater, container, false)
+
+
+
         setToolbarData()
         initViews()
         setupViewModel()
         setupObservers()
+        ReadAdapter()
         setRecyclerView()
         setOnClickListeners()
+
         return binding.root
     }
 
@@ -74,18 +84,19 @@ class NotificationsFragment : Fragment(), NotificationsHandler {
     private fun setOnClickListeners() {
         binding.apply {
             toolbar.ivToolbar.setOnClickListener {
+                viewModel.getNotificationsCall()
                 findNavController().popBackStack()
             }
             btnRetry.setOnClickListener {
                 viewModel.getNotificationsCall()
+                viewModel.getNotificationsReadCall()
             }
         }
     }
-
     private fun setToolbarData() {
         binding.toolbar.ivToolbar.setImageResource(R.drawable.ic_back)
-        binding.toolbar.tvToolbar.text = App.getAppContext()!!.getString(R.string.str_notifications)
-    }
+        binding.toolbar.ivToolbar.visibility=View.VISIBLE
+        binding.toolbar.tvToolbar.text = App.getAppContext()!!.getString(R.string.str_notifications)}
 
     private fun setupViewModel() {
         viewModel = ViewModelProviders.of(
@@ -118,6 +129,31 @@ class NotificationsFragment : Fragment(), NotificationsHandler {
             }
         })
     }
+    private fun ReadAdapter()
+    {
+    viewModel.notificationsRead.observe(viewLifecycleOwner, {
+        it?.let { resource ->
+            when (resource.status) {
+                Status.SUCCESS -> {
+                    genericHandler.showProgressBar(false)
+                    resource.data?.let { response ->
+                        handleResponses(response)
+                        changeViewVisibility(textView = false, button = false, layout = true)
+                    }
+                }
+                Status.ERROR -> {
+                    genericHandler.showProgressBar(false)
+                    genericHandler.showErrorMessage(it.message.toString())
+                    changeViewVisibility(textView = true, button = true, layout = false)
+                }
+                Status.LOADING -> {
+                    genericHandler.showProgressBar(true)
+                    changeViewVisibility(textView = false, button = false, layout = false)
+                }
+            }
+        }
+    })
+}
 
     private fun changeViewVisibility(textView: Boolean, button: Boolean, layout: Boolean) {
         binding.textViewError.isVisible = textView
@@ -128,6 +164,14 @@ class NotificationsFragment : Fragment(), NotificationsHandler {
     private fun handleResponse(response: NotificationsResponse) {
         try {
             setUIData(response.data)
+//
+        } catch (e: Exception) {
+            genericHandler.showErrorMessage(e.message.toString())
+        }
+    }
+    private fun handleResponses(response: GeneralResponse) {
+        try {
+            response.message
         } catch (e: Exception) {
             genericHandler.showErrorMessage(e.message.toString())
         }

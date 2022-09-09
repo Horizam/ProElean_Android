@@ -67,6 +67,7 @@ OrderDetailsActivity : AppCompatActivity(), GenericHandler {
         })
     }
 
+
     private fun setupViewModel() {
         viewModel = ViewModelProviders.of(
             this,

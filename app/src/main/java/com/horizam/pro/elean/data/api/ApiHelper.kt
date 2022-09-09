@@ -46,6 +46,7 @@ class ApiHelper(private val apiService: ApiService) {
     suspend fun getPrivacyTerms() = apiService.getPrivacyTerms()
     suspend fun getLanguageAndCurrency() = apiService.getLanguageAndCurrency()
     suspend fun getNotifications() = apiService.getNotifications()
+    suspend fun getNotificationsRead() = apiService.getNotificationsRead()
     suspend fun getEarnings() = apiService.getEarnings()
     suspend fun withdrawalAmount(amount: Double) = apiService.withdrawalAmount(amount)
     suspend fun getFreelancerProfile(id: String) = apiService.getFreelancerProfile(id)
@@ -104,7 +105,8 @@ class ApiHelper(private val apiService: ApiService) {
 
     suspend fun orderByID(request: Int) = apiService.orderByID(request)
     suspend fun extendTime(order_id: String,request: ExtendDeliveryTimeModel) = apiService.extendTime(order_id,request)
-
+    suspend fun acceptExtension(order_id: String)=apiService.acceptExtension(order_id)
+    suspend fun rejectExtension(order_id: String)=apiService.rejectExtension(order_id)
     suspend fun getSellerData() = apiService.getSellerData()
 
     suspend fun sendNotification(notificationRequest: FirebaseNotificationRequest) =

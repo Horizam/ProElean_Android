@@ -1,5 +1,6 @@
 package com.horizam.pro.elean.ui.main.view.fragments
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -57,7 +58,8 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        binding = FragmentOrderDetailsBinding.inflate(layoutInflater, container, false)
+        binding = FragmentOrderDetailsBinding.inflate(layoutInflater,
+            container, false)
         initViews()
         setData()
         setupViewModel()
@@ -80,11 +82,16 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
 
         viewModel.cancelRequest(order.id)
     }
-    private fun executeRejectDisputeApi(code: String) {
-        genericHandler.showProgressBar(true)
-        viewModel. rejectDisputeRequest(order.id)
-    }
 
+    private fun executeAcceptApi(code: String) {
+        genericHandler.showProgressBar(true)
+
+        viewModel.acceptExtensionRequest(order.id)
+    }
+    private fun executeRejectApi(code: String) {
+        genericHandler.showProgressBar(true)
+        viewModel.rejectExtensionRequest(order.id)
+    }
 
     private fun executeCompleteApi(code: String, description: String) {
         genericHandler.showProgressBar(true)
@@ -115,7 +122,8 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
             try {
                 tvOrder.text = order.orderNo
                 tvDescription.text =
-                    if (!order.description.isNullOrEmpty()) order.description else getString(
+                    if (!order.description.isNullOrEmpty())
+                        order.description else getString(
                         R.string.str_no_description
                     )
                 if (prefManager.userId == order.seller_id) {
@@ -123,6 +131,7 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                     tvBuyer.isVisible = true
                     tvBuyerTitle.isVisible = true
                     btnDispute.text = "REQUEST BUYER TO CANCEL ORDER"
+//                    btnAgree.isVisible=true
                 } else {
                     tvSeller.text = order.username
                     tvSeller.isVisible = true
@@ -166,6 +175,7 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
     private fun revisionAvailable(): Boolean {
         return order.revision > 0
     }
+    @SuppressLint("ResourceAsColor")
     private fun setSellerData(pair: Pair<Int, Int>) {
         binding.apply {
             when (pair.second) {
@@ -173,7 +183,7 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                     changeViewsVisibility(
                         deliveryNote = false,
                         btnResubmit = false,
-                        buttonDispute = true,
+                        buttonDispute = false,
                         buttonProceedDispute = false,
                         buttonRevision = false,
                         buttonCompleted = true,
@@ -184,6 +194,7 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                     startTimer()
                     binding.countdownTimer.isVisible = true
                     btnCompleted.text = getString(R.string.str_deliver_work)
+                    btnExtendTime.text="Extend Time"
                 }
                 SellerOrders.Late -> {
                     changeViewsVisibility(
@@ -199,7 +210,6 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                     )
                     startTimer()
                     binding.countdownTimer.isVisible = false
-                    btnCompleted.text = "late order"
                 }
                 SellerOrders.Delivered -> {
                     changeViewsVisibility(
@@ -273,7 +283,7 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                             deliveryNote = false,
                             btnResubmit = false,
                             buttonDispute = false,
-                            buttonProceedDispute = true,
+                            buttonProceedDispute = false,
                             buttonRevision = false,
                             buttonCompleted = false,
                             buttonRateOrder = false ,
@@ -281,7 +291,7 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                             btnlate = false
                         )
                         btnAgree.isVisible = true
-                        btnCancelRequest.isVisible = false
+                        btnCancelRequest.isVisible = true
                     }
                 }
             }
@@ -312,6 +322,13 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                     )
                     startTimer()
                     binding.countdownTimer.isVisible = true
+                    if(order.pending_req==1) {
+                        btnExtendTime.isVisible = true
+                        btnExtendTime.text = "Accept Extension"
+                        btnLate.isVisible = true
+                        btnLate.text = "Reject Extension"
+                    }
+
                 }
                 BuyerOrders.Late -> {
                     changeViewsVisibility(
@@ -396,7 +413,7 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                             btnlate = false
                         )
                         btnAgree.isVisible = false
-                        btnCancelRequest.isVisible = true
+//                        btnCancelRequest.isVisible = true
                     } else {
                         changeViewsVisibility(
                             deliveryNote = false,
@@ -487,16 +504,17 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                         )
                     }
                     Constants.SELLER_USER -> {
+                        viewModel.AcceptDisputeRequest(order.id)
                         // request buyer to cancel order
-                        val descriptionBottomSheet = DescriptionBottomSheet(
-                            this@OrderDetailsFragment,
-                            Constants.SELLER_USER,
-                            5
-                        )
-                        descriptionBottomSheet.show(
-                            requireActivity().supportFragmentManager,
-                            ""
-                        )
+//                        val descriptionBottomSheet = DescriptionBottomSheet(
+//                            this@OrderDetailsFragment,
+//                            Constants.SELLER_USER,
+//                            5
+//                        )
+//                        descriptionBottomSheet.show(
+//                            requireActivity().supportFragmentManager,
+//                            ""
+//                        )
                     }
                 }
             }
@@ -505,15 +523,28 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                     Constants.SELLER_USER -> {
                         val descriptionBottomSheet =
                             ExtendDeliveryTimeBottomSheetFragment(this@OrderDetailsFragment,
-                        Constants.SELLER_USER,
+                                Constants.SELLER_USER,
                                 5
-                                )
+                            )
                         descriptionBottomSheet.show(
                             requireActivity().supportFragmentManager,
                             ""
                         )
                     }
-                }
+                Constants.BUYER_USER -> {
+                        btnExtendTime.setOnClickListener {
+                            btnExtendTime.isVisible = true
+                            executeAcceptApi(order.id)
+                            btnExtendTime.isVisible = false
+                            btnLate.isVisible = false
+                        }
+                    }
+            }
+        }
+            btnLate.setOnClickListener {
+                executeRejectApi(order.id)
+                btnExtendTime.isVisible = false
+                btnLate.isVisible = false
             }
             btnRevision.setOnClickListener {
                 when (pair.first) {
@@ -551,14 +582,14 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                     Constants.BUYER_USER -> {
                         val hashMap: HashMap<String, Any> = HashMap()
                         hashMap["order_no"] = order.orderNo
-                        hashMap["type"] = 9
-//                         viewModel.buyerActionsCall(hashMap)
-                        executeCancelDisputeApi(order.id)
+                        hashMap["type"] = 5
+////                         viewModel.buyerActionsCall(hashMap)
+//                        executeCancelDisputeApi(order.id)
                     }
                     Constants.SELLER_USER -> {
                         val hashMap: HashMap<String, Any> = HashMap()
                         hashMap["order_no"] = order.orderNo
-                        hashMap["type"] = 9
+                        hashMap["type"] = 5
                         viewModel.AcceptDisputeRequest(order.id)
 
                     }
@@ -569,14 +600,14 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                     Constants.BUYER_USER -> {
                         val hashMap: HashMap<String, Any> = HashMap()
                         hashMap["order_no"] = order.orderNo
-                        hashMap["type"] = 6
-                        executeCancelDisputeApi(order.id)
+                        hashMap["type"] = 1
+
                     }
                     Constants.SELLER_USER -> {
                         val hashMap: HashMap<String, Any> = HashMap()
                         hashMap["order_no"] = order.orderNo
-                        hashMap["type"] = 6
-                        viewModel.sellerActionsCall(hashMap)
+                        hashMap["type"] = 1
+                        executeCancelDisputeApi(order.id)
                     }
                 }
             }
@@ -596,9 +627,9 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                     }
                 }
             }
-            btnProceedWithSupport.setOnClickListener {
-                executeRejectDisputeApi(order.id)
-            }
+//            btnProceedWithSupport.setOnClickListener {
+//                executeRejectDisputeApi(order.id)
+//            }
             tvDownload.setOnClickListener {
                 when (pair.first) {
                     Constants.BUYER_USER -> {
@@ -662,6 +693,44 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
             }
         }
         viewModel.extendTime.observe(viewLifecycleOwner) {
+            it?.let { resource ->
+                when (resource.status) {
+                    Status.SUCCESS -> {
+                        genericHandler.showProgressBar(false)
+                        resource.data?.let { response ->
+                            handleResponse(response)
+                        }
+                    }
+                    Status.ERROR -> {
+                        genericHandler.showProgressBar(false)
+                        genericHandler.showErrorMessage(it.message.toString())
+                    }
+                    Status.LOADING -> {
+                        genericHandler.showProgressBar(true)
+                    }
+                }
+            }
+        }
+        viewModel.accept.observe(viewLifecycleOwner) {
+            it?.let { resource ->
+                when (resource.status) {
+                    Status.SUCCESS -> {
+                        genericHandler.showProgressBar(false)
+                        resource.data?.let { response ->
+                            handleResponse(response)
+                        }
+                    }
+                    Status.ERROR -> {
+                        genericHandler.showProgressBar(false)
+                        genericHandler.showErrorMessage(it.message.toString())
+                    }
+                    Status.LOADING -> {
+                        genericHandler.showProgressBar(true)
+                    }
+                }
+            }
+        }
+        viewModel.reject.observe(viewLifecycleOwner) {
             it?.let { resource ->
                 when (resource.status) {
                     Status.SUCCESS -> {
@@ -758,25 +827,25 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                 }
             }
         }
-        viewModel.rejectDispute.observe(viewLifecycleOwner) {
-            it?.let { resource ->
-                when (resource.status) {
-                    Status.SUCCESS -> {
-                        genericHandler.showProgressBar(false)
-                        resource.data?.let { response ->
-                            handleResponse(response)
-                        }
-                    }
-                    Status.ERROR -> {
-                        genericHandler.showProgressBar(false)
-                        genericHandler.showErrorMessage(it.message.toString())
-                    }
-                    Status.LOADING -> {
-                        genericHandler.showProgressBar(true)
-                    }
-                }
-            }
-        }
+//        viewModel.rejectDispute.observe(viewLifecycleOwner) {
+//            it?.let { resource ->
+//                when (resource.status) {
+//                    Status.SUCCESS -> {
+//                        genericHandler.showProgressBar(false)
+//                        resource.data?.let { response ->
+//                            handleResponse(response)
+//                        }
+//                    }
+//                    Status.ERROR -> {
+//                        genericHandler.showProgressBar(false)
+//                        genericHandler.showErrorMessage(it.message.toString())
+//                    }
+//                    Status.LOADING -> {
+//                        genericHandler.showProgressBar(true)
+//                    }
+//                }
+//            }
+//        }
         viewModel.acceptDispute.observe(viewLifecycleOwner) {
             it?.let { resource ->
                 when (resource.status) {
@@ -824,7 +893,6 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
             if (response.status == Constants.STATUS_OK) {
                 requireActivity().apply {
                     setResult(Activity.RESULT_OK)
-                    finish()
                 }
             }
         } catch (e: java.lang.Exception) {

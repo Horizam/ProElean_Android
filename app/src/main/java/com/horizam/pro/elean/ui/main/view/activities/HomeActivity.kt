@@ -640,7 +640,7 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
         bageDashboard.backgroundColor = ContextCompat.getColor(this, R.color.color_light_green)
         bageDashboard.badgeTextColor = Color.WHITE
         if(value==0) {
-            bageDashboard.isVisible = value == 0
+            bageDashboard.isVisible =true
         }
         else
         {
@@ -653,7 +653,14 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
         val bageDashboard: BadgeDrawable = binding.bottomNav.getOrCreateBadge(R.id.inboxFragment)
         bageDashboard.backgroundColor = ContextCompat.getColor(this, R.color.color_light_green)
         bageDashboard.badgeTextColor = Color.WHITE
-        bageDashboard.isVisible = value == 0
+        if(value==0)
+        {
+            bageDashboard.isVisible=true
+        }
+        else{
+            bageDashboard.isVisible = false
+        }
+
 
     }
 

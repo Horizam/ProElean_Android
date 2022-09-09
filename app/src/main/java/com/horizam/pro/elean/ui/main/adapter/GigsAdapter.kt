@@ -96,14 +96,14 @@ class GigsAdapter(
                 ratingGig.rating = serviceDetail.service_rating.toFloat()
                 totalNumberOfRating.text = "(${serviceDetail.total_reviews})"
 //                val imageResource: Int =
-                    if (serviceDetail.favourite == 1) {
-                        ivFavorite.setImageResource(R.drawable.ic_liked)
-                    } else {
+                if (serviceDetail.favourite == 1) {
+                    ivFavorite.setImageResource(R.drawable.ic_liked)
+                } else {
                     ivFavorite.setImageResource(R.drawable.ic_not_liked)
-                    }
+                }
                 if (serviceDetail.service_media.size > 0) {
                     setImage("${Constants.BASE_URL}${serviceDetail.service_media[0].media}", ivMain)
-                   // setImage(imageResource,ivFavorite)
+                    // setImage(imageResource,ivFavorite)
 
                 }
 

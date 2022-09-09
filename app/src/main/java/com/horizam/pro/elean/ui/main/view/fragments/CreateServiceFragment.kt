@@ -183,8 +183,8 @@ class CreateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
                 BaseUtils.createRequestBodyFromString(binding.etInfo.text.toString().trim())
             map["delivery_time"] = BaseUtils.createRequestBodyFromString(deliveryTime)
             map["revision"] = BaseUtils.createRequestBodyFromString(noOfRevision.toString())
-            map["sub_category_id"] = BaseUtils.createRequestBodyFromString(subcategoryId.toString())
-            map["category_id"] = BaseUtils.createRequestBodyFromString(categoryId.toString())
+            map["sub_category_id"] = BaseUtils.createRequestBodyFromString(subcategoryId)
+            map["category_id"] = BaseUtils.createRequestBodyFromString(categoryId)
             val prefManager = PrefManager(requireContext())
             if (prefManager.location != null) {
                 val location = prefManager.location!!
@@ -294,7 +294,7 @@ class CreateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
 
     private fun setUIData(response: CategoriesCountriesResponse) {
         categoriesArrayList = response.categoriesCountriesData.categories.map { spinnerCategories ->
-            SpinnerModel(id = spinnerCategories.id, value = spinnerCategories.title)
+            SpinnerModel(id = spinnerCategories.id!!, value = spinnerCategories.title!!)
         }
         categoriesAdapter = SpinnerAdapter(
             requireContext(),

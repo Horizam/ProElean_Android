@@ -9,7 +9,7 @@ class SellerOrders {
         const val Revision: Int = 3
         const val Completed: Int = 4
         const val Disputed: Int = 5
-        const val Late: Int = 7
-        const val Cancel: Int = 6
+        const val Late: Int = 6
+        const val Cancel: Int = 7
     }
 }

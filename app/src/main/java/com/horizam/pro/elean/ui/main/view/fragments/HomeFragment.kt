@@ -1,66 +1,68 @@
 package com.horizam.pro.elean.ui.main.view.fragments
 
+
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.widget.TextView.OnEditorActionListener
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.firebase.auth.FirebaseAuth
+import com.google.gson.Gson
 import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
 import com.horizam.pro.elean.data.model.SliderItem
-import com.horizam.pro.elean.data.model.response.Category
-import com.horizam.pro.elean.data.model.response.FeaturedGig
-import com.horizam.pro.elean.data.model.response.HomeDataResponse
+import com.horizam.pro.elean.data.model.response.*
 import com.horizam.pro.elean.databinding.FragmentHomeBinding
 import com.horizam.pro.elean.ui.base.ViewModelFactory
 import com.horizam.pro.elean.ui.main.adapter.HomeGigsAdapter
+import com.horizam.pro.elean.ui.main.adapter.NotificationsAdapter
 import com.horizam.pro.elean.ui.main.adapter.ServicesAdapter
 import com.horizam.pro.elean.ui.main.adapter.SliderAdapter
-import com.horizam.pro.elean.ui.main.callbacks.DrawerHandler
-import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
-import com.horizam.pro.elean.ui.main.callbacks.LockHandler
-import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
+import com.horizam.pro.elean.ui.main.callbacks.*
+import com.horizam.pro.elean.ui.main.view.activities.ManageSalesActivity
 import com.horizam.pro.elean.ui.main.viewmodel.HomeViewModel
+import com.horizam.pro.elean.ui.main.viewmodel.NotificationsViewModel
 import com.horizam.pro.elean.utils.BaseUtils.Companion.hideKeyboard
+import com.horizam.pro.elean.utils.PrefManager
 import com.horizam.pro.elean.utils.Status
 import com.smarteist.autoimageslider.SliderAnimations
 import com.smarteist.autoimageslider.SliderView
-import java.lang.Exception
-
-import android.view.inputmethod.EditorInfo
-import android.widget.TextView.OnEditorActionListener
-import androidx.recyclerview.widget.GridLayoutManager
-import com.google.firebase.auth.FirebaseAuth
-import com.google.gson.Gson
-import com.horizam.pro.elean.data.model.response.ServiceDetail
-import com.horizam.pro.elean.ui.main.view.activities.ManageSalesActivity
-import com.horizam.pro.elean.utils.PrefManager
 
 
-class HomeFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
+class HomeFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefreshListener,
+    NotificationsHandler {
 
     private lateinit var binding: FragmentHomeBinding
     private lateinit var adapterServices: ServicesAdapter
     private lateinit var adapterGigs: HomeGigsAdapter
     private lateinit var viewModel: HomeViewModel
+    private lateinit var notificationsViewModel: NotificationsViewModel
     private lateinit var genericHandler: GenericHandler
     private lateinit var drawerHandler: DrawerHandler
     private lateinit var prefManager: PrefManager
     private lateinit var lockHandler: LockHandler
+    private lateinit var adapter: NotificationsAdapter
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
+    private var sum:Int=0
+    private var count=0
+    private var n:Int = 0
+    private lateinit var res :NotificationsResponse
     private var sliderView: SliderView? = null
     private var sliderAdapter: SliderAdapter? = null
     private lateinit var mAuth: FirebaseAuth
+    private val bundle = Bundle()
 
 
     override fun onAttach(context: Context) {
@@ -72,9 +74,10 @@ class HomeFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefre
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
+
         getIntentData()
         initViews()
         setupViewModel()
@@ -82,14 +85,15 @@ class HomeFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefre
         setRecyclerViews()
         setAdsSlider()
         setClickListeners()
+        executeApi()
         return binding.root
     }
 
     private fun executeApi() {
         genericHandler.showProgressBar(true)
         viewModel.homeDataCall()
+        notificationsViewModel.getNotificationsCall()
     }
-
     private fun getIntentData() {
         prefManager = PrefManager(requireActivity())
         if (prefManager.sellerMode == 0) {
@@ -117,24 +121,50 @@ class HomeFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefre
             }
         }
     }
+
     private fun initViews() {
         mAuth = FirebaseAuth.getInstance()
         adapterServices = ServicesAdapter(this)
         adapterGigs = HomeGigsAdapter(this)
-      //  sliderView = binding.imageSlider
+        adapter= NotificationsAdapter(this)
+        //  sliderView = binding.imageSlider
         sliderAdapter = SliderAdapter(this)
         swipeRefreshLayout = binding.swipeRefresh
         swipeRefreshLayout.setOnRefreshListener(this)
         binding.toolbar.ivSecond.setImageResource(R.drawable.ic_notifications)
+        binding.toolbar.rlNoOfNotification.isVisible=false
         binding.toolbar.ivSecond.visibility = View.VISIBLE
-        binding.mainLayout.isVisible =true
-        binding.toolbar.rlNoOfNotification.visibility = View.VISIBLE
+        binding.mainLayout.isVisible = true
         binding.toolbar.ivSale.visibility = View.GONE
-        binding.toolbar.rlNoOfNotification.visibility = View.GONE
         binding.toolbar.tvToolbar.visibility = View.GONE
         binding.toolbar.ivLogoToolbar.visibility = View.VISIBLE
     }
 
+    private fun notificationsRes(list: List<Notification>)
+        {
+            var notify=list
+            count=notify.count()
+            for(n in 0 until count) {
+                if (notify[n].viewed == 0) {
+                    sum = sum + 1
+
+                } else {
+                    println("is 1")
+
+                }
+
+            }
+                println(sum)
+            binding.toolbar.tvNoOfNotification.setText(Integer.toString(sum))
+            binding.toolbar.rlNoOfNotification.isVisible = true
+            binding.toolbar.tvNoOfNotification.isVisible = true
+            if(sum==0)
+            {
+                binding.toolbar.rlNoOfNotification.isVisible=false
+                binding.toolbar.tvNoOfNotification.isVisible=false
+            }
+            sum=0
+        }
     private fun setRecyclerViews() {
         serviceRecyclerview()
         gigsRecyclerview()
@@ -175,13 +205,16 @@ class HomeFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefre
 //            hideKeyboard()
 //            drawerHandler.openDrawer()
 //        }
-        binding.toolbar.ivToolbar.visibility = View.GONE
+
         binding.btnRetry.setOnClickListener {
             executeApi()
         }
         binding.autoCompleteTextView.onFocusChangeListener = focusChangeListener
         binding.autoCompleteTextView.setOnEditorActionListener(editorListener)
         binding.toolbar.ivSecond.setOnClickListener {
+//         var data=   handleResponse(res)
+//            bundle.putString("df1",data.toString())
+//            parentFragmentManager.setFragmentResult("datafrom1",bundle)
             this.findNavController().navigate(R.id.notificationsFragment)
         }
         binding.toolbar.ivSale.setOnClickListener {
@@ -194,8 +227,10 @@ class HomeFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefre
             requireActivity(),
             ViewModelFactory(ApiHelper(RetrofitBuilder.apiService))
         ).get(HomeViewModel::class.java)
+        notificationsViewModel=ViewModelProviders.of(
+            requireActivity(),ViewModelFactory(ApiHelper(RetrofitBuilder.apiService))
+        ).get(NotificationsViewModel::class.java)
     }
-
     private fun setupObservers() {
         viewModel.homeData.observe(viewLifecycleOwner) {
             it?.let { resource ->
@@ -219,6 +254,39 @@ class HomeFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefre
                 }
             }
         }
+        notificationsViewModel.notifications.observe(viewLifecycleOwner) {
+            it?.let { resource ->
+                when (resource.status) {
+                    Status.SUCCESS -> {
+                        genericHandler.showProgressBar(false)
+                        resource.data?.let { response ->
+                            handleResponse(response)
+                            changeViewVisibility(textView = false, button = false, layout = true)
+                        }
+                    }
+                    Status.ERROR -> {
+                        genericHandler.showProgressBar(false)
+                        genericHandler.showErrorMessage(it.message.toString())
+                        changeViewVisibility(textView = true, button = true, layout = false)
+                    }
+                    Status.LOADING -> {
+                        genericHandler.showProgressBar(true)
+                        changeViewVisibility(textView = false, button = false, layout = false)
+                    }
+                }
+            }
+        }
+    }
+    private fun handleResponse(response: NotificationsResponse) {
+        try {
+            setUIData(response.data)
+            notificationsRes(response.data)
+        } catch (e: java.lang.Exception) {
+            genericHandler.showErrorMessage(e.message.toString())
+        }
+    }
+    private fun setUIData(list: List<Notification>) {
+        adapter.submitList(list)
     }
 
     private fun changeViewVisibility(textView: Boolean, button: Boolean, layout: Boolean) {
@@ -255,6 +323,7 @@ class HomeFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefre
                 sliderAdapter?.renewItems(adsList as MutableList<SliderItem>)
                 binding.tvPlaceholderAds.isVisible = it.isEmpty()
             }
+
         }
     }
 
@@ -280,6 +349,13 @@ class HomeFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefre
                 HomeFragmentDirections.actionHomeFragmentToGigDetailsFragment(
                     serviceData
                 )
+            findNavController().navigate(action)
+        }else if(item is Notification)
+        {
+            val gson = Gson()
+            val serviceData = gson.toJson(item)
+            val action =
+            HomeFragmentDirections.actionHomeFragmentToNotificationFragment(serviceData)
             findNavController().navigate(action)
         }
     }

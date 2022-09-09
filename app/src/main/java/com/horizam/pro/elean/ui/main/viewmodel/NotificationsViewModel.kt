@@ -15,6 +15,7 @@ import kotlinx.coroutines.Dispatchers
 class NotificationsViewModel(private val mainRepository: MainRepository) : ViewModel() {
 
     private val notificationsRequest = MutableLiveData(Constants.DEFAULT_MUTABLE_LIVEDATA_VALUE)
+    private val notificationsRequestRead = MutableLiveData(String)
 
     val notifications = notificationsRequest.switchMap {
         liveData(Dispatchers.IO) {
@@ -27,9 +28,23 @@ class NotificationsViewModel(private val mainRepository: MainRepository) : ViewM
             }
         }
     }
+    val notificationsRead = notificationsRequestRead.switchMap {
+        liveData(Dispatchers.IO) {
+            emit(Resource.loading(data = null))
+            try {
+                emit(Resource.success(data = mainRepository.getNotificationsRead()))
+            } catch (exception: Exception) {
+                val errorMessage = BaseUtils.getError(exception)
+                emit(Resource.error(data = null, message = errorMessage))
+            }
+        }
+    }
 
     fun getNotificationsCall(){
         notificationsRequest.value = Constants.DEFAULT_MUTABLE_LIVEDATA_VALUE
+    }
+    fun getNotificationsReadCall(){
+        notificationsRequestRead.value = String
     }
 
 }

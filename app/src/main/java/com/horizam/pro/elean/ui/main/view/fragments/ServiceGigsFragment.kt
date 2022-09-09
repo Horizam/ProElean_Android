@@ -37,8 +37,10 @@ import com.horizam.pro.elean.ui.base.ViewModelFactory
 import com.horizam.pro.elean.ui.main.adapter.GigsAdapter
 import com.horizam.pro.elean.ui.main.adapter.MyLoadStateAdapter
 import com.horizam.pro.elean.ui.main.adapter.PriceAdapter
+import com.horizam.pro.elean.ui.main.adapter.SavedAdapter
 import com.horizam.pro.elean.ui.main.callbacks.*
 import com.horizam.pro.elean.ui.main.view.activities.AuthenticationActivity
+import com.horizam.pro.elean.ui.main.viewmodel.SavedViewModel
 import com.horizam.pro.elean.ui.main.viewmodel.ServiceGigsViewModel
 import com.horizam.pro.elean.utils.BaseUtils.Companion.hideKeyboard
 import com.horizam.pro.elean.utils.PrefManager
@@ -49,13 +51,15 @@ import kotlinx.android.synthetic.main.item_gigs.*
 
 class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
     ContactSellerHandler, AdapterView.OnItemSelectedListener, SwipeRefreshLayout.OnRefreshListener,
-    LogoutHandler {
+    LogoutHandler, SavedGigsHandler {
 
     private lateinit var binding: FragmentServiceGigsBinding
     private lateinit var adapter: GigsAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewModel: ServiceGigsViewModel
     private lateinit var genericHandler: GenericHandler
+    private lateinit var savedadapter: SavedAdapter
+    private lateinit var viewModelsaved: SavedViewModel
     private lateinit var prefManager: PrefManager
     private lateinit var priceArrayList: List<String>
     private lateinit var priceValueArrayList: List<String>
@@ -139,7 +143,9 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
                 if (viewModel.sellers.value == null) {
                     viewModel.getServicesBySubCategories(args.id)
                 }
-//
+//                if (viewModelsaved.savedGigs.value == null) {
+//                    viewModelsaved.getSavedGigsCall()
+//                }
             }
         }
 
@@ -148,12 +154,14 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
             swipeRefreshLayout.isRefreshing = false
         }
         executeApi()
+
     }
 
     private fun initViews() {
         swipeRefreshLayout = binding.swipeRefresh
         swipeRefreshLayout.setOnRefreshListener(this)
         from = args.from
+        savedadapter = SavedAdapter(this)
         prefManager = PrefManager(requireContext())
         adapter = GigsAdapter(this, this, this, this,this,this)
         recyclerView = binding.rvServiceGigs
@@ -289,6 +297,10 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
             this,
             ViewModelFactory(ApiHelper(RetrofitBuilder.apiService))
         ).get(ServiceGigsViewModel::class.java)
+        viewModelsaved = ViewModelProviders.of(
+            this,
+            ViewModelFactory(ApiHelper(RetrofitBuilder.apiService))
+        ).get(SavedViewModel::class.java)
     }
 
     private fun setupObservers() {
@@ -298,20 +310,23 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
         viewModel.searchSellers.observe(viewLifecycleOwner) {
             adapter.submitData(viewLifecycleOwner.lifecycle, it)
         }
+//
     }
-
     private fun setupFavoritesObservers() {
         viewModel.makeFavourite.observe(viewLifecycleOwner, makeFavouriteObserver)
     }
-
-
+    private fun exeApi() {
+        if (viewModelsaved.savedGigs.value == null) {
+            viewModelsaved.getSavedGigsCall()
+        }
+    }
     private val makeFavouriteObserver = Observer<Resource<GeneralResponse>> {
         it?.let { resource ->
             when (resource.status) {
                 Status.SUCCESS -> {
                     genericHandler.showProgressBar(false)
-                    if (from == Constants.NORMAL_FLOW) {
-                        viewModel.getServicesBySubCategories(args.id)
+                    resource.data?.let { response ->
+                        handleResponse(response)
                     }
                 }
                 Status.ERROR -> {
@@ -324,6 +339,31 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
             }
         }
     }
+
+    private fun handleResponse(response: GeneralResponse) {
+        genericHandler.showSuccessMessage(response.message)
+        viewModelsaved.getSavedGigsCall()
+    }
+
+//    private val makeFavouriteObserver = Observer<Resource<GeneralResponse>> {
+//        it?.let { resource ->
+//            when (resource.status) {
+//                Status.SUCCESS -> {
+//                    genericHandler.showProgressBar(false)
+//                    if (from == Constants.NORMAL_FLOW) {
+//                        viewModel.getServicesBySubCategories(args.id)
+//                    }
+//                }
+//                Status.ERROR -> {
+//                    genericHandler.showProgressBar(false)
+//                    genericHandler.showErrorMessage(it.message.toString())
+//                }
+//                Status.LOADING -> {
+//                    genericHandler.showProgressBar(true)
+//                }
+//            }
+//        }
+//    }
 
     override fun <T> onItemClick(item: T) {
         if (item is ServiceDetail) {

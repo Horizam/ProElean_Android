@@ -28,9 +28,17 @@ interface ApiService {
         @Body request: BuyerActionRequestMultipart):
             GeneralResponse
     //cancelDispute
-    @POST("buyer/orders/:{order_id}/cancel_request")
+
+
+
+    @POST("seller/orders/:{order_id}/reject_dispute")
     suspend fun cancelDispute(
         @Path ("order_id") orderId: String):GeneralResponse
+
+
+
+
+
     //Reject_Dispute
     @POST("seller/orders/:{order_id}/reject_dispute")
     suspend fun rejectDispute(
@@ -125,6 +133,11 @@ interface ApiService {
 
     @GET("notification")
     suspend fun getNotifications(): NotificationsResponse
+
+    @GET("notifications/read")
+    suspend fun getNotificationsRead(): GeneralResponse
+
+
 
     @GET("profile")
     suspend fun getFreelancerProfile(@Query("user") id: String): ProfileInfo
@@ -275,6 +288,17 @@ interface ApiService {
     suspend fun extendTime(
         @Path ("order_id") orderId: String,
         @Body request: ExtendDeliveryTimeModel): GeneralResponse
+
+
+    @GET("buyer/orders/:{order_id}/acceptExtensionRequest")
+    suspend fun acceptExtension(
+        @Path ("order_id") orderId: String
+    ):GeneralResponse
+
+    @GET("buyer/orders/:{order_id}/rejectExtensionRequest")
+    suspend fun rejectExtension(
+        @Path ("order_id") orderId: String
+    ):GeneralResponse
 
     @POST("sendNotifications")
     suspend fun sendFirebaseNotification(

@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_homeFragment_to_messageFragment"
             app:destination="@id/messagesFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_notificationFragment"
+            app:destination="@id/notificationsFragment"/>
     </fragment>
 
     <fragment
@@ -34,8 +37,11 @@
         android:id="@+id/notificationsFragment"
         android:name="com.horizam.pro.elean.ui.main.view.fragments.NotificationsFragment"
         android:label="@string/str_notifications"
-        tools:layout="@layout/fragment_notifications" />
-
+        tools:layout="@layout/fragment_notifications">
+        <argument
+            android:name="notification_detail"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/savedFragment"
         android:name="com.horizam.pro.elean.ui.main.view.fragments.SavedFragment"

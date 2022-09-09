@@ -70,25 +70,36 @@ class UserGigsAdapter(
 
         fun bind(service: ServiceDetail) {
             binding.apply {
-                if (userID == service.service_user.id) {
-                    ivHeartGigsUser.visibility = View.GONE
-                } else {
-                    ivHeartGigsUser.visibility = View.VISIBLE
-                }
+//                if (userID == service.service_user.id) {
+//                    ivHeartGigsUser.visibility = View.GONE
+//                } else {
+//                    ivHeartGigsUser.visibility = View.VISIBLE
+//                }
                 tvDescriptionGigsUser.text = service.s_description
                 tvUserRating.text = service.service_rating.toString()
                 tvRatingNumber.text = "(".plus(service.total_reviews).plus(")")
                 tvPriceGigsUser.text = service.price.toString().plus(Constants.CURRENCY)
-                val imageResource: Int = if (service.favourite == 1) {
-                   R.drawable.ic_liked
-                } else {
-                    R.drawable.ic_not_liked
+                val fav=service.favourite
+                if(fav==1)
+                {
+                    binding.ivHeartGigsUser.setImageResource(R.drawable.ic_liked)
+                   // R.drawable.ic_liked
                 }
+                else
+                {
+                    binding.ivHeartGigsUser.setImageResource(R.drawable.ic_not_liked)
+                   // R.drawable.ic_not_liked
+              //  val imageResource: Int = if (service.favourite == 1) {
+                //   R.drawable.ic_liked
+                }
+                //else {
+                  //  R.drawable.ic_not_liked
+                //}
                 if (service.service_media==null) {
                     val image = service.service_media[Constants.STARTING_ARRAY_INDEX].media
                     setImage("${Constants.BASE_URL}${image}", ivMain)
                 }
-                setImage(imageResource, ivHeartGigsUser)
+           //     setImage(imageResource, ivHeartGigsUser)
             }
         }
         private fun <T> setImage(source: T, imageView: ImageView) {
@@ -97,10 +108,10 @@ class UserGigsAdapter(
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                 .error(R.drawable.ic_error)
                 .into(imageView)
-            Glide.with(itemView)
-                .load(R.drawable.ic_liked)
-                .error(R.drawable.ic_not_liked)
-                .into(binding.ivHeartGigsUser)
+//            Glide.with(itemView)
+//                .load(R.drawable.ic_liked)
+//                .error(R.drawable.ic_not_liked)
+//                .into(binding.ivHeartGigsUser)
         }
     }
 

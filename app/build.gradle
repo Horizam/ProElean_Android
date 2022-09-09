@@ -52,6 +52,7 @@ dependencies {
     implementation 'androidx.work:work-runtime-ktx:2.7.1'
     implementation 'com.google.firebase:firebase-auth-ktx:21.0.7'
     implementation 'com.google.mlkit:common:18.5.0'
+    implementation 'com.google.firebase:firebase-messaging-ktx:23.0.6'
     annotationProcessor "com.github.bumptech.glide:compiler:4.13.1"
     //LifeCycle
     implementation 'androidx.lifecycle:lifecycle-common:2.3.1'

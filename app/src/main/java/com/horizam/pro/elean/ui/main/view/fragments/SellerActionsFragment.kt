@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -15,7 +16,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarEntry
-import com.horizam.pro.elean.App
 import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.api.ApiHelper
@@ -36,6 +36,10 @@ import com.github.mikephil.charting.components.*
 import com.github.mikephil.charting.formatter.LargeValueFormatter
 import com.horizam.pro.elean.data.model.AnalyticModel
 import com.horizam.pro.elean.data.model.Analytics
+import com.horizam.pro.elean.data.model.response.Notification
+import com.horizam.pro.elean.data.model.response.NotificationsResponse
+import com.horizam.pro.elean.ui.main.adapter.NotificationsAdapter
+import com.horizam.pro.elean.ui.main.viewmodel.NotificationsViewModel
 
 
 class SellerActionsFragment : Fragment(), OnItemClickListener,
@@ -46,10 +50,16 @@ class SellerActionsFragment : Fragment(), OnItemClickListener,
     private lateinit var viewModel: SellerViewModel
     private lateinit var sellerActionAdapter: SellerActionAdapter
     private lateinit var linearLayoutManager: LinearLayoutManager
+    private lateinit var notificationsViewModel: NotificationsViewModel
+    private lateinit var adapter: NotificationsAdapter
     private lateinit var genericHandler: GenericHandler
     private lateinit var prefManager: PrefManager
     private lateinit var sellerActionList: ArrayList<SellerActionModel>
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
+    private lateinit var notificationsResponse:NotificationsResponse
+    private var sum:Int=0
+    private var count=0
+    private var n:Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -107,6 +117,7 @@ class SellerActionsFragment : Fragment(), OnItemClickListener,
         genericHandler = context as GenericHandler
     }
 
+
     private fun exeApi() {
         viewModel.sellerData.observe(viewLifecycleOwner, {
             it?.let { resource ->
@@ -125,8 +136,37 @@ class SellerActionsFragment : Fragment(), OnItemClickListener,
                 }
             }
         })
+        notificationsViewModel.notifications.observe(viewLifecycleOwner) {
+            it?.let { resource ->
+                when (resource.status) {
+                    Status.SUCCESS -> {
+                        genericHandler.showProgressBar(false)
+                        resource.data?.let { response ->
+                            handleResponse(response)
+                        }
+                    }
+                    Status.ERROR -> {
+                        genericHandler.showProgressBar(false)
+                        genericHandler.showErrorMessage(it.message.toString())
+                    }
+                    Status.LOADING -> {
+                        genericHandler.showProgressBar(true)
+                    }
+                }
+            }
+        }
     }
-
+    private fun setUIData(list: List<Notification>) {
+        adapter.submitList(list)
+    }
+    private fun handleResponse(response: NotificationsResponse) {
+        try {
+            setUIData(response.data)
+            notificationsRes(response.data)
+        } catch (e: java.lang.Exception) {
+            genericHandler.showErrorMessage(e.message.toString())
+        }
+    }
     private fun <T> handleResponse(item: T) {
         when (item) {
             is AnalyticModel -> {
@@ -134,8 +174,7 @@ class SellerActionsFragment : Fragment(), OnItemClickListener,
                     item.apply {
                         tvPersonalBalanceValue.text =
                             "${getString(R.string.str_currency_sign)}$currentBalance"
-                        tvAvgSellingPriceValue.text =
-                            "${getString(R.string.str_currency_sign)}$yearEarning"
+                        tvAvgSellingPriceValue.text = "${getString(R.string.str_currency_sign)}$yearEarning"
                         tvEarningInDecemberValue.text =
                             "${getString(R.string.str_currency_sign)}$monthlyEarning"
 //                        tvPendingClearanceValue.text =
@@ -193,10 +232,14 @@ class SellerActionsFragment : Fragment(), OnItemClickListener,
             this,
             ViewModelFactory(ApiHelper(RetrofitBuilder.apiService))
         ).get(SellerViewModel::class.java)
+        notificationsViewModel=ViewModelProviders.of(
+            requireActivity(),ViewModelFactory(ApiHelper(RetrofitBuilder.apiService))
+        ).get(NotificationsViewModel::class.java)
     }
 
     private fun setAdapter() {
         setDetailSellerActionList()
+        adapter= NotificationsAdapter(this)
         sellerActionAdapter = SellerActionAdapter(sellerActionList, this)
         linearLayoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
@@ -233,18 +276,70 @@ class SellerActionsFragment : Fragment(), OnItemClickListener,
         swipeRefreshLayout = binding.swipeRefresh
         swipeRefreshLayout.setOnRefreshListener(this)
     }
+    private fun notificationsRes(list: List<Notification>)
+    {
+        var notify=list
+        count=notify.count()
+        for(n in 0 until count) {
+            if (notify[n].viewed == 0) {
+                sum = sum + 1
+
+            } else {
+                println("is 1")
+
+            }
+
+        }
+        println(sum)
+        binding.toolbar.tvNoOfNotification.setText(Integer.toString(sum))
+        binding.toolbar.rlNoOfNotification.isVisible = true
+        binding.toolbar.tvNoOfNotification.isVisible = true
+        if(sum==0)
+        {
+            binding.toolbar.rlNoOfNotification.isVisible=false
+            binding.toolbar.tvNoOfNotification.isVisible=false
+        }
+        sum=0
+    }
 
     private fun setClickListeners() {
         binding.apply {
             toolbar.ivToolbar.setOnClickListener {
                 navController.popBackStack()
             }
+            binding.toolbar.ivSecond.setOnClickListener {
+                this@SellerActionsFragment.findNavController().navigate(R.id.notificationsFragment)
+            }
         }
     }
 
     private fun setToolbarData() {
         binding.toolbar.ivToolbar.setImageResource(R.drawable.ic_back)
-        binding.toolbar.tvToolbar.text =getString(R.string.str_seller_actions)
+        binding.toolbar.ivToolbar.isVisible=true
+        binding.toolbar.tvToolbar.text = getString(R.string.str_seller_actions)
+        binding.toolbar.ivSecond.setImageResource(R.drawable.ic_notifications)
+        binding.toolbar.ivSecond.visibility = View.VISIBLE
+    //    counter(notificationsResponse)
+    }
+    private fun counter(response: NotificationsResponse){
+        var notify = response.data.apply {
+            count = count()
+        }
+        for (n in 0 until count) {
+                    if (notify[n].viewed == 0) {
+                        sum = sum + 1
+                        binding.toolbar.rlNoOfNotification.visibility.plus(sum)
+                        binding.toolbar.rlNoOfNotification.isVisible = true
+                    } else {
+                        binding.toolbar.rlNoOfNotification.isVisible = false
+                        println("is 1")
+                    }
+                }
+                println(sum)
+//                binding.toolbar.rlNoOfNotification.visibility.plus(sum)
+//                binding.toolbar.rlNoOfNotification.isVisible = true
+//            }
+        binding.toolbar.rlNoOfNotification.isVisible=true
     }
 
     override fun <T> onItemClick(item: T) {

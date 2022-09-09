@@ -45,9 +45,9 @@ class BecomeFreelancerTwoFragment : Fragment(), AdapterView.OnItemSelectedListen
     private lateinit var viewModel: BecomeFreelancerViewModel
     private lateinit var genericHandler: GenericHandler
     private lateinit var updateHomeHandler: UpdateHomeHandler
-    private lateinit var languagesArrayList: List<String>
+    private lateinit var languagesArrayList: List<Languages>
     private lateinit var availabilityArrayList: List<String>
-    private lateinit var languagesAdapter: ArrayAdapter<String>
+    private lateinit var languagesAdapter: ArrayAdapter<Languages>
     private lateinit var availabilityAdapter: ArrayAdapter<String>
     private lateinit var prefManager: PrefManager
     private val args: BecomeFreelancerTwoFragmentArgs by navArgs()
@@ -232,7 +232,7 @@ class BecomeFreelancerTwoFragment : Fragment(), AdapterView.OnItemSelectedListen
     }
 
     private fun setUIData(response: CategoriesCountriesResponse) {
-        languagesArrayList = response.categoriesCountriesData.languages
+        languagesArrayList =response.categoriesCountriesData.languages
         availabilityArrayList = arrayListOf("full time", "part time")
         languagesAdapter = ArrayAdapter(
             requireContext(),

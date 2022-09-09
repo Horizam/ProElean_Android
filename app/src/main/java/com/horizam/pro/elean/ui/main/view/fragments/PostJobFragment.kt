@@ -217,7 +217,7 @@ class PostJobFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
     private fun setUIData(response: CategoriesCountriesResponse) {
         categoriesArrayList = response.categoriesCountriesData.categories.map { spinnerCategories ->
-            SpinnerModel(id = spinnerCategories.id, value = spinnerCategories.title)
+            SpinnerModel(id = spinnerCategories.id!!, value = spinnerCategories.title!!)
         }
         daysArrayList = response.categoriesCountriesData.deliveryDays
         categoriesAdapter = SpinnerAdapter(

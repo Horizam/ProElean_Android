@@ -215,11 +215,12 @@ class BecomeFreelancerOneFragment : Fragment(), AdapterView.OnItemSelectedListen
     }
 
     private fun setUIData(response: CategoriesCountriesResponse) {
-        categoriesArrayList = response.categoriesCountriesData.categories.map { spinnerCategories ->
-            SpinnerModel(id = spinnerCategories.id, value = spinnerCategories.title)
+        categoriesArrayList = response.categoriesCountriesData.categories.map{
+                spinnerCategories -> SpinnerModel(
+            id = spinnerCategories.id!!, value = spinnerCategories.title!!)
         }
         countriesArrayList = response.categoriesCountriesData.countries.map { countries ->
-            SpinnerModel(id = countries.id, value = countries.name , image = countries.image)
+            SpinnerModel(id = countries.id!!, value = countries.name!!, image = countries.image!!)
         }
         categoriesAdapter = SpinnerAdapter(
             requireContext(),
