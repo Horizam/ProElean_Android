@@ -6,13 +6,13 @@ import android.os.Bundle
 import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -41,12 +41,12 @@ import com.horizam.pro.elean.ui.main.adapter.SavedAdapter
 import com.horizam.pro.elean.ui.main.callbacks.*
 import com.horizam.pro.elean.ui.main.view.activities.AuthenticationActivity
 import com.horizam.pro.elean.ui.main.viewmodel.SavedViewModel
+import com.horizam.pro.elean.ui.main.viewmodel.ServiceCategoriesViewModel
 import com.horizam.pro.elean.ui.main.viewmodel.ServiceGigsViewModel
 import com.horizam.pro.elean.utils.BaseUtils.Companion.hideKeyboard
 import com.horizam.pro.elean.utils.PrefManager
 import com.horizam.pro.elean.utils.Resource
 import com.horizam.pro.elean.utils.Status
-import kotlinx.android.synthetic.main.item_gigs.*
 
 
 class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
@@ -57,9 +57,10 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
     private lateinit var adapter: GigsAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewModel: ServiceGigsViewModel
+    private lateinit var viewModelServices: ServiceCategoriesViewModel
     private lateinit var genericHandler: GenericHandler
-    private lateinit var savedadapter: SavedAdapter
-    private lateinit var viewModelsaved: SavedViewModel
+    private lateinit var savedAdapter: SavedAdapter
+    private lateinit var viewModelSaved: SavedViewModel
     private lateinit var prefManager: PrefManager
     private lateinit var priceArrayList: List<String>
     private lateinit var priceValueArrayList: List<String>
@@ -70,15 +71,12 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
     private var from: Int = 0
     private var delay: Long = 0
     private var delayCheck = 0
+    private var q=""
+    private var w=""
+    private var slug=""
+    var check: String?="0"
+    private var id=""
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
-
-//
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        setupViewModel()
-//        setupFavoritesObservers()
-//    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -87,40 +85,52 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
         initViews()
         setupViewModel()
         setupFavoritesObservers()
-//        setupViewModel()
         setupObservers()
         setRecyclerview()
         setSearchFieldsListener()
         setOnClickListeners()
-//        execuexeteApi()
         return binding.root
     }
     override fun onResume() {
         super.onResume()
         executeApi()
     }
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         genericHandler = context as GenericHandler
     }
-
-
-
     private fun setSearchFieldsListener() {
         binding.autoCompleteTextView.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                executeApi()
-            }
+                if (delayCheck == 0) {
+                    delay = 500
+                    delayCheck = 1
+                    if (delay > 0) {
+                        @Suppress("DEPRECATION")
+                        Handler().postDelayed({
+                            delay = 0
+                            delayCheck = 0
+                         exeSearch()
+                        }, delay)
+                    }
+                }
+                else
+                {
+                    searchBySubCategory()
+                }
+                if (binding.autoCompleteTextView.text.isEmpty()) {
+                    executeApi()
+                }
 
+            }
             override fun afterTextChanged(s: Editable?) {
             }
-
         })
     }
-
     private fun searchManagement() {
         if (delayCheck == 0) {
             delay = 500
@@ -130,38 +140,34 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
                 Handler().postDelayed({
                     delay = 0
                     delayCheck = 0
-                    exeSearch()
+                    searchByCategory()
                 }, delay)
             }
         }
     }
-
     private fun executeApi() {
-//        if (from == Constants.NORMAL_FLOW) {
-        if(from==prefManager.sellerMode)
-            {
-                if (viewModel.sellers.value == null) {
-                    viewModel.getServicesBySubCategories(args.id)
-                }
-//                if (viewModelsaved.savedGigs.value == null) {
-//                    viewModelsaved.getSavedGigsCall()
-//                }
-            }
-        }
-
-    override fun onRefresh() {
-        if (swipeRefreshLayout.isRefreshing) {
-            swipeRefreshLayout.isRefreshing = false
-        }
-        executeApi()
-
+        viewModel.getServicesBySubCategories(id)
+        val id=args.id
+            val request = SearchGigsRequest(
+                query = id,
+                filter = filter,
+                filterValue = filterValue,
+                distance = "",
+                category = "",
+            )
+        viewModel.getServicesSubCategories(request)
     }
-
+    override fun onRefresh() {
+//        if (swipeRefreshLayout.isRefreshing) {
+//            swipeRefreshLayout.isRefreshing = false
+//        }
+//        executeApi()
+    }
     private fun initViews() {
         swipeRefreshLayout = binding.swipeRefresh
         swipeRefreshLayout.setOnRefreshListener(this)
         from = args.from
-        savedadapter = SavedAdapter(this)
+        savedAdapter = SavedAdapter(this)
         prefManager = PrefManager(requireContext())
         adapter = GigsAdapter(this, this, this, this,this,this)
         recyclerView = binding.rvServiceGigs
@@ -203,28 +209,26 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
                         filter = "price>"
                         filterValue = spinnerPriceModel.filterValue
                         if (from == 0) {
-                           executeApi()
-                        }
-                        else
-                        {
-                            searchManagement()
+                            executeApi()
+
+                        } else {
+                            exeSearch()
                         }
                     }
+
                     else -> {
-                        filter = "price>"
-                        filterValue = spinnerPriceModel.filterValue
-                        if (from == 0) {
-                           executeApi()
-                        }
-                        else
-                        {
-                                searchManagement()
+                            filter = "price"
+                            filterValue = spinnerPriceModel.filterValue
+                            if (from == 0) {
+                                executeApi()
+                            } else {
+                                exeSearch()
                             }
                         }
                     }
-                }
             }
         }
+    }
     override fun onNothingSelected(parent: AdapterView<*>?) {
 
     }
@@ -270,37 +274,101 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
             btnRetry.setOnClickListener {
                 adapter.retry()
             }
-            btnSearch.setOnClickListener {
-                from = 1
-                hideKeyboard()
-                //executeApi()
-                exeSearch()
-            }
         }
         binding.autoCompleteTextView.onFocusChangeListener = focusChangeListener
     }
-
     private fun exeSearch() {
-        val query = binding.autoCompleteTextView.text.toString().trim()
-        val distance = binding.slider.value.toString()
-        val request = SearchGigsRequest(
-            query = query,
-            distance = distance,
-            filter = filter,
-            filterValue = filterValue,
-        )
-        viewModel.searchGigs(request)
+        val arg = this.arguments
+        q = arg!!.get("q").toString()
+        slug = arg.get("slug").toString()
+        if (q != "null" || slug!="null") {
+            exe()
+        }
+        else
+        {
+            search()
+        }
     }
 
+    private fun exe() {
+        w=binding.autoCompleteTextView.text.toString().trim()
+        if(q!="null" || slug!="null") {
+            val request = SearchGigsRequest(
+                query = q,
+                category = slug,
+                filter = filter,
+                filterValue = filterValue,
+                distance = ""
+            )
+            viewModel.searchGigsByHome(request)
+           if(w!="") {
+               w!=q
+             searchManagement()
+           }
+        }
+    }
+    private fun search() {
+        val query = binding.autoCompleteTextView.text.toString().trim()
+        val distance = binding.slider.value.toString()
+        if (from == 0) {
+            if(slug!="null")
+            {
+                val request = SearchGigsRequest(
+                    query = query,
+                    distance = distance,
+                    filter = filter,
+                    filterValue = filterValue,
+                    category = slug
+                )
+                viewModel.searchGigsByHome(request)
+            }
+        } else {
+            val request = SearchGigsRequest(
+                query = query,
+                distance = distance,
+                filter = filter,
+                filterValue = filterValue,
+                category = ""
+            )
+            viewModel.searchGigsByHome(request)
+        }
+    }
+    private fun searchBySubCategory() {
+        val sub=binding.autoCompleteTextView.text.toString().trim()
+        val request = SearchGigsRequest(
+            query =sub,
+            category = slug,
+            filter = filter,
+            filterValue = filterValue,
+            distance = ""
+
+        )
+        viewModel.searchGigsByHome(request)
+    }
+    private fun searchByCategory() {
+        val request = SearchGigsRequest(
+            query = w,
+            category = slug,
+            filter = filter,
+            filterValue = filterValue,
+            distance = ""
+
+        )
+        viewModel.searchGigsByHome(request)
+    }
     private fun setupViewModel() {
         viewModel = ViewModelProviders.of(
             this,
             ViewModelFactory(ApiHelper(RetrofitBuilder.apiService))
         ).get(ServiceGigsViewModel::class.java)
-        viewModelsaved = ViewModelProviders.of(
+        viewModelSaved = ViewModelProviders.of(
             this,
             ViewModelFactory(ApiHelper(RetrofitBuilder.apiService))
         ).get(SavedViewModel::class.java)
+        viewModelServices = ViewModelProviders.of(
+            this,
+            ViewModelFactory(ApiHelper(RetrofitBuilder.apiService))
+        ).get(ServiceCategoriesViewModel::class.java)
     }
 
     private fun setupObservers() {
@@ -310,15 +378,18 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
         viewModel.searchSellers.observe(viewLifecycleOwner) {
             adapter.submitData(viewLifecycleOwner.lifecycle, it)
         }
-//
+        viewModel.searchSellersbyHome.observe(viewLifecycleOwner) {
+            adapter.submitData(viewLifecycleOwner.lifecycle, it)
+        }
+        viewModel.search.observe(viewLifecycleOwner) {
+            adapter.submitData(viewLifecycleOwner.lifecycle, it)
+        }
+        viewModel.sub.observe(viewLifecycleOwner) {
+            adapter.submitData(viewLifecycleOwner.lifecycle, it)
+        }
     }
     private fun setupFavoritesObservers() {
         viewModel.makeFavourite.observe(viewLifecycleOwner, makeFavouriteObserver)
-    }
-    private fun exeApi() {
-        if (viewModelsaved.savedGigs.value == null) {
-            viewModelsaved.getSavedGigsCall()
-        }
     }
     private val makeFavouriteObserver = Observer<Resource<GeneralResponse>> {
         it?.let { resource ->
@@ -342,29 +413,8 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
 
     private fun handleResponse(response: GeneralResponse) {
         genericHandler.showSuccessMessage(response.message)
-        viewModelsaved.getSavedGigsCall()
+        viewModelSaved.getSavedGigsCall()
     }
-
-//    private val makeFavouriteObserver = Observer<Resource<GeneralResponse>> {
-//        it?.let { resource ->
-//            when (resource.status) {
-//                Status.SUCCESS -> {
-//                    genericHandler.showProgressBar(false)
-//                    if (from == Constants.NORMAL_FLOW) {
-//                        viewModel.getServicesBySubCategories(args.id)
-//                    }
-//                }
-//                Status.ERROR -> {
-//                    genericHandler.showProgressBar(false)
-//                    genericHandler.showErrorMessage(it.message.toString())
-//                }
-//                Status.LOADING -> {
-//                    genericHandler.showProgressBar(true)
-//                }
-//            }
-//        }
-//    }
-
     override fun <T> onItemClick(item: T) {
         if (item is ServiceDetail) {
             val gson = Gson()
@@ -416,7 +466,7 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
     }
 
     override fun checkLogout() {
-        var intent = Intent(activity, AuthenticationActivity::class.java)
+        val intent = Intent(activity, AuthenticationActivity::class.java)
         startActivity(intent)
     }
 

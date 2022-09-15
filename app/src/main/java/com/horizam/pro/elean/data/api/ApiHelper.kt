@@ -62,16 +62,22 @@ class ApiHelper(private val apiService: ApiService) {
     suspend fun getSubcategories(id: String, position: Int, query: String) =
         apiService.getSubcategories(id, position, query)
 
-    suspend fun getServicesBySubCategories(id: String, position: Int) =
-        apiService.getServicesBySubCategories(id, position)
+    suspend fun getServicesBySubCategories(id: String,filterValue: String,filter: String, position: Int) =
+        apiService.getServicesBySubCategories(id,position,filterValue,filter,)
 
     suspend fun searchGigs(
         query: String,
         distance: String,
         filter: String,
         filterValue: String,
+        category: String,
         position: Int
-    ) = apiService.searchGigs(query, filter, filterValue, position)
+    ) = apiService.searchGigs(query, filter, filterValue,category, position)
+    suspend fun search(
+        query: String,
+        category: String,
+        position: Int
+    ) = apiService.search(query,category, position)
 
     suspend fun getReviews(
         id: String

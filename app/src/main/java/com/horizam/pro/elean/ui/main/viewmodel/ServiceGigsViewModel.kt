@@ -4,6 +4,7 @@ import androidx.lifecycle.*
 import androidx.paging.cachedIn
 import com.horizam.pro.elean.data.model.requests.FavouriteRequest
 import com.horizam.pro.elean.data.model.requests.SearchGigsRequest
+import com.horizam.pro.elean.data.model.requests.SearchRequest
 import com.horizam.pro.elean.data.repository.MainRepository
 import com.horizam.pro.elean.utils.BaseUtils
 import com.horizam.pro.elean.utils.Resource
@@ -15,12 +16,24 @@ class ServiceGigsViewModel(
 ) : ViewModel() {
 
     private val currentSubCategory = MutableLiveData<String>()
+    private val SubCategory = MutableLiveData<SearchGigsRequest>()
     private val searchGigsRequest = MutableLiveData<SearchGigsRequest>()
+    private val searchRequest = MutableLiveData<SearchRequest>()
     private val addToWishlistRequest = MutableLiveData<FavouriteRequest>()
     private val addClicksGigsRequest = MutableLiveData<String>()
+    private val filter=""
+    private val filter_value=""
 
-    val sellers = currentSubCategory.switchMap { subcategory ->
-        mainRepository.getServicesBySubCategories(subcategory).cachedIn(viewModelScope)
+//    val sellers = SubCategory.switchMap { subcategory ->
+//        mainRepository.
+//        getServicesBySubCategories(subcategory.category,
+//            subcategory.filter,
+//            subcategory.filterValue,
+//        ).cachedIn(viewModelScope)
+//    }
+    val sellers = currentSubCategory.switchMap {
+    mainRepository.
+        getServicesBySubCategories(it,filter_value,filter).cachedIn(viewModelScope)
     }
 
     val searchSellers = searchGigsRequest.switchMap { request ->
@@ -28,7 +41,34 @@ class ServiceGigsViewModel(
             request.query,
             request.distance,
             request.filter,
-            request.filterValue
+            request.filterValue,
+            request.category
+        ).cachedIn(viewModelScope)
+    }
+
+    val sub= SubCategory.switchMap { request ->
+        mainRepository.searchGigs(
+            request.query,
+            request.distance,
+            request.filter,
+            request.filterValue,
+            request.category
+        ).cachedIn(viewModelScope)
+    }
+
+    val search = searchRequest.switchMap { request ->
+        mainRepository.search(
+            request.query,
+            request.category
+        ).cachedIn(viewModelScope)
+    }
+    val searchSellersbyHome = searchGigsRequest.switchMap { request ->
+        mainRepository.searchGigs(
+            request.query,
+            request.distance,
+            request.filter,
+            request.filterValue,
+            request.category
         ).cachedIn(viewModelScope)
     }
 
@@ -55,14 +95,25 @@ class ServiceGigsViewModel(
             }
         }
     }
-
-    fun getServicesBySubCategories(subcategory: String) {
+    fun getServicesBySubCategories(subcategory:String) {
         currentSubCategory.value = subcategory
+
+
     }
-    fun searchGigs(request: SearchGigsRequest) {
+    fun getServicesSubCategories( request: SearchGigsRequest) {
+        SubCategory.value = request
+
+    }
+    fun searchSeller(request: SearchGigsRequest)
+    {
+        searchGigsRequest.value=request
+    }
+    fun search(request: SearchRequest) {
+        searchRequest.value = request
+    }
+    fun searchGigsByHome(request: SearchGigsRequest) {
         searchGigsRequest.value = request
     }
-
     fun addToWishlistCall(request: FavouriteRequest) {
         addToWishlistRequest.value = request
     }

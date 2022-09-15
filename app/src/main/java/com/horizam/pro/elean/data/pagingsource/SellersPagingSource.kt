@@ -11,7 +11,9 @@ import java.io.IOException
 
 class SellersPagingSource(
     private val apiHelper: ApiHelper,
-    private val id: String
+    private val id: String,
+    private val filter:String,
+    private val filter_vale:String
 ): PagingSource<Int, ServiceDetail>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, ServiceDetail> {
@@ -19,7 +21,7 @@ class SellersPagingSource(
         val position = params.key ?: Constants.STARTING_PAGE_INDEX
 
         return try {
-            val response = apiHelper.getServicesBySubCategories(id,position)
+            val response = apiHelper.getServicesBySubCategories(id,filter,filter_vale,position)
             val sellers = response.serviceList
             LoadResult.Page(
                 data = sellers,

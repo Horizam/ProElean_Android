@@ -5,7 +5,6 @@
     android:id="@+id/swipe_refresh"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -24,6 +23,21 @@
                 android:focusableInTouchMode="true"
                 android:visibility="invisible"
                 tools:visibility="visible">
+                <Spinner
+                    android:id="@+id/spinner_doctor"
+                    android:layout_height="42dp"
+                    android:layout_width="match_parent"
+                    android:background="@drawable/search_item"
+                    android:textAlignment="center"
+                    android:padding="@dimen/_7sdp"
+                    android:maxLines="1"
+                    android:imeOptions="actionSearch"
+                    android:elevation="@dimen/_300sdp"
+                    android:drawablePadding="@dimen/_5sdp"
+                    android:layout_margin="@dimen/_10sdp"
+                    app:layout_constraintStart_toStartOf="@+id/autoComplete_text_view"
+                    app:layout_constraintEnd_toEndOf="@+id/autoComplete_text_view"
+                    app:layout_constraintBottom_toTopOf="@id/autoComplete_text_view"/>
                 <EditText
                     android:id="@+id/autoComplete_text_view"
                     android:layout_width="match_parent"
@@ -42,6 +56,27 @@
                     app:layout_constraintEnd_toEndOf="@+id/bg_pic"
                     app:layout_constraintStart_toStartOf="@+id/bg_pic"
                     app:layout_constraintTop_toTopOf="@+id/tv_des" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_10sdp"
+                    android:backgroundTint="@color/colorButtons"
+                    android:drawableStart="@drawable/ic_search"
+                    android:drawablePadding="@dimen/_5sdp"
+                    android:textSize="@dimen/_12ssp"
+                    android:elevation="@dimen/_300sdp"
+                    android:padding="@dimen/_12sdp"
+                    app:cornerRadius="@dimen/_20sdp"
+                    android:text="@string/str_search"
+                    app:rippleColor="@color/colorLightBlue"
+                    android:textColor="@color/colorWhite"
+                    app:layout_constraintVertical_bias="0.6"
+                    app:layout_constraintBottom_toBottomOf="@+id/bg_pic"
+                    app:layout_constraintEnd_toEndOf="@+id/bg_pic"
+                    app:layout_constraintStart_toStartOf="@+id/bg_pic"
+                    app:layout_constraintTop_toTopOf="@+id/spinner_doctor" />
                 <include
                     android:id="@+id/toolbar"
                     layout="@layout/toolbar_layout" />
@@ -56,8 +91,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_450sdp"
-                        android:background="#A6000000"
-                                                />
+                        android:background="#A6000000" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
                 <TextView
                     android:id="@+id/tv_title"
@@ -84,7 +118,7 @@
                     android:maxLines="5"
                     android:padding="@dimen/_15ssp"
                     android:textStyle="bold"
-                    android:text="The eFreelancers in Pro eLean work fast and reliably. Inspired with projects made by our eFreelancers. "
+                    android:text="@string/str_with_projects_made_by_our_efreelancers"
                     android:textColor="#e7e9e2"
                     android:textSize="@dimen/_15ssp"
                     app:layout_constraintTop_toTopOf="parent"

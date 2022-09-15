@@ -26,6 +26,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         if (remoteMessage.data.isNotEmpty()) {
             Log.d(TAG, "Message data payload: ${remoteMessage.data}")
             scheduleJob(remoteMessage)
+
         }
 
         // Check if message contains a notification payload.
@@ -40,6 +41,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     override fun onNewToken(token: String) {
         Log.d(TAG, "Refreshed token: $token")
         sendRegistrationToServer(token)
+
     }
 //
     private fun scheduleJob(remoteMessage: RemoteMessage) {
@@ -52,6 +54,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         bundle.putString(
             Constants.TYPE,
             remoteMessage.data[Constants.TYPE]
+
         )
         bundle.putString(
             Constants.MESSAGE,
@@ -77,38 +80,42 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
  else if (type == Constants.TYPE_ORDER) {
             EventBus.getDefault().post(BottomNotification(Constants.ORDER))
             //get data from data notification
-            val title = remoteMessage.data["subject"]
-            val message = remoteMessage.data["body"]
-            val contentID = remoteMessage.data[Constants.CONTENT_ID]
-            //choose activity where you want to move when click
+//            val title = remoteMessage.data["subject"]
+//            val message = remoteMessage.data["body"]
+//            val contentID = remoteMessage.data[Constants.CONTENT_ID]
+//            //choose activity where you want to move when click
             val bundle = Bundle()
-            bundle.putString(
-                Constants.CONTENT_ID,
-                contentID
-            )
             bundle.putString(
                 Constants.TYPE,
                 remoteMessage.data[Constants.TYPE]
-            )
 
+            )
+            bundle.putString(
+                Constants.ORDER,
+                remoteMessage.data[Constants.ORDER]
+            )
+        bundle.putString(
+            Constants.SENDER_ID,
+            remoteMessage.data[Constants.SENDER_ID]
+        )
             val intent = Intent(this, OrderDetailsActivity::class.java)
             intent.putExtras(bundle)
             val pendingIntent = setPendingIntent(
                 intent
             )
 //            show notification in status bar
-            NotificationUtils.showNotification(
-                contentID.toString(),
-                applicationContext,
-                title!!,
-                "$message",
-                pendingIntent
-            )
+        NotificationUtils.showNotification(
+            remoteMessage.data[Constants.SENDER_ID].toString(),
+            applicationContext,
+            remoteMessage.data[Constants.SENDER_NAME].toString(),
+            remoteMessage.data[Constants.ORDER].toString(),
+            pendingIntent
+           )
 
-        } else if (type == Constants.TYPE_OFFER) {
+        } else if (type == Constants.OFFER) {
             val title = remoteMessage.data["subject"]
             val message = remoteMessage.data["body"]
-            val contentID = remoteMessage.data[Constants.CONTENT_ID]
+            val contentID = remoteMessage.data[Constants.OFFER]
             val bundle = Bundle()
             bundle.putString(
                 Constants.CONTENT_ID, contentID
@@ -132,7 +139,6 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                 pendingIntent
             )
         }
-//    }
 }
     private fun setPendingIntent(
         intent: Intent,
@@ -144,7 +150,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                 this,
                 Constants.GENERAL_NOTIFICATION_ID,
                 intent,
-                PendingIntent.FLAG_UPDATE_CURRENT
+                PendingIntent.FLAG_MUTABLE
             )
         return pendingIntent
     }
@@ -158,7 +164,9 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         val prefManager = PrefManager(this)
         if (token != null) {
             prefManager.fcmToken = token
+            Log.e("FCM",prefManager.fcmToken)
         }
+
     }
 
     /*Create and show a simple notification containing the received FCM message*/

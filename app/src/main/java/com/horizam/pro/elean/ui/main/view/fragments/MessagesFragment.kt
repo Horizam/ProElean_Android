@@ -907,7 +907,7 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
         val firebaseNotification = FirebaseNotificationRequest(
             subject = myInfo!!.name,
             reciever_id = userId,
-            body = "send",
+            body = "sending you a message",
             data = notificationMessage
         )
         viewModel.sendNotificationCall(firebaseNotification)

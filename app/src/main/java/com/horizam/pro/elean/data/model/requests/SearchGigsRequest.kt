@@ -4,5 +4,6 @@ data class SearchGigsRequest(
     val query:String,
     val distance:String,
     val filter:String,
-    val filterValue:String
+    val filterValue:String,
+    val category:String
 )

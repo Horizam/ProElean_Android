@@ -71,6 +71,7 @@ class LoginFragment : Fragment() {
                 Log.w(ContentValues.TAG, "Fetching FCM registration token failed", task.exception)
             }
             sendRegistrationToServer(task.result)
+            Log.e("FCM",task.result)
         })
     }
 

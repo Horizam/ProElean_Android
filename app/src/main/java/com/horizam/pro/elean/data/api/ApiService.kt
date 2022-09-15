@@ -155,7 +155,9 @@ interface ApiService {
     @GET("categories/{id}/services")
     suspend fun getServicesBySubCategories(
         @Path("id") id: String,
-        @Query("page") page: Int
+        @Query("page") page: Int,
+        @Query("filter") filter: String,
+        @Query("filter_value") filter_value: String,
     ): ServicesResponse
 
     @GET("search")
@@ -164,6 +166,13 @@ interface ApiService {
 //        @Query("distance") distance: String,
         @Query("filter") filter: String,
         @Query("filter_value") filter_value: String,
+        @Query("category") category: String,
+        @Query("page") page: Int
+    ): ServicesResponse
+    @GET("search")
+    suspend fun search(
+        @Query("q") query: String,
+        @Query("category") category: String,
         @Query("page") page: Int
     ): ServicesResponse
 

@@ -26,6 +26,7 @@ data class Category(
     @SerializedName("title") val title: String,
     @SerializedName("description") val description: String,
     @SerializedName("banner") val banner: String,
+    @SerializedName("slug") val slug: String,
 ) : Parcelable
 
 @Parcelize

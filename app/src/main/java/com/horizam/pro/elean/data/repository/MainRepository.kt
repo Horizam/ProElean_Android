@@ -98,25 +98,35 @@ class MainRepository(private val apiHelper: ApiHelper) {
         }
     ).liveData
 
-    fun getServicesBySubCategories(id: String) = Pager(
+    fun getServicesBySubCategories(id: String,filterValue: String,filter: String) = Pager(
         config = PagingConfig(
             pageSize = 20,
             maxSize = 100,
             enablePlaceholders = false
         ),
         pagingSourceFactory = {
-            SellersPagingSource(apiHelper, id)
+            SellersPagingSource(apiHelper, id,filter,filterValue)
         }
     ).liveData
 
-    fun searchGigs(query: String, distance: String, filter: String, filterValue: String) = Pager(
+    fun searchGigs(query: String, distance: String, filter: String, filterValue: String,category: String) = Pager(
         config = PagingConfig(
             pageSize = 20,
             maxSize = 100,
             enablePlaceholders = false
         ),
         pagingSourceFactory = {
-            SearchGigsPagingSource(apiHelper, query, distance, filter, filterValue)
+            SearchGigsPagingSource(apiHelper, query, distance, filter, filterValue,category)
+        }
+    ).liveData
+    fun search(query: String,category: String) = Pager(
+        config = PagingConfig(
+            pageSize = 20,
+            maxSize = 100,
+            enablePlaceholders = false
+        ),
+        pagingSourceFactory = {
+            Search(apiHelper, query,category)
         }
     ).liveData
 

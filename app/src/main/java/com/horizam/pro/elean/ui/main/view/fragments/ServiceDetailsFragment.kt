@@ -96,6 +96,7 @@ class ServiceDetailsFragment : Fragment(), BaseSliderView.OnSliderClickListener,
     }
 
     private fun initViews() {
+
         requestOptions = RequestOptions().centerCrop()
         setSliderProperties()
         adapter = ReviewsAdapter(this)
@@ -147,6 +148,7 @@ class ServiceDetailsFragment : Fragment(), BaseSliderView.OnSliderClickListener,
 
     private fun setToolbarData() {
         binding.toolbar.ivToolbar.setImageResource(R.drawable.ic_back)
+        binding.toolbar.ivToolbar.isVisible=true
         binding.toolbar.tvToolbar.text =getString(R.string.str_service_details)
     }
 

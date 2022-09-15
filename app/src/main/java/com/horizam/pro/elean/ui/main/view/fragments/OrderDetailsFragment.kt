@@ -493,6 +493,7 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                 when (pair.first) {
                     Constants.BUYER_USER -> {
                         // cancel & create dispute
+                        order.type==Constants.TYPE_ORDER
                         val descriptionBottomSheet = DescriptionBottomSheet(
                             this@OrderDetailsFragment,
                             Constants.BUYER_USER,

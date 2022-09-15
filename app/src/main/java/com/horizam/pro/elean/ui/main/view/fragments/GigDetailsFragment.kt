@@ -97,14 +97,6 @@ class GigDetailsFragment : Fragment(), OnItemClickListener,
 //        viewModel.addClickGigs(serviceDetail.id)
         setData(serviceDetail)
     }
-        private fun ecxecuteApi() {
-            if (from == 0) {
-                if (viewModell.sellers.value == null) {
-                    viewModell.getServicesBySubCategories(argss.id)
-                }
-//
-            }
-        }
     private fun initViews() {
         prefManager = PrefManager(requireContext())
         deliveryDaysList = ArrayList()
@@ -205,6 +197,7 @@ class GigDetailsFragment : Fragment(), OnItemClickListener,
 
     private fun setToolbarData() {
         binding.toolbar.ivToolbar.setImageResource(R.drawable.ic_back)
+        binding.toolbar.ivToolbar.isVisible=true
         binding.toolbar.tvToolbar.text = App.getAppContext()!!.getString(R.string.str_gig_details)
     }
 

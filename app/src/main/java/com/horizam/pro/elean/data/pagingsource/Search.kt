@@ -9,12 +9,9 @@ import retrofit2.HttpException
 import java.io.IOException
 
 
-class SearchGigsPagingSource(
+class Search(
     private val apiHelper: ApiHelper,
     private val query: String,
-    private val distance: String,
-    private val filter: String,
-    private val filterValue: String,
     private val category:String
 ) : PagingSource<Int, ServiceDetail>() {
 
@@ -23,7 +20,7 @@ class SearchGigsPagingSource(
         val position = params.key ?: Constants.STARTING_PAGE_INDEX
 
         return try {
-            val response = apiHelper.searchGigs(query, distance, filter, filterValue, category ,position)
+            val response = apiHelper.search(query,category,position)
             val sellers = response.serviceList
             LoadResult.Page(
                 data = sellers,
