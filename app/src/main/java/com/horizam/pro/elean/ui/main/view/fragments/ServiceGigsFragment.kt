@@ -47,6 +47,7 @@ import com.horizam.pro.elean.utils.BaseUtils.Companion.hideKeyboard
 import com.horizam.pro.elean.utils.PrefManager
 import com.horizam.pro.elean.utils.Resource
 import com.horizam.pro.elean.utils.Status
+import kotlinx.android.synthetic.main.fragment_home.*
 
 
 class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
@@ -146,16 +147,16 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
         }
     }
     private fun executeApi() {
-        viewModel.getServicesBySubCategories(id)
         val id=args.id
-            val request = SearchGigsRequest(
-                query = id,
-                filter = filter,
-                filterValue = filterValue,
-                distance = "",
-                category = "",
-            )
-        viewModel.getServicesSubCategories(request)
+        viewModel.getServicesBySubCategories(id)
+//            val request = SearchGigsRequest(
+//                query = id,
+//                filter = filter,
+//                filterValue = filterValue,
+//                distance = "",
+//                category = "",
+//            )
+//        viewModel.getServicesSubCategories(request)
     }
     override fun onRefresh() {
 //        if (swipeRefreshLayout.isRefreshing) {

@@ -183,7 +183,7 @@ class HomeFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefre
         if (response.data.categories?.isNotEmpty()!!) {
             generalServicesArrayList = response.data.categories
             servicesArrayList = response.data.categories.map { spinnerServices ->
-                SpinnerModel(id = spinnerServices.id, value = spinnerServices.slug)
+                SpinnerModel(id = spinnerServices.slug, value = spinnerServices.title)
             }
             servicesAdapter = SpinnerAdapter(
                 requireContext(),
@@ -191,12 +191,14 @@ class HomeFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefre
             ).also {
                 it.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
                 binding.spinnerDoctor.adapter = it
+                binding.spinnerDoctor.setPrompt("Select Category")
             }
             binding.spinnerDoctor.onItemSelectedListener = this
         }
     }
     private fun serviceRecyclerview() {
         binding.rvServiceCategories.apply {
+            setHasFixedSize(true)
             val gridLayoutManager = GridLayoutManager(requireContext(), 1)
             layoutManager = gridLayoutManager
             adapter = adapterServices
@@ -410,7 +412,7 @@ class HomeFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefre
             binding.spinnerDoctor.id -> {
                 try {
                     val spinnerModel = parent.selectedItem as SpinnerModel
-                    serviceId = spinnerModel.value
+                    serviceId = spinnerModel.id
                     if (!servicesArrayList.isEmpty()) {
                         binding.autoCompleteTextView.filters
                     }

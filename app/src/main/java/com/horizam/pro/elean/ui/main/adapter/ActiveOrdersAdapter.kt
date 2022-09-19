@@ -81,7 +81,7 @@ class ActiveOrdersAdapter(val listener: OnItemClickListener) :
                         )
                         mainCard.strokeColor = ContextCompat.getColor(
                             context.requireContext(),
-                            R.color.colorThree
+                            R.color.bg_primary
                         )
                     }
                     SellerOrders.Delivered -> {
@@ -98,7 +98,7 @@ class ActiveOrdersAdapter(val listener: OnItemClickListener) :
                         )
                         mainCard.strokeColor = ContextCompat.getColor(
                             context.requireContext(),
-                            R.color.colorThree
+                            R.color.bg_primary
                         )
                     }
                     SellerOrders.Revision -> {
@@ -106,7 +106,7 @@ class ActiveOrdersAdapter(val listener: OnItemClickListener) :
                         tvStatus.setTextColor(
                             ContextCompat.getColor(
                                 context.requireContext(),
-                                R.color.colorBlack
+                                R.color.bg_primary
                             )
                         )
                         cardView.strokeColor = ContextCompat.getColor(
@@ -115,7 +115,7 @@ class ActiveOrdersAdapter(val listener: OnItemClickListener) :
                         )
                         mainCard.strokeColor = ContextCompat.getColor(
                             context.requireContext(),
-                            R.color.colorThree
+                            R.color.bg_primary
                         )
                     }
                     SellerOrders.Completed -> {
@@ -123,7 +123,7 @@ class ActiveOrdersAdapter(val listener: OnItemClickListener) :
                         tvStatus.setTextColor(
                             ContextCompat.getColor(
                                 context.requireContext(),
-                                R.color.colorBlack
+                                R.color.bg_primary
                             )
                         )
                         cardView.strokeColor = ContextCompat.getColor(
@@ -132,7 +132,7 @@ class ActiveOrdersAdapter(val listener: OnItemClickListener) :
                         )
                         mainCard.strokeColor = ContextCompat.getColor(
                             context.requireContext(),
-                            R.color.color_green
+                            R.color.bg_primary
                         )
                     }
                     SellerOrders.Disputed -> {
@@ -149,7 +149,7 @@ class ActiveOrdersAdapter(val listener: OnItemClickListener) :
                         )
                         mainCard.strokeColor = ContextCompat.getColor(
                             context.requireContext(),
-                            R.color.colorOrange
+                            R.color.bg_primary
                         )
                     }
                     SellerOrders.Late -> {
@@ -162,11 +162,11 @@ class ActiveOrdersAdapter(val listener: OnItemClickListener) :
                         )
                         cardView.strokeColor = ContextCompat.getColor(
                             context.requireContext(),
-                            R.color.colorThree
+                            R.color.colorGolden
                         )
                         mainCard.strokeColor = ContextCompat.getColor(
                             context.requireContext(),
-                            R.color.colorThree
+                            R.color.bg_primary
                         )
                     }
                     SellerOrders.Cancel -> {
@@ -183,7 +183,7 @@ class ActiveOrdersAdapter(val listener: OnItemClickListener) :
                         )
                         mainCard.strokeColor = ContextCompat.getColor(
                             context.requireContext(),
-                            R.color.color_red
+                            R.color.bg_primary
                         )
                     }
                 }
