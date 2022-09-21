@@ -90,7 +90,7 @@ class Constants {
         const val TYPE_OFFER = "OFFER"
         const val ORDER_ID = "order_id"
         const val OFFER="offer"
-        const val ORDER="order"
+        const val ORDER="ORDER"
         const val CONTENT_ID = "contentID"
         const val MESSAGE = "message"
         const val SENDER_ID = "sender_id"

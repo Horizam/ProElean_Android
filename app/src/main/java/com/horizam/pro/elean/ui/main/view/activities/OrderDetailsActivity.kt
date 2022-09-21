@@ -45,8 +45,9 @@ OrderDetailsActivity : AppCompatActivity(), GenericHandler {
         setupObservers()
         setClickListeners()
     }
+
     private fun setupObservers() {
-        viewModel.orderByID.observe(this, {
+        viewModel.orderByID.observe(this) {
             it?.let { resource ->
                 when (resource.status) {
                     Status.SUCCESS -> {
@@ -64,7 +65,7 @@ OrderDetailsActivity : AppCompatActivity(), GenericHandler {
                     }
                 }
             }
-        })
+        }
     }
 
 

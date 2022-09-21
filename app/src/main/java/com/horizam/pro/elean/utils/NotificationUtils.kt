@@ -21,7 +21,6 @@ class NotificationUtils {
         fun createNotification(context: Context, file: String) {
             val notificationManager =
                 context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 val notificationChannel = NotificationChannel(
                     Constants.NOTIFICATION_CHANNEL_ID,

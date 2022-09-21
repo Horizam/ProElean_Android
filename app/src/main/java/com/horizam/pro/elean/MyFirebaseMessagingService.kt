@@ -30,7 +30,6 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             Log.d(TAG, "Message Notification Body: ${it.body}")
         }
     }
-
     override fun onNewToken(token: String) {
         Log.d(TAG, "Refreshed token: $token")
         sendRegistrationToServer(token)

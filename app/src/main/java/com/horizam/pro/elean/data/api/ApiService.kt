@@ -290,7 +290,7 @@ interface ApiService {
     @POST("update_password")
     suspend fun changePassword(@Body request: ChangePasswordRequest): GeneralResponse
 
-    @GET("get_order/{id}")
+    @GET("buyer/orders/{id}/order_details")
     suspend fun orderByID(@Path("id") orderId: Int): Order
 
     @POST("seller/orders/:{order_id}/extend_order_request")
