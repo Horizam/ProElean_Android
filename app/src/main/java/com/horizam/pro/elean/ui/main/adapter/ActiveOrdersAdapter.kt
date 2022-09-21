@@ -123,7 +123,7 @@ class ActiveOrdersAdapter(val listener: OnItemClickListener) :
                         tvStatus.setTextColor(
                             ContextCompat.getColor(
                                 context.requireContext(),
-                                R.color.bg_primary
+                                R.color.colorBlack
                             )
                         )
                         cardView.strokeColor = ContextCompat.getColor(

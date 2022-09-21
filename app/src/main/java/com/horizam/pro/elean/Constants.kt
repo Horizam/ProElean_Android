@@ -61,7 +61,6 @@ class Constants {
         const val JOB_ID = "jobId"
         const val DAYS_LIST = "daysList"
         const val CUSTOM_ORDER_KEY = "customOrder"
-        const val ORDER = "order"
         const val ORDER_USER_ROLE = "orderUserRole"
         const val ORDER_USER_ACTION = "orderUserAction"
         const val BUYER_USER = 0
@@ -91,6 +90,7 @@ class Constants {
         const val TYPE_OFFER = "OFFER"
         const val ORDER_ID = "order_id"
         const val OFFER="offer"
+        const val ORDER="order"
         const val CONTENT_ID = "contentID"
         const val MESSAGE = "message"
         const val SENDER_ID = "sender_id"

@@ -374,7 +374,6 @@ class OrderMessagesFragment(var order: Order) : Fragment(), MessagesHandler, Cre
 
     private fun initViews() {
         //adapter = MessageAdapter(this)
-        binding.tvCreateOffer.visibility = View.VISIBLE
         recyclerView = binding.rvMessages
         db = Firebase.firestore
         firebaseStorage = FirebaseStorage.getInstance()
@@ -383,6 +382,11 @@ class OrderMessagesFragment(var order: Order) : Fragment(), MessagesHandler, Cre
         prefManager = PrefManager(requireContext())
         initChooseAttachmentDialog()
         initFileUploadDialog()
+        if (prefManager.sellerMode == 0) {
+            binding.tvCreateOffer.visibility = View.GONE
+        } else {
+            binding.tvCreateOffer.visibility = View.VISIBLE
+        }
     }
 
     private fun initFileUploadDialog() {

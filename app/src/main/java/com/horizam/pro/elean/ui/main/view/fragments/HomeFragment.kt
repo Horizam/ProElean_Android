@@ -8,10 +8,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
@@ -181,7 +179,9 @@ class HomeFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefre
     @SuppressLint("RtlHardcoded")
     private fun setServicesData(response: HomeDataResponse) {
         if (response.data.categories?.isNotEmpty()!!) {
+
             generalServicesArrayList = response.data.categories
+
             servicesArrayList = response.data.categories.map { spinnerServices ->
                 SpinnerModel(id = spinnerServices.slug, value = spinnerServices.title)
             }

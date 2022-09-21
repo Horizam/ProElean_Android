@@ -4,6 +4,7 @@ import android.content.Intent
 import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.Settings
 import android.util.DisplayMetrics
 import android.util.Log
 import android.widget.Toast
@@ -135,7 +136,8 @@ class SplashActivity : AppCompatActivity() {
 
     private fun loadInitialActivity() {
         val prefManager = PrefManager(this)
-        BaseUtils.DEVICE_ID = prefManager.accessToken.toString()
+        BaseUtils.DEVICE_ID = Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID)
+        Log.d("",BaseUtils.DEVICE_ID)
         val intent: Intent = if (prefManager.accessToken.isEmpty()) {
             Intent(this@SplashActivity, HomeActivity::class.java)
         } else {

@@ -19,7 +19,6 @@ class NotificationUtils {
 
 
         fun createNotification(context: Context, file: String) {
-
             val notificationManager =
                 context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 

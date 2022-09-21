@@ -23,38 +23,29 @@
                 android:focusableInTouchMode="true"
                 android:visibility="invisible"
                 tools:visibility="visible">
-
-                <TextView
-                    android:id="@+id/textView2"
-                    android:layout_width="match_parent"
-                    android:layout_height="42dp"
-                    android:layout_margin="@dimen/_10sdp"
+                <RelativeLayout
+                    android:id="@+id/relativeLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_32sdp"
+                    android:layout_marginHorizontal="@dimen/_1sdp"
                     android:background="@drawable/search_item"
-                    android:drawablePadding="@dimen/_5sdp"
                     android:elevation="@dimen/_500sdp"
-                    android:maxLines="1"
                     android:padding="@dimen/_7sdp"
-                    app:layout_constraintBottom_toTopOf="@id/autoComplete_text_view"
-                    app:layout_constraintStart_toStartOf="@+id/autoComplete_text_view" />
-
-                <Spinner
-                    android:id="@+id/spinner_doctor"
-                    android:layout_width="@dimen/_200sdp"
-                    android:layout_height="42dp"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    android:layout_margin="@dimen/_10sdp"
-                    android:background="@drawable/search_item"
-                    android:drawableStart="@drawable/ic_search"
-                    android:drawablePadding="@dimen/_5sdp"
-                    android:elevation="@dimen/_500sdp"
-                    android:imeOptions="actionSearch"
-                    android:maxLines="1"
-                    android:padding="@dimen/_7sdp"
-                    android:spinnerMode="dropdown"
                     android:textAlignment="center"
                     app:layout_constraintBottom_toTopOf="@id/autoComplete_text_view"
-                    app:layout_constraintStart_toStartOf="@+id/bg_pic"
-                    app:layout_goneMarginLeft="@dimen/_30sdp" />
+                    app:layout_constraintEnd_toEndOf="@+id/autoComplete_text_view"
+                    app:layout_constraintStart_toStartOf="@+id/autoComplete_text_view"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_des">
+                    <Spinner
+                        android:id="@+id/spinner_doctor"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:prompt="@string/reviews"
+                        android:paddingEnd="@dimen/_145sdp"
+                        android:textDirection="ltr"
+                        android:elevation="@dimen/_500sdp"
+                        tools:ignore="HardcodedText" />
+                </RelativeLayout>
                 <EditText
                     android:id="@+id/autoComplete_text_view"
                     android:layout_width="match_parent"
@@ -82,18 +73,18 @@
                     android:backgroundTint="@color/colorButtons"
                     android:drawableStart="@drawable/ic_search"
                     android:drawablePadding="@dimen/_5sdp"
-                    android:textSize="@dimen/_12ssp"
                     android:elevation="@dimen/_300sdp"
                     android:padding="@dimen/_12sdp"
-                    app:cornerRadius="@dimen/_20sdp"
                     android:text="@string/str_search"
-                    app:rippleColor="@color/colorLightBlue"
                     android:textColor="@color/colorWhite"
-                    app:layout_constraintVertical_bias="0.6"
+                    android:textSize="@dimen/_12ssp"
+                    app:cornerRadius="@dimen/_20sdp"
                     app:layout_constraintBottom_toBottomOf="@+id/bg_pic"
                     app:layout_constraintEnd_toEndOf="@+id/bg_pic"
                     app:layout_constraintStart_toStartOf="@+id/bg_pic"
-                    app:layout_constraintTop_toTopOf="@+id/spinner_doctor" />
+                    app:layout_constraintTop_toTopOf="@+id/relativeLayout"
+                    app:layout_constraintVertical_bias="0.6"
+                    app:rippleColor="@color/colorLightBlue" />
                 <include
                     android:id="@+id/toolbar"
                     layout="@layout/toolbar_layout" />
@@ -165,43 +156,8 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     tools:listitem="@layout/item_services_and_gigs"
-                    android:fitsSystemWindows="true"
-                    android:nestedScrollingEnabled="false"
                     android:scrollbars="vertical"
                     app:layout_constraintTop_toBottomOf="@id/tv_service_categories" />
-
-<!--                <com.google.android.material.card.MaterialCardView-->
-<!--                    android:id="@+id/cv_ads"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="0dp"-->
-<!--                    android:layout_margin="@dimen/_10sdp"-->
-<!--                    app:cardCornerRadius="@dimen/_4sdp"-->
-<!--                    app:cardElevation="@dimen/_10sdp"-->
-<!--                    app:layout_constraintBottom_toTopOf="@id/tv_featured_gigs"-->
-<!--                    app:layout_constraintEnd_toEndOf="parent"-->
-<!--                    app:layout_constraintStart_toStartOf="parent"-->
-<!--                    app:layout_constraintTop_toBottomOf="@id/rv_service_categories">-->
-<!--&lt;!&ndash;                    <com.smarteist.autoimageslider.SliderView&ndash;&gt;-->
-<!--&lt;!&ndash;                        android:id="@+id/imageSlider"&ndash;&gt;-->
-<!--&lt;!&ndash;                        android:layout_width="match_parent"&ndash;&gt;-->
-<!--&lt;!&ndash;                        android:layout_height="wrap_content"&ndash;&gt;-->
-<!--&lt;!&ndash;                        app:sliderAnimationDuration="600"&ndash;&gt;-->
-<!--&lt;!&ndash;                        app:sliderAutoCycleDirection="back_and_forth"&ndash;&gt;-->
-<!--&lt;!&ndash;                        app:sliderAutoCycleEnabled="true"&ndash;&gt;-->
-<!--&lt;!&ndash;                        app:sliderIndicatorAnimationDuration="600"&ndash;&gt;-->
-<!--&lt;!&ndash;                        app:sliderIndicatorEnabled="false"&ndash;&gt;-->
-<!--&lt;!&ndash;                        app:sliderIndicatorGravity="center_horizontal|bottom"&ndash;&gt;-->
-<!--&lt;!&ndash;                        app:sliderIndicatorMargin="@dimen/_10sdp"&ndash;&gt;-->
-<!--&lt;!&ndash;                        app:sliderIndicatorOrientation="horizontal"&ndash;&gt;-->
-<!--&lt;!&ndash;                        app:sliderIndicatorPadding="@dimen/_2sdp"&ndash;&gt;-->
-<!--&lt;!&ndash;                        app:sliderIndicatorRadius="@dimen/_1sdp"&ndash;&gt;-->
-<!--&lt;!&ndash;                        app:sliderIndicatorSelectedColor="#5A5A5A"&ndash;&gt;-->
-<!--&lt;!&ndash;                        app:sliderIndicatorUnselectedColor="#FFF"&ndash;&gt;-->
-<!--&lt;!&ndash;                        app:sliderScrollTimeInSec="1"&ndash;&gt;-->
-<!--&lt;!&ndash;                        app:sliderStartAutoCycle="true" />&ndash;&gt;-->
-
-<!--                </com.google.android.material.card.MaterialCardView>-->
-
                 <TextView
                     android:id="@+id/tv_placeholder_ads"
                     android:layout_width="wrap_content"
