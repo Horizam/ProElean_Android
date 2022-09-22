@@ -66,8 +66,8 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                     pendingIntent
                 )
             }
-            "Cancel_And_Create_Dispute" -> {
-                EventBus.getDefault().post(BottomNotification(Constants.TYPE_ORDER))
+            Constants.CREATE_DISPUTE -> {
+                EventBus.getDefault().post(BottomNotification(Constants.CREATE_DISPUTE))
                 val bundle = Bundle()
                 bundle.putString(
                     Constants.TYPE,
@@ -75,8 +75,8 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
                 )
                 bundle.putString(
-                    Constants.TYPE_ORDER,
-                    remoteMessage.data[Constants.TYPE_ORDER]
+                    Constants.CREATE_DISPUTE,
+                    remoteMessage.data[Constants.CREATE_DISPUTE]
                 )
                 bundle.putString(
                     Constants.SENDER_ID,
@@ -91,7 +91,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                     remoteMessage.data[Constants.SENDER_ID].toString(),
                     applicationContext,
                     remoteMessage.data[Constants.SENDER_NAME].toString(),
-                    remoteMessage.data[Constants.TYPE_ORDER].toString(),
+                    remoteMessage.data[Constants.CREATE_DISPUTE].toString(),
                     pendingIntent
                 )
             }
@@ -135,30 +135,235 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                 )
 
             }
-            "Order_Dispute_Rejected" -> {
-                val title = remoteMessage.data["subject"]
-                val message = remoteMessage.data["body"]
-                val contentID = remoteMessage.data[Constants.CONTENT_ID]
+            Constants.REJECT_DISPUTE -> {
+                EventBus.getDefault().post(BottomNotification(Constants.REJECT_DISPUTE ))
                 val bundle = Bundle()
-                bundle.putString(
-                    Constants.CONTENT_ID,
-                    contentID
-                )
                 bundle.putString(
                     Constants.TYPE,
                     remoteMessage.data[Constants.TYPE]
-                )
 
+                )
+                bundle.putString(
+                    Constants.REJECT_DISPUTE ,
+                    remoteMessage.data[Constants.REJECT_DISPUTE ]
+                )
+                bundle.putString(
+                    Constants.SENDER_ID,
+                    remoteMessage.data[Constants.SENDER_ID]
+                )
                 val intent = Intent(this, OrderDetailsActivity::class.java)
                 intent.putExtras(bundle)
                 val pendingIntent = setPendingIntent(
                     intent
                 )
                 NotificationUtils.showNotification(
-                    contentID.toString(),
+                    remoteMessage.data[Constants.SENDER_ID].toString(),
                     applicationContext,
-                    title!!,
-                    "$message",
+                    remoteMessage.data[Constants.SENDER_NAME].toString(),
+                    remoteMessage.data[Constants.REJECT_DISPUTE].toString(),
+                    pendingIntent
+                )
+            }
+            Constants.ACCEPT_DISPUTE -> {
+                EventBus.getDefault().post(BottomNotification(Constants.ACCEPT_DISPUTE))
+                val bundle = Bundle()
+                bundle.putString(
+                    Constants.TYPE,
+                    remoteMessage.data[Constants.TYPE]
+
+                )
+                bundle.putString(
+                    Constants.ACCEPT_DISPUTE ,
+                    remoteMessage.data[Constants.ACCEPT_DISPUTE ]
+                )
+                bundle.putString(
+                    Constants.SENDER_ID,
+                    remoteMessage.data[Constants.SENDER_ID]
+                )
+                val intent = Intent(this, OrderDetailsActivity::class.java)
+                intent.putExtras(bundle)
+                val pendingIntent = setPendingIntent(
+                    intent
+                )
+                NotificationUtils.showNotification(
+                    remoteMessage.data[Constants.SENDER_ID].toString(),
+                    applicationContext,
+                    remoteMessage.data[Constants.SENDER_NAME].toString(),
+                    remoteMessage.data[Constants.ACCEPT_DISPUTE].toString(),
+                    pendingIntent
+                )
+            }
+            Constants.EXTEND_REQUEST -> {
+                EventBus.getDefault().post(BottomNotification(Constants.EXTEND_REQUEST))
+                val bundle = Bundle()
+                bundle.putString(
+                    Constants.TYPE,
+                    remoteMessage.data[Constants.TYPE]
+
+                )
+                bundle.putString(
+                    Constants.EXTEND_REQUEST ,
+                    remoteMessage.data[Constants.EXTEND_REQUEST ]
+                )
+                bundle.putString(
+                    Constants.SENDER_ID,
+                    remoteMessage.data[Constants.SENDER_ID]
+                )
+                val intent = Intent(this, OrderDetailsActivity::class.java)
+                intent.putExtras(bundle)
+                val pendingIntent = setPendingIntent(
+                    intent
+                )
+                NotificationUtils.showNotification(
+                    remoteMessage.data[Constants.SENDER_ID].toString(),
+                    applicationContext,
+                    remoteMessage.data[Constants.SENDER_NAME].toString(),
+                    remoteMessage.data[Constants.EXTEND_REQUEST].toString(),
+                    pendingIntent
+                )
+            }
+            Constants.REJECTED_TIME -> {
+                EventBus.getDefault().post(BottomNotification(Constants.REJECTED_TIME))
+                val bundle = Bundle()
+                bundle.putString(
+                    Constants.TYPE,
+                    remoteMessage.data[Constants.TYPE]
+
+                )
+                bundle.putString(
+                    Constants.REJECTED_TIME ,
+                    remoteMessage.data[Constants.REJECTED_TIME ]
+                )
+                bundle.putString(
+                    Constants.SENDER_ID,
+                    remoteMessage.data[Constants.SENDER_ID]
+                )
+                val intent = Intent(this, OrderDetailsActivity::class.java)
+                intent.putExtras(bundle)
+                val pendingIntent = setPendingIntent(
+                    intent
+                )
+                NotificationUtils.showNotification(
+                    remoteMessage.data[Constants.SENDER_ID].toString(),
+                    applicationContext,
+                    remoteMessage.data[Constants.SENDER_NAME].toString(),
+                    remoteMessage.data[Constants.REJECTED_TIME].toString(),
+                    pendingIntent
+                )
+            }
+            Constants.ACCEPTED_TIME -> {
+                EventBus.getDefault().post(BottomNotification(Constants.ACCEPTED_TIME))
+                val bundle = Bundle()
+                bundle.putString(
+                    Constants.TYPE,
+                    remoteMessage.data[Constants.TYPE]
+
+                )
+                bundle.putString(
+                    Constants.ACCEPTED_TIME ,
+                    remoteMessage.data[Constants.ACCEPTED_TIME ]
+                )
+                bundle.putString(
+                    Constants.SENDER_ID,
+                    remoteMessage.data[Constants.SENDER_ID]
+                )
+                val intent = Intent(this, OrderDetailsActivity::class.java)
+                intent.putExtras(bundle)
+                val pendingIntent = setPendingIntent(
+                    intent
+                )
+                NotificationUtils.showNotification(
+                    remoteMessage.data[Constants.SENDER_ID].toString(),
+                    applicationContext,
+                    remoteMessage.data[Constants.SENDER_NAME].toString(),
+                    remoteMessage.data[Constants.ACCEPTED_TIME].toString(),
+                    pendingIntent
+                )
+            }
+            Constants.DELIVER -> {
+                EventBus.getDefault().post(BottomNotification(Constants.DELIVER ))
+                val bundle = Bundle()
+                bundle.putString(
+                    Constants.TYPE,
+                    remoteMessage.data[Constants.TYPE]
+
+                )
+                bundle.putString(
+                    Constants.DELIVER  ,
+                    remoteMessage.data[Constants.DELIVER]
+                )
+                bundle.putString(
+                    Constants.SENDER_ID,
+                    remoteMessage.data[Constants.SENDER_ID]
+                )
+                val intent = Intent(this, OrderDetailsActivity::class.java)
+                intent.putExtras(bundle)
+                val pendingIntent = setPendingIntent(
+                    intent
+                )
+                NotificationUtils.showNotification(
+                    remoteMessage.data[Constants.SENDER_ID].toString(),
+                    applicationContext,
+                    remoteMessage.data[Constants.SENDER_NAME].toString(),
+                    remoteMessage.data[Constants.DELIVER].toString(),
+                    pendingIntent
+                )
+            }
+            Constants.COMPLETE -> {
+                EventBus.getDefault().post(BottomNotification(Constants.COMPLETE))
+                val bundle = Bundle()
+                bundle.putString(
+                    Constants.TYPE,
+                    remoteMessage.data[Constants.TYPE]
+
+                )
+                bundle.putString(
+                    Constants.COMPLETE ,
+                    remoteMessage.data[Constants.COMPLETE ]
+                )
+                bundle.putString(
+                    Constants.SENDER_ID,
+                    remoteMessage.data[Constants.SENDER_ID]
+                )
+                val intent = Intent(this, OrderDetailsActivity::class.java)
+                intent.putExtras(bundle)
+                val pendingIntent = setPendingIntent(
+                    intent
+                )
+                NotificationUtils.showNotification(
+                    remoteMessage.data[Constants.SENDER_ID].toString(),
+                    applicationContext,
+                    remoteMessage.data[Constants.SENDER_NAME].toString(),
+                    remoteMessage.data[Constants.COMPLETE].toString(),
+                    pendingIntent
+                )
+            }
+            Constants.REVIEWED -> {
+                EventBus.getDefault().post(BottomNotification(Constants.REVIEWED ))
+                val bundle = Bundle()
+                bundle.putString(
+                    Constants.TYPE,
+                    remoteMessage.data[Constants.TYPE]
+
+                )
+                bundle.putString(
+                    Constants.REVIEWED ,
+                    remoteMessage.data[Constants.REVIEWED]
+                )
+                bundle.putString(
+                    Constants.SENDER_ID,
+                    remoteMessage.data[Constants.SENDER_ID]
+                )
+                val intent = Intent(this, OrderDetailsActivity::class.java)
+                intent.putExtras(bundle)
+                val pendingIntent = setPendingIntent(
+                    intent
+                )
+                NotificationUtils.showNotification(
+                    remoteMessage.data[Constants.SENDER_ID].toString(),
+                    applicationContext,
+                    remoteMessage.data[Constants.SENDER_NAME].toString(),
+                    remoteMessage.data[Constants.REVIEWED].toString(),
                     pendingIntent
                 )
             }

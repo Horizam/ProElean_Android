@@ -56,6 +56,7 @@ import com.horizam.pro.elean.databinding.DialogDeleteBinding
 import com.horizam.pro.elean.ui.base.ViewModelFactory
 import com.horizam.pro.elean.ui.main.callbacks.*
 import com.horizam.pro.elean.ui.main.events.LogoutEvent
+import com.horizam.pro.elean.ui.main.view.fragments.aboutUser.ReviewsUserFragment
 import com.horizam.pro.elean.ui.main.viewmodel.HomeViewModel
 import com.horizam.pro.elean.utils.BaseUtils
 import com.horizam.pro.elean.utils.PrefManager
@@ -243,6 +244,96 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
             if (bundle!!.containsKey(Constants.TYPE)) {
                 if (bundle.get(Constants.TYPE) == Constants.TYPE_ORDER) {
                     val intent1 = Intent(this, OrderDetailsActivity::class.java)
+                    intent1.putExtra(
+                        Constants.ORDER_ID,
+                        bundle.get(Constants.CONTENT_ID).toString()
+                    )
+                    intent.removeExtra(Constants.CONTENT_ID)
+                    startActivity(intent1)
+                }
+                else if(bundle.get(Constants.TYPE) == Constants.CREATE_DISPUTE)
+                {
+                    val intent1 = Intent(this, OrderDetailsActivity::class.java)
+                    intent1.putExtra(
+                        Constants.ORDER_ID,
+                        bundle.get(Constants.CONTENT_ID).toString()
+                    )
+                    intent.removeExtra(Constants.CONTENT_ID)
+                    startActivity(intent1)
+                }
+                else if(bundle.get(Constants.TYPE) == Constants.REJECT_DISPUTE)
+                {
+                    val intent1 = Intent(this, OrderDetailsActivity::class.java)
+                    intent1.putExtra(
+                        Constants.ORDER_ID,
+                        bundle.get(Constants.CONTENT_ID).toString()
+                    )
+                    intent.removeExtra(Constants.CONTENT_ID)
+                    startActivity(intent1)
+                }
+                else if(bundle.get(Constants.TYPE) == Constants.ACCEPT_DISPUTE)
+                {
+                    val intent1 = Intent(this, OrderDetailsActivity::class.java)
+                    intent1.putExtra(
+                        Constants.ORDER_ID,
+                        bundle.get(Constants.CONTENT_ID).toString()
+                    )
+                    intent.removeExtra(Constants.CONTENT_ID)
+                    startActivity(intent1)
+                }
+                else if(bundle.get(Constants.TYPE) == Constants.EXTEND_REQUEST)
+                {
+                    val intent1 = Intent(this, OrderDetailsActivity::class.java)
+                    intent1.putExtra(
+                        Constants.ORDER_ID,
+                        bundle.get(Constants.CONTENT_ID).toString()
+                    )
+                    intent.removeExtra(Constants.CONTENT_ID)
+                    startActivity(intent1)
+                }
+                else if(bundle.get(Constants.TYPE) == Constants.REJECTED_TIME)
+                {
+                    val intent1 = Intent(this, OrderDetailsActivity::class.java)
+                    intent1.putExtra(
+                        Constants.ORDER_ID,
+                        bundle.get(Constants.CONTENT_ID).toString()
+                    )
+                    intent.removeExtra(Constants.CONTENT_ID)
+                    startActivity(intent1)
+                }
+                else if(bundle.get(Constants.TYPE) == Constants.ACCEPTED_TIME)
+                {
+                    val intent1 = Intent(this, OrderDetailsActivity::class.java)
+                    intent1.putExtra(
+                        Constants.ORDER_ID,
+                        bundle.get(Constants.CONTENT_ID).toString()
+                    )
+                    intent.removeExtra(Constants.CONTENT_ID)
+                    startActivity(intent1)
+                }
+                else if(bundle.get(Constants.TYPE) == Constants.DELIVER)
+                {
+                    val intent1 = Intent(this, OrderDetailsActivity::class.java)
+                    intent1.putExtra(
+                        Constants.ORDER_ID,
+                        bundle.get(Constants.CONTENT_ID).toString()
+                    )
+                    intent.removeExtra(Constants.CONTENT_ID)
+                    startActivity(intent1)
+                }
+                else if(bundle.get(Constants.TYPE) == Constants.COMPLETE)
+                {
+                    val intent1 = Intent(this, OrderDetailsActivity::class.java)
+                    intent1.putExtra(
+                        Constants.ORDER_ID,
+                        bundle.get(Constants.CONTENT_ID).toString()
+                    )
+                    intent.removeExtra(Constants.CONTENT_ID)
+                    startActivity(intent1)
+                }
+                else if(bundle.get(Constants.TYPE) == Constants.REVIEWED)
+                {
+                    val intent1 = Intent(this, ReviewsUserFragment::class.java)
                     intent1.putExtra(
                         Constants.ORDER_ID,
                         bundle.get(Constants.CONTENT_ID).toString()

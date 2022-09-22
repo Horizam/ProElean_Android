@@ -79,6 +79,9 @@ OrderDetailsActivity : AppCompatActivity(), GenericHandler {
     private fun exeGetOrderById(orderID: Int) {
         viewModel.getOrderById(orderID)
     }
+    private fun exeOrderById(orderID: String) {
+        viewModel.cancelRequest(orderID)
+    }
 
     private fun setStatusBarColor() {
         val window: Window = this.window

@@ -78,7 +78,8 @@ class SplashActivity : AppCompatActivity() {
                 intent.putExtras(bundle)
                 startActivity(intent)
                 finish()
-            } else if (intent.getStringExtra(Constants.TYPE).toString() == Constants.TYPE_OFFER) {
+            }
+            else if (intent.getStringExtra(Constants.TYPE).toString() == Constants.TYPE_OFFER) {
                 val contentID = intent.getStringExtra(Constants.CONTENT_ID)
                 bundle.putString(
                     Constants.TYPE,
@@ -92,7 +93,153 @@ class SplashActivity : AppCompatActivity() {
                 intent.putExtras(bundle)
                 startActivity(intent)
                 finish()
-            } else {
+            }
+            else if (intent.getStringExtra(Constants.TYPE).toString() == Constants.CREATE_DISPUTE)
+            {
+                val contentID = intent.getStringExtra(Constants.CONTENT_ID)
+                bundle.putString(
+                    Constants.TYPE,
+                    intent.getStringExtra(Constants.TYPE).toString()
+                )
+                bundle.putString(
+                    Constants.CONTENT_ID,
+                    contentID
+                )
+                val intent = Intent(this, HomeActivity::class.java)
+                intent.putExtras(bundle)
+                startActivity(intent)
+                finish()
+            }
+            else if (intent.getStringExtra(Constants.TYPE).toString() == Constants.REJECT_DISPUTE)
+            {
+                val contentID = intent.getStringExtra(Constants.CONTENT_ID)
+                bundle.putString(
+                    Constants.TYPE,
+                    intent.getStringExtra(Constants.TYPE).toString()
+                )
+                bundle.putString(
+                    Constants.CONTENT_ID,
+                    contentID
+                )
+                val intent = Intent(this, HomeActivity::class.java)
+                intent.putExtras(bundle)
+                startActivity(intent)
+                finish()
+            }
+            else if (intent.getStringExtra(Constants.TYPE).toString() == Constants.ACCEPT_DISPUTE)
+            {
+                val contentID = intent.getStringExtra(Constants.CONTENT_ID)
+                bundle.putString(
+                    Constants.TYPE,
+                    intent.getStringExtra(Constants.TYPE).toString()
+                )
+                bundle.putString(
+                    Constants.CONTENT_ID,
+                    contentID
+                )
+                val intent = Intent(this, HomeActivity::class.java)
+                intent.putExtras(bundle)
+                startActivity(intent)
+                finish()
+            }
+            else if (intent.getStringExtra(Constants.TYPE).toString() == Constants.EXTEND_REQUEST)
+            {
+                val contentID = intent.getStringExtra(Constants.CONTENT_ID)
+                bundle.putString(
+                    Constants.TYPE,
+                    intent.getStringExtra(Constants.TYPE).toString()
+                )
+                bundle.putString(
+                    Constants.CONTENT_ID,
+                    contentID
+                )
+                val intent = Intent(this, HomeActivity::class.java)
+                intent.putExtras(bundle)
+                startActivity(intent)
+                finish()
+            }
+
+            else if (intent.getStringExtra(Constants.TYPE).toString() == Constants.REJECTED_TIME)
+            {
+                val contentID = intent.getStringExtra(Constants.CONTENT_ID)
+                bundle.putString(
+                    Constants.TYPE,
+                    intent.getStringExtra(Constants.TYPE).toString()
+                )
+                bundle.putString(
+                    Constants.CONTENT_ID,
+                    contentID
+                )
+                val intent = Intent(this, HomeActivity::class.java)
+                intent.putExtras(bundle)
+                startActivity(intent)
+                finish()
+            }
+            else if (intent.getStringExtra(Constants.TYPE).toString() == Constants.ACCEPTED_TIME)
+            {
+                val contentID = intent.getStringExtra(Constants.CONTENT_ID)
+                bundle.putString(
+                    Constants.TYPE,
+                    intent.getStringExtra(Constants.TYPE).toString()
+                )
+                bundle.putString(
+                    Constants.CONTENT_ID,
+                    contentID
+                )
+                val intent = Intent(this, HomeActivity::class.java)
+                intent.putExtras(bundle)
+                startActivity(intent)
+                finish()
+            }
+            else if (intent.getStringExtra(Constants.TYPE).toString() == Constants.DELIVER)
+            {
+                val contentID = intent.getStringExtra(Constants.CONTENT_ID)
+                bundle.putString(
+                    Constants.TYPE,
+                    intent.getStringExtra(Constants.TYPE).toString()
+                )
+                bundle.putString(
+                    Constants.CONTENT_ID,
+                    contentID
+                )
+                val intent = Intent(this, HomeActivity::class.java)
+                intent.putExtras(bundle)
+                startActivity(intent)
+                finish()
+            }
+            else if (intent.getStringExtra(Constants.TYPE).toString() == Constants.COMPLETE)
+            {
+                val contentID = intent.getStringExtra(Constants.CONTENT_ID)
+                bundle.putString(
+                    Constants.TYPE,
+                    intent.getStringExtra(Constants.TYPE).toString()
+                )
+                bundle.putString(
+                    Constants.CONTENT_ID,
+                    contentID
+                )
+                val intent = Intent(this, HomeActivity::class.java)
+                intent.putExtras(bundle)
+                startActivity(intent)
+                finish()
+            }
+            else if (intent.getStringExtra(Constants.TYPE).toString() == Constants.REVIEWED)
+            {
+                val contentID = intent.getStringExtra(Constants.CONTENT_ID)
+                bundle.putString(
+                    Constants.TYPE,
+                    intent.getStringExtra(Constants.TYPE).toString()
+                )
+                bundle.putString(
+                    Constants.CONTENT_ID,
+                    contentID
+                )
+                val intent = Intent(this, HomeActivity::class.java)
+                intent.putExtras(bundle)
+                startActivity(intent)
+                finish()
+            }
+            else {
                 loadInitialActivity()
                 getScreenWidthAndHeight()
             }
