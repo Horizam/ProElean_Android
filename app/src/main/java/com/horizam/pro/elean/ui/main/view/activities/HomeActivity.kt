@@ -333,7 +333,7 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
                 }
                 else if(bundle.get(Constants.TYPE) == Constants.REVIEWED)
                 {
-                    val intent1 = Intent(this, ReviewsUserFragment::class.java)
+                    val intent1 = Intent(this, OrderDetailsActivity::class.java)
                     intent1.putExtra(
                         Constants.ORDER_ID,
                         bundle.get(Constants.CONTENT_ID).toString()
