@@ -34,4 +34,5 @@ data class Order(
     @SerializedName("delivery_note") val delivery_note : String,
     @SerializedName("delivered_file") val delivered_file : String,
     @SerializedName("revision") val revision : Int,
+    @SerializedName("revision_left") val revision_left : Int,
     @SerializedName("has_pending_extension_request") val pending_req : Int)

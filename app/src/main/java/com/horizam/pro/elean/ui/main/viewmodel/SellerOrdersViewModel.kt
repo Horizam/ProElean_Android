@@ -27,6 +27,7 @@ class SellerOrdersViewModel(
     private val acceptRequest=MutableLiveData<String>()
     private val rejectRequest=MutableLiveData<String>()
     private val CompleteRequest=MutableLiveData<BuyerActionRequestMultipart>()
+    private val RevisionRequest=MutableLiveData<BuyerRevisionAction>()
 
     //we used seller hashmap when we send different value that required due to backend issues
     private val sellerHashMap = MutableLiveData<HashMap<String, Any>>()
@@ -126,6 +127,17 @@ class SellerOrdersViewModel(
             }
         }
     }
+    val buyerRevision = RevisionRequest.switchMap {
+        liveData(Dispatchers.IO) {
+            emit(Resource.loading(data = null))
+            try {
+                emit(Resource.success(data = mainRepository.buyerRevision(order_id,RevisionRequest.value!!)))
+            } catch (exception: Exception) {
+                val errorMessage = BaseUtils.getError(exception)
+                emit(Resource.error(data = null, message = errorMessage))
+            }
+        }
+    }
     val orderTimeline = orderTimelineRequest.switchMap {
         liveData(Dispatchers.IO) {
             emit(Resource.loading(data = null))
@@ -211,6 +223,10 @@ class SellerOrdersViewModel(
     fun buyerCompleteActions(id: String, request: BuyerActionRequestMultipart) {
         order_id=id
         CompleteRequest.value = request
+    }
+    fun buyerRevisionActions(id: String, request: BuyerRevisionAction) {
+        order_id=id
+        RevisionRequest.value = request
     }
     fun cancelRequest(id:String)
     {

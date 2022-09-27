@@ -74,13 +74,23 @@ class ServiceDetailsFragment : Fragment(), BaseSliderView.OnSliderClickListener,
 
     private fun setUpObserver() {
         viewModel.reviewList.observe(viewLifecycleOwner) {
-            adapter.submitData(viewLifecycleOwner.lifecycle, it)
+            adapter.submitData(viewLifecycleOwner.lifecycle,it)
         }
     }
 
     private fun exeGetReviews(id: String) {
         val reviewsRequest = ReviewsRequest(id)
         viewModel.getReviews(reviewsRequest)
+        if( viewModel.getReviews(reviewsRequest)!=null)
+        {
+            recyclerView.isVisible = true
+            binding.tvPlaceholder.isVisible = false
+            viewModel.getReviews(reviewsRequest)
+        } else {
+            recyclerView.isVisible = false
+            binding.tvPlaceholder.isVisible = true
+        }
+
     }
 
     override fun onStart() {
@@ -92,6 +102,7 @@ class ServiceDetailsFragment : Fragment(), BaseSliderView.OnSliderClickListener,
     private fun executeApi() {
         val gson = Gson()
         val serviceDetail = gson.fromJson(args.serviceDetail, ServiceDetail::class.java)
+        exeGetReviews(serviceDetail.id)
         handleResponse(serviceDetail)
     }
 
@@ -99,11 +110,13 @@ class ServiceDetailsFragment : Fragment(), BaseSliderView.OnSliderClickListener,
 
         requestOptions = RequestOptions().centerCrop()
         setSliderProperties()
-        adapter = ReviewsAdapter(this)
-        recyclerView = binding.rvReviews
+
+
     }
 
     private fun setRecyclerview() {
+        recyclerView = binding.rvReviews
+        adapter = ReviewsAdapter(this)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.addItemDecoration(
             DividerItemDecoration(
@@ -186,7 +199,6 @@ class ServiceDetailsFragment : Fragment(), BaseSliderView.OnSliderClickListener,
             tvNoOfRevision.text = serviceDetail.revision.toString()
             btnEditService.isVisible = args.isEditable
             service = serviceDetail
-            exeGetReviews(service!!.id)
             setImageSlider(serviceDetail)
 //            if (serviceDetail.serviceReviewsList.isEmpty()) {
 //                recyclerView.isVisible = false

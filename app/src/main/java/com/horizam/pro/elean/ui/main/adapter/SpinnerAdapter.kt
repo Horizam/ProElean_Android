@@ -30,6 +30,7 @@ internal class SpinnerAdapter(
     }
     override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
         if (position == 0) {
+
             return initialSelection(true)!!
         }
         return getCustomView(position, parent)

@@ -96,7 +96,7 @@ class RevisionOrdersFragment : Fragment(), OnItemClickListener, SwipeRefreshLayo
     }
 
     private fun setupObservers() {
-        viewModel.buyerOrders.observe(viewLifecycleOwner, {
+        viewModel.buyerOrders.observe(viewLifecycleOwner) {
             it?.let { resource ->
                 when (resource.status) {
                     Status.SUCCESS -> {
@@ -117,7 +117,7 @@ class RevisionOrdersFragment : Fragment(), OnItemClickListener, SwipeRefreshLayo
                     }
                 }
             }
-        })
+        }
     }
 
     private fun changeViewVisibility(textView: Boolean, button: Boolean, layout: Boolean) {

@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
 import com.horizam.pro.elean.data.model.response.ServiceReviews
@@ -56,6 +57,11 @@ class ReviewsUserFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.
         if (swipeRefreshLayout.isRefreshing) {
             swipeRefreshLayout.isRefreshing = false
         }
+//        if(intent.hasExtra(Constants.ORDER)){
+//            loadData()
+//        }else if(intent.hasExtra(Constants.ORDER_ID)){
+//            exeGetOrderById(intent.getStringExtra(Constants.ORDER_ID)!!.toInt())
+//        }
         exeApi()
     }
 

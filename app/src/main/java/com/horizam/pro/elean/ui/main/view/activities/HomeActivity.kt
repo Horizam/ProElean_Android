@@ -56,6 +56,7 @@ import com.horizam.pro.elean.databinding.DialogDeleteBinding
 import com.horizam.pro.elean.ui.base.ViewModelFactory
 import com.horizam.pro.elean.ui.main.callbacks.*
 import com.horizam.pro.elean.ui.main.events.LogoutEvent
+import com.horizam.pro.elean.ui.main.view.fragments.GigDetailsFragment
 import com.horizam.pro.elean.ui.main.view.fragments.aboutUser.ReviewsUserFragment
 import com.horizam.pro.elean.ui.main.viewmodel.HomeViewModel
 import com.horizam.pro.elean.utils.BaseUtils
@@ -331,7 +332,7 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
                     intent.removeExtra(Constants.CONTENT_ID)
                     startActivity(intent1)
                 }
-                else if(bundle.get(Constants.TYPE) == Constants.REVIEWED)
+                else if(bundle.get(Constants.TYPE) == Constants.REVISION)
                 {
                     val intent1 = Intent(this, OrderDetailsActivity::class.java)
                     intent1.putExtra(
@@ -340,6 +341,19 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
                     )
                     intent.removeExtra(Constants.CONTENT_ID)
                     startActivity(intent1)
+                }
+                else if(bundle.get(Constants.TYPE) == Constants.REVIEWED)
+                {
+                    val mFragmentManager = supportFragmentManager
+                    val mFragmentTransaction = mFragmentManager.beginTransaction()
+                    val mFragment = ReviewsUserFragment()
+                    bundle.putString( Constants.ORDER_ID,
+                    bundle.get(Constants.CONTENT_ID).toString())
+                    mFragment.arguments = bundle
+                    mFragmentTransaction.replace(R.id.nav_host_fragment, mFragment).commit()
+                  //  val intent1 = Intent(this,ReviewsUserFragment::class.java)
+                    intent.removeExtra(Constants.CONTENT_ID)
+//                    startActivity(mFragment)
                 }
             }
         }

@@ -46,11 +46,11 @@ class UserReviewsAdapter(val listener: OnItemClickListener) : ListAdapter<UserRe
 
         fun bind(review : UserReview) {
             binding.apply {
-//                Glide.with(itemView)
-//                    .load(Constants.BASE_URL.plus(review.user.image))
-//                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-//                    .error(R.drawable.ic_error)
-//                    .into(ivReview)
+                Glide.with(itemView)
+                    .load(Constants.BASE_URL.plus(review.profile))
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                    .error(R.drawable.ic_error)
+                    .into(ivReview)
                 tvNameReview.text = review.user_name
                 tvDescReview.text = review.comment
                 ratingBarReview.rating = review.rating.toFloat()

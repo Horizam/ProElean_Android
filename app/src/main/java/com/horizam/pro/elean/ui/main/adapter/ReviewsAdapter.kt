@@ -7,6 +7,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.horizam.pro.elean.Constants
+import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.model.response.Review
 import com.horizam.pro.elean.data.model.response.ServiceReviews
 import com.horizam.pro.elean.databinding.ItemReviewBinding
@@ -41,8 +44,12 @@ class ReviewsAdapter(val listener: OnItemClickListener) : PagingDataAdapter<Serv
 
         fun bind(review: ServiceReviews) {
             binding.apply {
+                Glide.with(itemView)
+                    .load(Constants.BASE_URL.plus(review.user.image))
+                    .error(R.drawable.ic_error)
+                    .into(ivReview)
                 ratingBarReview.rating = review.rating.toFloat()
-                tvUserName.text = review.user.name
+                tvUserName.text = review.user.username
                 tvReview.text = review.description
             }
         }
@@ -55,7 +62,7 @@ class ReviewsAdapter(val listener: OnItemClickListener) : PagingDataAdapter<Serv
             }
 
             override fun areContentsTheSame(oldItem: ServiceReviews, newItem: ServiceReviews): Boolean {
-                return oldItem == newItem
+                return oldItem.id == newItem.id
             }
 
         }

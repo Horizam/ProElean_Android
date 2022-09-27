@@ -15,7 +15,7 @@ class GetGigsPagingSource(val apiHelper: ApiHelper, val id: String)
         val position = params.key ?: Constants.STARTING_PAGE_INDEX
 
         return try {
-            val response = apiHelper.getReviews(id)
+            val response = apiHelper.getReviews(id,position)
             val sellers = response.data
             LoadResult.Page(
                 data = sellers,

@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,10 +17,13 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.bumptech.glide.load.engine.executor.GlideExecutor.UncaughtThrowableStrategy.LOG
+import com.github.mikephil.charting.data.PieEntry
 import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.Gson
 import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
+import com.horizam.pro.elean.R.string
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
 import com.horizam.pro.elean.data.model.SliderItem
@@ -56,9 +60,11 @@ class HomeFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefre
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private lateinit var servicesArrayList: List<SpinnerModel>
     private lateinit var generalServicesArrayList: List<Category>
+    private  var itemArray: ArrayList<String> = ArrayList()
     private var sum: Int = 0
     private var count = 0
     private var n: Int = 0
+    private var item=""
     private lateinit var servicesAdapter: ArrayAdapter<SpinnerModel>
     private var serviceId = ""
     private var sliderView: SliderView? = null
@@ -111,9 +117,13 @@ class HomeFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefre
                     bundle!!.getString(Constants.CONTENT_ID)
                     findNavController().navigate(R.id.postedJobsFragment)
                     requireActivity().intent.removeExtra(Constants.TYPE)
+                } else if ((requireActivity().intent.getStringExtra(Constants.TYPE)) == Constants.REVIEWED) {
+                    val bundle = requireActivity().intent.extras
+                    bundle!!.getString(Constants.CONTENT_ID)
+                    findNavController().navigate(R.id.action_homeFragment_to_reviewsUserFragment)
+                    requireActivity().intent.removeExtra(Constants.TYPE)
                 }
             }
-
             if (requireActivity().intent.hasExtra("order")) {
                 if (requireActivity().intent.getIntExtra("order", 0) == 1) {
                     this.findNavController().navigate(R.id.ordersFragment)
@@ -178,23 +188,28 @@ class HomeFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefre
 
     @SuppressLint("RtlHardcoded")
     private fun setServicesData(response: HomeDataResponse) {
+
         if (response.data.categories?.isNotEmpty()!!) {
-
             generalServicesArrayList = response.data.categories
-
-            servicesArrayList = response.data.categories.map { spinnerServices ->
+            servicesArrayList =  generalServicesArrayList.map { spinnerServices ->
                 SpinnerModel(id = spinnerServices.slug, value = spinnerServices.title)
             }
+//                for (i in 1 until servicesArrayList.count()) {
+//                    itemArray.add(servicesArrayList[i].id)
+//                    Log.e("neha", itemArray[i])
+//                }
+//            var hhh=itemArray
+
             servicesAdapter = SpinnerAdapter(
                 requireContext(),
-                android.R.layout.simple_spinner_dropdown_item, servicesArrayList
+                android.R.layout.simple_spinner_dropdown_item,servicesArrayList
             ).also {
                 it.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
                 binding.spinnerDoctor.adapter = it
-                binding.spinnerDoctor.setPrompt("Select Category")
             }
             binding.spinnerDoctor.onItemSelectedListener = this
         }
+
     }
     private fun serviceRecyclerview() {
         binding.rvServiceCategories.apply {

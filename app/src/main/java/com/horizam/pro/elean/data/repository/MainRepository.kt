@@ -20,6 +20,7 @@ class MainRepository(private val apiHelper: ApiHelper) {
     suspend fun sellerRejectDispute(order_id: String)=apiHelper.sellerRejectDispute(order_id)
     suspend fun sellerAccepttDispute(order_id: String)=apiHelper.sellerAcceptDispute(order_id)
     suspend fun buyerCompleted(order_id: String, request: BuyerActionRequestMultipart)=apiHelper.buyerCompleted(order_id,request)
+    suspend fun buyerRevision(order_id: String, request: BuyerRevisionAction)=apiHelper.buyerRevision(order_id,request)
     suspend fun loginUser(request: LoginRequest) = apiHelper.loginUser(request)
     suspend fun addAccountDetail(request: BankDetail) = apiHelper.addAccountDetail(request)
     suspend fun getAccountDetail() = apiHelper.getAccountDetail()

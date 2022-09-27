@@ -338,6 +338,35 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                     pendingIntent
                 )
             }
+            Constants.REVISION -> {
+                EventBus.getDefault().post(BottomNotification(Constants.REVISION))
+                val bundle = Bundle()
+                bundle.putString(
+                    Constants.TYPE,
+                    remoteMessage.data[Constants.TYPE]
+
+                )
+                bundle.putString(
+                    Constants.REVISION ,
+                    remoteMessage.data[Constants.REVISION]
+                )
+                bundle.putString(
+                    Constants.SENDER_ID,
+                    remoteMessage.data[Constants.SENDER_ID]
+                )
+                val intent = Intent(this, OrderDetailsActivity::class.java)
+                intent.putExtras(bundle)
+                val pendingIntent = setPendingIntent(
+                    intent
+                )
+                NotificationUtils.showNotification(
+                    remoteMessage.data[Constants.SENDER_ID].toString(),
+                    applicationContext,
+                    remoteMessage.data[Constants.SENDER_NAME].toString(),
+                    remoteMessage.data[Constants.REVISION].toString(),
+                    pendingIntent
+                )
+            }
             Constants.REVIEWED -> {
                 EventBus.getDefault().post(BottomNotification(Constants.REVIEWED ))
                 val bundle = Bundle()

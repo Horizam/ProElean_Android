@@ -8,8 +8,8 @@
     app:cardCornerRadius="@dimen/_5sdp"
     app:cardElevation="0dp"
     android:layout_marginTop="@dimen/_10sdp"
-    android:layout_marginLeft="@dimen/_10sdp"
-    android:layout_gravity="center_horizontal">
+    android:layout_marginLeft="@dimen/_20sdp"
+    android:layout_marginRight="@dimen/_20sdp">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -21,6 +21,7 @@
         app:cardCornerRadius="12dp"
         app:cardElevation="6dp"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         tools:ignore="MissingConstraints">
 
         <androidx.constraintlayout.widget.ConstraintLayout

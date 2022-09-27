@@ -126,7 +126,7 @@
     <string name="str_order">Tilaus|</string>
     <string name="str_order_title">Order</string>
     <string name="str_april_17_2020">April 17, 2020</string>
-    <string name="str_completed">Complete</string>
+    <string name="str_completed">Completed</string>
     <string name="str_order_details">Order Details</string>
     <string name="str_seller_submitted">Seller Submitted. Mark it complete if you are satisfied</string>
     <string name="str_download_source">Download Source</string>
@@ -351,4 +351,6 @@
     <string name="str_explore_the_market">Explore the marketplace</string>
     <string name="str_top_picks_for_you">Top picks for you</string>
     <string name="str_with_projects_made_by_our_efreelancers">The eFreelancers in Pro eLean work fast and reliably. Inspired with projects made by our eFreelancers.</string>
+    <string name="str_revisions_left">Revisions Left</string>
+    <string name="str_Delivery_date">Delivery Date</string>
 </resources>

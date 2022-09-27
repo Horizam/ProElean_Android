@@ -33,6 +33,7 @@ import com.horizam.pro.elean.utils.BaseUtils
 import com.horizam.pro.elean.utils.PrefManager
 import com.horizam.pro.elean.utils.Status
 import kotlinx.android.synthetic.main.fragment_description_bottom_sheet.*
+import kotlinx.android.synthetic.main.fragment_order_details.*
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
 import java.util.*
@@ -85,7 +86,6 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
 
     private fun executeAcceptApi(code: String) {
         genericHandler.showProgressBar(true)
-
         viewModel.acceptExtensionRequest(order.id)
     }
     private fun executeRejectApi(code: String) {
@@ -100,6 +100,14 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
         )
 
         viewModel.buyerCompleteActions(order.id, request)
+    }
+    private fun executeRevisionApi(code: String, description: String) {
+        genericHandler.showProgressBar(true)
+        val request =BuyerRevisionAction(
+            revision_description = description
+        )
+
+        viewModel.buyerRevisionActions(order.id, request)
     }
 
     private fun executeExtendedApi(code: String, description: String,extended_days:String) {
@@ -118,6 +126,9 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
     }
 
     private fun setData() {
+        val startTime = Date().time
+        val endTime = BaseUtils.getMillisecondsFromUtc(order.end_date)
+        val remainingTime = endTime.minus(startTime)
         binding.apply {
             try {
                 tvOrder.text = order.orderNo
@@ -140,8 +151,16 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                 tvPrice.text = order.amount.toString().plus(order.currency)
                 tvDuration.text = order.delivery_time
                 tvRevisions.text = order.revision.toString()
-                tvDelivery.text =
-                    if (order.delivery_note.isNotEmpty()) order.delivery_note else getString(
+                if(order.revision_left.toString() == (0).toString()) {
+                    tvRevisionsLeft.text ="Revisions Finished"
+                    btnRevision.isVisible=false
+                }
+                        else
+                {
+                    tvRevisionsLeft.text=order.revision_left.toString()
+                    btnRevision.isVisible=true
+                }
+                tvDelivery.text = if (order.delivery_note.isNotEmpty()) order.delivery_note else getString(
                         R.string.str_no_delivery_note
                     )
                 when (pair.first) {
@@ -200,16 +219,17 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                     changeViewsVisibility(
                         deliveryNote = false,
                         btnResubmit = false,
-                        buttonDispute = true,
+                        buttonDispute = false,
                         buttonProceedDispute = false,
                         buttonRevision = false,
                         buttonCompleted = true,
                         buttonRateOrder = false,
                         extendTime = false,
-                        btnlate = false
+                        btnlate = true
                     )
                     startTimer()
                     binding.countdownTimer.isVisible = false
+                    btnLate.text="Late Order Delivered"
                 }
                 SellerOrders.Delivered -> {
                     changeViewsVisibility(
@@ -298,12 +318,19 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
         }
     }
 
+    @SuppressLint("ResourceAsColor")
     private fun startTimer() {
         val startTime = Date().time
         val endTime = BaseUtils.getMillisecondsFromUtc(order.end_date)
         val remainingTime = endTime.minus(startTime)
         binding.countdownTimer.start(remainingTime)
-    }
+
+        if(endTime==remainingTime)
+        {
+            binding.countdownTimer.setBackgroundColor(R.color.color_red)
+        }
+
+}
 
     private fun setBuyerData(pair: Pair<Int, Int>) {
         binding.apply {
@@ -333,14 +360,14 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                 BuyerOrders.Late -> {
                     changeViewsVisibility(
                         deliveryNote = false,
-                        btnResubmit = false,
-                        buttonDispute = true,
+                        btnResubmit = true,
+                        buttonDispute = false,
                         buttonProceedDispute = false,
                         buttonRevision = false,
                         buttonCompleted = false,
                         buttonRateOrder = false,
                         extendTime = false,
-                        btnlate = false
+                        btnlate = true
 
                     )
                     startTimer()
@@ -352,7 +379,7 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                         btnResubmit = false,
                         buttonDispute = true,
                         buttonProceedDispute = false,
-                        buttonRevision = true,
+                        buttonRevision = revisionAvailable(),
                         buttonCompleted = true,
                         buttonRateOrder = false,
                         extendTime = false,
@@ -808,7 +835,25 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                 }
             }
         }
-//        }
+        viewModel.buyerRevision.observe(viewLifecycleOwner) {
+            it?.let { resource ->
+                when (resource.status) {
+                    Status.SUCCESS -> {
+                        genericHandler.showProgressBar(false)
+                        resource.data?.let { response ->
+                            handleResponse(response)
+                        }
+                    }
+                    Status.ERROR -> {
+                        genericHandler.showProgressBar(false)
+                        genericHandler.showErrorMessage(it.message.toString())
+                    }
+                    Status.LOADING -> {
+                        genericHandler.showProgressBar(true)
+                    }
+                }
+            }
+        }
         viewModel.buyerCancelDispute.observe(viewLifecycleOwner) {
             it?.let { resource ->
                 when (resource.status) {
@@ -944,6 +989,8 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
         val hashMap: HashMap<String, Any> = HashMap()
         val request = BuyerActionRequestMultipart(
             description = description)
+        val requestRevision = BuyerRevisionAction(
+            revision_description = description)
         var refferal = order.id
         if (userType == Constants.BUYER_USER) {
             if (type == 5) {
@@ -951,7 +998,16 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                 hashMap["order_no"] = order.orderNo
                 hashMap["type"] = type
                 executeApi(order.id, request.description)
-            } else
+            }
+
+            else if(type==3)
+            {
+                hashMap["revision_description"] = description
+                hashMap["order"] = order.orderNo
+                hashMap["type"] = type
+                executeRevisionApi(order.id,requestRevision.revision_description)
+            }
+            else
                 executeCompleteApi(order.id, request.description)
         }
     }

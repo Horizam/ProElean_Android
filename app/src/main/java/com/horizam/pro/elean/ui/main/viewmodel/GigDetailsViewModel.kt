@@ -1,8 +1,11 @@
 package com.horizam.pro.elean.ui.main.viewmodel
 
-import androidx.lifecycle.*
-import androidx.paging.cachedIn
-import com.horizam.pro.elean.data.model.requests.*
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.liveData
+import androidx.lifecycle.switchMap
+import com.horizam.pro.elean.data.model.requests.CustomOrderRequest
+import com.horizam.pro.elean.data.model.requests.ReviewsRequest
 import com.horizam.pro.elean.data.repository.MainRepository
 import com.horizam.pro.elean.utils.BaseUtils
 import com.horizam.pro.elean.utils.Resource
@@ -28,7 +31,7 @@ class GigDetailsViewModel(private val mainRepository: MainRepository) : ViewMode
         }
     }
 
-    val reviewList = getReviewsRequest.switchMap { request ->
+    val reviewList = getReviewsRequest.switchMap {
         mainRepository.getReviews(getReviewsRequest.value!!.id)
     }
 

@@ -3,7 +3,6 @@ package com.horizam.pro.elean.data.model.response
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
-import java.lang.reflect.Array
 
 data class ServicesResponse(
     @SerializedName("data") var serviceList: List<ServiceDetail>,
@@ -50,6 +49,8 @@ data class ServiceUser(
     @SerializedName("phone") val phone: Int,
     @SerializedName("email") val email: String,
     @SerializedName("description") val description: String,
+    @SerializedName("country") val country: String,
+    @SerializedName("total_service") val total_services: Int,
     @SerializedName("total_reviews") val total_reviews: Int,
     @SerializedName("user_rating") val user_rating: Int,
     @SerializedName("recent_delivery") val recent_delivery: String,

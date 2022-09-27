@@ -36,6 +36,7 @@ import com.glide.slider.library.animations.DescriptionAnimation
 import com.glide.slider.library.tricks.ViewPagerEx
 import com.google.gson.Gson
 import com.horizam.pro.elean.data.model.MessageGig
+import com.horizam.pro.elean.data.model.requests.ReviewsRequest
 import com.horizam.pro.elean.data.model.response.ServiceDetail
 import com.horizam.pro.elean.data.model.response.Subcategory
 import com.horizam.pro.elean.ui.main.adapter.GigsAdapter
@@ -62,11 +63,13 @@ class GigDetailsFragment : Fragment(), OnItemClickListener,
     private lateinit var deliveryDaysList: ArrayList<String>
     private lateinit var prefManager: PrefManager
     private lateinit var viewModell: ServiceGigsViewModel
+    private var service: ServiceDetail? = null
     private var gig: ServiceDetail? = null
     private lateinit var serviceGigsFragment:ServiceGigsFragment
     private val args: GigDetailsFragmentArgs by navArgs()
     private val argss: ServiceGigsFragmentArgs by navArgs()
     private var userId: String = ""
+    private var serviceId = ""
     private val bundle = Bundle()
 
 
@@ -83,6 +86,7 @@ class GigDetailsFragment : Fragment(), OnItemClickListener,
         binding = FragmentGigDetailsBinding.inflate(layoutInflater, container, false)
         setToolbarData()
         initViews()
+//        inData()
         setupViewModel()
         setupObservers()
         setRecyclerview()
@@ -91,21 +95,32 @@ class GigDetailsFragment : Fragment(), OnItemClickListener,
         return binding.root
     }
 
+//    private fun inData() {
+//        val gson = Gson()
+//        val serviceDetail = gson.fromJson(args.serviceDetail, ServiceDetail::class.java)
+//        serviceId = bundle.get(Constants.ORDER_ID).toString()
+//        if(serviceId!=null)
+//        {
+//            exeGetReviews(serviceDetail!!.id)
+//        }
+//    }
+
     private fun executeApi() {
         val gson = Gson()
         val serviceDetail = gson.fromJson(args.serviceDetail, ServiceDetail::class.java)
 //        viewModel.addClickGigs(serviceDetail.id)
+        exeGetReviews(serviceDetail!!.id)
         setData(serviceDetail)
     }
     private fun initViews() {
         prefManager = PrefManager(requireContext())
         deliveryDaysList = ArrayList()
         serviceGigsFragment= ServiceGigsFragment()
-        adapter = ReviewsAdapter(this)
-        recyclerView = binding.rvReviews
         requestOptions = RequestOptions().centerCrop()
         setSliderProperties()
+
     }
+
 
     private fun setSliderProperties() {
         glideSliderLayout = binding.imgSlider.apply {
@@ -120,6 +135,8 @@ class GigDetailsFragment : Fragment(), OnItemClickListener,
 
 
     private fun setRecyclerview() {
+        recyclerView = binding.rvReviews
+        adapter = ReviewsAdapter(this)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.addItemDecoration(
             DividerItemDecoration(
@@ -208,6 +225,20 @@ class GigDetailsFragment : Fragment(), OnItemClickListener,
         ).get(GigDetailsViewModel::class.java)
     }
 
+    private fun exeGetReviews(id: String) {
+        val reviewsRequest = ReviewsRequest(id)
+        if(reviewsRequest!=null)
+        {
+            recyclerView.isVisible = true
+            binding.tvPlaceholder.isVisible = false
+            viewModel.getReviews(reviewsRequest)
+        } else {
+             recyclerView.isVisible = false
+            binding.tvPlaceholder.isVisible = true
+        }
+
+
+    }
     private fun setupObservers() {
         viewModel.gigDetails.observe(viewLifecycleOwner) {
             it?.let { resource ->
@@ -254,6 +285,10 @@ class GigDetailsFragment : Fragment(), OnItemClickListener,
                 }
             }
         }
+            viewModel.reviewList.observe(viewLifecycleOwner) {
+                adapter.submitData(viewLifecycleOwner.lifecycle, it)
+
+            }
     }
 
     private fun changeViewVisibility(textView: Boolean, button: Boolean, layout: Boolean) {
@@ -296,7 +331,7 @@ class GigDetailsFragment : Fragment(), OnItemClickListener,
                 setImageSlider(serviceDetail)
             }
         }
-//        if (serviceDetail.serviceReviewsList.isEmpty()) {
+//        if (serviceDetail.service_rating.isEmpty()) {
 //            recyclerView.isVisible = false
 //            binding.tvPlaceholder.isVisible = true
 //        } else {

@@ -28,7 +28,6 @@ import com.horizam.pro.elean.ui.main.viewmodel.BecomeFreelancerViewModel
 import com.horizam.pro.elean.utils.BaseUtils.Companion.hideKeyboard
 import com.horizam.pro.elean.utils.Resource
 import com.horizam.pro.elean.utils.Status
-import kotlinx.android.synthetic.main.fragment_become_freelancer_one.*
 import java.lang.Exception
 
 

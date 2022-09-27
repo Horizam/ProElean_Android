@@ -223,6 +223,22 @@ class SplashActivity : AppCompatActivity() {
                 startActivity(intent)
                 finish()
             }
+            else if (intent.getStringExtra(Constants.TYPE).toString() == Constants.REVISION)
+            {
+                val contentID = intent.getStringExtra(Constants.CONTENT_ID)
+                bundle.putString(
+                    Constants.TYPE,
+                    intent.getStringExtra(Constants.TYPE).toString()
+                )
+                bundle.putString(
+                    Constants.CONTENT_ID,
+                    contentID
+                )
+                val intent = Intent(this, HomeActivity::class.java)
+                intent.putExtras(bundle)
+                startActivity(intent)
+                finish()
+            }
             else if (intent.getStringExtra(Constants.TYPE).toString() == Constants.REVIEWED)
             {
                 val contentID = intent.getStringExtra(Constants.CONTENT_ID)

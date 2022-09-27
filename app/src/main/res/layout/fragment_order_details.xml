@@ -250,6 +250,58 @@
                 app:layout_constraintStart_toEndOf="@id/tv_revisions_title"
                 app:layout_constraintTop_toTopOf="@id/tv_revisions_title"
                 tools:text="@string/str_revisions" />
+            <TextView
+                android:id="@+id/tv_revisions_left_title"
+                style="@style/LabelStyle"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:maxLines="1"
+                android:text="@string/str_revisions_left"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_revisions_title" />
+
+            <TextView
+                android:id="@+id/tv_revisions_left"
+                style="@style/ValueStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_10sdp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                app:layout_constraintBottom_toBottomOf="@id/tv_revisions_left_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/tv_revisions_left_title"
+                app:layout_constraintTop_toTopOf="@id/tv_revisions_left_title"
+                tools:text="@string/str_revisions" />
+            <TextView
+                android:id="@+id/tv_delivery_date_title"
+                style="@style/LabelStyle"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:maxLines="1"
+                android:visibility="gone"
+                android:text="@string/str_Delivery_date"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_revisions_left_title" />
+
+            <TextView
+                android:id="@+id/tv_delivery_date"
+                style="@style/ValueStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_10sdp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/tv_delivery_date_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/tv_delivery_date_title"
+                app:layout_constraintTop_toTopOf="@id/tv_delivery_date_title"
+                tools:text="@string/str_delivery_note" />
 
             <TextView
                 android:id="@+id/tv_delivery_title"
@@ -261,7 +313,7 @@
                 android:maxLines="1"
                 android:text="@string/str_delivery_note"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_revisions" />
+                app:layout_constraintTop_toBottomOf="@id/tv_delivery_date_title" />
 
             <TextView
                 android:id="@+id/tv_delivery"

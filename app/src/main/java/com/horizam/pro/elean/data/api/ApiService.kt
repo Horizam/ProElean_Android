@@ -31,14 +31,23 @@ interface ApiService {
 
 
 
+    //Completed
+    @POST("buyer/orders/:{order_id}/completed")
+    suspend fun buyerCompleted(
+        @Path ("order_id") orderId: String,
+        @Body request: BuyerActionRequestMultipart):GeneralResponse
+
+    @POST("buyer/orders/{order_id}/order_revision")
+    suspend fun buyerRevision(
+        @Path ("order_id") orderId: String,
+        @Body request: BuyerRevisionAction):GeneralResponse
+
+
+
+
     @POST("seller/orders/:{order_id}/reject_dispute")
     suspend fun cancelDispute(
         @Path ("order_id") orderId: String):GeneralResponse
-
-
-
-
-
     //Reject_Dispute
     @POST("seller/orders/:{order_id}/reject_dispute")
     suspend fun rejectDispute(
@@ -47,11 +56,8 @@ interface ApiService {
     @POST("seller/orders/:{order_id}/accept_dispute")
     suspend fun acceptDispute(
         @Path ("order_id") orderId: String):GeneralResponse
-    //Completed
-    @POST("buyer/orders/:{order_id}/completed")
-    suspend fun buyerCompleted(
-        @Path ("order_id") orderId: String,
-        @Body request: BuyerActionRequestMultipart):GeneralResponse
+
+
 
     @POST("login")
     suspend fun loginUser(@Body request: LoginRequest): LoginResponse
@@ -178,7 +184,8 @@ interface ApiService {
 
     @GET("service/{id}/reviews")
     suspend fun getReviews(
-        @Path("id") query: String
+        @Path("id") query: String,
+        @Query("page") page: Int
     ): ServiceReviewsResponse
 
     @GET("buyer/jobs/{id}/offers")
@@ -253,7 +260,7 @@ interface ApiService {
     @POST("seller/orders/:{order_id}/deliver_order")
     suspend fun sellerActionsWithFile(
         @Path("order_id") order_id:String,
-        @Part("description") deliveryNote:String ,
+        @Part("description") deliveryNote:String,
         @Part image: MultipartBody.Part,
     ): GeneralResponse
 

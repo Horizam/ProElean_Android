@@ -13,6 +13,7 @@
         <action
             android:id="@+id/action_homeFragment_to_serviceCategoriesFragment"
             app:destination="@id/serviceCategoriesFragment" />
+
         <action
             android:id="@+id/action_homeFragment_to_gigDetailsFragment"
             app:destination="@id/gigDetailsFragment" />
@@ -25,6 +26,9 @@
         <action
             android:id="@+id/action_homeFragment_to_notificationFragment"
             app:destination="@id/notificationsFragment"/>
+        <action
+            android:id="@+id/action_homeFragment_to_reviewsUserFragment"
+            app:destination="@id/reviewsUserFragment" />
     </fragment>
 
     <fragment
@@ -376,6 +380,9 @@
         <action
             android:id="@+id/action_manageServicesFragment_to_serviceDetailsFragment"
             app:destination="@id/serviceDetailsFragment" />
+        <action
+            android:id="@+id/action_profile_fragment_to_reviewsUserFragment"
+            app:destination="@id/reviewsUserFragment" />
     </fragment>
     <fragment
         android:id="@+id/orderFragment"
@@ -394,5 +401,10 @@
         android:name="com.horizam.pro.elean.ui.main.view.fragments.BankAccountsFragment"
         android:label="fragment_bank_accounts"
         tools:layout="@layout/fragment_bank_accounts" />
+    <fragment
+        android:id="@+id/reviewsUserFragment"
+        android:name="com.horizam.pro.elean.ui.main.view.fragments.aboutUser.ReviewsUserFragment"
+        android:label="ReviewsUserFragment"
+        tools:layout="@layout/fragment_user_reviews" />
 
 </navigation>

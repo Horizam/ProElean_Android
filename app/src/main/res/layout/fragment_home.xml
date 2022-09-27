@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/swipe_refresh"
@@ -27,11 +28,11 @@
                     android:id="@+id/relativeLayout"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/_32sdp"
-                    android:layout_marginHorizontal="@dimen/_1sdp"
+                    android:layout_margin="@dimen/_1sdp"
                     android:background="@drawable/search_item"
                     android:elevation="@dimen/_500sdp"
                     android:padding="@dimen/_7sdp"
-                    android:textAlignment="center"
+                    android:textAlignment="viewStart"
                     app:layout_constraintBottom_toTopOf="@id/autoComplete_text_view"
                     app:layout_constraintEnd_toEndOf="@+id/autoComplete_text_view"
                     app:layout_constraintStart_toStartOf="@+id/autoComplete_text_view"
@@ -41,10 +42,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:prompt="@string/reviews"
-                        android:paddingEnd="@dimen/_145sdp"
+                        android:paddingEnd="@dimen/_148sdp"
                         android:textDirection="ltr"
                         android:elevation="@dimen/_500sdp"
-                        tools:ignore="HardcodedText" />
+                        tools:ignore="HardcodedText,RtlSymmetry" />
                 </RelativeLayout>
                 <EditText
                     android:id="@+id/autoComplete_text_view"
@@ -63,7 +64,8 @@
                     app:layout_constraintBottom_toBottomOf="@+id/bg_pic"
                     app:layout_constraintEnd_toEndOf="@+id/bg_pic"
                     app:layout_constraintStart_toStartOf="@+id/bg_pic"
-                    app:layout_constraintTop_toTopOf="@+id/tv_des" />
+                    app:layout_constraintTop_toTopOf="@+id/tv_des"
+                    android:autofillHints="" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_search"
@@ -132,99 +134,110 @@
                     app:layout_constraintTop_toTopOf="parent"
                     tools:ignore="MissingConstraints" />
 
-                <TextView
-                    android:id="@+id/tv_service_categories"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/_15sdp"
-                    android:text="@string/str_explore_the_market"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="@dimen/_14ssp"
-                    android:fontFamily="@font/poppins_bold"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toTopOf="@id/rv_service_categories"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/bg_pic" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_service_categories"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="@dimen/_2sdp"
-                    android:layoutAnimation="@anim/layout_animation_from_bottom"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    tools:listitem="@layout/item_services_and_gigs"
-                    android:scrollbars="vertical"
-                    app:layout_constraintTop_toBottomOf="@id/tv_service_categories" />
-                <TextView
-                    android:id="@+id/tv_placeholder_ads"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:elevation="@dimen/_10sdp"
-                    android:text="@string/str_no_data_available"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="@id/rv_featured_gigs"
-                    app:layout_constraintEnd_toEndOf="@id/rv_featured_gigs"
-                    app:layout_constraintStart_toStartOf="@id/rv_featured_gigs"
-                    app:layout_constraintTop_toTopOf="@id/rv_featured_gigs" />
-
-                <TextView
-                    android:id="@+id/tv_featured_gigs"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:layout_marginHorizontal="@dimen/_10sdp"
-                    android:text="@string/str_top_picks_for_you"
-                    android:textColor="@color/colorBlack"
-                    android:fontFamily="@font/poppins_bold"
-                    android:textSize="@dimen/_14ssp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toTopOf="@id/rv_featured_gigs"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/rv_service_categories" />
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_featured_gigs"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_3sdp"
-                    android:layoutAnimation="@anim/layout_animation_slide_right"
                     android:orientation="vertical"
-                    android:visibility="visible"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constrainedHeight="true"
-                    app:layout_constraintBottom_toTopOf="@id/view_bottom"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_featured_gigs"
-                    tools:listitem="@layout/item_services_and_gigs" />
+                    app:layout_constraintTop_toBottomOf="@id/bg_pic"
+                    android:gravity="center_horizontal">
 
-                <TextView
-                    android:id="@+id/tv_placeholder_featured_gigs"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/str_no_data_available"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="@id/rv_featured_gigs"
-                    app:layout_constraintEnd_toEndOf="@id/rv_featured_gigs"
-                    app:layout_constraintStart_toStartOf="@id/rv_featured_gigs"
-                    app:layout_constraintTop_toTopOf="@id/rv_featured_gigs" />
+                    <TextView
+                        android:id="@+id/tv_service_categories"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_15sdp"
+                        android:fontFamily="@font/poppins_bold"
+                        android:text="@string/str_explore_the_market"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/_14ssp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toTopOf="@id/rv_service_categories"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/bg_pic" />
 
-                <View
-                    android:id="@+id/view_bottom"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:background="@color/colorAccent"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/rv_featured_gigs"
-                    app:layout_constraintVertical_bias="1" />
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_service_categories"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/_2sdp"
+                        android:layoutAnimation="@anim/layout_animation_from_bottom"
+                        android:scrollbars="vertical"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_service_categories"
+                        tools:listitem="@layout/item_services_and_gigs" />
 
+                    <TextView
+                        android:id="@+id/tv_placeholder_ads"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:elevation="@dimen/_10sdp"
+                        android:text="@string/str_no_data_available"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="@id/rv_featured_gigs"
+                        app:layout_constraintEnd_toEndOf="@id/rv_featured_gigs"
+                        app:layout_constraintStart_toStartOf="@id/rv_featured_gigs"
+                        app:layout_constraintTop_toTopOf="@id/rv_featured_gigs" />
+
+                    <TextView
+                        android:id="@+id/tv_featured_gigs"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:fontFamily="@font/poppins_bold"
+                        android:text="@string/str_top_picks_for_you"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/_14ssp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toTopOf="@id/rv_featured_gigs"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/rv_service_categories" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_featured_gigs"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:layoutAnimation="@anim/layout_animation_slide_right"
+                        android:orientation="vertical"
+                        android:visibility="visible"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constrainedHeight="true"
+                        app:layout_constraintBottom_toTopOf="@id/view_bottom"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_featured_gigs"
+                        tools:listitem="@layout/item_services_and_gigs" />
+
+                    <TextView
+                        android:id="@+id/tv_placeholder_featured_gigs"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/str_no_data_available"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="@id/rv_featured_gigs"
+                        app:layout_constraintEnd_toEndOf="@id/rv_featured_gigs"
+                        app:layout_constraintStart_toStartOf="@id/rv_featured_gigs"
+                        app:layout_constraintTop_toTopOf="@id/rv_featured_gigs" />
+
+                    <View
+                        android:id="@+id/view_bottom"
+                        android:layout_width="match_parent"
+                        android:layout_height="?attr/actionBarSize"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:background="@color/colorAccent"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/rv_featured_gigs"
+                        app:layout_constraintVertical_bias="1" />
+                </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView

@@ -12,6 +12,7 @@ class ApiHelper(private val apiService: ApiService) {
     suspend fun sellerRejectDispute(order_id: String)=apiService.rejectDispute(order_id)
     suspend fun sellerAcceptDispute(order_id: String)=apiService.acceptDispute(order_id)
     suspend fun buyerCompleted(order_id: String,request: BuyerActionRequestMultipart)=apiService.buyerCompleted(order_id,request)
+    suspend fun buyerRevision(order_id: String,request: BuyerRevisionAction)=apiService.buyerRevision(order_id,request)
     suspend fun loginUser(request: LoginRequest) = apiService.loginUser(request)
     suspend fun addAccountDetail(request: BankDetail) = apiService.addAccountDetail(request)
     suspend fun getAccountDetail() = apiService.getAccountDetail()
@@ -80,8 +81,8 @@ class ApiHelper(private val apiService: ApiService) {
     ) = apiService.search(query,category, position)
 
     suspend fun getReviews(
-        id: String
-    ) = apiService.getReviews(id)
+        id: String,position: Int
+    ) = apiService.getReviews(id,position)
 
     suspend fun getJobOffers(id: String, position: Int) = apiService.getJobOffers(id, position)
     suspend fun getBuyerRequests(position: Int, status: String) =
