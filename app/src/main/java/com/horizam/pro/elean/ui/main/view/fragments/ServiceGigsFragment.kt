@@ -47,7 +47,6 @@ import com.horizam.pro.elean.utils.BaseUtils.Companion.hideKeyboard
 import com.horizam.pro.elean.utils.PrefManager
 import com.horizam.pro.elean.utils.Resource
 import com.horizam.pro.elean.utils.Status
-import kotlinx.android.synthetic.main.fragment_home.*
 
 
 class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
@@ -72,11 +71,9 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
     private var from: Int = 0
     private var delay: Long = 0
     private var delayCheck = 0
-    private var q=""
-    private var w=""
+    private var queryHome=""
+    private var querySearch=""
     private var slug=""
-    var check: String?="0"
-    private var id=""
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -147,22 +144,20 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
         }
     }
     private fun executeApi() {
-        val id=args.id
-        viewModel.getServicesBySubCategories(id)
-//            val request = SearchGigsRequest(
-//                query = id,
-//                filter = filter,
-//                filterValue = filterValue,
-//                distance = "",
-//                category = "",
-//            )
-//        viewModel.getServicesSubCategories(request)
+        if (from == Constants.NORMAL_FLOW) {
+            if(from==prefManager.sellerMode)
+            {
+                if (viewModel.sellers.value == null) {
+                    viewModel.getServicesBySubCategories(args.id)
+                }
+            }
+        }
     }
     override fun onRefresh() {
-//        if (swipeRefreshLayout.isRefreshing) {
-//            swipeRefreshLayout.isRefreshing = false
-//        }
-//        executeApi()
+        if (swipeRefreshLayout.isRefreshing) {
+            swipeRefreshLayout.isRefreshing = false
+        }
+        executeApi()
     }
     private fun initViews() {
         swipeRefreshLayout = binding.swipeRefresh
@@ -170,7 +165,7 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
         from = args.from
         savedAdapter = SavedAdapter(this)
         prefManager = PrefManager(requireContext())
-        adapter = GigsAdapter(this, this, this, this,this,this)
+        adapter = GigsAdapter(this, this, this, this, this)
         recyclerView = binding.rvServiceGigs
         setPriceSpinner()
     }
@@ -280,32 +275,45 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
     }
     private fun exeSearch() {
         val arg = this.arguments
-        q = arg!!.get("q").toString()
+        queryHome = arg!!.get("q").toString()
         slug = arg.get("slug").toString()
-        if (q != "null" || slug!="null") {
-            exe()
+        if (queryHome != "null" || slug != "null") {
+                       exe()
         }
-        else
-        {
-            search()
+        else {
+                search()
+            }
         }
-    }
 
     private fun exe() {
-        w=binding.autoCompleteTextView.text.toString().trim()
-        if(q!="null" || slug!="null") {
+        querySearch=binding.autoCompleteTextView.text.toString().trim()
+        if (slug == "null") {
             val request = SearchGigsRequest(
-                query = q,
+                query = queryHome,
+                category ="" ,
+                filter = filter,
+                filterValue = filterValue,
+                distance = ""
+            )
+            viewModel.searchGigsByHome(request)
+            if (querySearch != "") {
+                querySearch != queryHome
+                searchManagement()
+            }
+        }
+    else {
+            val request = SearchGigsRequest(
+                query = queryHome,
                 category = slug,
                 filter = filter,
                 filterValue = filterValue,
                 distance = ""
             )
             viewModel.searchGigsByHome(request)
-           if(w!="") {
-               w!=q
-             searchManagement()
-           }
+            if (querySearch != "") {
+                querySearch != queryHome
+                searchManagement()
+            }
         }
     }
     private fun search() {
@@ -348,7 +356,7 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
     }
     private fun searchByCategory() {
         val request = SearchGigsRequest(
-            query = w,
+            query = querySearch,
             category = slug,
             filter = filter,
             filterValue = filterValue,

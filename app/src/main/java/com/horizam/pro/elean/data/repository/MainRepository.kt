@@ -60,8 +60,13 @@ class MainRepository(private val apiHelper: ApiHelper) {
     suspend fun withdrawalAmount(amount: Double) = apiHelper.withdrawalAmount(amount)
     suspend fun getSpinnerSubcategories(id: String) = apiHelper.getSpinnerSubcategories(id)
     suspend fun deletePostedJob(id: String) = apiHelper.deletePostedJob(id)
-    suspend fun getBuyerOrders(id: String) = apiHelper.getBuyerOrders(id)
-    suspend fun getSellersOrders(id: Int) = apiHelper.getSellersOrders(id)
+//    suspend fun getBuyerOrders(
+//        id: String,
+//        position: Int)
+//    = apiHelper.getBuyerOrders(
+//        id,
+//        position)
+//    suspend fun getSellersOrders(id: Int,position: Int) = apiHelper.getSellersOrders(id,position)
     suspend fun deleteJobOffer(id: String) = apiHelper.deleteJobOffer(id)
     suspend fun deleteUserService(id: String) = apiHelper.deleteUserService(id)
     suspend fun getFreelancerProfile(id: String) = apiHelper.getFreelancerProfile(id)
@@ -98,7 +103,26 @@ class MainRepository(private val apiHelper: ApiHelper) {
             SubcategoryPagingSource(apiHelper, id, query)
         }
     ).liveData
-
+    fun getBuyerOrders(id: String) = Pager(
+        config = PagingConfig(
+            pageSize = 20,
+            maxSize = 100,
+            enablePlaceholders = false
+        ),
+        pagingSourceFactory = {
+           OrdersPagingSource(apiHelper, id)
+        }
+    ).liveData
+    fun getSellOrders(id:String) = Pager(
+        config = PagingConfig(
+            pageSize = 20,
+            maxSize = 100,
+            enablePlaceholders = false
+        ),
+        pagingSourceFactory = {
+            SellerOrderPagingSource(apiHelper, id)
+        }
+    ).liveData
     fun getServicesBySubCategories(id: String,filterValue: String,filter: String) = Pager(
         config = PagingConfig(
             pageSize = 20,

@@ -16,14 +16,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.bumptech.glide.load.engine.executor.GlideExecutor.UncaughtThrowableStrategy.LOG
-import com.github.mikephil.charting.data.PieEntry
 import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.Gson
 import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
-import com.horizam.pro.elean.R.string
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
 import com.horizam.pro.elean.data.model.SliderItem
@@ -54,17 +53,17 @@ class HomeFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefre
     private lateinit var notificationsViewModel: NotificationsViewModel
     private lateinit var genericHandler: GenericHandler
     private lateinit var drawerHandler: DrawerHandler
+    private lateinit var availabilityArrayList: List<String>
     private lateinit var prefManager: PrefManager
+    private lateinit var recyclerView: RecyclerView
     private lateinit var lockHandler: LockHandler
     private lateinit var adapter: NotificationsAdapter
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
-    private lateinit var servicesArrayList: List<SpinnerModel>
+    private lateinit var servicesArrayList: ArrayList<SpinnerModel>
     private lateinit var generalServicesArrayList: List<Category>
-    private  var itemArray: ArrayList<String> = ArrayList()
     private var sum: Int = 0
     private var count = 0
     private var n: Int = 0
-    private var item=""
     private lateinit var servicesAdapter: ArrayAdapter<SpinnerModel>
     private var serviceId = ""
     private var sliderView: SliderView? = null
@@ -136,6 +135,8 @@ class HomeFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefre
     private fun initViews() {
         mAuth = FirebaseAuth.getInstance()
         adapterServices = ServicesAdapter(this)
+        availabilityArrayList = ArrayList()
+        recyclerView = binding.rvServiceCategories
         adapterGigs = HomeGigsAdapter(this)
         adapter = NotificationsAdapter(this)
         sliderAdapter = SliderAdapter(this)
@@ -185,41 +186,33 @@ class HomeFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefre
             adapter = adapterGigs
         }
     }
-
-    @SuppressLint("RtlHardcoded")
     private fun setServicesData(response: HomeDataResponse) {
-
         if (response.data.categories?.isNotEmpty()!!) {
             generalServicesArrayList = response.data.categories
-            servicesArrayList =  generalServicesArrayList.map { spinnerServices ->
+
+
+            servicesArrayList = generalServicesArrayList.map { spinnerServices ->
                 SpinnerModel(id = spinnerServices.slug, value = spinnerServices.title)
-            }
-//                for (i in 1 until servicesArrayList.count()) {
-//                    itemArray.add(servicesArrayList[i].id)
-//                    Log.e("neha", itemArray[i])
-//                }
-//            var hhh=itemArray
+            } as ArrayList<SpinnerModel>
+
+            servicesArrayList.add(0,SpinnerModel(id ="null", value = "All"))
+
+
 
             servicesAdapter = SpinnerAdapter(
                 requireContext(),
-                android.R.layout.simple_spinner_dropdown_item,servicesArrayList
+                android.R.layout.simple_spinner_dropdown_item, servicesArrayList
             ).also {
                 it.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
-                binding.spinnerDoctor.adapter = it
+                binding.spinnerCategory.adapter = it
             }
-            binding.spinnerDoctor.onItemSelectedListener = this
+            binding.spinnerCategory.onItemSelectedListener = this
         }
-
     }
     private fun serviceRecyclerview() {
-        binding.rvServiceCategories.apply {
-            setHasFixedSize(true)
-            val gridLayoutManager = GridLayoutManager(requireContext(), 1)
-            layoutManager = gridLayoutManager
-            adapter = adapterServices
-        }
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.adapter = adapterServices
     }
-
     private fun setAdsSlider() {
         sliderView?.let {
             it.setSliderAdapter(sliderAdapter!!)
@@ -340,13 +333,15 @@ class HomeFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefre
         response.data.apply {
             categories?.let {
                 adapterServices.submitList(it)
+                binding.tvPlaceholderFeaturedGigs.isVisible = it.isEmpty()
                 setServicesData(response)
+
             }
             featuredGig?.let {
                 adapterGigs.submitList(it)
                 binding.tvPlaceholderFeaturedGigs.isVisible = it.isEmpty()
             }
-            ads.let { it ->
+            ads.let {
                 val adsList: List<SliderItem> = it.map { ad ->
                     SliderItem(
 //                        url = "${Constants.BASE_URL}${ad.banner}",
@@ -424,7 +419,7 @@ class HomeFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefre
     }
     override fun onItemSelected(parent: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
         when (parent!!.id) {
-            binding.spinnerDoctor.id -> {
+            binding.spinnerCategory.id -> {
                 try {
                     val spinnerModel = parent.selectedItem as SpinnerModel
                     serviceId = spinnerModel.id

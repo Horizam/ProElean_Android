@@ -1,8 +1,6 @@
 package com.horizam.pro.elean.ui.main.adapter
 
-import android.content.Intent
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -10,12 +8,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
-import com.horizam.pro.elean.data.model.User
 import com.horizam.pro.elean.data.model.response.Order
 import com.horizam.pro.elean.databinding.ItemActiveOrderBinding
 import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
 
-import com.horizam.pro.elean.ui.main.view.activities.OrderDetailsActivity
 import com.horizam.pro.elean.utils.BaseUtils
 
 class DisputedSalesAdapter(val listener: OnItemClickListener) :

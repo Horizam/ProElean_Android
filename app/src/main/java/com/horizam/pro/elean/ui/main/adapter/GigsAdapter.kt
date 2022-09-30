@@ -1,5 +1,6 @@
 package com.horizam.pro.elean.ui.main.adapter
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -22,14 +23,14 @@ class GigsAdapter(
     private val favouriteHandler: FavouriteHandler,
     private val contactSellerHandler: ContactSellerHandler,
     private val logoutHandler: LogoutHandler,
-    private val savedGigsHandler: ServiceGigsFragment,
     private val serviceGigsFragment: ServiceGigsFragment
 ) :
     PagingDataAdapter<ServiceDetail, GigsAdapter.DataViewHolder>(ITEM_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder {
         val binding =
-            ItemGigsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemGigsBinding.inflate(LayoutInflater.from(parent.context),
+                parent, false)
         return DataViewHolder(binding)
     }
 
@@ -58,13 +59,13 @@ class GigsAdapter(
                 if (position != RecyclerView.NO_POSITION) {
                     val item = getItem(position)
                     if (item != null) {
-                        binding.ivFavorite.setImageResource(R.drawable.ic_liked)
+//                        binding.ivFavorite.setImageResource(R.drawable.ic_liked)
                         favouriteHandler.addRemoveWishList(item)
                     }
                 }
             }
             binding.btnContactSeller.setOnClickListener {
-                var prefManager = PrefManager(serviceGigsFragment.requireContext())
+                val prefManager = PrefManager(serviceGigsFragment.requireContext())
                 if (prefManager.accessToken.isEmpty()) {
                     logoutHandler.checkLogout()
                 } else {
@@ -80,6 +81,7 @@ class GigsAdapter(
             }
         }
 
+        @SuppressLint("SetTextI18n")
         fun bind(serviceDetail: ServiceDetail) {
             binding.apply {
                 ivShare.setOnClickListener {
@@ -125,8 +127,8 @@ class GigsAdapter(
             override fun areItemsTheSame(oldItem: ServiceDetail, newItem: ServiceDetail) =
                 oldItem.id == newItem.id
 
-            override fun areContentsTheSame(oldItem: ServiceDetail, newItem: ServiceDetail) =
-                oldItem == newItem
+            override fun areContentsTheSame(oldItem: ServiceDetail,
+                newItem: ServiceDetail) = oldItem == newItem
         }
     }
 

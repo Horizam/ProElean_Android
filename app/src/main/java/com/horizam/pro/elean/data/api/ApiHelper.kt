@@ -53,15 +53,16 @@ class ApiHelper(private val apiService: ApiService) {
     suspend fun getFreelancerProfile(id: String) = apiService.getFreelancerProfile(id)
     suspend fun getSpinnerSubcategories(id: String) = apiService.getSpinnerSubcategories(id)
     suspend fun deletePostedJob(id: String) = apiService.deletePostedJob(id)
-    suspend fun getBuyerOrders(id: String) = apiService.getBuyerOrders(id)
-    suspend fun getSellersOrders(id: Int) = apiService.getSellersOrders(id)
+    suspend fun getBuyerOrders(
+        id: String,position: Int)
+    = apiService.getBuyerOrders(id,position)
+    suspend fun getSellersOrders(id: String,position: Int,) = apiService.getSellersOrders(id,position)
     suspend fun deleteJobOffer(id: String) = apiService.deleteJobOffer(id)
     suspend fun deleteUserService(id: String) = apiService.deleteUserService(id)
     suspend fun getGigDetails(uid: String) = apiService.getGigDetails(uid)
     suspend fun getFeaturedGigDetails(uid: String) = apiService.getFeaturedGigDetails(uid)
     suspend fun cancelBuyerRequests(uid: String) = apiService.cancelBuyerRequests(uid)
-    suspend fun getSubcategories(id: String, position: Int, query: String) =
-        apiService.getSubcategories(id, position, query)
+    suspend fun getSubcategories(id: String, position: Int, query: String) = apiService.getSubcategories(id, position, query)
 
     suspend fun getServicesBySubCategories(id: String,filterValue: String,filter: String, position: Int) =
         apiService.getServicesBySubCategories(id,position,filterValue,filter,)

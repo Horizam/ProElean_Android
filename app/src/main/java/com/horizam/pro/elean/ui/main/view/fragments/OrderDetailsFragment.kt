@@ -21,7 +21,10 @@ import com.horizam.pro.elean.SellerOrders
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
 import com.horizam.pro.elean.data.model.BuyerActionRequestMultipart
-import com.horizam.pro.elean.data.model.requests.*
+import com.horizam.pro.elean.data.model.requests.BuyerRevisionAction
+import com.horizam.pro.elean.data.model.requests.ExtendDeliveryTimeModel
+import com.horizam.pro.elean.data.model.requests.RatingOrderRequest
+import com.horizam.pro.elean.data.model.requests.SellerActionRequestMultipart
 import com.horizam.pro.elean.data.model.response.GeneralResponse
 import com.horizam.pro.elean.data.model.response.Order
 import com.horizam.pro.elean.databinding.FragmentOrderDetailsBinding
@@ -32,8 +35,6 @@ import com.horizam.pro.elean.ui.main.viewmodel.SellerOrdersViewModel
 import com.horizam.pro.elean.utils.BaseUtils
 import com.horizam.pro.elean.utils.PrefManager
 import com.horizam.pro.elean.utils.Status
-import kotlinx.android.synthetic.main.fragment_description_bottom_sheet.*
-import kotlinx.android.synthetic.main.fragment_order_details.*
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
 import java.util.*
@@ -126,9 +127,6 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
     }
 
     private fun setData() {
-        val startTime = Date().time
-        val endTime = BaseUtils.getMillisecondsFromUtc(order.end_date)
-        val remainingTime = endTime.minus(startTime)
         binding.apply {
             try {
                 tvOrder.text = order.orderNo
@@ -208,12 +206,20 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                         buttonCompleted = true,
                         buttonRateOrder = false,
                         extendTime = true,
-                        btnlate = false
-                    )
-                    startTimer()
-                    binding.countdownTimer.isVisible = true
-                    btnCompleted.text = getString(R.string.str_deliver_work)
-                    btnExtendTime.text="Extend Time"
+                        btnlate = false)
+                    val startTime = Date().time
+                    val endTime = BaseUtils.getMillisecondsFromUtc(order.end_date)
+                    val remainingTime = endTime.minus(startTime)
+                    binding.countdownTimer.start(remainingTime)
+                    if (endTime == remainingTime) {
+                        binding.countdownTimer.setBackgroundColor(R.color.color_red)
+                        btnCompleted.text = "Late Order Deliver"
+                        btnCompleted.isVisible=true
+                    } else {
+                        binding.countdownTimer.isVisible = true
+                        btnCompleted.text = getString(R.string.str_deliver_work)
+                        btnExtendTime.text = "Extend Time"
+                    }
                 }
                 SellerOrders.Late -> {
                     changeViewsVisibility(
@@ -230,6 +236,7 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                     startTimer()
                     binding.countdownTimer.isVisible = false
                     btnLate.text="Late Order Delivered"
+                    btnLate.isVisible=true
                 }
                 SellerOrders.Delivered -> {
                     changeViewsVisibility(
@@ -325,11 +332,6 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
         val remainingTime = endTime.minus(startTime)
         binding.countdownTimer.start(remainingTime)
 
-        if(endTime==remainingTime)
-        {
-            binding.countdownTimer.setBackgroundColor(R.color.color_red)
-        }
-
 }
 
     private fun setBuyerData(pair: Pair<Int, Int>) {
@@ -348,14 +350,12 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                         btnlate = false
                     )
                     startTimer()
-                    binding.countdownTimer.isVisible = true
-                    if(order.pending_req==1) {
+                    if (order.pending_req == 1) {
                         btnExtendTime.isVisible = true
                         btnExtendTime.text = "Accept Extension"
                         btnLate.isVisible = true
                         btnLate.text = "Reject Extension"
                     }
-
                 }
                 BuyerOrders.Late -> {
                     changeViewsVisibility(
@@ -384,8 +384,10 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                         buttonRateOrder = false,
                         extendTime = false,
                         btnlate = false
-
                     )
+                    if(order.revision_left.toString() == (0).toString()) {
+                        binding.btnRevision.isVisible=false
+                    }
                 }
                 BuyerOrders.Revision -> {
                     changeViewsVisibility(
@@ -399,6 +401,9 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                         extendTime = false,
                         btnlate = false
                     )
+                    if(order.revision_left.toString() == (0).toString()) {
+                        binding.btnRevision.isVisible=false
+                    }
                 }
                 BuyerOrders.Completed -> {
                     changeViewsVisibility(

@@ -4,21 +4,16 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.navigation.findNavController
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
-import com.horizam.pro.elean.data.model.User
 import com.horizam.pro.elean.data.model.response.BuyerRequest
-import com.horizam.pro.elean.data.model.response.PostedJob
 import com.horizam.pro.elean.databinding.ItemBuyerRequestBinding
-import com.horizam.pro.elean.databinding.ItemPostedJobBinding
 import com.horizam.pro.elean.ui.main.callbacks.BuyerRequestsHandler
 import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
-import com.horizam.pro.elean.ui.main.callbacks.PostedJobsHandler
 
 class BuyerRequestsAdapter(
     private val listener: OnItemClickListener,

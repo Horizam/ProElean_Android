@@ -1,6 +1,7 @@
 package com.horizam.pro.elean.ui.main.viewmodel
 
 import androidx.lifecycle.*
+import androidx.paging.cachedIn
 import com.horizam.pro.elean.data.model.BuyerActionRequestMultipart
 import com.horizam.pro.elean.data.model.requests.*
 import com.horizam.pro.elean.data.repository.MainRepository
@@ -14,39 +15,23 @@ class SellerOrdersViewModel(
 ) : ViewModel() {
 
     private val sellerOrdersRequest = MutableLiveData<Int>()
-    private val sellerActionsRequest = MutableLiveData<SellerActionsRequest>()
     private val sellerActionsWithFileRequest = MutableLiveData<SellerActionRequestMultipart>()
-    private val buyerActionsRequest = MutableLiveData<String>()
     private val buyerActionRequestMultipart=MutableLiveData<BuyerActionRequestMultipart>()
     private val orderTimelineRequest = MutableLiveData<OrderTimelineRequest>()
     private val ratingOrderRequest = MutableLiveData<RatingOrderRequest>()
     private val orderByIdRequest = MutableLiveData<Int>()
     private val extendTimeRequest = MutableLiveData<ExtendDeliveryTimeModel>()
     private val cancelRequest=MutableLiveData<String>()
-    private val disageeeRequest=MutableLiveData<String>()
+    private val disagreedRequest=MutableLiveData<String>()
     private val acceptRequest=MutableLiveData<String>()
     private val rejectRequest=MutableLiveData<String>()
     private val CompleteRequest=MutableLiveData<BuyerActionRequestMultipart>()
     private val RevisionRequest=MutableLiveData<BuyerRevisionAction>()
-
-    //we used seller hashmap when we send different value that required due to backend issues
     private val sellerHashMap = MutableLiveData<HashMap<String, Any>>()
-
-    //we used seller hashmap when we send different value that required due to backend issues
-    private val buyerHashMap = MutableLiveData<HashMap<String, Any>>()
     private var order_id = ""
     val sellerOrders = sellerOrdersRequest.switchMap {
-        liveData(Dispatchers.IO) {
-            emit(Resource.loading(data = null))
-            try {
-                emit(Resource.success(data = mainRepository.getSellersOrders(it)))
-            } catch (exception: Exception) {
-                val errorMessage = BaseUtils.getError(exception)
-                emit(Resource.error(data = null, message = errorMessage))
-            }
+            mainRepository.getSellOrders(it.toString()).cachedIn(viewModelScope)
         }
-    }
-
     val sellerActionWithFile = sellerActionsWithFileRequest.switchMap {
         liveData(Dispatchers.IO) {
             emit(Resource.loading(data = null))
@@ -82,22 +67,11 @@ class SellerOrdersViewModel(
             }
         }
     }
-    val buyerCancelDispute = disageeeRequest.switchMap {
+    val buyerCancelDispute = disagreedRequest.switchMap {
         liveData(Dispatchers.IO) {
             emit(Resource.loading(data = null))
             try {
                 emit(Resource.success(data = mainRepository.buyerCancelDispute(order_id)))
-            } catch (exception: Exception) {
-                val errorMessage = BaseUtils.getError(exception)
-                emit(Resource.error(data = null, message = errorMessage))
-            }
-        }
-    }
-    val rejectDispute = cancelRequest.switchMap {
-        liveData(Dispatchers.IO) {
-            emit(Resource.loading(data = null))
-            try {
-                emit(Resource.success(data = mainRepository.sellerRejectDispute(order_id)))
             } catch (exception: Exception) {
                 val errorMessage = BaseUtils.getError(exception)
                 emit(Resource.error(data = null, message = errorMessage))
@@ -212,10 +186,6 @@ class SellerOrdersViewModel(
     fun getSellerOrdersCall(id: Int) {
         sellerOrdersRequest.value = id
     }
-
-    fun sellerActionsCall(hashMap: HashMap<String, Any>) {
-        sellerHashMap.value = hashMap
-    }
     fun buyerActionsCall(id: String, request: BuyerActionRequestMultipart) {
     order_id=id
     buyerActionRequestMultipart.value = request
@@ -231,12 +201,7 @@ class SellerOrdersViewModel(
     fun cancelRequest(id:String)
     {
         order_id=id
-        disageeeRequest.value=id
-    }
-    fun rejectDisputeRequest(id:String)
-    {
-        order_id=id
-        cancelRequest.value=id
+        disagreedRequest.value=id
     }
     fun AcceptDisputeRequest(id:String)
     {

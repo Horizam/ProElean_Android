@@ -15,24 +15,11 @@ internal class SpinnerAdapter(
     context: Context?,
     textViewResourceId: Int,
     modelArrayList: List<SpinnerModel>,
+
 ) :
     ArrayAdapter<SpinnerModel>(context!!, textViewResourceId, modelArrayList) {
     private val myArrayList: List<SpinnerModel> = modelArrayList
-    private fun initialSelection(dropdown: Boolean): View? {
-        val view = TextView(context)
-        view.setText("Select Category")
-        val spacing = context.resources.getDimensionPixelSize(R.dimen.app_icon_size)
-        view.setPadding(0, spacing, 0, spacing)
-        if (dropdown) { // Hidden when the dropdown is opened
-            view.height = 0
-        }
-        return view
-    }
     override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
-        if (position == 0) {
-
-            return initialSelection(true)!!
-        }
         return getCustomView(position, parent)
     }
 

@@ -268,7 +268,7 @@ interface ApiService {
     suspend fun deletePostedJob(@Path("id") id: String): GeneralResponse
 
     @GET("buyer/orders")
-    suspend fun getBuyerOrders(@Query("status") status: String): OrdersResponse
+    suspend fun getBuyerOrders(@Query("status") status: String,@Query("page") page: Int): OrdersResponse
 
     @GET("seller/analytics")
     suspend fun getEarnings(): AnalyticModel
@@ -278,7 +278,7 @@ interface ApiService {
     suspend fun withdrawalAmount(@Field("amount") request: Double): GeneralResponse
 
     @GET("seller/orders")
-    suspend fun getSellersOrders(@Query("status") status: Int): OrdersResponse
+    suspend fun getSellersOrders(@Query("status") status:String,@Query("page") page: Int): OrdersResponse
 
     @DELETE("buyer/delete_job_requests/{id}")
     suspend fun deleteJobOffer(@Path("id") id: String): GeneralResponse

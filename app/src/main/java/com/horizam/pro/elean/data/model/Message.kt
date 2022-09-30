@@ -25,9 +25,7 @@ data class MessageOffer(
     val deliveryDays: String = "",
     val revisions: String = "",
     val totalOffer: Double = 0.0
-)
-
-@Parcelize
+)@Parcelize
 data class MessageGig(
     val gigId: String = "",
     val gigImage: String = "",

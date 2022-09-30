@@ -6,10 +6,16 @@
     android:id="@+id/swipe_refresh"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true">
+    <androidx.core.widget.NestedScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.0"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintVertical_bias="0.0"
+    tools:ignore="MissingConstraints">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/main_view"
             android:layout_width="match_parent"
@@ -38,11 +44,11 @@
                     app:layout_constraintStart_toStartOf="@+id/autoComplete_text_view"
                     app:layout_constraintTop_toBottomOf="@+id/tv_des">
                     <Spinner
-                        android:id="@+id/spinner_doctor"
+                        android:id="@+id/spinner_category"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:prompt="@string/reviews"
-                        android:paddingEnd="@dimen/_148sdp"
+                        android:paddingEnd="@dimen/_150sdp"
                         android:textDirection="ltr"
                         android:elevation="@dimen/_500sdp"
                         tools:ignore="HardcodedText,RtlSymmetry" />
@@ -103,6 +109,20 @@
                         android:layout_height="@dimen/_450sdp"
                         android:background="#A6000000" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_service_categories"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="@dimen/_1sdp"
+                        android:orientation="vertical"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constrainedHeight="true"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                        app:layout_constraintTop_toBottomOf="@id/tv_service_categories"
+                        tools:listitem="@layout/item_services_and_gigs" />
+
                 <TextView
                     android:id="@+id/tv_title"
                     android:layout_width="@dimen/_200sdp"
@@ -133,16 +153,6 @@
                     android:textSize="@dimen/_15ssp"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:ignore="MissingConstraints" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/bg_pic"
-                    android:gravity="center_horizontal">
-
                     <TextView
                         android:id="@+id/tv_service_categories"
                         android:layout_width="wrap_content"
@@ -151,24 +161,14 @@
                         android:fontFamily="@font/poppins_bold"
                         android:text="@string/str_explore_the_market"
                         android:textColor="@color/colorBlack"
-                        android:textSize="@dimen/_14ssp"
+                        android:textSize="@dimen/_20ssp"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toTopOf="@id/rv_service_categories"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/bg_pic" />
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_service_categories"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="@dimen/_2sdp"
-                        android:layoutAnimation="@anim/layout_animation_from_bottom"
-                        android:scrollbars="vertical"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tv_service_categories"
-                        tools:listitem="@layout/item_services_and_gigs" />
+
 
                     <TextView
                         android:id="@+id/tv_placeholder_ads"
@@ -191,7 +191,7 @@
                         android:fontFamily="@font/poppins_bold"
                         android:text="@string/str_top_picks_for_you"
                         android:textColor="@color/colorBlack"
-                        android:textSize="@dimen/_14ssp"
+                        android:textSize="@dimen/_20ssp"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toTopOf="@id/rv_featured_gigs"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -202,7 +202,8 @@
                         android:id="@+id/rv_featured_gigs"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_3sdp"
+                        android:layout_marginTop="@dimen/_2sdp"
+                        android:layout_marginBottom="@dimen/_5sdp"
                         android:layoutAnimation="@anim/layout_animation_slide_right"
                         android:orientation="vertical"
                         android:visibility="visible"
@@ -237,8 +238,9 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/rv_featured_gigs"
                         app:layout_constraintVertical_bias="1" />
-                </LinearLayout>
+
             </androidx.constraintlayout.widget.ConstraintLayout>
+
 
             <TextView
                 android:id="@+id/text_view_error"
@@ -265,7 +267,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/text_view_error"
                 tools:visibility="visible" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

@@ -1,34 +1,36 @@
 package com.horizam.pro.elean.ui.main.adapter
 
-import android.content.Intent
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
-import com.horizam.pro.elean.data.model.User
 import com.horizam.pro.elean.data.model.response.Order
 import com.horizam.pro.elean.databinding.ItemActiveOrderBinding
 import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
-
-import com.horizam.pro.elean.ui.main.view.activities.OrderDetailsActivity
 import com.horizam.pro.elean.utils.BaseUtils
 
 class DisputedOrdersAdapter(val listener: OnItemClickListener) :
-    ListAdapter<Order, DisputedOrdersAdapter.DataViewHolder>(COMPARATOR) {
+    PagingDataAdapter<Order, DisputedOrdersAdapter.DataViewHolder>(COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder {
         val binding =
-            ItemActiveOrderBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemActiveOrderBinding.inflate(LayoutInflater.from(parent.context),
+                parent, false)
         return DataViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: DataViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        val currentItem = getItem(position)
+        if (currentItem != null) {
+            holder.bind(currentItem)
+        }
+    }
+    override fun getItemViewType(position: Int): Int {
+        return if (position == itemCount) Constants.DATA_ITEM else Constants.LOADING_ITEM
     }
 
     inner class DataViewHolder(private val binding: ItemActiveOrderBinding) :
@@ -64,7 +66,7 @@ class DisputedOrdersAdapter(val listener: OnItemClickListener) :
     companion object {
         private val COMPARATOR = object : DiffUtil.ItemCallback<Order>() {
             override fun areItemsTheSame(oldItem: Order, newItem: Order): Boolean {
-                return oldItem.orderNo == newItem.orderNo
+                return oldItem.id == newItem.id
             }
 
             override fun areContentsTheSame(oldItem: Order, newItem: Order): Boolean {

@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProviders
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -24,6 +25,8 @@ import com.horizam.pro.elean.data.model.response.OrdersResponse
 import com.horizam.pro.elean.databinding.FragmentOrdersGenericBinding
 import com.horizam.pro.elean.ui.base.ViewModelFactory
 import com.horizam.pro.elean.ui.main.adapter.CompletedOrdersAdapter
+import com.horizam.pro.elean.ui.main.adapter.ManageOrdersAdapter
+import com.horizam.pro.elean.ui.main.adapter.MyLoadStateAdapter
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
 import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
 import com.horizam.pro.elean.ui.main.view.activities.OrderDetailsActivity
@@ -65,8 +68,10 @@ class CompletedOrdersFragment : Fragment(), OnItemClickListener, SwipeRefreshLay
     }
 
     private fun exeApi() {
+        if (viewModel.buyerOrders.value == null)
         viewModel.getBuyerOrdersCall(BuyerOrders.Completed)
     }
+
     private fun initViews() {
         adapter = CompletedOrdersAdapter(this)
         recyclerView = binding.rvOrders
@@ -75,8 +80,51 @@ class CompletedOrdersFragment : Fragment(), OnItemClickListener, SwipeRefreshLay
     }
 
     private fun setRecyclerView() {
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        recyclerView.adapter = adapter
+//        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+//        recyclerView.adapter = adapter
+//    }
+        val linearLayoutManager = LinearLayoutManager(requireContext()).also { layoutManager ->
+            layoutManager.reverseLayout = false
+            layoutManager.stackFromEnd = true
+        }
+        recyclerView.let {
+            it.setHasFixedSize(true)
+            it.layoutManager = linearLayoutManager
+            it.adapter = adapter.withLoadStateFooter(
+                footer = MyLoadStateAdapter {
+                    adapter.retry()
+                }
+            )
+        }
+        setAdapterLoadState(adapter)
+//        adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+//            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+//                if (positionStart == 0) {
+//                    linearLayoutManager.scrollToPosition(0)
+//                }
+//            }
+//        })
+        setupObservers()
+    }
+    private fun setAdapterLoadState(adapter: CompletedOrdersAdapter) {
+        adapter.addLoadStateListener { loadState ->
+            binding.apply {
+//                genericHandler.showProgressBar(loadState.source.refresh is LoadState.Loading)
+//                recyclerView.isVisible = loadState.source.refresh is LoadState.NotLoading
+                btnRetry.isVisible = loadState.source.refresh is LoadState.Error
+//                textViewError.isVisible = loadState.source.refresh is LoadState.Error
+                // no results
+                if (loadState.source.refresh is LoadState.NotLoading &&
+                    loadState.append.endOfPaginationReached &&
+                    adapter.itemCount < 1
+                ) {
+                    recyclerView.isVisible = false
+                    tvPlaceholder.isVisible = true
+                } else {
+                    tvPlaceholder.isVisible = false
+                }
+            }
+        }
     }
 
     private fun setOnClickListeners() {
@@ -95,48 +143,52 @@ class CompletedOrdersFragment : Fragment(), OnItemClickListener, SwipeRefreshLay
     }
 
     private fun setupObservers() {
-        viewModel.buyerOrders.observe(viewLifecycleOwner, {
-            it?.let { resource ->
-                when (resource.status) {
-                    Status.SUCCESS -> {
-                        genericHandler.showProgressBar(false)
-                        resource.data?.let { response ->
-                            handleResponse(response)
-                            changeViewVisibility(textView = false, button = false, layout = true)
-                        }
-                    }
-                    Status.ERROR -> {
-                        genericHandler.showProgressBar(false)
-                        genericHandler.showErrorMessage(it.message.toString())
-                        changeViewVisibility(textView = true, button = true, layout = false)
-                    }
-                    Status.LOADING -> {
-                        genericHandler.showProgressBar(true)
-                        changeViewVisibility(textView = false, button = false, layout = false)
-                    }
-                }
-            }
-        })
-    }
-
-    private fun changeViewVisibility(textView: Boolean, button: Boolean, layout: Boolean) {
-        binding.textViewError.isVisible = textView
-        binding.btnRetry.isVisible = button
-        binding.rvOrders.isVisible = layout
-    }
-
-    private fun handleResponse(response: OrdersResponse) {
-        try {
-            setUIData(response.orderList)
-        } catch (e: Exception) {
-            genericHandler.showErrorMessage(e.message.toString())
+        viewModel.buyerOrders.observe(viewLifecycleOwner) {
+            adapter.submitData(viewLifecycleOwner.lifecycle, it)
         }
-    }
 
-    private fun setUIData(list: List<Order>) {
-        adapter.submitList(list)
-        binding.tvPlaceholder.isVisible = list.isEmpty()
-    }
+//        viewModel.buyerOrders.observe(viewLifecycleOwner, {
+//            it?.let { resource ->
+//                when (resource.status) {
+//                    Status.SUCCESS -> {
+//                        genericHandler.showProgressBar(false)
+//                        resource.data?.let { response ->
+//                            handleResponse(response)
+//                            changeViewVisibility(textView = false, button = false, layout = true)
+//                        }
+//                    }
+//                    Status.ERROR -> {
+//                        genericHandler.showProgressBar(false)
+//                        genericHandler.showErrorMessage(it.message.toString())
+//                        changeViewVisibility(textView = true, button = true, layout = false)
+//                    }
+//                    Status.LOADING -> {
+//                        genericHandler.showProgressBar(true)
+//                        changeViewVisibility(textView = false, button = false, layout = false)
+//                    }
+//                }
+            }
+//        })
+//    }
+
+//    private fun changeViewVisibility(textView: Boolean, button: Boolean, layout: Boolean) {
+//        binding.textViewError.isVisible = textView
+//        binding.btnRetry.isVisible = button
+//        binding.rvOrders.isVisible = layout
+//    }
+//
+//    private fun handleResponse(response: OrdersResponse) {
+//        try {
+//            setUIData(response.orderList)
+//        } catch (e: Exception) {
+//            genericHandler.showErrorMessage(e.message.toString())
+//        }
+//    }
+//
+//    private fun setUIData(list: List<Order>) {
+//        adapter.submitList(list)
+//        binding.tvPlaceholder.isVisible = list.isEmpty()
+//    }
 
     override fun <T> onItemClick(item: T) {
         if (item is Order) {

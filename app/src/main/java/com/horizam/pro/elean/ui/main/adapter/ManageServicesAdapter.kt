@@ -55,7 +55,7 @@ class ManageServicesAdapter(val listener: ManageServiceHandler) :
 
         fun bind(userService: ServiceDetail) {
             binding.apply {
-                if (!userService.service_media.isNullOrEmpty()) {
+                if (userService.service_media.isNotEmpty()) {
                     Glide.with(itemView)
                         .load("${Constants.BASE_URL}${userService.service_media[0].media}")
                         .centerCrop()
@@ -68,7 +68,7 @@ class ManageServicesAdapter(val listener: ManageServiceHandler) :
                 tvDescriptionGigsUser.text = userService.description
                 tvClick.text = userService.total_clicks.toString()
                 tvOrder.text = userService.total_orders.toString()
-                tvPrice.text = "${userService.price.toString()}${Constants.CURRENCY}"
+                tvPrice.text = "${userService.price}${Constants.CURRENCY}"
             }
         }
     }

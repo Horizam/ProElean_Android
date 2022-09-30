@@ -5,7 +5,6 @@ import android.graphics.Typeface
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -18,7 +17,6 @@ import com.horizam.pro.elean.data.model.MembersInfo
 import com.horizam.pro.elean.databinding.ItemInboxBinding
 import com.horizam.pro.elean.ui.main.callbacks.InboxHandler
 import com.horizam.pro.elean.utils.BaseUtils
-import java.lang.Exception
 
 class InboxAdapter(private val listener: InboxHandler) :
     PagingDataAdapter<Inbox, InboxAdapter.DataViewHolder>(ITEM_COMPARATOR) {

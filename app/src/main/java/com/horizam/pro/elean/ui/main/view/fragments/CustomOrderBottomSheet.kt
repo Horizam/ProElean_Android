@@ -132,6 +132,7 @@ class CustomOrderBottomSheet : BottomSheetDialogFragment(), AdapterView.OnItemSe
             it.putExtra(Constants.CUSTOM_ORDER_KEY, gson.toJson(customOrderRequest))
             it.putExtra("service_name" ,  arguments?.getString("service_name"))
             it.putExtra("seller_name" ,  arguments?.getString("seller_name"))
+            it.putExtra("seller_username",arguments?.getString("seller_username"))
             it.putExtra("price" ,  arguments?.getString("price"))
             startActivity(it)
         }

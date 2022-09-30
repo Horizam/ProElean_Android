@@ -1,33 +1,27 @@
 package com.horizam.pro.elean.ui.main.adapter
 
-import android.app.Activity
-import android.content.Intent
-import android.graphics.Color
+import android.os.Build
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.horizam.pro.elean.BuyerOrders
 import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.SellerOrders
-import com.horizam.pro.elean.data.model.User
-import com.horizam.pro.elean.data.model.response.Notification
 import com.horizam.pro.elean.data.model.response.Order
 import com.horizam.pro.elean.databinding.ItemActiveOrderBinding
-import com.horizam.pro.elean.ui.main.callbacks.NotificationsHandler
 import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
-import com.horizam.pro.elean.ui.main.view.activities.OrderDetailsActivity
 import com.horizam.pro.elean.ui.main.view.fragments.manageOrders.OrdersFragment
-import com.horizam.pro.elean.ui.main.view.fragments.manageSales.SalesFragment
 import com.horizam.pro.elean.utils.BaseUtils
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class ActiveOrdersAdapter(val listener: OnItemClickListener) :
-    ListAdapter<Order, ActiveOrdersAdapter.DataViewHolder>(COMPARATOR) {
+    PagingDataAdapter<Order, ActiveOrdersAdapter.DataViewHolder>(COMPARATOR) {
 
     private var context = listener as OrdersFragment
 
@@ -37,8 +31,20 @@ class ActiveOrdersAdapter(val listener: OnItemClickListener) :
         return DataViewHolder(binding)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: DataViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        val currentItem = getItem(position)
+        if (currentItem != null) {
+            holder.bind(currentItem)
+        }
+    }
+    override fun getItemViewType(position: Int): Int {
+        return if (position == itemCount) {
+            Constants.DATA_ITEM
+        }
+        else {
+            Constants.LOADING_ITEM
+        }
     }
 
     inner class DataViewHolder(private val binding: ItemActiveOrderBinding) :
@@ -56,6 +62,7 @@ class ActiveOrdersAdapter(val listener: OnItemClickListener) :
             }
         }
 
+        @RequiresApi(Build.VERSION_CODES.O)
         fun bind(order: Order) {
             binding.apply {
                 tvUserName.text = order.username
@@ -68,6 +75,25 @@ class ActiveOrdersAdapter(val listener: OnItemClickListener) :
                     .into(ivUser)
                 when (order.status) {
                     SellerOrders.Active -> {
+                        if( order.end_date < LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+                        {
+                        tvStatus.text = itemView.context.getString(R.string.str_late)
+                            tvStatus.setTextColor(
+                                ContextCompat.getColor(
+                                    context.requireContext(),
+                                    R.color.colorGolden
+                                )
+                            )
+                            cardView.strokeColor = ContextCompat.getColor(
+                                context.requireContext(),
+                                R.color.colorGolden
+                            )
+                            mainCard.strokeColor = ContextCompat.getColor(
+                                context.requireContext(),
+                                R.color.bg_primary
+                            )
+                        }
+                        else{
                         tvStatus.text = itemView.context.getString(R.string.str_active)
                         tvStatus.setTextColor(
                             ContextCompat.getColor(
@@ -84,6 +110,7 @@ class ActiveOrdersAdapter(val listener: OnItemClickListener) :
                             R.color.bg_primary
                         )
                     }
+                    }
                     SellerOrders.Delivered -> {
                         tvStatus.text = itemView.context.getString(R.string.str_delivered)
                         tvStatus.setTextColor(
@@ -94,7 +121,7 @@ class ActiveOrdersAdapter(val listener: OnItemClickListener) :
                         )
                         cardView.strokeColor = ContextCompat.getColor(
                             context.requireContext(),
-                            R.color.colorThree
+                            R.color.color_green
                         )
                         mainCard.strokeColor = ContextCompat.getColor(
                             context.requireContext(),
@@ -106,7 +133,7 @@ class ActiveOrdersAdapter(val listener: OnItemClickListener) :
                         tvStatus.setTextColor(
                             ContextCompat.getColor(
                                 context.requireContext(),
-                                R.color.bg_primary
+                                R.color.colorBlack
                             )
                         )
                         cardView.strokeColor = ContextCompat.getColor(
@@ -190,17 +217,14 @@ class ActiveOrdersAdapter(val listener: OnItemClickListener) :
             }
         }
     }
-
     companion object {
         private val COMPARATOR = object : DiffUtil.ItemCallback<Order>() {
             override fun areItemsTheSame(oldItem: Order, newItem: Order): Boolean {
-                return oldItem.orderNo == newItem.orderNo
+                return oldItem.id == newItem.id
             }
-
             override fun areContentsTheSame(oldItem: Order, newItem: Order): Boolean {
                 return oldItem == newItem
             }
-
         }
     }
 }

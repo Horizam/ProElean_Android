@@ -5,7 +5,6 @@ import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,8 +12,10 @@ import android.widget.RadioButton
 import android.widget.RadioGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -22,11 +23,9 @@ import com.google.gson.Gson
 import com.horizam.pro.elean.BuyerOrders
 import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
-import com.horizam.pro.elean.SellerOrders
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
 import com.horizam.pro.elean.data.model.response.Order
-import com.horizam.pro.elean.data.model.response.OrdersResponse
 import com.horizam.pro.elean.databinding.DialogFilterOrdersBinding
 import com.horizam.pro.elean.databinding.FragmentOrdersBinding
 import com.horizam.pro.elean.ui.base.ViewModelFactory
@@ -37,10 +36,9 @@ import com.horizam.pro.elean.ui.main.view.activities.AuthenticationActivity
 import com.horizam.pro.elean.ui.main.view.activities.OrderDetailsActivity
 import com.horizam.pro.elean.ui.main.viewmodel.BuyersOrdersViewModel
 import com.horizam.pro.elean.utils.PrefManager
-import com.horizam.pro.elean.utils.Status
-import java.lang.Exception
 
-class OrdersFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
+class OrdersFragment : Fragment(), OnItemClickListener,
+    SwipeRefreshLayout.OnRefreshListener {
     private lateinit var binding: FragmentOrdersBinding
     private lateinit var adapter: ActiveOrdersAdapter
     private lateinit var recyclerView: RecyclerView
@@ -51,23 +49,20 @@ class OrdersFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRef
     private lateinit var dialogFilterJobs: Dialog
     private lateinit var bindingDialog: DialogFilterOrdersBinding
     private var currentOrders: Int = 0
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
         genericHandler = context as GenericHandler
     }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
+    ): View {
         binding = FragmentOrdersBinding.inflate(layoutInflater, container, false)
 
         initViews()
         if (prefManager.accessToken.isEmpty()) {
             this.findNavController().popBackStack()
-            var intent = Intent(activity, AuthenticationActivity::class.java)
+            val intent = Intent(activity, AuthenticationActivity::class.java)
             startActivity(intent)
         } else {
             setupViewModel()
@@ -84,7 +79,8 @@ class OrdersFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRef
     }
 
     private fun exeApi() {
-        viewModel.getBuyerOrdersCall(currentOrders)
+        if (viewModel.buyerOrders.value == null)
+            viewModel.getBuyerOrdersCall(currentOrders)
     }
 
     private fun initViews() {
@@ -105,8 +101,28 @@ class OrdersFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRef
     private fun setRecyclerView() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
+        setAdapterLoadState(recyclerView.adapter as ActiveOrdersAdapter )
     }
-
+    private fun setAdapterLoadState(adapter: ActiveOrdersAdapter) {
+        adapter.addLoadStateListener { loadState ->
+            binding.apply {
+                genericHandler.showProgressBar(loadState.source.refresh is LoadState.Loading)
+                recyclerView.isVisible = loadState.source.refresh is LoadState.NotLoading
+                btnRetry.isVisible = loadState.source.refresh is LoadState.Error
+                textViewError.isVisible = loadState.source.refresh is LoadState.Error
+                // no results
+                if (loadState.source.refresh is LoadState.NotLoading &&
+                    loadState.append.endOfPaginationReached &&
+                    adapter.itemCount < 1
+                ) {
+                    recyclerView.isVisible = false
+                    tvPlaceholder.isVisible = true
+                } else {
+                    tvPlaceholder.isVisible = false
+                }
+            }
+        }
+    }
     private fun setOnClickListeners() {
         binding.apply {
             btnRetry.setOnClickListener {
@@ -166,75 +182,36 @@ class OrdersFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRef
     }
 
     private fun setupObservers() {
-        viewModel.buyerOrders.observe(viewLifecycleOwner, {
-            it?.let { resource ->
-                when (resource.status) {
-                    Status.SUCCESS -> {
-                        genericHandler.showProgressBar(false)
-                        resource.data?.let { response ->
-                            handleResponse(response)
-                            changeViewVisibility(textView = false, button = false, layout = true)
-                        }
-                    }
-                    Status.ERROR -> {
-                        genericHandler.showProgressBar(false)
-                        genericHandler.showErrorMessage(it.message.toString())
-                        changeViewVisibility(textView = true, button = true, layout = false)
-                    }
-                    Status.LOADING -> {
-                        genericHandler.showProgressBar(true)
-                        changeViewVisibility(textView = false, button = false, layout = false)
-                    }
+        viewModel.buyerOrders.observe(viewLifecycleOwner) {
+            adapter.submitData(viewLifecycleOwner.lifecycle, it)
+            when (currentOrders) {
+                BuyerOrders.all -> {
+                    binding.tvPlaceholder.text = getString(R.string.str_no_order_available)
+                }
+                BuyerOrders.Active -> {
+                    binding.tvPlaceholder.text = getString(R.string.str_no_active_orders)
+                }
+                BuyerOrders.Delivered -> {
+                    binding.tvPlaceholder.text = getString(R.string.str_no_delivered_orders)
+                }
+                BuyerOrders.Revision -> {
+                    binding.tvPlaceholder.text = getString(R.string.str_no_revision_orders)
+                }
+                BuyerOrders.Completed -> {
+                    binding.tvPlaceholder.text = getString(R.string.str_no_completed_orders)
+                }
+                BuyerOrders.Disputed -> {
+                    binding.tvPlaceholder.text = getString(R.string.str_no_disputed_orders)
+                }
+                BuyerOrders.Late -> {
+                    binding.tvPlaceholder.text = getString(R.string.str_no_late_orders)
+                }
+                BuyerOrders.Cancel -> {
+                    binding.tvPlaceholder.text = getString(R.string.str_no_cancelled_orders)
                 }
             }
-        })
-    }
-
-    private fun changeViewVisibility(textView: Boolean, button: Boolean, layout: Boolean) {
-        binding.textViewError.isVisible = textView
-        binding.btnRetry.isVisible = button
-        binding.rvOrders.isVisible = layout
-    }
-
-    private fun handleResponse(response: OrdersResponse) {
-        try {
-            setUIData(response.orderList)
-        } catch (e: Exception) {
-            genericHandler.showErrorMessage(e.message.toString())
         }
     }
-
-    private fun setUIData(list: List<Order>) {
-        adapter.submitList(list)
-        binding.tvPlaceholder.isVisible = list.isEmpty()
-        when (currentOrders) {
-            BuyerOrders.all -> {
-                binding.tvPlaceholder.text = getString(R.string.str_no_order_available)
-            }
-            BuyerOrders.Active -> {
-                binding.tvPlaceholder.text = getString(R.string.str_no_active_orders)
-            }
-            BuyerOrders.Delivered -> {
-                binding.tvPlaceholder.text = getString(R.string.str_no_delivered_orders)
-            }
-            BuyerOrders.Revision -> {
-                binding.tvPlaceholder.text = getString(R.string.str_no_revision_orders)
-            }
-            BuyerOrders.Completed -> {
-                binding.tvPlaceholder.text = getString(R.string.str_no_completed_orders)
-            }
-            BuyerOrders.Disputed -> {
-                binding.tvPlaceholder.text = getString(R.string.str_no_disputed_orders)
-            }
-            BuyerOrders.Late -> {
-                binding.tvPlaceholder.text = getString(R.string.str_no_late_orders)
-            }
-            BuyerOrders.Cancel -> {
-                binding.tvPlaceholder.text = getString(R.string.str_no_cancelled_orders)
-            }
-        }
-    }
-
     override fun <T> onItemClick(item: T) {
         if (item is Order) {
             Intent(requireContext(), OrderDetailsActivity::class.java).also {
@@ -250,9 +227,9 @@ class OrdersFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRef
             }
         }
     }
-
     private val resultLauncher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+        { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 exeApi()
             }

@@ -20,6 +20,7 @@
         android:layout_margin="5dp"
         app:cardCornerRadius="12dp"
         app:cardElevation="6dp"
+        android:layout_marginBottom="@dimen/_5sdp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         tools:ignore="MissingConstraints">

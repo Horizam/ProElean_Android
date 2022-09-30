@@ -220,7 +220,7 @@ class PostJobFragment : Fragment(), AdapterView.OnItemSelectedListener {
         daysArrayList = response.categoriesCountriesData.deliveryDays
         categoriesAdapter = SpinnerAdapter(
             requireContext(),
-            android.R.layout.simple_spinner_item, categoriesArrayList
+            android.R.layout.simple_spinner_item, categoriesArrayList,
         ).also {
             it.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
             binding.spinnerCategory.adapter = it

@@ -304,6 +304,7 @@ class GigDetailsFragment : Fragment(), OnItemClickListener,
             gig = serviceDetail
             bundle.putString("service_name", serviceDetail.s_description)
             bundle.putString("seller_name", serviceDetail.service_user.name)
+            bundle.putString("seller_username", serviceDetail.service_user.username)
             bundle.putString("price", serviceDetail.price.toString())
         } catch (e: Exception) {
             genericHandler.showErrorMessage(e.message.toString())
@@ -312,7 +313,13 @@ class GigDetailsFragment : Fragment(), OnItemClickListener,
 
     private fun setUIData(serviceDetail: ServiceDetail) {
         binding.apply {
-            tvUserName.text = serviceDetail.service_user.name
+            if(serviceDetail.service_user.name.isNullOrBlank())
+            {
+                tvUserName.text = serviceDetail.service_user.username
+            }
+            else {
+                tvUserName.text = serviceDetail.service_user.name
+            }
             tvCategoryPrice.text = Constants.CURRENCY.plus(" ").plus(serviceDetail.price.toString())
             tvServiceDetailTitle.text = serviceDetail.s_description
             tvCategoryName.text = serviceDetail.category.title
@@ -324,7 +331,7 @@ class GigDetailsFragment : Fragment(), OnItemClickListener,
             userId = serviceDetail.service_user.id
             if (serviceDetail.service_media.size > 0) {
                 Glide.with(this@GigDetailsFragment)
-                    .load("${Constants.BASE_URL}${serviceDetail.service_media[0].media}")
+                    .load("${Constants.BASE_URL}${serviceDetail.service_user.image}")
                     .placeholder(R.drawable.img_profile)
                     .error(R.drawable.img_profile)
                     .into(ivUser)

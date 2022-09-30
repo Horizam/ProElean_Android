@@ -2,8 +2,8 @@ package com.horizam.pro.elean.ui.main.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.horizam.pro.elean.Constants
@@ -14,17 +14,25 @@ import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
 import com.horizam.pro.elean.utils.BaseUtils
 
 class CancelSalesAdapter(val listener: OnItemClickListener) :
-    ListAdapter<Order, CancelSalesAdapter.DataViewHolder>(COMPARATOR) {
+    PagingDataAdapter<Order, CancelSalesAdapter.DataViewHolder>(COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder {
         val binding =
-            ItemActiveOrderBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemActiveOrderBinding.inflate(LayoutInflater.from(parent.context),
+                parent, false)
         return DataViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: DataViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        val currentItem = getItem(position)
+        if (currentItem != null) {
+            holder.bind(currentItem)
+        }
     }
+    override fun getItemViewType(position: Int): Int {
+        return if (position == itemCount) Constants.DATA_ITEM else Constants.LOADING_ITEM
+    }
+
 
     inner class DataViewHolder(private val binding: ItemActiveOrderBinding) :
         RecyclerView.ViewHolder(binding.root) {

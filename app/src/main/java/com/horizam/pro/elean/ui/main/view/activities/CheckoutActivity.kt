@@ -166,7 +166,13 @@ class CheckoutActivity : AppCompatActivity(), CoroutineScope {
 
         intent?.let {
             binding.tvServiceName.text = it.getStringExtra("service_name").toString()
-            binding.tvSellerName.text = it.getStringExtra("seller_name").toString()
+          if( it.getStringExtra("seller_name").toString().isEmpty())
+          {
+              binding.tvSellerName.text =it.getStringExtra("seller_username").toString()
+          }
+            else{
+              binding.tvSellerName.text =it.getStringExtra("seller_name").toString()
+          }
             binding.tvPrice.text = it.getStringExtra("price").toString()
         }
     }

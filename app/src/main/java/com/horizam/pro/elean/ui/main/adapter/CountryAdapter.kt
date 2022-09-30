@@ -1,22 +1,17 @@
 package com.horizam.pro.elean.ui.main.adapter
 
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.signature.ObjectKey
 import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.model.SpinnerModel
 import com.horizam.pro.elean.databinding.ItemCountryListBinding
 import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
 import com.horizam.pro.elean.ui.main.view.fragments.SelectCountryBottomSheet
-import kotlinx.coroutines.withContext
-import kotlin.collections.ArrayList
 
 class CountryAdapter(
     private var countriesList: ArrayList<SpinnerModel>,
@@ -62,5 +57,6 @@ class CountryAdapter(
         notifyDataSetChanged()
     }
 
-    class ViewHolder(val binding: ItemCountryListBinding) : RecyclerView.ViewHolder(binding.root)
+    class ViewHolder(val binding: ItemCountryListBinding) :
+        RecyclerView.ViewHolder(binding.root)
 }

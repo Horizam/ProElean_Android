@@ -135,7 +135,8 @@ class FeaturedGigsDetailsFragment : Fragment(), OnItemClickListener,
                 if (serviceId.isNotEmpty()) {
                     val customOrderBottomSheet = CustomOrderBottomSheet()
                     bundle.putString("service_name", serviceDetail.s_description)
-                    bundle.putString("seller_name", serviceDetail.service_user.username)
+                    bundle.putString("seller_name", serviceDetail.service_user.name)
+                    bundle.putString("seller_username",serviceDetail.service_user.username)
                     bundle.putString("price", serviceDetail.price.toString())
                     bundle.putString(Constants.SERVICE_ID, serviceId)
                     bundle.putStringArrayList(Constants.DAYS_LIST, arrayListOf("1 day"))
@@ -154,6 +155,7 @@ class FeaturedGigsDetailsFragment : Fragment(), OnItemClickListener,
         binding.toolbar.ivToolbar.setImageResource(R.drawable.ic_back)
         binding.toolbar.tvToolbar.text =
             App.getAppContext()!!.getString(R.string.str_featured_gigs_details)
+        binding.toolbar.ivToolbar.isVisible=true
     }
 
     private fun setupViewModel() {

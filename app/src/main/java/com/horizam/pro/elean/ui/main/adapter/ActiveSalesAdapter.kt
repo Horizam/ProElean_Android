@@ -1,12 +1,12 @@
 package com.horizam.pro.elean.ui.main.adapter
 
-import android.content.Context
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.app.ActivityCompat
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.horizam.pro.elean.Constants
@@ -17,9 +17,11 @@ import com.horizam.pro.elean.databinding.ItemActiveOrderBinding
 import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
 import com.horizam.pro.elean.ui.main.view.fragments.manageSales.SalesFragment
 import com.horizam.pro.elean.utils.BaseUtils
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class ActiveSalesAdapter(val listener: OnItemClickListener) :
-    ListAdapter<Order, ActiveSalesAdapter.DataViewHolder>(COMPARATOR) {
+    PagingDataAdapter<Order, ActiveSalesAdapter.DataViewHolder>(COMPARATOR) {
 
     private var context = listener as SalesFragment
 
@@ -29,8 +31,18 @@ class ActiveSalesAdapter(val listener: OnItemClickListener) :
         return DataViewHolder(binding)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: DataViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        val currentItem = getItem(position)
+        if (currentItem != null) {
+            holder.bind(currentItem)
+        }
+    }
+    override fun getItemViewType(position: Int): Int {
+        return if (position == itemCount)
+            Constants.DATA_ITEM
+        else
+            Constants.LOADING_ITEM
     }
 
     inner class DataViewHolder(private val binding: ItemActiveOrderBinding) :
@@ -48,6 +60,7 @@ class ActiveSalesAdapter(val listener: OnItemClickListener) :
             }
         }
 
+        @RequiresApi(Build.VERSION_CODES.O)
         fun bind(order: Order) {
             binding.apply {
                 tvUserName.text = order.username
@@ -60,7 +73,9 @@ class ActiveSalesAdapter(val listener: OnItemClickListener) :
                     .into(ivUser)
                 when (order.status) {
                     SellerOrders.Active -> {
-                        tvStatus.text = itemView.context.getString(R.string.str_active)
+                        if( order.end_date < LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+                        {
+                        tvStatus.text = itemView.context.getString(R.string.str_late)
                         tvStatus.setTextColor(
                             ContextCompat.getColor(
                                 context.requireContext(),
@@ -73,8 +88,26 @@ class ActiveSalesAdapter(val listener: OnItemClickListener) :
                         )
                         mainCard.strokeColor = ContextCompat.getColor(
                             context.requireContext(),
-                            R.color.colorThree
+                            R.color.bg_primary
                         )
+                    }
+                        else{
+                            tvStatus.text = itemView.context.getString(R.string.str_active)
+                            tvStatus.setTextColor(
+                                ContextCompat.getColor(
+                                    context.requireContext(),
+                                    R.color.colorBlack
+                                )
+                            )
+                            cardView.strokeColor = ContextCompat.getColor(
+                                context.requireContext(),
+                                R.color.colorThree
+                            )
+                            mainCard.strokeColor = ContextCompat.getColor(
+                                context.requireContext(),
+                                R.color.bg_primary
+                            )
+                        }
                     }
                     SellerOrders.Delivered -> {
                         tvStatus.text = itemView.context.getString(R.string.str_delivered)
@@ -86,11 +119,11 @@ class ActiveSalesAdapter(val listener: OnItemClickListener) :
                         )
                         cardView.strokeColor = ContextCompat.getColor(
                             context.requireContext(),
-                            R.color.colorThree
+                            R.color.colorGreenStatus
                         )
                         mainCard.strokeColor = ContextCompat.getColor(
                             context.requireContext(),
-                            R.color.colorThree
+                            R.color.bg_primary
                         )
                     }
                     SellerOrders.Revision -> {
@@ -107,7 +140,7 @@ class ActiveSalesAdapter(val listener: OnItemClickListener) :
                         )
                         mainCard.strokeColor = ContextCompat.getColor(
                             context.requireContext(),
-                            R.color.colorThree
+                            R.color.bg_primary
                         )
                     }
                     SellerOrders.Completed -> {
@@ -124,7 +157,7 @@ class ActiveSalesAdapter(val listener: OnItemClickListener) :
                         )
                         mainCard.strokeColor = ContextCompat.getColor(
                             context.requireContext(),
-                            R.color.color_green
+                            R.color.bg_primary
                         )
                     }
                     SellerOrders.Disputed -> {
@@ -141,7 +174,7 @@ class ActiveSalesAdapter(val listener: OnItemClickListener) :
                         )
                         mainCard.strokeColor = ContextCompat.getColor(
                             context.requireContext(),
-                            R.color.colorOrange
+                            R.color.bg_primary
                         )
                     }
                     SellerOrders.Late -> {
@@ -154,11 +187,11 @@ class ActiveSalesAdapter(val listener: OnItemClickListener) :
                         )
                         cardView.strokeColor = ContextCompat.getColor(
                             context.requireContext(),
-                            R.color.colorThree
+                            R.color.colorGolden
                         )
                         mainCard.strokeColor = ContextCompat.getColor(
                             context.requireContext(),
-                            R.color.colorThree
+                            R.color.bg_primary
                         )
                     }
                     SellerOrders.Cancel -> {
@@ -175,7 +208,7 @@ class ActiveSalesAdapter(val listener: OnItemClickListener) :
                         )
                         mainCard.strokeColor = ContextCompat.getColor(
                             context.requireContext(),
-                            R.color.color_red
+                            R.color.bg_primary
                         )
                     }
                 }
