@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -103,6 +104,7 @@ class BankAccountsFragment : Fragment() {
 
     private fun setToolbarData() {
         binding.toolbar.ivToolbar.setImageResource(R.drawable.ic_back)
+        binding.toolbar.ivToolbar.isVisible=true
         binding.toolbar.tvToolbar.text = App.getAppContext()!!.getString(R.string.str_bank_details)
     }
 }

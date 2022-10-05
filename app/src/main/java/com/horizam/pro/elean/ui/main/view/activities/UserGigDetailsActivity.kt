@@ -2,6 +2,7 @@ package com.horizam.pro.elean.ui.main.view.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Html
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
@@ -109,7 +110,7 @@ class UserGigDetailsActivity : AppCompatActivity(), GenericHandler,
         binding.apply {
             tvUserName.text = serviceDetail.service_user.username
             tvServiceDetailTitle.text = serviceDetail.s_description
-            tvServiceDetailDescription.text = serviceDetail.description
+            tvServiceDetailDescription.setText(Html.fromHtml(Html.fromHtml(serviceDetail.description).toString()))
             tvInfo.text = serviceDetail.additional_info
             tvDate.visibility = View.GONE
             ratingBar.rating = serviceDetail.service_rating.toFloat()

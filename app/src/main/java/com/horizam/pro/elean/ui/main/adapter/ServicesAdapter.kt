@@ -7,11 +7,13 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.horizam.pro.elean.App
 import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.model.response.Category
 import com.horizam.pro.elean.databinding.ItemServicesAndGigsBinding
 import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
+import com.horizam.pro.elean.utils.PrefManager
 
 
 class ServicesAdapter(val listener: OnItemClickListener) :
@@ -43,6 +45,7 @@ class ServicesAdapter(val listener: OnItemClickListener) :
         }
 
         fun bind(category: Category) {
+            var manager: PrefManager = PrefManager(App.getAppContext()!!)
             binding.apply {
 //                    .load("${Constants.BASE_URL}${category.banner}")
                 Glide.with(itemView)
@@ -52,7 +55,13 @@ class ServicesAdapter(val listener: OnItemClickListener) :
                     .error(R.drawable.ic_error)
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .into(ivService)
-                tvServiceName.text = category.title
+                if (manager.setLanguage == "0") {
+                    tvServiceName.text = category.title
+                }
+                else
+                {
+                    tvServiceName.text = category.fiTitle
+                }
             }
         }
     }

@@ -109,7 +109,7 @@ OrderDetailsActivity : AppCompatActivity(), GenericHandler {
         try {
             prefManager = PrefManager(this)
             genericHandler = this
-            listFragmentTitles = arrayListOf("Order Details","Timeline" , "Chat")
+            listFragmentTitles = arrayListOf( getString(R.string.str_order_details), getString(R.string.str_timeline),getString(R.string.str_chat))
             if(intent.hasExtra(Constants.ORDER)){
                 loadData()
             }else if(intent.hasExtra(Constants.ORDER_ID)){

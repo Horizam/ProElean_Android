@@ -8,9 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import com.horizam.pro.elean.App
 import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.api.ApiHelper
@@ -24,6 +26,7 @@ import com.horizam.pro.elean.ui.main.adapter.SpinnerAdapter
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
 import com.horizam.pro.elean.ui.main.viewmodel.PostJobViewModel
 import com.horizam.pro.elean.utils.BaseUtils.Companion.hideKeyboard
+import com.horizam.pro.elean.utils.PrefManager
 import com.horizam.pro.elean.utils.Resource
 import com.horizam.pro.elean.utils.Status
 import kotlinx.android.synthetic.main.fragment_home.view.*
@@ -146,6 +149,7 @@ class PostJobFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
     private fun setToolbarData() {
         binding.toolbar.ivToolbar.setImageResource(R.drawable.ic_back)
+        binding.toolbar.ivToolbar.isVisible=true
         binding.toolbar.tvToolbar.text = getString(R.string.str_post_a_job)
     }
 
@@ -202,7 +206,12 @@ class PostJobFragment : Fragment(), AdapterView.OnItemSelectedListener {
     private fun setSpinnerSubcategories(response: SubcategoriesDataResponse) {
         subcategoriesArrayList = response.subcategoriesList.map {
                 spinnerSubcategories ->
-            SpinnerModel(id = spinnerSubcategories.id, value = spinnerSubcategories.title)
+            var manager: PrefManager = PrefManager(App.getAppContext()!!)
+                if (manager.setLanguage == "0") {
+                    SpinnerModel(id = spinnerSubcategories.id, value = spinnerSubcategories.title)
+                } else {
+                    SpinnerModel(id = spinnerSubcategories.id, value = spinnerSubcategories.fiTitle)
+            }
         }
         subcategoriesAdapter = SpinnerAdapter(
             requireContext(),
@@ -215,7 +224,12 @@ class PostJobFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
     private fun setUIData(response: CategoriesCountriesResponse) {
         categoriesArrayList = response.categoriesCountriesData.categories.map { spinnerCategories ->
-            SpinnerModel(id = spinnerCategories.id!!, value = spinnerCategories.title!!)
+            var manager: PrefManager = PrefManager(App.getAppContext()!!)
+            if (manager.setLanguage == "0") {
+                SpinnerModel(id = spinnerCategories.id!!, value = spinnerCategories.title!!)
+            } else {
+                SpinnerModel(id = spinnerCategories.id!!, value = spinnerCategories.fiTitle!!)
+            }
         }
         daysArrayList = response.categoriesCountriesData.deliveryDays
         categoriesAdapter = SpinnerAdapter(

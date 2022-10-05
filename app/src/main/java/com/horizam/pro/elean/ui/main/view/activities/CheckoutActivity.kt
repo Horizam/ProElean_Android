@@ -67,7 +67,7 @@ class CheckoutActivity : AppCompatActivity(), CoroutineScope {
     }
 
     private fun setupObservers() {
-        viewModel.customOrder.observe(this, {
+        viewModel.customOrder.observe(this) {
             it?.let { resource ->
                 when (resource.status) {
                     Status.SUCCESS -> {
@@ -85,9 +85,9 @@ class CheckoutActivity : AppCompatActivity(), CoroutineScope {
                     }
                 }
             }
-        })
+        }
 
-        viewModel.getToken.observe(this, {
+        viewModel.getToken.observe(this) {
             it?.let { resource ->
                 when (resource.status) {
                     Status.SUCCESS -> {
@@ -105,7 +105,7 @@ class CheckoutActivity : AppCompatActivity(), CoroutineScope {
                     }
                 }
             }
-        })
+        }
     }
 
     private fun handleResponse(response: GeneralResponse) {

@@ -22,11 +22,13 @@ data class Ads(
 
 @Parcelize
 data class Category(
-    @SerializedName("id") val id: String,
-    @SerializedName("title") val title: String,
-    @SerializedName("description") val description: String,
-    @SerializedName("banner") val banner: String,
-    @SerializedName("slug") val slug: String,
+    @SerializedName("id"             ) var id            : String,
+    @SerializedName("title"          ) var title         : String,
+    @SerializedName("fi_title"       ) var fiTitle       : String,
+    @SerializedName("slug"           ) var slug          : String,
+    @SerializedName("banner"         ) var banner        : String,
+    @SerializedName("description"    ) var description   : String,
+    @SerializedName("fi_description" ) var fiDescription : String
 ) : Parcelable
 
 @Parcelize
@@ -49,4 +51,5 @@ data class FeaturedGig(
     @SerializedName("sub_category") val sub_category: Subcategory,
     @SerializedName("service_user") val service_user: ServiceUser,
     @SerializedName("service_media") val service_media: List<Service_media>,
+    @SerializedName("offered_services" ) var offeredServices : ArrayList<String>       = arrayListOf()
 ) : Parcelable

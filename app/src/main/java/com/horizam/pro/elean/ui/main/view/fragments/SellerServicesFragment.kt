@@ -100,8 +100,8 @@ class SellerServicesFragment : Fragment(), OnItemClickListener, SendOfferHandler
 
     private fun setToolbarData() {
         binding.toolbar.ivToolbar.setImageResource(R.drawable.ic_back)
-        binding.toolbar.tvToolbar.text =
-            App.getAppContext()!!.getString(R.string.str_seller_services)
+        binding.toolbar.ivToolbar.isVisible=true
+        binding.toolbar.tvToolbar.text = getString(R.string.str_seller_services)
     }
 
     private fun setupViewModel() {

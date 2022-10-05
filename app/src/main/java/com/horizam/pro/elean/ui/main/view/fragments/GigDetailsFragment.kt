@@ -3,11 +3,12 @@ package com.horizam.pro.elean.ui.main.view.fragments
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -18,34 +19,31 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.glide.slider.library.SliderLayout
+import com.glide.slider.library.animations.DescriptionAnimation
 import com.glide.slider.library.slidertypes.BaseSliderView
 import com.glide.slider.library.slidertypes.DefaultSliderView
+import com.glide.slider.library.tricks.ViewPagerEx
+import com.google.gson.Gson
 import com.horizam.pro.elean.App
 import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
-import com.horizam.pro.elean.databinding.FragmentGigDetailsBinding
-import com.horizam.pro.elean.ui.base.ViewModelFactory
-import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
-import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
-import com.horizam.pro.elean.ui.main.viewmodel.GigDetailsViewModel
-import com.horizam.pro.elean.utils.Status
-import java.lang.Exception
-import com.glide.slider.library.animations.DescriptionAnimation
-import com.glide.slider.library.tricks.ViewPagerEx
-import com.google.gson.Gson
 import com.horizam.pro.elean.data.model.MessageGig
 import com.horizam.pro.elean.data.model.requests.ReviewsRequest
 import com.horizam.pro.elean.data.model.response.ServiceDetail
-import com.horizam.pro.elean.data.model.response.Subcategory
-import com.horizam.pro.elean.ui.main.adapter.GigsAdapter
+import com.horizam.pro.elean.databinding.FragmentGigDetailsBinding
+import com.horizam.pro.elean.ui.base.ViewModelFactory
 import com.horizam.pro.elean.ui.main.adapter.ReviewsAdapter
+import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
+import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
 import com.horizam.pro.elean.ui.main.view.activities.AuthenticationActivity
-import com.horizam.pro.elean.ui.main.viewmodel.ServiceGigsViewModel
+import com.horizam.pro.elean.ui.main.viewmodel.GigDetailsViewModel
 import com.horizam.pro.elean.utils.PrefManager
+import com.horizam.pro.elean.utils.Status
 
 
+@Suppress("DEPRECATION")
 class GigDetailsFragment : Fragment(), OnItemClickListener,
     BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener {
     private val navController: NavController by lazy {
@@ -56,20 +54,14 @@ class GigDetailsFragment : Fragment(), OnItemClickListener,
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewModel: GigDetailsViewModel
     private lateinit var genericHandler: GenericHandler
-    private lateinit var adapterr: GigsAdapter
-    private var from: Int = 0
     private lateinit var glideSliderLayout: SliderLayout
     private lateinit var requestOptions: RequestOptions
     private lateinit var deliveryDaysList: ArrayList<String>
     private lateinit var prefManager: PrefManager
-    private lateinit var viewModell: ServiceGigsViewModel
-    private var service: ServiceDetail? = null
     private var gig: ServiceDetail? = null
     private lateinit var serviceGigsFragment:ServiceGigsFragment
     private val args: GigDetailsFragmentArgs by navArgs()
-    private val argss: ServiceGigsFragmentArgs by navArgs()
     private var userId: String = ""
-    private var serviceId = ""
     private val bundle = Bundle()
 
 
@@ -81,7 +73,7 @@ class GigDetailsFragment : Fragment(), OnItemClickListener,
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         binding = FragmentGigDetailsBinding.inflate(layoutInflater, container, false)
         setToolbarData()
@@ -322,9 +314,16 @@ class GigDetailsFragment : Fragment(), OnItemClickListener,
             }
             tvCategoryPrice.text = Constants.CURRENCY.plus(" ").plus(serviceDetail.price.toString())
             tvServiceDetailTitle.text = serviceDetail.s_description
-            tvCategoryName.text = serviceDetail.category.title
-            tvSubcategoryName.text = serviceDetail.sub_category.title
-            tvServiceDetailDescription.text = serviceDetail.description
+            if(prefManager.setLanguage=="0")
+            {
+                tvCategoryName.text = serviceDetail.category.title
+                tvSubcategoryName.text = serviceDetail.sub_category.title
+            }
+            else {
+                tvCategoryName.text = serviceDetail.category.fiTitle
+                tvSubcategoryName.text = serviceDetail.sub_category.fiTitle
+            }
+            tvServiceDetailDescription.setText(Html.fromHtml(Html.fromHtml(serviceDetail.description).toString()))
             tvNoOfRevision.text = serviceDetail.revision.toString()
             ratingBar.rating = serviceDetail.service_rating.toFloat()
             noOfRating.text = "(${serviceDetail.total_reviews})"

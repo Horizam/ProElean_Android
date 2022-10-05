@@ -24,7 +24,10 @@
     <string name="str_home">Home</string>
     <string name="str_inbox">Inbox</string>
     <string name="str_search">search</string>
+    <string name="str_orders">orders</string>
     <string name="str_messages">Messages</string>
+    <string name="str_timeline">Timeline</string>
+    <string name="str_chat">Chat</string>
     <string name="str_notifications">Notifications</string>
     <string name="str_22">22</string>
     <string name="str_saved">Saved</string>
@@ -273,6 +276,8 @@
     <string name="str_image">Image</string>
     <string name="str_video">Video</string>
     <string name="str_video_and_pdf">Video/Pdf</string>
+    <string name="str_All">All</string>
+    <string name="str_reject_dispute">Reject Dispute</string>
     <string name="str_please_wait">Please wait</string>
     <string name="str_has_been_downloaded">has been downloaded successfully</string>
     <string name="str_file_uploading">File uploading</string>
@@ -309,6 +314,7 @@
     <string name="str_select_language">Select Language</string>
     <string name="str_no_of_revision">No. of Revisions</string>
     <string name="str_cancel_request">Cancel Request</string>
+    <string name="str_btn_yes">Yes</string>
     <string name="str_service_name">Service Name</string>
     <string name="str_seller_name">Seller Name</string>
     <string name="str_proceed_with_support">Proceed with Support</string>
@@ -346,4 +352,30 @@
     <string name="str_extend_time">Extend Time</string>
     <string name="str_short_description_must_be_at_least_6_characters">Short description must be at least 6 characters</string>
     <string name="str_withdrawal">You can perform this action only on Desktop</string>
+    <string name="str_log_out">Are you sure you want to logout?</string>
+    <string name="str_late_order">Late Order</string>
+    <string name="str_late_submission">Late Submission</string>
+    <string name="str_find_the_perfect_freelance">Find The Perfect Freelance.</string>
+    <string name="str_explore_the_market">Explore the marketplace</string>
+    <string name="str_top_picks_for_you">Top picks for you</string>
+    <string name="str_with_projects_made_by_our_efreelancers">The eFreelancers in Pro eLean work fast and reliably. Inspired with projects made by our eFreelancers.</string>
+    <string name="str_revisions_left">Revisions Left</string>
+    <string name="str_Delivery_date">Delivery Date</string>
+    <string name="str_full_time">full time</string>
+    <string name="str_part_time">part time</string>
+    <string name="str_enabled">Please enable it settings</string>
+    <string name="str_revision_finished">Revisions Finished</string>
+    <string name="str_accept_extension">Accept Extension</string>
+    <string name="str_reject_extension">Reject Extension</string>
+    <string name="str_coming_soon">Coming soon</string>
+    <string name="str_rate">please rate your experience</string>
+    <string name="str_english">English</string>
+    <string name="str_finish">Finnish</string>
+    <string name="str_desktop">You can perform this action only on Desktop</string>
+    <string name="str_select_country">Select Country</string>
+    <string name="str_an_email_with_verification_code_was_send_to_your_shaban_gmail_com">An email with verification code was send to your neha@gmail.com</string>
+    <string name="str_new_password_mismatched">New Password and Confirm New Password Mismatched</string>
+    <string name="str_verification_code">Verification Code</string>
+    <string name="str_verify_code">Verify Code</string>
+
 </resources>

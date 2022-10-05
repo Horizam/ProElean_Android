@@ -43,7 +43,7 @@
             android:layout_marginLeft="20dp"
             android:backgroundTint="@color/colorButtons"
             android:paddingHorizontal="@dimen/_10sdp"
-            android:text="Yes"
+            android:text="@string/str_btn_yes"
             android:textAllCaps="false"
             android:textColor="@color/colorWhite">
 

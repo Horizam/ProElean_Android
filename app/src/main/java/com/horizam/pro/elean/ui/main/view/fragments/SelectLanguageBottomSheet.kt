@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.model.LanguageChangeListeners
 import com.horizam.pro.elean.data.model.LanguageList
 import com.horizam.pro.elean.databinding.FragmentSelectLanguageBottomSheetBinding
@@ -39,8 +40,8 @@ class SelectLanguageBottomSheet : BottomSheetDialogFragment() ,LanguageChangeLis
 
     private fun initViews() {
         languageList = ArrayList()
-        languageList.add(LanguageList(id = "1", lName = "English"))
-        languageList.add(LanguageList(id = "2", lName = "Finnish"))
+        languageList.add(LanguageList(id = "1", lName = getString(R.string.str_english)))
+        languageList.add(LanguageList(id = "2", lName = getString(R.string.str_finish)))
     }
 
     private fun setRecyclerView() {

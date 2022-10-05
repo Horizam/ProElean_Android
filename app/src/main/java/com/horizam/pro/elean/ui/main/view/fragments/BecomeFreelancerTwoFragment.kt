@@ -15,6 +15,7 @@ import android.widget.ArrayAdapter
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -158,6 +159,7 @@ class BecomeFreelancerTwoFragment : Fragment(), AdapterView.OnItemSelectedListen
 
     private fun setToolbarData() {
         binding.toolbar.ivToolbar.setImageResource(R.drawable.ic_back)
+        binding.toolbar.ivToolbar.isVisible=true
         binding.toolbar.tvToolbar.text =
             App.getAppContext()!!.getString(R.string.str_become_freelancer)
     }
@@ -233,7 +235,7 @@ class BecomeFreelancerTwoFragment : Fragment(), AdapterView.OnItemSelectedListen
 
     private fun setUIData(response: CategoriesCountriesResponse) {
         languagesArrayList =response.categoriesCountriesData.languages
-        availabilityArrayList = arrayListOf("full time", "part time")
+        availabilityArrayList = arrayListOf(getString(R.string.str_full_time), getString(R.string.str_part_time))
         languagesAdapter = ArrayAdapter(
             requireContext(),
             android.R.layout.simple_spinner_item, languagesArrayList

@@ -183,7 +183,8 @@ class EditProfileFragment : Fragment() {
 
     private fun setToolbarData() {
         binding.toolbar.ivToolbar.setImageResource(R.drawable.ic_back)
-        binding.toolbar.tvToolbar.text = App.getAppContext()!!.getString(R.string.edit_profile)
+        binding.toolbar.ivToolbar.isVisible=true
+        binding.toolbar.tvToolbar.text = getString(R.string.edit_profile)
     }
 
     private fun setupViewModel() {
@@ -358,7 +359,7 @@ class EditProfileFragment : Fragment() {
                     genericHandler.showErrorMessage(ex.message.toString())
                 }
             } else {
-                genericHandler.showErrorMessage("Invalid data")
+                genericHandler.showErrorMessage(getString(R.string.str_invalid_data))
             }
         }
 
@@ -422,7 +423,7 @@ class EditProfileFragment : Fragment() {
                 Log.i("Permission: ", "Denied")
                 genericHandler.showErrorMessage(
                     getString(R.string.permission_required)
-                        .plus(". Please enable it settings")
+                        .plus(getString(R.string.str_enabled))
                 )
             }
         }
@@ -438,7 +439,7 @@ class EditProfileFragment : Fragment() {
                 Log.i("Permission: ", "Denied")
                 genericHandler.showErrorMessage(
                     getString(R.string.permission_required)
-                        .plus(". Please enable it settings")
+                        .plus(getString(R.string.str_enabled))
                 )
             }
         }

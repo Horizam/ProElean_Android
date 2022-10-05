@@ -19,6 +19,7 @@ import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
 import com.horizam.pro.elean.data.model.SellerActionModel
 import com.horizam.pro.elean.data.model.response.ProfileInfo
+import com.horizam.pro.elean.data.model.response.UserReviewsResponse
 import com.horizam.pro.elean.databinding.DialogDeleteBinding
 import com.horizam.pro.elean.databinding.FragmentUserAboutBinding
 import com.horizam.pro.elean.ui.base.ViewModelFactory
@@ -48,6 +49,7 @@ class AboutUserFragment : Fragment(), OnItemClickListener {
     private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var dialogDelete: Dialog
     private lateinit var bindingDeleteDialog: DialogDeleteBinding
+    private lateinit var userReviewsResponse: UserReviewsResponse
     private lateinit var mAuth: FirebaseAuth
     private lateinit var languagesAdapter: LanguagesAdapter
 
@@ -61,7 +63,8 @@ class AboutUserFragment : Fragment(), OnItemClickListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentUserAboutBinding.inflate(layoutInflater, container, false)
+        binding = FragmentUserAboutBinding.inflate(layoutInflater, container,
+            false)
         initComponent()
         setupViewModel()
         setRecyclerview()
@@ -141,7 +144,7 @@ class AboutUserFragment : Fragment(), OnItemClickListener {
     private fun initDeleteDialog() {
         dialogDelete = Dialog(requireActivity())
         bindingDeleteDialog = DialogDeleteBinding.inflate(layoutInflater)
-        bindingDeleteDialog.tvTitle.text = "Are you sure you want to logout?"
+        bindingDeleteDialog.tvTitle.text = getString(R.string.str_log_out)
         dialogDelete.setContentView(bindingDeleteDialog.root)
     }
 
@@ -230,6 +233,7 @@ class AboutUserFragment : Fragment(), OnItemClickListener {
     }
 
     private fun setUiData(profileInfo: ProfileInfo) {
+
         binding.apply {
             profileInfo.let { profile ->
                 Glide.with(this@AboutUserFragment)
@@ -237,7 +241,7 @@ class AboutUserFragment : Fragment(), OnItemClickListener {
                     .error(R.drawable.img_profile)
                     .into(ivUser)
                 tvUserName.text = profile.name
-                tvUserRating.text = profile.user_rating.toString()
+                tvUserRating.text = profileInfo.user_rating.toString()
                 tvRatingNumber.text = "(".plus(profile.total_reviews.toString()).plus(")")
                 tvLocation.text = profile.address
                 tvLanguage.text=profile.user_languages

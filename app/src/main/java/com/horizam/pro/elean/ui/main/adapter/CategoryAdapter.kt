@@ -7,11 +7,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.horizam.pro.elean.App
 import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.model.response.Subcategory
 import com.horizam.pro.elean.databinding.ItemServicesCategoryBinding
 import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
+import com.horizam.pro.elean.utils.PrefManager
 
 class CategoryAdapter(private val listener: OnItemClickListener) :
     PagingDataAdapter<Subcategory, CategoryAdapter.DataViewHolder>(ITEM_COMPARATOR) {
@@ -49,6 +51,7 @@ class CategoryAdapter(private val listener: OnItemClickListener) :
         }
 
         fun bind(subcategory: Subcategory) {
+            var manager: PrefManager = PrefManager(App.getAppContext()!!)
             binding.apply {
                 Glide.with(itemView)
                     .load("${Constants.BASE_URL}${subcategory.banner}")
@@ -56,7 +59,14 @@ class CategoryAdapter(private val listener: OnItemClickListener) :
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .error(R.drawable.ic_error)
                     .into(ivService)
-                tvServiceName.text = subcategory.title
+                if (manager.setLanguage == "0") {
+                    tvServiceName.text = subcategory.title
+                }
+                else
+                {
+                    tvServiceName.text = subcategory.fiTitle
+                }
+
             }
         }
     }

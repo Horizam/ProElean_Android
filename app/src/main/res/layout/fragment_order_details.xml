@@ -514,7 +514,7 @@
                 android:layout_marginBottom="@dimen/_25sdp"
                 android:backgroundTint="@color/colorButtons"
                 android:elevation="0dp"
-                android:text="Reject Dispute"
+                android:text="@string/str_reject_dispute"
                 android:textColor="@color/colorWhite"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

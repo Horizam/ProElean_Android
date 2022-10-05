@@ -96,7 +96,7 @@
                 android:textColor="@color/colorBlack"
                 android:drawableRight="@drawable/ccp_ic_arrow_drop_down"
                 android:drawableTint="@color/colorDarkGrey"
-                android:text="Select Country"
+                android:text="@string/str_select_country"
                 android:drawablePadding="@dimen/_15sdp"
                 android:paddingStart="@dimen/_20sdp"
                 android:textAlignment="viewEnd"

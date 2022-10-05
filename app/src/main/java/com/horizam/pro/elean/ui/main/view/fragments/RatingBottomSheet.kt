@@ -33,7 +33,7 @@ class RatingBottomSheet(var ratingHandler: RatingHandler , var genericHandler: G
             if(description.length < 10){
                 binding.etDescription.error = getString(R.string.str_description_is_too_short)
             }else if(rating <= 0.0){
-                genericHandler.showErrorMessage("please rate your experience")
+                genericHandler.showErrorMessage(getString(R.string.str_rate))
             }else{
                 dismiss()
                 ratingHandler.getRatingData(rating , description)

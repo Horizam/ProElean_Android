@@ -57,7 +57,7 @@
                         android:background="@drawable/bg_shape_round_corner_grey"
                         android:drawableStart="@drawable/ic_search"
                         android:drawablePadding="@dimen/_5sdp"
-                        android:hint="@string/search_hint"
+                        android:hint="@string/str_search"
                         android:maxLines="1"
                         android:padding="@dimen/_5sdp"
                         app:layout_constraintBottom_toBottomOf="@id/iv_toolbar"

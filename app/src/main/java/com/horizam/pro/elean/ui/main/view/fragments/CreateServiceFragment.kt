@@ -24,6 +24,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
+import com.horizam.pro.elean.App
 import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.api.ApiHelper
@@ -62,6 +63,7 @@ class CreateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
     private lateinit var subcategoriesAdapter: ArrayAdapter<SpinnerModel>
     private lateinit var daysAdapter: ArrayAdapter<String>
     private lateinit var noOfRevisionAdapter: ArrayAdapter<String>
+    private lateinit var prefManager: PrefManager
     private var categoryId: String = ""
     private var subcategoryId: String = ""
     private var deliveryTime = ""
@@ -130,9 +132,15 @@ class CreateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
                     return
                 }
                 etPrice.text.toString().toDouble() < Constants.MINIMUM_ORDER_PRICE -> {
-                    genericHandler.showErrorMessage("Minimum ${Constants.MINIMUM_ORDER_PRICE}${Constants.CURRENCY} must be entered")
+                    var manager: PrefManager = PrefManager(App.getAppContext()!!)
+                        if (manager.setLanguage == "0") {
+                            genericHandler.showErrorMessage("Minimum ${Constants.MINIMUM_ORDER_PRICE}${Constants.CURRENCY} must be entered")
+                        } else {
+                            genericHandler.showErrorMessage("Minimi ${Constants.MINIMUM_ORDER_PRICE}${Constants.CURRENCY} on syötettävä")
+                        }
                     return
                 }
+
                 deliveryTime.isEmpty() -> {
                     genericHandler.showErrorMessage(getString(R.string.str_enter_valid_delivery_time))
                     return
@@ -209,6 +217,7 @@ class CreateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
         categoriesArrayList = ArrayList()
         subcategoriesArrayList = ArrayList()
         daysArrayList = ArrayList()
+        prefManager= PrefManager(App.getAppContext()!!)
         noOfRevisionArrayList = ArrayList()
         binding.spinnerCategory.onItemSelectedListener = this
         binding.spinnerSubCategory.onItemSelectedListener = this
@@ -282,7 +291,12 @@ class CreateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
 
     private fun setSpinnerSubcategories(response: SubcategoriesDataResponse) {
         subcategoriesArrayList = response.subcategoriesList.map { spinnerSubcategories ->
-            SpinnerModel(id = spinnerSubcategories.id, value = spinnerSubcategories.title)
+            if (prefManager.setLanguage == "0") {
+                SpinnerModel(id = spinnerSubcategories.id, value = spinnerSubcategories.title)
+
+            } else {
+                SpinnerModel(id = spinnerSubcategories.id, value = spinnerSubcategories.fiTitle)
+            }
         }
         subcategoriesAdapter = SpinnerAdapter(
             requireContext(),
@@ -295,7 +309,12 @@ class CreateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
 
     private fun setUIData(response: CategoriesCountriesResponse) {
         categoriesArrayList = response.categoriesCountriesData.categories.map { spinnerCategories ->
-            SpinnerModel(id = spinnerCategories.id!!, value = spinnerCategories.title!!)
+            if (prefManager.setLanguage == "0") {
+                SpinnerModel(id = spinnerCategories.id!!, value = spinnerCategories.title!!)
+
+            } else {
+                SpinnerModel(id = spinnerCategories.id!!, value = spinnerCategories.fiTitle!!)
+            }
         }
         categoriesAdapter = SpinnerAdapter(
             requireContext(),
@@ -458,7 +477,7 @@ class CreateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
                 if (result.data != null) {
                     handlePickerResult(result.data!!)
                 } else {
-                    genericHandler.showErrorMessage("Invalid data")
+                    genericHandler.showErrorMessage(getString(R.string.str_invalid_data))
                 }
             }
         }
@@ -487,7 +506,7 @@ class CreateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
                 imagesArrayList.add(image)
                 adapterImages.addImages(imagesArrayList)
             } else {
-                genericHandler.showErrorMessage("Choose valid images")
+                genericHandler.showErrorMessage(getString(R.string.str_valid_image))
             }
         }
     }
@@ -508,7 +527,7 @@ class CreateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
                 Log.i("Permission: ", "Denied")
                 genericHandler.showErrorMessage(
                     getString(R.string.permission_required)
-                        .plus(". Please enable it settings")
+                        .plus(getString(R.string.str_enabled))
                 )
             }
         }

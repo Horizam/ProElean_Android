@@ -1,5 +1,6 @@
 package com.horizam.pro.elean.ui.main.adapter
 
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -64,7 +65,7 @@ class SellerServicesAdapter(val listener: OnItemClickListener) :
                         .transition(DrawableTransitionOptions.withCrossFade())
                         .into(ivMain)
                 }
-                tvDetails.text = userService.description
+                tvDetails.setText(Html.fromHtml(Html.fromHtml(userService.description).toString()))
             }
         }
     }

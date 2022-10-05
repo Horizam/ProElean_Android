@@ -209,8 +209,16 @@ class FeaturedGigsDetailsFragment : Fragment(), OnItemClickListener,
             tvUserName.text = serviceDetail.service_user.username
             tvCategoryPrice.text = Constants.CURRENCY.plus(" ").plus(serviceDetail.price.toString())
             tvServiceDetailTitle.text = serviceDetail.s_description
-            tvCategoryName.text = serviceDetail.category.title
-            tvSubcategoryName.text = serviceDetail.sub_category.title
+            if(prefManager.setLanguage=="0")
+            {
+                tvCategoryName.text = serviceDetail.category.title
+                tvSubcategoryName.text = serviceDetail.sub_category.title
+            }
+            else {
+                tvCategoryName.text = serviceDetail.category.fiTitle
+                tvSubcategoryName.text = serviceDetail.sub_category.fiTitle
+
+            }
             tvServiceDetailDescription.text = serviceDetail.description
             tvNoOfRevision.text = serviceDetail.revision.toString()
             ratingBar.rating = serviceDetail.service_rating.toFloat()

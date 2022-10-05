@@ -2,6 +2,7 @@ package com.horizam.pro.elean.ui.main.view.fragments
 
 import android.content.Context
 import android.os.Bundle
+import android.text.Html
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -107,7 +108,7 @@ class ServiceDetailsFragment : Fragment(), BaseSliderView.OnSliderClickListener,
     }
 
     private fun initViews() {
-
+        prefManager= PrefManager(App.getAppContext()!!)
         requestOptions = RequestOptions().centerCrop()
         setSliderProperties()
 
@@ -189,13 +190,22 @@ class ServiceDetailsFragment : Fragment(), BaseSliderView.OnSliderClickListener,
     private fun setUIData(serviceDetail: ServiceDetail) {
         binding.apply {
             tvServiceDetailTitle.text = serviceDetail.s_description
-            tvServiceDetailDescription.text = serviceDetail.description
+            tvServiceDetailDescription.setText(Html.fromHtml(Html.fromHtml(serviceDetail.description).toString()))
             tvPrice.text = Constants.CURRENCY.plus(" ").plus(serviceDetail.price.toString())
             tvDeliveryTime.text = serviceDetail.delivery_time
             ratingBar.rating = serviceDetail.service_rating.toFloat()
             tvRatingValue.text = " (${serviceDetail.total_reviews})"
-            tvCategoryTitle.text = serviceDetail.category.title
-            tvSubcategoryTitle.text = serviceDetail.sub_category.title
+            if(prefManager.setLanguage=="0")
+            {
+                tvCategoryTitle.text = serviceDetail.category.title
+                tvSubcategoryTitle.text = serviceDetail.sub_category.title
+            }
+            else
+            {
+                tvCategoryTitle.text = serviceDetail.category.fiTitle
+                tvSubcategoryTitle.text = serviceDetail.sub_category.fiTitle
+            }
+
             tvNoOfRevision.text = serviceDetail.revision.toString()
             btnEditService.isVisible = args.isEditable
             service = serviceDetail

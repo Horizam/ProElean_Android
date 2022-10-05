@@ -2,6 +2,7 @@ package com.horizam.pro.elean.ui.main.adapter
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -93,7 +94,7 @@ class GigsAdapter(
                     itemView.context.startActivity(intent)
                 }
                 tvTitleGig.text = serviceDetail.s_description
-                tvDescriptionGig.text = serviceDetail.description
+                tvDescriptionGig.setText(Html.fromHtml(Html.fromHtml(serviceDetail.description).toString()));
                 tvPrice.text = "${serviceDetail.price}${Constants.CURRENCY}"
                 ratingGig.rating = serviceDetail.service_rating.toFloat()
                 totalNumberOfRating.text = "(${serviceDetail.total_reviews})"

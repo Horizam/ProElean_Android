@@ -1,6 +1,7 @@
 package com.horizam.pro.elean.ui.main.adapter
 
 import android.content.Intent
+import android.text.Html
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -93,7 +94,8 @@ class ViewOfferAdapter(
                         tvDescription.text = itemView.context
                             .getString(R.string.str_desc_not_available)
                     } else {
-                        tvDescription.text = offer.description
+                        tvDescription.setText(Html.fromHtml(Html.fromHtml(offer.description).toString()))
+
                     }
                     tvUserName.text = offer.profile.name
                     ratingBar.rating = offer.profile.user_rating.toFloat()

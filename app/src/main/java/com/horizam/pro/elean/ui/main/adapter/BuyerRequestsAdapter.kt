@@ -1,5 +1,6 @@
 package com.horizam.pro.elean.ui.main.adapter
 
+import android.text.Html
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,12 +9,14 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.horizam.pro.elean.App
 import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.model.response.BuyerRequest
 import com.horizam.pro.elean.databinding.ItemBuyerRequestBinding
 import com.horizam.pro.elean.ui.main.callbacks.BuyerRequestsHandler
 import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
+import com.horizam.pro.elean.utils.PrefManager
 
 class BuyerRequestsAdapter(
     private val listener: OnItemClickListener,
@@ -68,16 +71,27 @@ class BuyerRequestsAdapter(
         }
 
         fun bind(buyerRequest: BuyerRequest) {
+            var prefManager: PrefManager = PrefManager(App.getAppContext()!!)
             binding.apply {
                 try {
                     tvName.text = buyerRequest.user.username
                     tvDate.text = buyerRequest.created_at
                     tvDuration.text = buyerRequest.delivery_time
-                    tvDescription.text = buyerRequest.description
-                    tvOffers.text = buyerRequest.total_offers.toString().plus(" offers sent")
+                    tvDescription.setText(Html.fromHtml(Html.fromHtml(buyerRequest.description).toString()))
+
                     tvBudget.text = buyerRequest.budget.toString().plus(Constants.CURRENCY)
                     if (buyerRequest.cinic.isEmpty()) {
-                        tvDocument.text = "No Attachment"
+                        if(prefManager.setLanguage=="0")
+                        {
+                            tvOffers.text = buyerRequest.total_offers.toString().plus("offer sent")
+                            tvDocument.text = "No Attachment"
+                        }
+                        else
+                        {
+                            tvOffers.text = buyerRequest.total_offers.toString().plus("tarjous lähetetty")
+                            tvDocument.text = "Ei liitettä"
+                        }
+
                     } else {
                         tvDocument.text = buyerRequest.cinic
                     }

@@ -101,11 +101,8 @@ class ManageServicesFragment : Fragment(), ManageServiceHandler,
 
         swipeRefreshLayout = binding.swipeRefresh
         swipeRefreshLayout.setOnRefreshListener(this)
-        if (BaseUtils.isUserProfileScreen) {
-            binding.toolbar.root.visibility = View.GONE
-        } else {
             binding.toolbar.root.visibility = View.VISIBLE
-        }
+
     }
 
     private fun initFilterDialog() {
@@ -236,7 +233,8 @@ class ManageServicesFragment : Fragment(), ManageServiceHandler,
                 genericHandler.showProgressBar(true)
                 viewModel.deleteUserServiceCall(item.id)
             }
-            bindingDeleteDialog.btnNo.setOnClickListener { dialogDelete.dismiss() }
+            bindingDeleteDialog.btnNo.setOnClickListener {
+                dialogDelete.dismiss() }
         }
     }
 

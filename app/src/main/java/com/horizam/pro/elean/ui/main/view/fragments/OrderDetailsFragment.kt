@@ -150,7 +150,7 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                 tvDuration.text = order.delivery_time
                 tvRevisions.text = order.revision.toString()
                 if(order.revision_left.toString() == (0).toString()) {
-                    tvRevisionsLeft.text ="Revisions Finished"
+                    tvRevisionsLeft.text =getString(R.string.str_revision_finished)
                     btnRevision.isVisible=false
                 }
                         else
@@ -218,7 +218,7 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                     } else {
                         binding.countdownTimer.isVisible = true
                         btnCompleted.text = getString(R.string.str_deliver_work)
-                        btnExtendTime.text = "Extend Time"
+                        btnExtendTime.text = getString(R.string.str_extend_time)
                     }
                 }
                 SellerOrders.Late -> {
@@ -352,9 +352,9 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                     startTimer()
                     if (order.pending_req == 1) {
                         btnExtendTime.isVisible = true
-                        btnExtendTime.text = "Accept Extension"
+                        btnExtendTime.text = getString(R.string.str_accept_extension)
                         btnLate.isVisible = true
-                        btnLate.text = "Reject Extension"
+                        btnLate.text = getString(R.string.str_reject_extension)
                     }
                 }
                 BuyerOrders.Late -> {
@@ -667,7 +667,7 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                 when (pair.first) {
                     Constants.BUYER_USER -> {
                         // Download source code
-                        genericHandler.showSuccessMessage("Coming soon")
+                        genericHandler.showSuccessMessage(getString(R.string.str_coming_soon))
                     }
                     Constants.SELLER_USER -> {
 

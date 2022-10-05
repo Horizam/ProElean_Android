@@ -148,51 +148,6 @@ class RevisionOrdersFragment : Fragment(), OnItemClickListener, SwipeRefreshLayo
                 adapter.submitData(viewLifecycleOwner.lifecycle, it)
             })
     }
-//        viewModel.buyerOrders.observe(viewLifecycleOwner) {
-//            it?.let { resource ->
-//                when (resource.status) {
-//                    Status.SUCCESS -> {
-//                        genericHandler.showProgressBar(false)
-//                        resource.data?.let { response ->
-//                            handleResponse(response)
-//                            changeViewVisibility(textView = false, button = false, layout = true)
-//                        }
-//                    }
-//                    Status.ERROR -> {
-//                        genericHandler.showProgressBar(false)
-//                        genericHandler.showErrorMessage(it.message.toString())
-//                        changeViewVisibility(textView = true, button = true, layout = false)
-//                    }
-//                    Status.LOADING -> {
-//                        genericHandler.showProgressBar(true)
-//                        changeViewVisibility(textView = false, button = false, layout = false)
-//                    }
-//                }
-//            }
-//        }
-//            }
-//        }
-//    }
-//
-//    private fun changeViewVisibility(textView: Boolean, button: Boolean, layout: Boolean) {
-//        binding.textViewError.isVisible = textView
-//        binding.btnRetry.isVisible = button
-//        binding.rvOrders.isVisible = layout
-//    }
-//
-//    private fun handleResponse(response: OrdersResponse) {
-//        try {
-//            setUIData(response.orderList)
-//        } catch (e: Exception) {
-//            genericHandler.showErrorMessage(e.message.toString())
-//        }
-//    }
-//
-//    private fun setUIData(list: List<Order>) {
-//        adapter.submitList(list)
-//        binding.tvPlaceholder.isVisible = list.isEmpty()
-//    }
-
     override fun <T> onItemClick(item: T) {
         if (item is Order) {
             Intent(requireContext(), OrderDetailsActivity::class.java).also {

@@ -1,12 +1,15 @@
 package com.horizam.pro.elean.ui.main.view.fragments
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.horizam.pro.elean.App
@@ -48,28 +51,35 @@ class SettingsFragment : Fragment() {
         return binding.root
     }
 
+
     private fun exeApi() {
         viewModel.getLanguageAndCurrency("data")
     }
 
     private fun setClickListeners() {
         binding.tvTerms.setOnClickListener {
-            if (this::privacyPolicyResponse.isInitialized) {
-                val termsConditions = privacyPolicyResponse.data.termConditions.description
-                SettingsFragmentDirections.actionSettingsFragmentToTermsFragment(termsConditions)
-                    .also { navDirections ->
-                        findNavController().navigate(navDirections)
-                    }
-            }
+            val openURL = Intent(Intent.ACTION_VIEW)
+            openURL.data = Uri.parse("https://dex.proelean.com/general/en/terms-conditions")
+            startActivity(openURL)
+//            if (this::privacyPolicyResponse.isInitialized) {
+//                val termsConditions = privacyPolicyResponse.data.termConditions.description
+//                SettingsFragmentDirections.actionSettingsFragmentToTermsFragment(termsConditions)
+//                    .also { navDirections ->
+//                        findNavController().navigate(navDirections)
+//                    }
+//            }
         }
         binding.tvPrivacy.setOnClickListener {
-            if (this::privacyPolicyResponse.isInitialized) {
-                val privacyPolicy = privacyPolicyResponse.data.privacyPolicy.description
-                SettingsFragmentDirections.actionSettingsFragmentToPrivacyFragment(privacyPolicy)
-                    .also { navDirections ->
-                        findNavController().navigate(navDirections)
-                    }
-            }
+            val openURL = Intent(Intent.ACTION_VIEW)
+            openURL.data = Uri.parse("https://dex.proelean.com/general/en/privacy-policy")
+            startActivity(openURL)
+//            if (this::privacyPolicyResponse.isInitialized) {
+//                val privacyPolicy = privacyPolicyResponse.data.privacyPolicy.description
+//                SettingsFragmentDirections.actionSettingsFragmentToPrivacyFragment(privacyPolicy)
+//                    .also { navDirections ->
+//                        findNavController().navigate(navDirections)
+//                    }
+//            }
         }
         binding.tvEditProfile.setOnClickListener {
             findNavController().navigate(R.id.editProfileFragment)
@@ -78,12 +88,16 @@ class SettingsFragment : Fragment() {
             findNavController().popBackStack()
         }
         binding.tvSelectCurrency.setOnClickListener {
-            val currencyList = languageAndCurrencyResponse.languageAndCurrencyData.currencies
-            showSelectCurrencyBottomSheet(currencyList)
+            if (this::languageAndCurrencyResponse.isInitialized) {
+                val currencyList = languageAndCurrencyResponse.languageAndCurrencyData.currencies
+                showSelectCurrencyBottomSheet(currencyList)
+            }
         }
         binding.tvSelectLanguage.setOnClickListener {
+            if (this::languageAndCurrencyResponse.isInitialized) {
            languageAndCurrencyResponse.languageAndCurrencyData.languages.apply {
-                showSelectLanguageBottomSheet(this)
+               showSelectLanguageBottomSheet(this)
+           }
             }
         }
         binding.tvChangePassword.setOnClickListener {
@@ -91,7 +105,7 @@ class SettingsFragment : Fragment() {
         }
         binding.tvAddAccount.setOnClickListener {
 //            this.findNavController().navigate(R.id.bankAccountsFragment)
-            Toast.makeText(requireContext(), "You can perform this action only on Desktop", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), getString(R.string.str_desktop), Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -113,7 +127,8 @@ class SettingsFragment : Fragment() {
 
     private fun setToolbarData() {
         binding.toolbar.ivToolbar.setImageResource(R.drawable.ic_back)
-        binding.toolbar.tvToolbar.text = App.getAppContext()!!.getString(R.string.str_settings)
+        binding.toolbar.ivToolbar.isVisible=true
+        binding.toolbar.tvToolbar.text = getString(R.string.str_settings)
     }
 
     private fun setupViewModel() {

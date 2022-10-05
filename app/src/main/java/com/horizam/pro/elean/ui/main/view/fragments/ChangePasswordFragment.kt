@@ -99,7 +99,7 @@ class ChangePasswordFragment : Fragment() {
     ) {
         hideKeyboard()
         if (newPassword != confirmNewPassword) {
-            genericHandler.showErrorMessage("New Password and Confirm New Password Mismatched")
+            genericHandler.showErrorMessage(getString(R.string.str_new_password_mismatched))
         } else {
             val changePasswordRequest =
                 ChangePasswordRequest(currentPassword, newPassword, confirmNewPassword)

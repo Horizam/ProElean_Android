@@ -17,6 +17,7 @@ import android.widget.ArrayAdapter
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
@@ -259,6 +260,7 @@ class UpdateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
 
     private fun setToolbarData() {
         binding.toolbar.ivToolbar.setImageResource(R.drawable.ic_back)
+        binding.toolbar.ivToolbar.isVisible=true
         binding.toolbar.tvToolbar.text =
             App.getAppContext()!!.getString(R.string.str_update_service)
     }
@@ -323,7 +325,12 @@ class UpdateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
 
     private fun setSpinnerSubcategories(response: SubcategoriesDataResponse) {
         subcategoriesArrayList = response.subcategoriesList.map { spinnerSubcategories ->
-            SpinnerModel(id = spinnerSubcategories.id, value = spinnerSubcategories.title)
+            var manager: PrefManager = PrefManager(App.getAppContext()!!)
+            if (manager.setLanguage == "0") {
+                SpinnerModel(id = spinnerSubcategories.id!!, value = spinnerSubcategories.title!!)
+            } else {
+                SpinnerModel(id = spinnerSubcategories.id!!, value = spinnerSubcategories.fiTitle!!)
+            }
         }
         val selectedSubCategoryPosition: Int = subcategoriesArrayList.indexOfFirst {
             it.id == args.serviceDetail.sub_category.id
@@ -340,7 +347,13 @@ class UpdateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
 
     private fun setUIData(response: CategoriesCountriesResponse) {
         categoriesArrayList = response.categoriesCountriesData.categories.map { spinnerCategories ->
-            SpinnerModel(id = spinnerCategories.id!!, value = spinnerCategories.title!!)
+            var manager: PrefManager = PrefManager(App.getAppContext()!!)
+            if (manager.setLanguage == "0") {
+                SpinnerModel(id = spinnerCategories.id!!, value = spinnerCategories.title!!)
+            } else {
+                SpinnerModel(id = spinnerCategories.id!!, value = spinnerCategories.fiTitle!!)
+            }
+
         }
         val selectedCategoryPosition: Int = categoriesArrayList.indexOfFirst {
             it.id == args.serviceDetail.category.id
@@ -516,7 +529,7 @@ class UpdateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
                 if (result.data != null) {
                     handlePickerResult(result.data!!)
                 } else {
-                    genericHandler.showErrorMessage("Invalid data")
+                    genericHandler.showErrorMessage(getString(R.string.str_invalid_data))
                 }
             }
         }
@@ -545,7 +558,7 @@ class UpdateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
                 imagesArrayList.add(image)
                 adapterImages.addImages(imagesArrayList)
             } else {
-                genericHandler.showErrorMessage("Choose valid images")
+                genericHandler.showErrorMessage(getString(R.string.str_valid_image))
             }
         }
     }
@@ -566,7 +579,7 @@ class UpdateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
                 Log.i("Permission: ", "Denied")
                 genericHandler.showErrorMessage(
                     getString(R.string.permission_required)
-                        .plus(". Please enable it settings")
+                        .plus(getString(R.string.str_enabled))
                 )
             }
         }

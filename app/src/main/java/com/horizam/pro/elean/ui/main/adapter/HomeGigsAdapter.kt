@@ -7,11 +7,13 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.horizam.pro.elean.App
 import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.model.response.FeaturedGig
 import com.horizam.pro.elean.databinding.ItemServicesAndGigsBinding
 import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
+import com.horizam.pro.elean.utils.PrefManager
 
 
 class HomeGigsAdapter(val listener: OnItemClickListener) :
@@ -41,6 +43,7 @@ class HomeGigsAdapter(val listener: OnItemClickListener) :
             }
         }
         fun bind(featuredGig: FeaturedGig) {
+            var manager: PrefManager = PrefManager(App.getAppContext()!!)
             binding.apply {
                 Glide.with(itemView)
                     .load("${Constants.BASE_URL}${featuredGig.service_media[0].media}")
@@ -49,7 +52,13 @@ class HomeGigsAdapter(val listener: OnItemClickListener) :
                     .error(R.drawable.bg_splash)
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .into(ivService)
-                tvServiceName.text = featuredGig.s_description
+                if (manager.setLanguage == "0") {
+                    tvServiceName.text = featuredGig.s_description
+                }
+                else
+                {
+                    tvServiceName.text = featuredGig.s_description
+                }
 
             }
         }

@@ -1,5 +1,6 @@
 package com.horizam.pro.elean.ui.main.adapter
 
+import android.text.Html
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -76,9 +77,10 @@ class SavedAdapter(
             binding.apply {
                 try {
                     tvTitleGig.text = serviceDetail.s_description
-                    tvDescriptionGig.text = serviceDetail.description
+                    tvDescriptionGig.setText(Html.fromHtml(Html.fromHtml(serviceDetail.description).toString()));
                     ratingGig.rating = serviceDetail.service_rating.toFloat()
                     tvPrice.text = "${serviceDetail.price}${Constants.CURRENCY}"
+                    totalNumberOfRating.text = "(${serviceDetail.total_reviews})"
                     Glide.with(itemView)
                         .load(Constants.BASE_URL.plus(serviceDetail.service_user.image))
                         .error(R.drawable.img_profile)

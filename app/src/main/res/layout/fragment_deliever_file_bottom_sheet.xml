@@ -96,7 +96,7 @@
         android:layout_marginTop="@dimen/_15sdp"
         android:layout_marginEnd="@dimen/_60sdp"
         android:backgroundTint="@color/colorButtons"
-        android:text="SUBMIT"
+        android:text="@string/str_submit"
         android:textAllCaps="false"
         android:textColor="@color/colorWhite"
         app:cornerRadius="@dimen/_5sdp"

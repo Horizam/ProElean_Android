@@ -143,6 +143,7 @@ class SavedFragment : Fragment(), SavedGigsHandler, SwipeRefreshLayout.OnRefresh
 
     private fun setToolbarData() {
         binding.toolbar.ivToolbar.setImageResource(R.drawable.ic_back)
+        binding.toolbar.ivToolbar.isVisible=true
         binding.toolbar.tvToolbar.text =getString(R.string.str_saved)
     }
 

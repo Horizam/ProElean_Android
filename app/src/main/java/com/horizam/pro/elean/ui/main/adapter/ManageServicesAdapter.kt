@@ -1,5 +1,6 @@
 package com.horizam.pro.elean.ui.main.adapter
 
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -65,7 +66,7 @@ class ManageServicesAdapter(val listener: ManageServiceHandler) :
                         .into(ivMain)
                 }
                 tvServiceTitle.text = userService.s_description
-                tvDescriptionGigsUser.text = userService.description
+                tvDescriptionGigsUser.setText(Html.fromHtml(Html.fromHtml(userService.description).toString()));
                 tvClick.text = userService.total_clicks.toString()
                 tvOrder.text = userService.total_orders.toString()
                 tvPrice.text = "${userService.price}${Constants.CURRENCY}"

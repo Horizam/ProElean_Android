@@ -30,6 +30,7 @@
                 android:focusableInTouchMode="true"
                 android:visibility="invisible"
                 tools:visibility="visible">
+
                 <RelativeLayout
                     android:id="@+id/relativeLayout"
                     android:layout_width="0dp"
@@ -39,25 +40,28 @@
                     android:elevation="@dimen/_500sdp"
                     android:padding="@dimen/_7sdp"
                     android:textAlignment="viewStart"
-                    app:layout_constraintBottom_toTopOf="@id/autoComplete_text_view"
-                    app:layout_constraintEnd_toEndOf="@+id/autoComplete_text_view"
-                    app:layout_constraintStart_toStartOf="@+id/autoComplete_text_view"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_des">
+                    app:layout_constraintBottom_toTopOf="@+id/rv_service_categories"
+                    app:layout_constraintEnd_toEndOf="@id/autoComplete_text_view"
+                    app:layout_constraintStart_toStartOf="@id/autoComplete_text_view"
+                    app:layout_constraintTop_toTopOf="@+id/toolbar">
+
                     <Spinner
                         android:id="@+id/spinner_category"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:prompt="@string/reviews"
-                        android:paddingEnd="@dimen/_150sdp"
-                        android:textDirection="ltr"
                         android:elevation="@dimen/_500sdp"
+                        android:paddingEnd="@dimen/_150sdp"
+                        android:prompt="@string/reviews"
+                        android:textDirection="ltr"
                         tools:ignore="HardcodedText,RtlSymmetry" />
                 </RelativeLayout>
+
                 <EditText
                     android:id="@+id/autoComplete_text_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/_10sdp"
+                    android:autofillHints=""
                     android:background="@drawable/search_item"
                     android:drawableStart="@drawable/ic_search"
                     android:drawablePadding="@dimen/_5sdp"
@@ -70,8 +74,7 @@
                     app:layout_constraintBottom_toBottomOf="@+id/bg_pic"
                     app:layout_constraintEnd_toEndOf="@+id/bg_pic"
                     app:layout_constraintStart_toStartOf="@+id/bg_pic"
-                    app:layout_constraintTop_toTopOf="@+id/tv_des"
-                    android:autofillHints="" />
+                    app:layout_constraintTop_toTopOf="@+id/tv_des" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_search"
@@ -84,13 +87,14 @@
                     android:elevation="@dimen/_300sdp"
                     android:padding="@dimen/_12sdp"
                     android:text="@string/str_search"
+                    android:textAllCaps="false"
                     android:textColor="@color/colorWhite"
                     android:textSize="@dimen/_12ssp"
                     app:cornerRadius="@dimen/_20sdp"
-                    app:layout_constraintBottom_toBottomOf="@+id/bg_pic"
+                    app:layout_constraintBottom_toTopOf="@+id/rv_service_categories"
                     app:layout_constraintEnd_toEndOf="@+id/bg_pic"
                     app:layout_constraintStart_toStartOf="@+id/bg_pic"
-                    app:layout_constraintTop_toTopOf="@+id/relativeLayout"
+                    app:layout_constraintTop_toTopOf="@+id/tv_des"
                     app:layout_constraintVertical_bias="0.6"
                     app:rippleColor="@color/colorLightBlue" />
                 <include
@@ -100,10 +104,11 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/bg_pic"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_430sdp"
+                    android:layout_height="@dimen/_400sdp"
                     app:layout_constraintTop_toBottomOf="@id/toolbar"
                     android:background="@drawable/img_banner"
                     tools:ignore="MissingConstraints">
+
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_450sdp"
@@ -125,12 +130,11 @@
 
                 <TextView
                     android:id="@+id/tv_title"
-                    android:layout_width="@dimen/_200sdp"
+                    android:layout_width="@dimen/_170sdp"
                     android:layout_height="wrap_content"
                     android:maxLines="5"
-                    android:padding="@dimen/_15ssp"
+                    android:padding="@dimen/_10ssp"
                     android:layout_marginStart="@dimen/_5ssp"
-                    android:layout_margin="@dimen/_10sdp"
                     android:text="@string/str_find_the_perfect_freelance"
                     android:textColor="@color/colorWhite"
                     android:textSize="@dimen/_25ssp"
@@ -141,9 +145,9 @@
 
                 <TextView
                     android:id="@+id/tv_des"
-                    android:layout_width="@dimen/_300sdp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="220dp"
+                    android:layout_marginTop="180dp"
                     android:fontFamily="sans-serif-light"
                     android:maxLines="5"
                     android:padding="@dimen/_15ssp"

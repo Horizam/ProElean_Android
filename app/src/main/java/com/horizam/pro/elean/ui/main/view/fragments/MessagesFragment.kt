@@ -165,7 +165,7 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
     }
 
     private fun handleResponse(response: GeneralResponse) {
-        genericHandler.showSuccessMessage(response.message)
+        genericHandler.showSuccessMessage(getString(R.string.str_offer_accepted))
         if (offerMessage != null) {
             db.collection(Constants.FIREBASE_DATABASE_ROOT).document(inbox!!.id)
                 .collection("Messages").document(offerMessage!!.id).update(
@@ -677,7 +677,7 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
             if (!imagePath.isNullOrEmpty()) {
                 uploadImageToStorage(imagePath)
             } else {
-                genericHandler.showErrorMessage("Choose valid image")
+                genericHandler.showErrorMessage(getString(R.string.str_valid_image))
             }
         }
     }
@@ -1025,6 +1025,7 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
 
     private fun setToolbarData() {
         binding.toolbar.ivToolbar.setImageResource(R.drawable.ic_back)
+        binding.toolbar.ivToolbar.isVisible=true
         binding.toolbar.tvToolbar.text =getString(R.string.str_messages)
     }
 

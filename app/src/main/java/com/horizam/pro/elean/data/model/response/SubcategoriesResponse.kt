@@ -13,10 +13,12 @@ data class SubcategoriesResponse (
 
 @Parcelize
 data class Subcategory(
-    @SerializedName("id") val id : String,
-    @SerializedName("title") val title : String,
-    @SerializedName("category_id") val category_id : String,
-    @SerializedName("banner") val banner : String
+    @SerializedName("id"          ) var id         : String,
+    @SerializedName("title"       ) var title      : String,
+    @SerializedName("fi_title"    ) var fiTitle    : String,
+    @SerializedName("category_id" ) var categoryId : String,
+    @SerializedName("banner"      ) var banner     : String,
+    @SerializedName("slug"        ) var slug       : String
 ): Parcelable
 
 @Parcelize

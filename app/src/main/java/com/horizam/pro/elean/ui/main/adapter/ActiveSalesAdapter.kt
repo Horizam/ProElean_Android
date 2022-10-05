@@ -73,30 +73,32 @@ class ActiveSalesAdapter(val listener: OnItemClickListener) :
                     .into(ivUser)
                 when (order.status) {
                     SellerOrders.Active -> {
-                        if( order.end_date < LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+                        if(order.revision==order.revision_left)
+                        {
+                            if( order.end_date < LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
                         {
                         tvStatus.text = itemView.context.getString(R.string.str_late)
                         tvStatus.setTextColor(
                             ContextCompat.getColor(
                                 context.requireContext(),
-                                R.color.colorBlack
+                                R.color.colorGolden
                             )
                         )
                         cardView.strokeColor = ContextCompat.getColor(
                             context.requireContext(),
-                            R.color.colorThree
+                            R.color.colorGolden
                         )
                         mainCard.strokeColor = ContextCompat.getColor(
                             context.requireContext(),
                             R.color.bg_primary
                         )
-                    }
-                        else{
+                    } else
+                        {
                             tvStatus.text = itemView.context.getString(R.string.str_active)
                             tvStatus.setTextColor(
                                 ContextCompat.getColor(
                                     context.requireContext(),
-                                    R.color.colorBlack
+                                    R.color.colorThree
                                 )
                             )
                             cardView.strokeColor = ContextCompat.getColor(
@@ -108,7 +110,47 @@ class ActiveSalesAdapter(val listener: OnItemClickListener) :
                                 R.color.bg_primary
                             )
                         }
+                        }
+                        else if(order.revision !=order.revision_left)
+                        {
+                            if( order.end_date < LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))) {
+                                tvStatus.text = itemView.context.getString(R.string.str_late)
+                                tvStatus.setTextColor(
+                                    ContextCompat.getColor(
+                                        context.requireContext(),
+                                        R.color.colorGolden
+                                    )
+                                )
+                                cardView.strokeColor = ContextCompat.getColor(
+                                    context.requireContext(),
+                                    R.color.colorGolden
+                                )
+                                mainCard.strokeColor = ContextCompat.getColor(
+                                    context.requireContext(),
+                                    R.color.bg_primary
+                                )
+                            }
+
+                        else {
+                            tvStatus.text =
+                                itemView.context.getString(R.string.str_revision)
+                            tvStatus.setTextColor(
+                                ContextCompat.getColor(
+                                    context.requireContext(),
+                                    R.color.colorBlack
+                                )
+                            )
+                            cardView.strokeColor = ContextCompat.getColor(
+                                context.requireContext(),
+                                R.color.colorBlack
+                            )
+                            mainCard.strokeColor = ContextCompat.getColor(
+                                context.requireContext(),
+                                R.color.bg_primary
+                            )
+                        }
                     }
+                 }
                     SellerOrders.Delivered -> {
                         tvStatus.text = itemView.context.getString(R.string.str_delivered)
                         tvStatus.setTextColor(

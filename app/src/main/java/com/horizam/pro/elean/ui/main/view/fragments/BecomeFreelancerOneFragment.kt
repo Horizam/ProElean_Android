@@ -41,7 +41,6 @@ class BecomeFreelancerOneFragment : Fragment(), AdapterView.OnItemSelectedListen
     private lateinit var countriesArrayList: List<SpinnerModel>
     private lateinit var categoriesAdapter: ArrayAdapter<SpinnerModel>
     private lateinit var subcategoriesAdapter: ArrayAdapter<SpinnerModel>
-    private lateinit var countriesAdapter: ArrayAdapter<SpinnerModel>
     private var categoryId: String = ""
     private var subcategoryId: String = ""
     private var countryId: String = ""

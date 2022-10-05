@@ -189,13 +189,20 @@ class HomeFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefre
     private fun setServicesData(response: HomeDataResponse) {
         if (response.data.categories?.isNotEmpty()!!) {
             generalServicesArrayList = response.data.categories
-
-
             servicesArrayList = generalServicesArrayList.map { spinnerServices ->
-                SpinnerModel(id = spinnerServices.slug, value = spinnerServices.title)
+                if(prefManager.setLanguage=="0")
+                {
+                    SpinnerModel(id = spinnerServices.slug, value = spinnerServices.title)
+
+                }
+                else{
+                    SpinnerModel(id = spinnerServices.slug, value = spinnerServices.fiTitle)
+                }
+
+
             } as ArrayList<SpinnerModel>
 
-            servicesArrayList.add(0,SpinnerModel(id ="null", value = "All"))
+            servicesArrayList.add(0,SpinnerModel(id ="null", value = getString(R.string.str_All)))
 
 
 

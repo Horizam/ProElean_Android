@@ -170,7 +170,7 @@ class DeliverFileBottomSheetFragment(
                 Log.i("Permission: ", "Denied")
                 genericHandler.showErrorMessage(
                     getString(R.string.permission_required)
-                        .plus(". Please enable it settings")
+                        .plus(getString(R.string.str_enabled))
                 )
             }
         }
