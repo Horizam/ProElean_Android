@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.databinding.FragmentRatingBottomSheetBinding
@@ -37,6 +38,7 @@ class RatingBottomSheet(var ratingHandler: RatingHandler , var genericHandler: G
             }else{
                 dismiss()
                 ratingHandler.getRatingData(rating , description)
+
             }
         }
     }

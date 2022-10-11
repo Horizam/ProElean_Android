@@ -2,9 +2,11 @@ package com.horizam.pro.elean.ui.main.viewmodel
 
 import androidx.lifecycle.*
 import androidx.paging.cachedIn
+import com.horizam.pro.elean.data.model.FilterRequest
 import com.horizam.pro.elean.data.model.requests.FavouriteRequest
 import com.horizam.pro.elean.data.model.requests.SearchGigsRequest
 import com.horizam.pro.elean.data.model.requests.SearchRequest
+import com.horizam.pro.elean.data.model.response.Subcategory
 import com.horizam.pro.elean.data.repository.MainRepository
 import com.horizam.pro.elean.utils.BaseUtils
 import com.horizam.pro.elean.utils.Resource
@@ -17,6 +19,7 @@ class ServiceGigsViewModel(
 
     private val currentSubCategory = MutableLiveData<String>()
     private val SubCategory = MutableLiveData<SearchGigsRequest>()
+    private val SubCategoryFilter = MutableLiveData<FilterRequest>()
     private val searchGigsRequest = MutableLiveData<SearchGigsRequest>()
     private val searchRequest = MutableLiveData<SearchRequest>()
     private val addToWishlistRequest = MutableLiveData<FavouriteRequest>()
@@ -24,16 +27,14 @@ class ServiceGigsViewModel(
     private val filter=""
     private val filter_value=""
 
-//    val sellers = SubCategory.switchMap { subcategory ->
-//        mainRepository.
-//        getServicesBySubCategories(subcategory.category,
-//            subcategory.filter,
-//            subcategory.filterValue,
-//        ).cachedIn(viewModelScope)
-//    }
+    val sellersFilter = SubCategoryFilter.switchMap { subcategory ->
+        mainRepository.
+        getServicesBySubCategories(subcategory.service,subcategory.filter,subcategory.filterValue
+        ).cachedIn(viewModelScope)
+    }
     val sellers = currentSubCategory.switchMap {
     mainRepository.
-        getServicesBySubCategories(it,filter_value,filter).cachedIn(viewModelScope)
+        getServicesBySubCategories(it,filter,filter_value).cachedIn(viewModelScope)
     }
 
     val searchSellers = searchGigsRequest.switchMap { request ->
@@ -95,13 +96,11 @@ class ServiceGigsViewModel(
             }
         }
     }
-    fun getServicesBySubCategories(subcategory:String) {
+    fun getServicesBySubCategories(subcategory: String) {
         currentSubCategory.value = subcategory
-
-
     }
-    fun getServicesSubCategories( request: SearchGigsRequest) {
-        SubCategory.value = request
+    fun getServicesSubCategories( request: FilterRequest) {
+        SubCategoryFilter.value = request
 
     }
     fun searchSeller(request: SearchGigsRequest)

@@ -240,6 +240,9 @@ interface ApiService {
     @GET("order/{order_no}/activity")
     suspend fun orderTimeline(@Path("order_no") orderNo: String): OrderTimelineResponse
 
+    @GET("chat/{id}")
+    suspend fun chatOrder(@Path("id") id: String):ProfileInfo
+
     @POST("store_user_info")
     suspend fun storeUserInfo(@Body request: StoreUserInfoRequest): GeneralResponse
 

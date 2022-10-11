@@ -46,6 +46,7 @@ import com.horizam.pro.elean.databinding.FragmentOrderMessagesBinding
 import com.horizam.pro.elean.ui.base.ViewModelFactory
 import com.horizam.pro.elean.ui.main.adapter.MessageAdapter
 import com.horizam.pro.elean.ui.main.adapter.MyLoadStateAdapter
+import com.horizam.pro.elean.ui.main.adapter.OrderMessageAdapter
 import com.horizam.pro.elean.ui.main.callbacks.CheckoutHandler
 import com.horizam.pro.elean.ui.main.callbacks.CreateOfferHandler
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
@@ -64,7 +65,7 @@ class OrderMessagesFragment(var order: Order) : Fragment(), MessagesHandler, Cre
     CheckoutHandler {
 
     private lateinit var binding: FragmentOrderMessagesBinding
-    private lateinit var adapter: MessageAdapter
+    private lateinit var adapter: OrderMessageAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var messagesArrayList: ArrayList<Message>
     private lateinit var db: FirebaseFirestore
@@ -139,7 +140,7 @@ class OrderMessagesFragment(var order: Order) : Fragment(), MessagesHandler, Cre
                 Status.SUCCESS -> {
                     genericHandler.showProgressBar(false)
                     resource.data?.let { response ->
-//                        handleResponse(response)
+                        handleResponse(response)
                     }
                 }
                 Status.ERROR -> {
@@ -285,12 +286,54 @@ class OrderMessagesFragment(var order: Order) : Fragment(), MessagesHandler, Cre
         if (chatNotExist || updateMessages) {
             chatNotExist = false
             fetchMessages()
+            setMessageRead()
         }
 //                disableMessageSend(true)
 //            }.addOnFailureListener {
 //                disableMessageSend(true)
 //                genericHandler.showMessage(it.message.toString())
 //            }
+    }
+    private fun setMessageRead() {
+        var membersInfo = MembersInfo()
+        for (item in inbox!!.membersInfo) {
+            if (item.id == myId) {
+                membersInfo = item
+            }
+        }
+        membersInfo.hasReadLastMessage = false
+        db.collection(Constants.FIREBASE_DATABASE_ROOT).document(inbox!!.id)
+            .update(
+                "membersInfo",
+                FieldValue.arrayRemove(membersInfo),
+                "members",
+                FieldValue.arrayRemove(membersInfo.id)
+            )
+            .addOnCompleteListener { removeTask ->
+                if (removeTask.isSuccessful) {
+                    membersInfo.hasReadLastMessage = true
+                    db.collection(Constants.FIREBASE_DATABASE_ROOT).document(inbox!!.id)
+                        .update(
+                            "membersInfo",
+                            FieldValue.arrayUnion(membersInfo),
+                            "members",
+                            FieldValue.arrayUnion(membersInfo.id)
+                        )
+                        .addOnCompleteListener { addTask ->
+                            if (addTask.isSuccessful) {
+                                Log.wtf("mytag", "Update complete.")
+                            } else {
+                                addTask.exception!!.message.let {
+                                    Log.wtf("mytag", "update failed + $it")
+                                }
+                            }
+                        }
+                } else {
+                    removeTask.exception!!.message.let {
+                        Log.wtf("mytag", "delete failed + $it")
+                    }
+                }
+            }
     }
 
     private fun fetchMessages() {
@@ -314,16 +357,14 @@ class OrderMessagesFragment(var order: Order) : Fragment(), MessagesHandler, Cre
             for (dc in snapshots!!.documentChanges) {
                 when (dc.type) {
                     DocumentChange.Type.ADDED -> {
-                        adapter.refresh()
                     }
                     DocumentChange.Type.MODIFIED -> {
-                        adapter.refresh()
                     }
                     DocumentChange.Type.REMOVED -> {
-                        adapter.refresh()
                     }
                 }
             }
+            adapter.refresh()
             genericHandler.showProgressBar(false)
         }
     }
@@ -347,7 +388,7 @@ class OrderMessagesFragment(var order: Order) : Fragment(), MessagesHandler, Cre
     }
 
     private fun setRecyclerView(myInfo: MessageUser, userInfo: MessageUser) {
-        adapter = MessageAdapter(this, myInfo, userInfo)
+        adapter = OrderMessageAdapter(this, myInfo, userInfo)
         val linearLayoutManager = LinearLayoutManager(requireContext()).also { layoutManager ->
             layoutManager.reverseLayout = true
             layoutManager.stackFromEnd = false
@@ -409,7 +450,7 @@ class OrderMessagesFragment(var order: Order) : Fragment(), MessagesHandler, Cre
         dialogChooseAttachment.setContentView(bindingChooseAttachmentDialog.root)
     }
 
-    private fun setAdapterLoadState(adapter: MessageAdapter) {
+    private fun setAdapterLoadState(adapter: OrderMessageAdapter) {
         adapter.addLoadStateListener { loadState ->
             binding.apply {
 //                genericHandler.showProgressBar(loadState.source.refresh is LoadState.Loading)

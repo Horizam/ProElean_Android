@@ -166,6 +166,14 @@
             android:defaultValue=""
             app:argType="string" />
         <argument
+            android:name="filter"
+            android:defaultValue=""
+            app:argType="string" />
+        <argument
+            android:name="filter_value"
+            android:defaultValue=""
+            app:argType="string" />
+        <argument
             android:name="from"
             android:defaultValue="1"
             app:argType="integer" />
@@ -406,5 +414,20 @@
         android:name="com.horizam.pro.elean.ui.main.view.fragments.aboutUser.ReviewsUserFragment"
         android:label="ReviewsUserFragment"
         tools:layout="@layout/fragment_user_reviews" />
+    <fragment
+        android:id="@+id/manageOrdersFragment"
+        android:name="com.horizam.pro.elean.ui.main.view.fragments.manageOrders.ManageOrdersFragment"
+        android:label="ManageOrdersFragment" />
+    <fragment
+        android:id="@+id/orderDetailsFragment"
+        android:name="com.horizam.pro.elean.ui.main.view.fragments.OrderDetailsFragment"
+        android:label="OrderDetailsFragment" >
+        <action
+            android:id="@+id/action_orderDetailsFragment_to_manageOrdersFragment"
+            app:destination="@id/manageOrdersFragment" />
+        <action
+            android:id="@+id/action_orderDetailsFragment_to_messagesFragment"
+            app:destination="@id/messagesFragment" />
+    </fragment>
 
 </navigation>

@@ -80,6 +80,7 @@ class SalesFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefr
     }
 
     private fun exeApi() {
+        viewModel.getSellerOrdersCall(SellerOrders.all)
         viewModel.getSellerOrdersCall(currentOrders)
     }
 

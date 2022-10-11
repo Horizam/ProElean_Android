@@ -124,6 +124,7 @@
             android:layout_height="@dimen/_25sdp"
             android:layout_marginTop="@dimen/_5sdp"
             android:layout_marginEnd="@dimen/_10sdp"
+            android:src="@drawable/selector_wishlist"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 <!--        <CheckBox-->

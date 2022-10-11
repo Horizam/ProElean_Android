@@ -1,5 +1,4 @@
 package com.horizam.pro.elean.ui.main.adapter
-
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -21,7 +20,7 @@ import com.horizam.pro.elean.ui.main.callbacks.MessagesHandler
 import com.bumptech.glide.request.RequestOptions
 
 
-class MessageAdapter(val listener: MessagesHandler, myInfo: MessageUser?, userInfo: MessageUser?) :
+class OrderMessageAdapter(val listener: MessagesHandler, myInfo: MessageUser?, userInfo: MessageUser?) :
     PagingDataAdapter<Message, RecyclerView.ViewHolder>(COMPARATOR) {
 
     private var userInfo: MessageUser? = userInfo
@@ -226,7 +225,7 @@ class MessageAdapter(val listener: MessagesHandler, myInfo: MessageUser?, userIn
                     }
                 }
                 if(Constants.MESSAGE_TYPE_TEXT == message.attachmentType)
-                binding.layoutGigRefer.isVisible = message.refersGig
+                    binding.layoutGigRefer.isVisible = message.refersGig
             }
         }
 

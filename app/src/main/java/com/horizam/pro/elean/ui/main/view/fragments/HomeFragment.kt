@@ -127,6 +127,11 @@ class HomeFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefre
                 if (requireActivity().intent.getIntExtra("order", 0) == 1) {
                     this.findNavController().navigate(R.id.ordersFragment)
                 }
+                else {
+                    if (requireActivity().intent.getIntExtra("order", 0) == 0) {
+                        this.findNavController().navigate(R.id.ordersFragment)
+                    }
+                }
                 requireActivity().intent.removeExtra("order")
             }
         }

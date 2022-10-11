@@ -54,6 +54,7 @@ class ManageOrdersFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout
         setupObservers()
         setRecyclerView()
         setOnClickListeners()
+        exeApi()
         return binding.root
     }
 

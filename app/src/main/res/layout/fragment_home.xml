@@ -40,10 +40,9 @@
                     android:elevation="@dimen/_500sdp"
                     android:padding="@dimen/_7sdp"
                     android:textAlignment="viewStart"
-                    app:layout_constraintBottom_toTopOf="@+id/rv_service_categories"
                     app:layout_constraintEnd_toEndOf="@id/autoComplete_text_view"
                     app:layout_constraintStart_toStartOf="@id/autoComplete_text_view"
-                    app:layout_constraintTop_toTopOf="@+id/toolbar">
+                    app:layout_constraintTop_toBottomOf="@+id/tv_des">
 
                     <Spinner
                         android:id="@+id/spinner_category"
@@ -71,10 +70,9 @@
                     android:inputType="text"
                     android:maxLines="1"
                     android:padding="@dimen/_7sdp"
-                    app:layout_constraintBottom_toBottomOf="@+id/bg_pic"
                     app:layout_constraintEnd_toEndOf="@+id/bg_pic"
-                    app:layout_constraintStart_toStartOf="@+id/bg_pic"
-                    app:layout_constraintTop_toTopOf="@+id/tv_des" />
+                    app:layout_constraintTop_toBottomOf="@id/relativeLayout"
+                    app:layout_constraintStart_toStartOf="@+id/bg_pic" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_search"
@@ -91,11 +89,9 @@
                     android:textColor="@color/colorWhite"
                     android:textSize="@dimen/_12ssp"
                     app:cornerRadius="@dimen/_20sdp"
-                    app:layout_constraintBottom_toTopOf="@+id/rv_service_categories"
                     app:layout_constraintEnd_toEndOf="@+id/bg_pic"
                     app:layout_constraintStart_toStartOf="@+id/bg_pic"
-                    app:layout_constraintTop_toTopOf="@+id/tv_des"
-                    app:layout_constraintVertical_bias="0.6"
+                    app:layout_constraintTop_toBottomOf="@id/autoComplete_text_view"
                     app:rippleColor="@color/colorLightBlue" />
                 <include
                     android:id="@+id/toolbar"
@@ -104,7 +100,7 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/bg_pic"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_400sdp"
+                    android:layout_height="@dimen/_420sdp"
                     app:layout_constraintTop_toBottomOf="@id/toolbar"
                     android:background="@drawable/img_banner"
                     tools:ignore="MissingConstraints">
@@ -147,15 +143,15 @@
                     android:id="@+id/tv_des"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="180dp"
                     android:fontFamily="sans-serif-light"
                     android:maxLines="5"
                     android:padding="@dimen/_15ssp"
-                    android:textStyle="bold"
                     android:text="@string/str_with_projects_made_by_our_efreelancers"
                     android:textColor="#e7e9e2"
                     android:textSize="@dimen/_15ssp"
-                    app:layout_constraintTop_toTopOf="parent"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@id/relativeLayout"
+                    app:layout_constraintTop_toBottomOf="@id/tv_title"
                     tools:ignore="MissingConstraints" />
                     <TextView
                         android:id="@+id/tv_service_categories"
@@ -165,7 +161,7 @@
                         android:fontFamily="@font/poppins_bold"
                         android:text="@string/str_explore_the_market"
                         android:textColor="@color/colorBlack"
-                        android:textSize="@dimen/_20ssp"
+                        android:textSize="@dimen/_15ssp"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toTopOf="@id/rv_service_categories"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -195,7 +191,7 @@
                         android:fontFamily="@font/poppins_bold"
                         android:text="@string/str_top_picks_for_you"
                         android:textColor="@color/colorBlack"
-                        android:textSize="@dimen/_20ssp"
+                        android:textSize="@dimen/_15ssp"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toTopOf="@id/rv_featured_gigs"
                         app:layout_constraintEnd_toEndOf="parent"

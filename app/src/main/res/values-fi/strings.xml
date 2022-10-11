@@ -270,7 +270,7 @@
     <string name="str_finish">Suomi</string>
     <string name="str_desktop">Voit suorittaa tämän toiminnon vain työpöydällä</string>
     <string name="str_select_country">Valitse maa</string>
-    <string name="str_an_email_with_verification_code_was_send_to_your_shaban_gmail_com">Vahvistuskoodia sisältävä sähköpostiviesti lähetettiin neha@gmail.com</string>
+    <string name="str_an_email_with_verification_code_was_send_to_your_shaban_gmail_com">Vahvistuskoodia sisältävä sähköpostiviesti lähetettiin sähköposti</string>
     <string name="str_verification_code">Vahvistuskoodi</string>
     <string name="str_verify_code">Vahvista koodi</string>
     <string name="str_video_and_pdf">Video/Pdf</string>
@@ -303,6 +303,7 @@
     <string name="str_no_delivery_note">Toimitustodistusta ei ole saatavilla</string>
     <string name="str_no_description">ei kuvausta saatavilla</string>
     <string name="str_deliver_work">Toimita työsi</string>
+    <string name="str_redeliver_work">Toimita työsi uudelleen</string>
     <string name="str_search_by_price_dollar">Hae hinnan mukaan (dollari)</string>
     <string name="str_this_message_is_related_to">Thänen viestinsä liittyy:</string>
     <string name="str_rate_order">Arvioi järjestys</string>
@@ -375,6 +376,12 @@
     <string name="str_full_time">kokopäiväinen</string>
     <string name="str_part_time">osa-aikainen</string>
     <string name="str_enabled">Ota se käyttöön asetukset</string>
+    <string name="str_accept_dispute">Hyväksy kiista</string>
     <string name="str_new_password_mismatched">Uusi salasana ja vahvista uusi salasana, joka on yhteensopimattoma</string>
+    <string name="str_remove">Poista</string>
+    <string name="str_select_a_country">Valitse maa</string>
+    <string name="str_create_a_new_account">luo uusi tili</string>
+    <string name="str_go_to_inbox">Siirry postilaatikkoon</string>
+
 
 </resources>

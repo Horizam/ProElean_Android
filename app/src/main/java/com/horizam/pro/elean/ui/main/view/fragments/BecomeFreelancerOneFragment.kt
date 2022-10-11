@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -26,6 +27,7 @@ import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
 import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
 import com.horizam.pro.elean.ui.main.viewmodel.BecomeFreelancerViewModel
 import com.horizam.pro.elean.utils.BaseUtils.Companion.hideKeyboard
+import com.horizam.pro.elean.utils.PrefManager
 import com.horizam.pro.elean.utils.Resource
 import com.horizam.pro.elean.utils.Status
 import java.lang.Exception
@@ -41,6 +43,7 @@ class BecomeFreelancerOneFragment : Fragment(), AdapterView.OnItemSelectedListen
     private lateinit var countriesArrayList: List<SpinnerModel>
     private lateinit var categoriesAdapter: ArrayAdapter<SpinnerModel>
     private lateinit var subcategoriesAdapter: ArrayAdapter<SpinnerModel>
+    private lateinit var prefManager:PrefManager
     private var categoryId: String = ""
     private var subcategoryId: String = ""
     private var countryId: String = ""
@@ -143,6 +146,7 @@ class BecomeFreelancerOneFragment : Fragment(), AdapterView.OnItemSelectedListen
         categoriesArrayList = ArrayList()
         subcategoriesArrayList = ArrayList()
         countriesArrayList = ArrayList()
+        prefManager=  PrefManager(App.getAppContext()!!)
         binding.spinnerCategory.onItemSelectedListener = this
         binding.spinnerSubCategory.onItemSelectedListener = this
 //        binding.spinnerCountry.onItemSelectedListener = this
@@ -150,8 +154,8 @@ class BecomeFreelancerOneFragment : Fragment(), AdapterView.OnItemSelectedListen
 
     private fun setToolbarData() {
         binding.toolbar.ivToolbar.setImageResource(R.drawable.ic_back)
-        binding.toolbar.tvToolbar.text =
-            App.getAppContext()!!.getString(R.string.str_become_freelancer)
+        binding.toolbar.ivToolbar.isVisible=true
+        binding.toolbar.tvToolbar.text = getString(R.string.str_become_freelancer)
     }
 
     private fun setupViewModel() {
@@ -201,7 +205,7 @@ class BecomeFreelancerOneFragment : Fragment(), AdapterView.OnItemSelectedListen
 
     private fun setSpinnerSubcategories(response: SubcategoriesDataResponse) {
         subcategoriesArrayList = response.subcategoriesList.map { spinnerSubcategories ->
-            SpinnerModel(id = spinnerSubcategories.id, value = spinnerSubcategories.title)
+                SpinnerModel(id = spinnerSubcategories.id, value = spinnerSubcategories.title)
         }
         subcategoriesAdapter = SpinnerAdapter(
             requireContext(),
@@ -214,8 +218,15 @@ class BecomeFreelancerOneFragment : Fragment(), AdapterView.OnItemSelectedListen
 
     private fun setUIData(response: CategoriesCountriesResponse) {
         categoriesArrayList = response.categoriesCountriesData.categories.map{
-                spinnerCategories -> SpinnerModel(
-            id = spinnerCategories.id!!, value = spinnerCategories.title!!)
+                spinnerCategories ->
+            if(prefManager.setLanguage=="0")
+            {
+                SpinnerModel(  id = spinnerCategories.id!!, value = spinnerCategories.title!!)
+            }
+            else
+            {
+                SpinnerModel(   id = spinnerCategories.id!!, value = spinnerCategories.fiTitle!!)
+            }
         }
         countriesArrayList = response.categoriesCountriesData.countries.map { countries ->
             SpinnerModel(id = countries.id!!, value = countries.name!!, image = countries.image!!)

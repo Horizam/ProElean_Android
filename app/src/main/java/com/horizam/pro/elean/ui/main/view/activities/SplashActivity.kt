@@ -17,6 +17,7 @@ import com.google.android.play.core.install.model.UpdateAvailability
 import com.horizam.pro.elean.App
 import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
+import com.horizam.pro.elean.ui.main.callbacks.LogoutHandler
 import com.horizam.pro.elean.utils.BaseUtils
 import com.horizam.pro.elean.utils.BaseUtils.Companion.screenHeight
 import com.horizam.pro.elean.utils.BaseUtils.Companion.screenWidth
@@ -27,20 +28,21 @@ import java.util.*
 class SplashActivity : AppCompatActivity() {
     private val bundle = Bundle()
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
 
-
-            var manager: PrefManager = PrefManager(App.getAppContext()!!)
+        var manager: PrefManager = PrefManager(App.getAppContext()!!)
             if (manager.setLanguage == "0") {
                 setLocal("en")
             } else {
                 setLocal("fi")
             }
         }
-    private fun setLocal(lang: String, ) {
-        val locale = Locale(lang)
+    private fun setLocal(lang: String) {
+        BaseUtils.lang=lang
+        val locale = Locale(BaseUtils.lang)
         Locale.setDefault(locale)
         val configuration = Configuration()
         configuration.locale = locale
@@ -286,6 +288,7 @@ class SplashActivity : AppCompatActivity() {
         }
         startActivity(intent)
         finish()
+
     }
 
     private fun getScreenWidthAndHeight() {

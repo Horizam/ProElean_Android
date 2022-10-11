@@ -24,7 +24,8 @@ class GigsAdapter(
     private val favouriteHandler: FavouriteHandler,
     private val contactSellerHandler: ContactSellerHandler,
     private val logoutHandler: LogoutHandler,
-    private val serviceGigsFragment: ServiceGigsFragment
+    private val serviceGigsFragment: ServiceGigsFragment,
+
 ) :
     PagingDataAdapter<ServiceDetail, GigsAdapter.DataViewHolder>(ITEM_COMPARATOR) {
 
@@ -34,7 +35,7 @@ class GigsAdapter(
                 parent, false)
         return DataViewHolder(binding)
     }
-
+    private val serviceDetail: ServiceDetail?=null
     override fun onBindViewHolder(holder: DataViewHolder, position: Int) {
         val currentItem = getItem(position)
         if (currentItem != null) {
@@ -55,22 +56,11 @@ class GigsAdapter(
                     }
                 }
             }
-            binding.ivFavorite.setOnClickListener {
-                val position = bindingAdapterPosition
-                if (position != RecyclerView.NO_POSITION) {
-                    val item = getItem(position)
-                    if (item != null) {
-//                        binding.ivFavorite.setImageResource(R.drawable.ic_liked)
-                        favouriteHandler.addRemoveWishList(item)
-                    }
-                }
-            }
             binding.btnContactSeller.setOnClickListener {
                 val prefManager = PrefManager(serviceGigsFragment.requireContext())
                 if (prefManager.accessToken.isEmpty()) {
                     logoutHandler.checkLogout()
                 } else {
-//
                     val position = bindingAdapterPosition
                     if (position != RecyclerView.NO_POSITION) {
                         val item = getItem(position)
@@ -93,12 +83,33 @@ class GigsAdapter(
                         "${Constants.dex_Url}gig-detail/${serviceDetail.id}")
                     itemView.context.startActivity(intent)
                 }
+                binding.ivFavorite.setOnClickListener {
+                    val position = bindingAdapterPosition
+                    if (position != RecyclerView.NO_POSITION) {
+                        val item = getItem(position)
+                        if (item != null) {
+                            if(item.favourite==1)
+                            {
+                                ivFavorite.setImageResource(R.drawable.ic_not_liked)
+                                item.favourite=0
+                            }
+                            else
+                            {
+                                ivFavorite.setImageResource(R.drawable.ic_liked)
+                                item.favourite=1
+                            }
+                            favouriteHandler.addRemoveWishList(item)
+                        }
+                    }
+                    else{
+
+                    }
+                }
                 tvTitleGig.text = serviceDetail.s_description
-                tvDescriptionGig.setText(Html.fromHtml(Html.fromHtml(serviceDetail.description).toString()));
+                tvDescriptionGig.setText(Html.fromHtml(Html.fromHtml(serviceDetail.description).toString()))
                 tvPrice.text = "${serviceDetail.price}${Constants.CURRENCY}"
                 ratingGig.rating = serviceDetail.service_rating.toFloat()
                 totalNumberOfRating.text = "(${serviceDetail.total_reviews})"
-//                val imageResource: Int =
                 if (serviceDetail.favourite == 1) {
                     ivFavorite.setImageResource(R.drawable.ic_liked)
                 } else {

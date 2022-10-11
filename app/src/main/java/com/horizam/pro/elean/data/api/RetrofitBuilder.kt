@@ -5,11 +5,13 @@ import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.utils.BaseUtils
 import com.horizam.pro.elean.utils.PrefManager
 import com.google.gson.GsonBuilder
+import com.horizam.pro.elean.ui.main.view.activities.SplashActivity
 import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 object RetrofitBuilder {
@@ -59,8 +61,8 @@ object RetrofitBuilder {
                     .addHeader("Authorization", "Bearer ${manager.accessToken}")
                     .addHeader("Accept", "application/json")
                     .addHeader("Device-Id", BaseUtils.DEVICE_ID)
-
                     .addHeader("Device-Type", "android")
+                    .addHeader("lang",manager.setLanguage.toString())
                     .build()
                 chain.proceed(newRequest)
             }

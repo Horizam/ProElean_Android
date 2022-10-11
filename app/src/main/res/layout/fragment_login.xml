@@ -136,7 +136,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:padding="@dimen/_5sdp"
-            android:text="create a new account"
+            android:text="@string/str_create_a_new_account"
             android:textColor="@color/colorAccent"
             android:textSize="@dimen/_12ssp" />
 

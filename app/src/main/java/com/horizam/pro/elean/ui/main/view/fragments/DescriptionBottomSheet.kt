@@ -1,15 +1,20 @@
 package com.horizam.pro.elean.ui.main.view.fragments
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.databinding.FragmentDescriptionBottomSheetBinding
 import com.horizam.pro.elean.ui.main.callbacks.DescriptionHandler
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
+import com.horizam.pro.elean.ui.main.view.activities.CheckoutActivity
+import com.horizam.pro.elean.ui.main.view.activities.HomeActivity
+import com.horizam.pro.elean.ui.main.view.fragments.manageOrders.ManageOrdersFragment
 import com.horizam.pro.elean.utils.BaseUtils.Companion.hideKeyboard
 
 class DescriptionBottomSheet(
@@ -45,7 +50,7 @@ class DescriptionBottomSheet(
         binding.btnSubmit.setOnClickListener {
             hideKeyboard()
             validateData()
-        }
+}
     }
 
     private fun validateData() {

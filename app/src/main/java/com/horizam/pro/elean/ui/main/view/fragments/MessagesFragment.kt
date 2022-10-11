@@ -657,7 +657,7 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
                         genericHandler.showErrorMessage(e.message.toString())
                     }
                 } else {
-                    genericHandler.showErrorMessage("Invalid data")
+                    genericHandler.showErrorMessage(getString(R.string.str_invalid_data))
                 }
             }
         }

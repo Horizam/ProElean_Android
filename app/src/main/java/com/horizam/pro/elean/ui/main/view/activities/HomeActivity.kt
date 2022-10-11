@@ -735,6 +735,9 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
             if (binding.bottomNav.selectedItemId != R.id.orderFragment) {
                 setOrderBottomNotification(1)
             }
+        }
+            else if (bottomNotification.type == Constants.ORDER && (bottomNotification.value == 0)) {
+            setOrderBottomNotification(1)
         } else if (bottomNotification.type == Constants.ORDER && (bottomNotification.value == 1)) {
             setOrderBottomNotification(0)
         }
@@ -758,7 +761,7 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
         val bageDashboard: BadgeDrawable = binding.bottomNav.getOrCreateBadge(R.id.inboxFragment)
         bageDashboard.backgroundColor = ContextCompat.getColor(this, R.color.color_light_green)
         bageDashboard.badgeTextColor = Color.WHITE
-        if(value==0)
+        if(value== 0)
         {
             bageDashboard.isVisible=true
         }

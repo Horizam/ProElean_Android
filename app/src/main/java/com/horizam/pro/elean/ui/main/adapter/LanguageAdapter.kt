@@ -3,6 +3,7 @@ package com.horizam.pro.elean.ui.main.adapter
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.horizam.pro.elean.App
@@ -41,10 +42,10 @@ class LanguagesAdapter(
         fun bind(position: Int) {
             val language = languageList[position]
             binding!!.tvName.text = language.lName
-            // binding!!.ivTick.isVisible = manager.setLanguage!!.equals(position.toInt())
+             binding!!.ivTick.isVisible = manager.setLanguage!!.equals(position.toString())
             itemView.setOnClickListener {
                 manager.setLanguage = position.toString()
-                //    binding!!.ivTick.isVisible = true
+                binding!!.ivTick.isVisible = true
                 notifyDataSetChanged()
                 languageChangeListeners.onLanguageChange()
             }

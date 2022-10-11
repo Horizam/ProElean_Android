@@ -26,6 +26,7 @@ import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
+import com.horizam.pro.elean.data.model.FilterRequest
 import com.horizam.pro.elean.data.model.MessageGig
 import com.horizam.pro.elean.data.model.SpinnerPriceModel
 import com.horizam.pro.elean.data.model.requests.FavouriteRequest
@@ -40,6 +41,7 @@ import com.horizam.pro.elean.ui.main.adapter.PriceAdapter
 import com.horizam.pro.elean.ui.main.adapter.SavedAdapter
 import com.horizam.pro.elean.ui.main.callbacks.*
 import com.horizam.pro.elean.ui.main.view.activities.AuthenticationActivity
+import com.horizam.pro.elean.ui.main.view.activities.SplashActivity
 import com.horizam.pro.elean.ui.main.viewmodel.SavedViewModel
 import com.horizam.pro.elean.ui.main.viewmodel.ServiceCategoriesViewModel
 import com.horizam.pro.elean.ui.main.viewmodel.ServiceGigsViewModel
@@ -74,6 +76,7 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
     private var queryHome=""
     private var querySearch=""
     private var slug=""
+    private lateinit var splashActivity: SplashActivity
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -91,7 +94,16 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
     }
     override fun onResume() {
         super.onResume()
+        if(from == 0)
+        {
+            binding.autoCompleteTextView.isVisible=false
+        }
+        else
+        {
+            binding.autoCompleteTextView.isVisible=true
+        }
         executeApi()
+
     }
 
     override fun onAttach(context: Context) {
@@ -112,7 +124,7 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
                         Handler().postDelayed({
                             delay = 0
                             delayCheck = 0
-                         exeSearch()
+                            exeSearch()
                         }, delay)
                     }
                 }
@@ -145,14 +157,22 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
     }
     private fun executeApi() {
         if (from == Constants.NORMAL_FLOW) {
-            if(from==prefManager.sellerMode)
-            {
-                if (viewModel.sellers.value == null) {
-                    viewModel.getServicesBySubCategories(args.id)
-                }
+            if (from == prefManager.sellerMode) {
+                viewModel.getServicesBySubCategories(args.id)
+                searchFilter()
             }
         }
     }
+
+    private fun searchFilter() {
+        val request = FilterRequest(
+            filter = filterValue,
+            filterValue =filter,
+            service = args.id
+        )
+        viewModel.getServicesSubCategories(request)
+    }
+
     override fun onRefresh() {
         if (swipeRefreshLayout.isRefreshing) {
             swipeRefreshLayout.isRefreshing = false
@@ -162,6 +182,7 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
     private fun initViews() {
         swipeRefreshLayout = binding.swipeRefresh
         swipeRefreshLayout.setOnRefreshListener(this)
+        splashActivity= SplashActivity()
         from = args.from
         savedAdapter = SavedAdapter(this)
         prefManager = PrefManager(requireContext())
@@ -213,15 +234,15 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
                     }
 
                     else -> {
-                            filter = "price"
-                            filterValue = spinnerPriceModel.filterValue
-                            if (from == 0) {
-                                executeApi()
-                            } else {
-                                exeSearch()
-                            }
+                        filter = "price"
+                        filterValue = spinnerPriceModel.filterValue
+                        if (from == 0) {
+                            executeApi()
+                        } else {
+                            exeSearch()
                         }
                     }
+                }
             }
         }
     }
@@ -278,13 +299,12 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
         queryHome = arg!!.get("q").toString()
         slug = arg.get("slug").toString()
         if (queryHome != "null" || slug != "null") {
-                       exe()
+            exe()
         }
         else {
-                search()
-            }
+            search()
         }
-
+    }
     private fun exe() {
         querySearch=binding.autoCompleteTextView.text.toString().trim()
         if (slug == "null") {
@@ -301,7 +321,7 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
                 searchManagement()
             }
         }
-    else {
+        else {
             val request = SearchGigsRequest(
                 query = queryHome,
                 category = slug,
@@ -384,6 +404,9 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
         viewModel.sellers.observe(viewLifecycleOwner) {
             adapter.submitData(viewLifecycleOwner.lifecycle, it)
         }
+        viewModel.sellersFilter.observe(viewLifecycleOwner) {
+            adapter.submitData(viewLifecycleOwner.lifecycle, it)
+        }
         viewModel.searchSellers.observe(viewLifecycleOwner) {
             adapter.submitData(viewLifecycleOwner.lifecycle, it)
         }
@@ -407,6 +430,8 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
                     genericHandler.showProgressBar(false)
                     resource.data?.let { response ->
                         handleResponse(response)
+
+
                     }
                 }
                 Status.ERROR -> {
@@ -419,10 +444,13 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
             }
         }
     }
-
+//
     private fun handleResponse(response: GeneralResponse) {
         genericHandler.showSuccessMessage(response.message)
+        executeApi()
         viewModelSaved.getSavedGigsCall()
+
+//
     }
     override fun <T> onItemClick(item: T) {
         if (item is ServiceDetail) {

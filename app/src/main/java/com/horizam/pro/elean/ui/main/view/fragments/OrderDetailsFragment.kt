@@ -9,11 +9,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.bumptech.glide.request.RequestOptions
 import com.horizam.pro.elean.BuyerOrders
 import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
@@ -21,20 +24,26 @@ import com.horizam.pro.elean.SellerOrders
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
 import com.horizam.pro.elean.data.model.BuyerActionRequestMultipart
+import com.horizam.pro.elean.data.model.MessageGig
 import com.horizam.pro.elean.data.model.requests.BuyerRevisionAction
 import com.horizam.pro.elean.data.model.requests.ExtendDeliveryTimeModel
 import com.horizam.pro.elean.data.model.requests.RatingOrderRequest
 import com.horizam.pro.elean.data.model.requests.SellerActionRequestMultipart
 import com.horizam.pro.elean.data.model.response.GeneralResponse
 import com.horizam.pro.elean.data.model.response.Order
+import com.horizam.pro.elean.data.model.response.ServiceDetail
 import com.horizam.pro.elean.databinding.FragmentOrderDetailsBinding
 import com.horizam.pro.elean.ui.base.ViewModelFactory
 import com.horizam.pro.elean.ui.main.callbacks.*
+import com.horizam.pro.elean.ui.main.view.activities.AuthenticationActivity
+import com.horizam.pro.elean.ui.main.view.activities.CheckoutActivity
 import com.horizam.pro.elean.ui.main.view.activities.HomeActivity
+import com.horizam.pro.elean.ui.main.view.fragments.manageOrders.ManageOrdersFragment
 import com.horizam.pro.elean.ui.main.viewmodel.SellerOrdersViewModel
 import com.horizam.pro.elean.utils.BaseUtils
 import com.horizam.pro.elean.utils.PrefManager
 import com.horizam.pro.elean.utils.Status
+import kotlinx.android.synthetic.main.fragment_order_details.*
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
 import java.util.*
@@ -49,6 +58,9 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
     private lateinit var viewModel: SellerOrdersViewModel
     private lateinit var prefManager: PrefManager
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
+    private var userId: String = ""
+    private var gig: ServiceDetail? = null
+    private val bundle = Bundle()
 
 
     override fun onAttach(context: Context) {
@@ -124,6 +136,7 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
         prefManager = PrefManager(requireContext())
         swipeRefreshLayout = binding.swipeRefresh
         swipeRefreshLayout.setOnRefreshListener(this)
+
     }
 
     private fun setData() {
@@ -153,14 +166,14 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                     tvRevisionsLeft.text =getString(R.string.str_revision_finished)
                     btnRevision.isVisible=false
                 }
-                        else
+                else
                 {
                     tvRevisionsLeft.text=order.revision_left.toString()
                     btnRevision.isVisible=true
                 }
-                tvDelivery.text = if (order.delivery_note.isNotEmpty()) order.delivery_note else getString(
-                        R.string.str_no_delivery_note
-                    )
+                tvDelivery.text = if (order.delivery_note.isNotEmpty())
+                    order.delivery_note else getString(R.string.str_no_delivery_note
+                )
                 when (pair.first) {
                     Constants.BUYER_USER -> {
                         setBuyerData(pair)
@@ -214,8 +227,15 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                     if (endTime == remainingTime) {
                         binding.countdownTimer.setBackgroundColor(R.color.color_red)
                         btnCompleted.text = "Late Order Deliver"
-                        btnCompleted.isVisible=true
-                    } else {
+                        btnCompleted.isVisible = true
+                    }
+                        else if(order.revision!=order.revision_left)
+                        {
+                            binding.countdownTimer.isVisible = true
+                            btnCompleted.text = getString(R.string.str_redeliver_work)
+                            btnExtendTime.text = getString(R.string.str_extend_time)
+                        }
+                     else {
                         binding.countdownTimer.isVisible = true
                         btnCompleted.text = getString(R.string.str_deliver_work)
                         btnExtendTime.text = getString(R.string.str_extend_time)
@@ -234,7 +254,7 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                         btnlate = true
                     )
                     startTimer()
-                    binding.countdownTimer.isVisible = false
+                    binding.countdownTimer.isVisible = true
                     btnLate.text="Late Order Delivered"
                     btnLate.isVisible=true
                 }
@@ -332,7 +352,7 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
         val remainingTime = endTime.minus(startTime)
         binding.countdownTimer.start(remainingTime)
 
-}
+    }
 
     private fun setBuyerData(pair: Pair<Int, Int>) {
         binding.apply {
@@ -525,7 +545,7 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                 when (pair.first) {
                     Constants.BUYER_USER -> {
                         // cancel & create dispute
-                        order.type==Constants.TYPE_ORDER
+                        order.type == Constants.TYPE_ORDER
                         val descriptionBottomSheet = DescriptionBottomSheet(
                             this@OrderDetailsFragment,
                             Constants.BUYER_USER,
@@ -564,7 +584,7 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                             ""
                         )
                     }
-                Constants.BUYER_USER -> {
+                    Constants.BUYER_USER -> {
                         btnExtendTime.setOnClickListener {
                             btnExtendTime.isVisible = true
                             executeAcceptApi(order.id)
@@ -572,8 +592,8 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                             btnLate.isVisible = false
                         }
                     }
+                }
             }
-        }
             btnLate.setOnClickListener {
                 executeRejectApi(order.id)
                 btnExtendTime.isVisible = false
@@ -675,22 +695,42 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                 }
             }
             tvSeller.setOnClickListener {
-                Intent(requireActivity(), HomeActivity::class.java).also {
-                    it.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                    it.putExtra("startChat", 0)
-                    it.putExtra("id", order.seller_id)
-                    startActivity(it)
+                if (prefManager.setLanguage == "0") {
+                    Toast.makeText(requireActivity(),
+                        "Please go to Desktop to download your file",
+                        Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(requireActivity(),
+                        "Lataa tiedosto siirtymällä työpöydälle",
+                        Toast.LENGTH_SHORT).show()
                 }
+//                Intent(requireActivity(), HomeActivity::class.java).also {
+//                    it.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+//                    it.putExtra("startChat", 0)
+//                    it.putExtra("id", order.seller_id)
+//                    startActivity(it)
             }
             tvBuyer.setOnClickListener {
-                Intent(requireActivity(), HomeActivity::class.java).also {
-                    it.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                    it.putExtra("startChat", 0)
-                    it.putExtra("id", order.buyer_id)
-                    startActivity(it)
+                if (prefManager.setLanguage == "0") {
+                    Toast.makeText(requireActivity(),
+                        "Please go to Desktop to download your file",
+                        Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(requireActivity(),
+                        "Lataa tiedosto siirtymällä työpöydälle",
+                        Toast.LENGTH_SHORT).show()
                 }
+//                Intent(requireActivity(), HomeActivity::class.java).also {
+//                    it.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+//                    it.putExtra("startChat", 0)
+//                    it.putExtra("id", order.buyer_id)
+//                    startActivity(it)
+//                }
             }
+            tvInbox.setOnClickListener {
+
         }
+    }
     }
 
     private fun openWebUrl(webUrl: String) {
@@ -866,6 +906,9 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                         genericHandler.showProgressBar(false)
                         resource.data?.let { response ->
                             handleResponse(response)
+                            startActivity(Intent(requireActivity(), HomeActivity::class.java).apply {
+                                putExtra("order", 1)
+                            })
                         }
                     }
                     Status.ERROR -> {
@@ -941,16 +984,14 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
     private fun handleResponse(response: GeneralResponse) {
         try {
             genericHandler.showSuccessMessage(response.message)
-            if (response.status == Constants.STATUS_OK) {
-                requireActivity().apply {
-                    setResult(Activity.RESULT_OK)
-                }
-            }
+                    startActivity(Intent(requireActivity(), HomeActivity::class.java).apply {
+                        putExtra("order", 1)
+                    })
+
         } catch (e: java.lang.Exception) {
             genericHandler.showErrorMessage(e.message.toString())
         }
     }
-
     override fun onResume() {
         super.onResume()
         startTimer()
@@ -975,7 +1016,7 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
             )
 
             val request = SellerActionRequestMultipart(
-                description, image, typeUser, orderNumber)
+                deliveryNote, image, typeUser, orderNumber)
             viewModel.sellerActionsCallWithFile(order.id, request)
         }
     }

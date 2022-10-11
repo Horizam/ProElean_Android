@@ -4,6 +4,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.horizam.pro.elean.data.model.response.Order
+import com.horizam.pro.elean.ui.main.view.fragments.MessagesFragment
 import com.horizam.pro.elean.ui.main.view.fragments.OrderDetailsFragment
 import com.horizam.pro.elean.ui.main.view.fragments.OrderMessagesFragment
 import com.horizam.pro.elean.ui.main.view.fragments.TimelineFragment

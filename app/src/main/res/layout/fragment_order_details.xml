@@ -138,6 +138,7 @@
                 android:maxLength="25"
                 android:maxLines="1"
                 android:visibility="gone"
+                app:drawableEndCompat="@drawable/ic_chat"
                 app:layout_constraintBottom_toBottomOf="@id/tv_seller_title"
                 app:layout_constraintStart_toEndOf="@id/tv_seller_title"
                 app:layout_constraintTop_toTopOf="@id/tv_seller_title"
@@ -329,12 +330,30 @@
                 app:layout_constraintTop_toTopOf="@id/tv_delivery_title"
                 tools:text="@string/str_delivery_note" />
 
+            <TextView
+                android:id="@+id/tv_inbox"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:maxLines="1"
+                android:clickable="true"
+                android:visibility="gone"
+                android:textColor="@color/color_red"
+                android:text="@string/str_go_to_inbox"
+                android:textSize="@dimen/_12sdp"
+                app:drawableEndCompat="@drawable/ic_inbox"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_delivery_title"
+                tools:ignore="UsingOnClickInXml" />
+
+
             <cn.iwgang.countdownview.CountdownView
                 android:id="@+id/countdown_timer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_20sdp"
-                android:visibility="invisible"
+                android:layout_marginTop="@dimen/_40sdp"
+                android:visibility="visible"
                 app:isHideTimeBackground="false"
                 app:isShowDay="true"
                 app:isShowHour="true"
@@ -481,7 +500,7 @@
                 android:layout_marginHorizontal="@dimen/_20sdp"
                 android:backgroundTint="@color/colorButtons"
                 android:elevation="0dp"
-                android:text="Accept Dispute"
+                android:text="@string/str_accept_dispute"
                 android:textColor="@color/colorWhite"
                 android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@id/btn_cancel_request"

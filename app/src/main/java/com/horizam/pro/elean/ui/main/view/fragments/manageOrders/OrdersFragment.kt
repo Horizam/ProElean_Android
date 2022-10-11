@@ -30,6 +30,7 @@ import com.horizam.pro.elean.databinding.DialogFilterOrdersBinding
 import com.horizam.pro.elean.databinding.FragmentOrdersBinding
 import com.horizam.pro.elean.ui.base.ViewModelFactory
 import com.horizam.pro.elean.ui.main.adapter.ActiveOrdersAdapter
+import com.horizam.pro.elean.ui.main.adapter.ManageOrdersAdapter
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
 import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
 import com.horizam.pro.elean.ui.main.view.activities.AuthenticationActivity
@@ -69,6 +70,8 @@ class OrdersFragment : Fragment(), OnItemClickListener,
             setupObservers()
             setRecyclerView()
             setOnClickListeners()
+            exeApi()
+
         }
         return binding.root
     }
@@ -79,8 +82,8 @@ class OrdersFragment : Fragment(), OnItemClickListener,
     }
 
     private fun exeApi() {
-        if (viewModel.buyerOrders.value == null)
-            viewModel.getBuyerOrdersCall(currentOrders)
+        viewModel.getBuyerOrdersCall(BuyerOrders.all)
+        viewModel.getBuyerOrdersCall(currentOrders)
     }
 
     private fun initViews() {
@@ -101,7 +104,7 @@ class OrdersFragment : Fragment(), OnItemClickListener,
     private fun setRecyclerView() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
-        setAdapterLoadState(recyclerView.adapter as ActiveOrdersAdapter )
+        setAdapterLoadState(recyclerView.adapter as ActiveOrdersAdapter)
     }
     private fun setAdapterLoadState(adapter: ActiveOrdersAdapter) {
         adapter.addLoadStateListener { loadState ->

@@ -2,15 +2,14 @@ package com.horizam.pro.elean.ui.main.view.activities
 
 import android.app.Dialog
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Window
 import android.view.WindowManager
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import com.horizam.pro.elean.Constants
@@ -20,18 +19,14 @@ import com.horizam.pro.elean.data.api.RetrofitBuilder
 import com.horizam.pro.elean.data.model.requests.CardModel
 import com.horizam.pro.elean.data.model.requests.CustomOrderRequest
 import com.horizam.pro.elean.data.model.response.GeneralResponse
-import com.horizam.pro.elean.data.model.response.TokenModel
 import com.horizam.pro.elean.databinding.ActivityCheckoutBinding
-import com.horizam.pro.elean.databinding.DialogFileUploadingBinding
 import com.horizam.pro.elean.databinding.DialogOrderSuccessBinding
 import com.horizam.pro.elean.ui.base.ViewModelFactory
 import com.horizam.pro.elean.ui.main.viewmodel.CheckOutViewModel
 import com.horizam.pro.elean.utils.BaseUtils.Companion.hideKeyboard
 import com.horizam.pro.elean.utils.Status
-import com.stripe.android.ApiResultCallback
 import com.stripe.android.PaymentConfiguration
 import com.stripe.android.Stripe
-import com.stripe.android.model.Token
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
@@ -115,20 +110,28 @@ class CheckoutActivity : AppCompatActivity(), CoroutineScope {
 
     private fun setOnClickListeners() {
         binding.apply {
+
             btnPay.setOnClickListener {
-                var cardNumber = binding.cardInputWidget.cardNumberEditText.text!!.toString().trim()
-                    .replace(" ", "")
+                var cardNumber =
+                    binding.cardInputWidget.cardNumberEditText.text!!.toString().trim()
+                        .replace(" ", "")
                 var cvc = binding.cardInputWidget.cvcEditText.text.toString()
                 var date = binding.cardInputWidget.expiryDateEditText.text.toString()
-                var dateList = date.split("/")
+                var dateList: List<String>
+                dateList = date.split("/")
                 var cardModel: CardModel = CardModel()
-                cardModel.number = cardNumber
-                cardModel.cvc = cvc
-                cardModel.exp_month = dateList[0].toString().toInt()
-                cardModel.exp_year = dateList[1].toString().toInt() + 2000
-                viewModel.getToken(cardModel)
+                if (dateList.size == 1) {
+                    showMessage(getString(R.string.str_enter_all_card_details))
+                    hideKeyboard()
+                } else {
+                    cardModel.number = cardNumber
+                    cardModel.cvc = cvc
+                    cardModel.exp_month = dateList[0].toString().toInt()
+                    cardModel.exp_year = dateList[1].toString().toInt() + 2000
+                    viewModel.getToken(cardModel)
+                    
+                }
             }
-
             bindingDialogOrderSuccessBinding.btnContinue.setOnClickListener {
                 dialogOrderStatus.dismiss()
                 startActivity(Intent(this@CheckoutActivity, HomeActivity::class.java).apply {

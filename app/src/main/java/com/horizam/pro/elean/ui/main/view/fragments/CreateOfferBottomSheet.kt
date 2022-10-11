@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.horizam.pro.elean.App
 import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.api.ApiHelper
@@ -112,8 +113,13 @@ class CreateOfferBottomSheet(private val createOfferHandler: CreateOfferHandler)
                 etPrice.error = getString(R.string.str_enter_valid_price)
                 return
             } else if (etPrice.text.toString().toDouble() < Constants.MINIMUM_ORDER_PRICE) {
-                etPrice.error =
-                    "Minimum ${Constants.MINIMUM_ORDER_PRICE}${Constants.CURRENCY} must be entered"
+                var manager: PrefManager = PrefManager(App.getAppContext()!!)
+                if (manager.setLanguage == "0") {
+                    etPrice.error = "Minimum ${Constants.MINIMUM_ORDER_PRICE}${Constants.CURRENCY} must be entered"
+                } else {
+                    etPrice.error = "Minimi ${Constants.MINIMUM_ORDER_PRICE}${Constants.CURRENCY}  on syötettävä"
+
+                }
                 return
             } else if (serviceId == "") {
                 this@CreateOfferBottomSheet.dismiss()

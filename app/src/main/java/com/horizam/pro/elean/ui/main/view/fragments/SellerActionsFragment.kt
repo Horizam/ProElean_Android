@@ -102,6 +102,19 @@ class SellerActionsFragment : Fragment(), OnItemClickListener,
                     requireActivity().intent.removeExtra(Constants.TYPE)
                 }
             }
+            if (requireActivity().intent.hasExtra("order")) {
+                if (requireActivity().intent.getIntExtra("order", 0) == 0) {
+                    this.findNavController().navigate(R.id.salesFragment)
+                }
+                else {
+                    if (requireActivity().intent.getIntExtra("order", 0) == 1) {
+                        this.findNavController().navigate(R.id.salesFragment)
+                    }
+                }
+                requireActivity().intent.removeExtra("order")
+            }
+        }
+    }
 //            else if (requireActivity().intent.hasExtra(Constants.ORDER)) {
 //                if (requireActivity().intent.getStringExtra(Constants.TYPE) == Constants.ORDER) {
 //                    val bundle = requireActivity().intent.extras
@@ -109,8 +122,7 @@ class SellerActionsFragment : Fragment(), OnItemClickListener,
 //
 //                }
 //            }
-        }
-    }
+
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

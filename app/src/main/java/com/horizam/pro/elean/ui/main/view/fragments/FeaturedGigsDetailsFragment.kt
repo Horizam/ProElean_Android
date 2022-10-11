@@ -153,8 +153,7 @@ class FeaturedGigsDetailsFragment : Fragment(), OnItemClickListener,
 
     private fun setToolbarData() {
         binding.toolbar.ivToolbar.setImageResource(R.drawable.ic_back)
-        binding.toolbar.tvToolbar.text =
-            App.getAppContext()!!.getString(R.string.str_featured_gigs_details)
+        binding.toolbar.tvToolbar.text = getString(R.string.str_featured_gigs_details)
         binding.toolbar.ivToolbar.isVisible=true
     }
 

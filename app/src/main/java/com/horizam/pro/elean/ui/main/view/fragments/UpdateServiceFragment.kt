@@ -148,7 +148,12 @@ class UpdateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
                     return
                 }
                 etPrice.text.toString().toDouble() < Constants.MINIMUM_ORDER_PRICE -> {
-                    genericHandler.showErrorMessage("Minimum ${Constants.MINIMUM_ORDER_PRICE}${Constants.CURRENCY} must be entered")
+                    var manager: PrefManager = PrefManager(App.getAppContext()!!)
+                    if (manager.setLanguage == "0") {
+                        genericHandler.showErrorMessage("Minimum ${Constants.MINIMUM_ORDER_PRICE}${Constants.CURRENCY} must be entered")
+                    } else {
+                        genericHandler.showErrorMessage("Minimi ${Constants.MINIMUM_ORDER_PRICE}${Constants.CURRENCY} on syötettävä")
+                    }
                     return
                 }
                 etPrice.text!!.trim().toString().toFloat() < 5.0 -> {
@@ -261,8 +266,7 @@ class UpdateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
     private fun setToolbarData() {
         binding.toolbar.ivToolbar.setImageResource(R.drawable.ic_back)
         binding.toolbar.ivToolbar.isVisible=true
-        binding.toolbar.tvToolbar.text =
-            App.getAppContext()!!.getString(R.string.str_update_service)
+        binding.toolbar.tvToolbar.text = getString(R.string.str_update_service)
     }
 
     private fun setupViewModel() {

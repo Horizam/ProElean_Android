@@ -120,8 +120,13 @@ class PostJobFragment : Fragment(), AdapterView.OnItemSelectedListener {
                     return
                 }
                 etPrice.text.toString().toDouble() < Constants.MINIMUM_ORDER_PRICE -> {
-                    genericHandler.showErrorMessage("Minimum ${Constants.MINIMUM_ORDER_PRICE}${Constants.CURRENCY} must be entered")
-                    return
+                    var manager: PrefManager = PrefManager(App.getAppContext()!!)
+                    if (manager.setLanguage == "0") {
+                        genericHandler.showErrorMessage("Minimum ${Constants.MINIMUM_ORDER_PRICE}${Constants.CURRENCY} must be entered")
+                    } else {
+                        genericHandler.showErrorMessage("Minimi ${Constants.MINIMUM_ORDER_PRICE}${Constants.CURRENCY} on syötettävä")
+                    }
+                        return
                 }
                 else -> {
                     executeApi()

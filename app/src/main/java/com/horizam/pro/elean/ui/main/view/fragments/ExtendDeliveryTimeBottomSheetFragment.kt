@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.horizam.pro.elean.App
 import com.horizam.pro.elean.R
@@ -82,8 +83,8 @@ class ExtendDeliveryTimeBottomSheetFragment(var orderDetailsFragment: OrderDetai
                 orderDetailsFragment.extendDeliveryTime(
                     selectedDays,
                     binding.etDescription.text.toString(),
-                    userType, status
-                )
+                    userType, status)
+
             }
         }
     }
