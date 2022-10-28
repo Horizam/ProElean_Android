@@ -6,8 +6,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <androidx.core.widget.NestedScrollView
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar_layout" />
+
+
+        <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -16,24 +24,21 @@
             android:layout_height="match_parent"
             android:background="@color/colorWhiteMatching">
 
-            <include
-                android:id="@+id/toolbar"
-                layout="@layout/toolbar_layout" />
-
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/card_seller_actions"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_50sdp"
                 android:layout_weight="1"
                 app:cardCornerRadius="@dimen/_10sdp"
                 app:cardElevation="@dimen/_2sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/toolbar"
+                app:layout_constraintTop_toTopOf="parent"
                 app:strokeColor="@color/colorGrey"
-                app:strokeWidth="@dimen/_1sdp">
+                app:strokeWidth="@dimen/_1sdp"
+                tools:ignore="MissingConstraints">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_seller_action"
@@ -337,4 +342,5 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

@@ -194,12 +194,12 @@
                 app:layout_constraintBottom_toTopOf="@id/tv_response"
                 app:layout_constraintStart_toEndOf="@id/iv_time"
                 app:layout_constraintTop_toTopOf="@id/iv_time" />
+
             <TextView
                 android:id="@+id/tv_response"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="2dp"
+                android:layout_height="6dp"
                 android:layout_marginStart="@dimen/_7sdp"
-                android:layout_marginEnd="@dimen/_10sdp"
                 android:ellipsize="end"
                 android:maxWidth="@dimen/_80sdp"
                 android:maxLines="2"

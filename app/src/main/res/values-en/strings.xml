@@ -18,6 +18,7 @@
     <string name="str_terms_and_conditions">Terms and Conditions</string>
     <string name="str_already_have_an_account">Already have an account?</string>
     <string name="str_reset_your_password">Reset Your Password</string>
+    <string name="str_days">day</string>
     <string name="str_back_to_login">Back to login</string>
     <string name="str_reset_password">Reset Password</string>
     <string name="str_content_description">Content Description</string>

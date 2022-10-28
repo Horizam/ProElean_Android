@@ -1,7 +1,9 @@
 package com.horizam.pro.elean.ui.main.adapter
 
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -12,6 +14,8 @@ import com.horizam.pro.elean.data.model.response.Order
 import com.horizam.pro.elean.databinding.ItemActiveOrderBinding
 import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
 import com.horizam.pro.elean.utils.BaseUtils
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class CancelSalesAdapter(val listener: OnItemClickListener) :
     PagingDataAdapter<Order, CancelSalesAdapter.DataViewHolder>(COMPARATOR) {
@@ -23,6 +27,7 @@ class CancelSalesAdapter(val listener: OnItemClickListener) :
         return DataViewHolder(binding)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: DataViewHolder, position: Int) {
         val currentItem = getItem(position)
         if (currentItem != null) {
@@ -49,10 +54,11 @@ class CancelSalesAdapter(val listener: OnItemClickListener) :
             }
         }
 
+        @RequiresApi(Build.VERSION_CODES.O)
         fun bind(order: Order) {
             binding.apply {
                 tvUserName.text = order.username
-                tvDate.text = BaseUtils.utcToLocal(order.created_at)
+                tvDate.text = LocalDateTime.now().format(DateTimeFormatter.ofPattern("MMM-dd-yyyy"))
                 tvDescription.text = order.description
                 tvPrice.text = order.amount.toString().plus(order.currency)
                 tvStatus.text = itemView.context.getString(R.string.str_cancel)

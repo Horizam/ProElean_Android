@@ -15,22 +15,31 @@ data class FreelancerUserResponse(
 
 @Parcelize
 data class ProfileInfo(
-    @SerializedName("id") val id: String,
-    @SerializedName("name") val name: String,
-    @SerializedName("username") val username: String,
-    @SerializedName("image") val image: String,
-    @SerializedName("isFreelancer") val isFreelancer: Int,
-    @SerializedName("address") val address: String,
-    @SerializedName("created_at") val created_at: String,
-    @SerializedName("phone") val phone: String,
-    @SerializedName("email") val email: String,
-    @SerializedName("description") val description: String,
-    @SerializedName("total_reviews") val total_reviews: Int,
-    @SerializedName("user_rating") val user_rating: Int,
-    @SerializedName("recent_delivery") val recent_delivery: String,
-    @SerializedName("user_languages") val user_languages: String,
-    @SerializedName("languages") val languages:List<String>,
-    @SerializedName("user_skills") val user_skills: List<String>,
+
+    @SerializedName("id"                ) var id               : String?           = null,
+    @SerializedName("name"              ) var name             : String?           = null,
+    @SerializedName("username"          ) var username         : String?           = null,
+    @SerializedName("image"             ) var image            : String?           = null,
+    @SerializedName("isFreelancer"      ) var isFreelancer     : Int?              = null,
+    @SerializedName("created_at"        ) var createdAt        : String?           = null,
+    @SerializedName("address"           ) var address          : String?           = null,
+    @SerializedName("phone"             ) var phone            : String?           = null,
+    @SerializedName("email"             ) var email            : String?           = null,
+    @SerializedName("description"       ) var description      : String?           = null,
+    @SerializedName("total_reviews"     ) var totalReviews     : Int?              = null,
+    @SerializedName("user_rating"       ) var userRating       : Int?              = null,
+    @SerializedName("recent_delivery"   ) var recentDelivery   : String?           = null,
+    @SerializedName("user_languages"    ) var userLanguages    : String?           = null,
+    @SerializedName("languages"         ) var languages        : ArrayList<String> = arrayListOf(),
+    @SerializedName("user_skills"       ) var userSkills       : ArrayList<String> = arrayListOf(),
+    @SerializedName("active_orders"     ) var activeOrders     : Int?              = null,
+    @SerializedName("monthly_selling"   ) var monthlySelling   : Int?              = null,
+    @SerializedName("weekly_clicks"     ) var weeklyClicks     : Int?              = null,
+    @SerializedName("weekly_impression" ) var weeklyImpression : Int?              = null,
+    @SerializedName("analytics"         ) var analytics        : ArrayList<String> = arrayListOf(),
+    @SerializedName("average_selling"   ) var averageSelling   : Int?              = null,
+    @SerializedName("total_services"    ) var totalServices    : Int?              = null,
+    @SerializedName("payments_enabled"  ) var paymentsEnabled  : Boolean?          = null
 ) : Parcelable
 
 @Parcelize

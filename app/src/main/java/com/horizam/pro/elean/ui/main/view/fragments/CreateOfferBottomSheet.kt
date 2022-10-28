@@ -236,8 +236,24 @@ class CreateOfferBottomSheet(private val createOfferHandler: CreateOfferHandler)
 
     private fun setRevisionAndDaysData(response: CategoriesCountriesResponse) {
         if (response.categoriesCountriesData.deliveryDays.isNotEmpty()) {
-            deliveryDaysArrayList =
-                response.categoriesCountriesData.deliveryDays as ArrayList<String>
+//            deliveryDaysArrayList = response.categoriesCountriesData.deliveryDays
+            for (i in 0..response.categoriesCountriesData.deliveryDays.size) {
+                if (i <= response.categoriesCountriesData.deliveryDays.lastIndex) {
+                    var split = response.categoriesCountriesData.deliveryDays[i].split(" ")
+                    if (prefManager.setLanguage == "0") {
+                        if (i == 0) {
+                            deliveryDaysArrayList.add("${split[0]}" + " " + "day")
+                        }
+                        deliveryDaysArrayList.add("${split[0]}" + " " + "days")
+
+                    } else {
+                        if (i == 0) {
+                            deliveryDaysArrayList.add("${split[0]}" + " " + "päivä")
+                        }
+                        deliveryDaysArrayList.add("${split[0]}" + " " + "päiväa")
+                    }
+                }
+            }
             daysAdapter = ArrayAdapter(
                 requireContext(),
                 android.R.layout.simple_spinner_item, deliveryDaysArrayList

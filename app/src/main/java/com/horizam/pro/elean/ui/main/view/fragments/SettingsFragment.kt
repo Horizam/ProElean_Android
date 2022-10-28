@@ -59,7 +59,7 @@ class SettingsFragment : Fragment() {
     private fun setClickListeners() {
         binding.tvTerms.setOnClickListener {
             val openURL = Intent(Intent.ACTION_VIEW)
-            openURL.data = Uri.parse("https://dex.proelean.com/general/en/terms-conditions")
+            openURL.data = Uri.parse("https://dex.proelean.com/general/terms-conditions")
             startActivity(openURL)
 //            if (this::privacyPolicyResponse.isInitialized) {
 //                val termsConditions = privacyPolicyResponse.data.termConditions.description
@@ -71,7 +71,7 @@ class SettingsFragment : Fragment() {
         }
         binding.tvPrivacy.setOnClickListener {
             val openURL = Intent(Intent.ACTION_VIEW)
-            openURL.data = Uri.parse("https://dex.proelean.com/general/en/privacy-policy")
+            openURL.data = Uri.parse("https://dex.proelean.com/general/privacy-policy")
             startActivity(openURL)
 //            if (this::privacyPolicyResponse.isInitialized) {
 //                val privacyPolicy = privacyPolicyResponse.data.privacyPolicy.description

@@ -46,7 +46,15 @@ class ExtendDeliveryTimeBottomSheetFragment(var orderDetailsFragment: OrderDetai
         var manager: PrefManager = PrefManager(App.getAppContext()!!)
         for (pos in 0 until 59) {
             if (manager.setLanguage == "0") {
-                daysArrayList.add("${pos}day")
+
+                if(pos >1)
+                {
+                    daysArrayList.add("${pos}days")
+                }
+                else
+                {
+                    daysArrayList.add("${pos}day")
+                }
             } else {
                 daysArrayList.add("${pos}päivä")
             }

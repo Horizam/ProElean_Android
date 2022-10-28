@@ -1,83 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_card"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="@dimen/_115sdp"
     android:layout_marginHorizontal="@dimen/_5sdp"
-    android:layout_marginTop="@dimen/_5sdp"
-    app:cardCornerRadius="@dimen/_10sdp"
-    app:cardElevation="10dp"
+    android:layout_marginBottom="@dimen/_10sdp"
+    android:layout_marginTop="@dimen/_8sdp"
+    android:layout_marginStart="@dimen/_13sdp"
+    android:layout_marginEnd="@dimen/_13sdp"
+    app:cardCornerRadius="@dimen/_8sdp"
+    app:cardElevation="@dimen/_3sdp"
     app:strokeWidth="@dimen/_1sdp">
-
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cons"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/iv_user"
-            android:layout_width="@dimen/_35sdp"
-            android:layout_height="@dimen/_35sdp"
-            android:layout_margin="@dimen/_10sdp"
+        android:layout_height="@dimen/_115sdp">
+       <ImageView
+            android:id="@+id/iv_profile"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_margin="@dimen/_5sdp"
             android:src="@drawable/img_profile"
             app:civ_border_color="@color/colorAccent"
+           android:background="@drawable/bg_shape_rectangle_red"
             app:civ_border_width="@dimen/_1sdp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tv_user_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/_7sdp"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:text="@string/str_username"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="@dimen/_12ssp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@id/tv_date"
-            app:layout_constraintStart_toEndOf="@id/iv_user"
-            app:layout_constraintTop_toTopOf="@id/iv_user" />
-
-        <TextView
-            android:id="@+id/tv_date"
+            android:id="@+id/tv_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/_10sdp"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:text="@string/str_april_17_2020"
-            android:textColor="@color/colorDarkGrey"
-            app:layout_constraintBottom_toBottomOf="@id/tv_user_name"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_user_name" />
+            android:layout_marginTop="5dp"
+            android:text="@string/fiftyDollar"
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold"
+            android:textSize="@dimen/_13sdp"
+            app:layout_constraintStart_toStartOf="@id/tv_description"
+            app:layout_constraintTop_toTopOf="parent" />
+
+<!--        <TextView-->
+<!--            android:id="@+id/tv_user"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginHorizontal="@dimen/_7sdp"-->
+<!--            android:layout_marginTop="5dp"-->
+<!--            android:ellipsize="end"-->
+<!--            android:fontFamily="serif"-->
+<!--            android:maxLines="1"-->
+<!--            android:text="@string/str_username"-->
+<!--            android:textColor="@color/colorPrimaryDark"-->
+<!--            android:textSize="@dimen/_12ssp"-->
+<!--            android:textStyle="bold"-->
+<!--            app:layout_constraintBottom_toTopOf="@id/tv_description"-->
+<!--            app:layout_constraintStart_toEndOf="@+id/iv_user"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
 
         <TextView
             android:id="@+id/tv_description"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_7sdp"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:layout_marginEnd="@dimen/_10sdp"
             android:ellipsize="end"
+            android:fontFamily="sans-serif-condensed-medium"
             android:maxLines="3"
             android:text="@string/str_lorem_ipsum_is_simply_dummy_text_of_the_printing_and_typesetting"
+            android:textSize="@dimen/_12sdp"
+            app:layout_constraintStart_toEndOf="@id/iv_profile"
+            app:layout_constraintTop_toBottomOf="@id/tv_price"
+            app:layout_constraintEnd_toEndOf="@id/card_view"
+            tools:ignore="MissingConstraints" />
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/iv_user"
+            android:layout_width="@dimen/_25sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:layout_margin="@dimen/_5sdp"
+            android:src="@drawable/img_profile"
+            app:civ_border_color="@color/colorAccent"
+            app:layout_constraintTop_toBottomOf="@id/iv_profile"
+            app:layout_constraintStart_toStartOf="@id/iv_profile"
+            tools:ignore="MissingConstraints" />
+        <TextView
+        android:id="@+id/tv_user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_5sdp"
+        android:ellipsize="end"
+        android:fontFamily="serif"
+        android:maxLines="1"
+        android:text="@string/str_username"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="@dimen/_9ssp"
+        android:textStyle="bold"
+            android:layout_marginTop="@dimen/_12sdp"
+        app:layout_constraintTop_toBottomOf="@id/iv_profile"
+        app:layout_constraintStart_toEndOf="@+id/iv_user" />
+
+        <View
+            android:id="@+id/view4"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/bg_primary"
+            android:layout_marginTop="@dimen/_32sdp"
+            app:layout_constraintTop_toBottomOf="@+id/iv_profile" />
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@string/str_april_17_2020"
             android:textColor="@color/colorBlack"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/iv_user"
-            app:layout_constraintTop_toBottomOf="@id/tv_user_name" />
+            android:textSize="@dimen/_13sdp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/iv_profile"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/view4" />
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/card_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_7sdp"
-            android:layout_marginBottom="@dimen/_10sdp"
             app:cardCornerRadius="@dimen/_3sdp"
+            app:cardElevation="5dp"
+            android:layout_margin="@dimen/_10sdp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@id/tv_description"
-            app:layout_constraintTop_toBottomOf="@id/tv_description"
+            app:layout_constraintEnd_toEndOf="@id/cons"
+            app:layout_constraintTop_toBottomOf="@id/view4"
             app:strokeColor="@color/colorBlack"
             app:strokeWidth="@dimen/_1sdp">
 
@@ -91,19 +143,18 @@
 
         </com.google.android.material.card.MaterialCardView>
 
-        <TextView
-            android:id="@+id/tv_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_7sdp"
-            android:layout_marginEnd="@dimen/_10sdp"
-            android:text="@string/fiftyDollar"
-            android:textColor="@color/colorPrimaryDark"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@id/card_view"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/card_view" />
-
+<!--        <TextView-->
+<!--            android:layout_marginTop="@dimen/_7sdp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:id="@+id/tv_price"-->
+<!--            android:textStyle="bold"-->
+<!--            android:textColor="@color/colorPrimaryDark"-->
+<!--            android:text="@string/fiftyDollar"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintBottom_toBottomOf="@id/card_view"-->
+<!--            app:layout_constraintBottom_toTopOf="@id/tv_description"-->
+<!--            android:layout_marginEnd="@dimen/_10sdp"/>-->
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

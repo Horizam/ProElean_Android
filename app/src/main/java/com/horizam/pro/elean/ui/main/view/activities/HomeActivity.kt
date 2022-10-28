@@ -726,21 +726,26 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
             val a = binding.bottomNav.selectedItemId
             val b = R.id.inboxFragment
             if (binding.bottomNav.selectedItemId != R.id.inboxFragment) {
+                setMessageBottomNotification(0)
+            }
+            else{
                 setMessageBottomNotification(1)
-
             }
         } else if (bottomNotification.type == Constants.MESSAGE && (bottomNotification.value == 1)) {
             setMessageBottomNotification(0)
         } else if (bottomNotification.type == Constants.ORDER && (bottomNotification.value == 1)) {
+            setOrderBottomNotification(0)
+        }
+            else if (bottomNotification.type == Constants.ORDER && (bottomNotification.value == 0)) {
             if (binding.bottomNav.selectedItemId != R.id.orderFragment) {
+                setOrderBottomNotification(0)
+            }
+            else
+            {
                 setOrderBottomNotification(1)
             }
         }
-            else if (bottomNotification.type == Constants.ORDER && (bottomNotification.value == 0)) {
-            setOrderBottomNotification(1)
-        } else if (bottomNotification.type == Constants.ORDER && (bottomNotification.value == 1)) {
-            setOrderBottomNotification(0)
-        }
+
     }
 
     private fun setOrderBottomNotification(value: Int) {
@@ -752,7 +757,7 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
         }
         else
         {
-            bageDashboard.backgroundColor = ContextCompat.getColor(this, R.color.colorWhite)
+            bageDashboard.isVisible =false
 
         }
     }
@@ -768,8 +773,6 @@ class HomeActivity : AppCompatActivity(), LockHandler, DrawerHandler, GenericHan
         else{
             bageDashboard.isVisible = false
         }
-
-
     }
 
 

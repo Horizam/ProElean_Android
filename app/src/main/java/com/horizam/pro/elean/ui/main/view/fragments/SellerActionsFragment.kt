@@ -39,7 +39,9 @@ import com.horizam.pro.elean.data.model.Analytics
 import com.horizam.pro.elean.data.model.response.Notification
 import com.horizam.pro.elean.data.model.response.NotificationsResponse
 import com.horizam.pro.elean.ui.main.adapter.NotificationsAdapter
+import com.horizam.pro.elean.ui.main.callbacks.DrawerHandler
 import com.horizam.pro.elean.ui.main.viewmodel.NotificationsViewModel
+import com.horizam.pro.elean.utils.BaseUtils.Companion.hideKeyboard
 
 
 class SellerActionsFragment : Fragment(), OnItemClickListener,
@@ -56,6 +58,7 @@ class SellerActionsFragment : Fragment(), OnItemClickListener,
     private lateinit var prefManager: PrefManager
     private lateinit var sellerActionList: ArrayList<SellerActionModel>
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
+    private lateinit var drawerHandler: DrawerHandler
     private lateinit var notificationsResponse:NotificationsResponse
     private var sum:Int=0
     private var count=0
@@ -67,12 +70,13 @@ class SellerActionsFragment : Fragment(), OnItemClickListener,
     ): View {
         binding = FragmentSellerActionsBinding.inflate(layoutInflater, container, false)
         getIntentData()
+        initViews()
         setToolbarData()
         setupViewModel()
-        initViews()
+        setupObservers()
         setClickListeners()
         setAdapter()
-        exeApi()
+        executeApi()
         return binding.root
     }
 
@@ -80,7 +84,12 @@ class SellerActionsFragment : Fragment(), OnItemClickListener,
         if (swipeRefreshLayout.isRefreshing) {
             swipeRefreshLayout.isRefreshing = false
         }
-        exeApi()
+        executeApi()
+    }
+    private fun executeApi() {
+        genericHandler.showProgressBar(true)
+        viewModel.SellerDataCall()
+        notificationsViewModel.getNotificationsCall()
     }
 
     private fun getIntentData() {
@@ -130,7 +139,7 @@ class SellerActionsFragment : Fragment(), OnItemClickListener,
     }
 
 
-    private fun exeApi() {
+    private fun setupObservers() {
         viewModel.sellerData.observe(viewLifecycleOwner, {
             it?.let { resource ->
                 when (resource.status) {
@@ -282,17 +291,37 @@ class SellerActionsFragment : Fragment(), OnItemClickListener,
     }
 
     private fun initViews() {
-        binding.toolbar.ivToolbar.visibility = View.INVISIBLE
+        binding.toolbar.ivToolbar.visibility = View.VISIBLE
         navController = this.findNavController()
         sellerActionList = ArrayList()
         swipeRefreshLayout = binding.swipeRefresh
         swipeRefreshLayout.setOnRefreshListener(this)
+        drawerHandler = context as DrawerHandler
+
     }
-    private fun notificationsRes(list: List<Notification>)
-    {
-        var notify=list
-        count=notify.count()
-        for(n in 0 until count) {
+    private fun setClickListeners() {
+        binding.apply {
+            binding.toolbar.ivToolbar.setOnClickListener {
+                hideKeyboard()
+                drawerHandler.openDrawer()
+            }
+            binding.toolbar.ivSecond.setOnClickListener {
+                this@SellerActionsFragment.findNavController().navigate(R.id.notificationsFragment)
+            }
+        }
+    }
+
+    private fun setToolbarData() {
+        binding.toolbar.ivToolbar.isVisible=true
+        binding.toolbar.tvToolbar.text = getString(R.string.str_seller_actions)
+        binding.toolbar.ivSecond.setImageResource(R.drawable.ic_notifications)
+        binding.toolbar.ivSecond.visibility = View.VISIBLE
+//        counter(notificationsResponse)
+    }
+    private fun notificationsRes(list: List<Notification>) {
+        val notify = list
+        count = notify.count()
+        for (n in 0 until count) {
             if (notify[n].viewed == 0) {
                 sum = sum + 1
 
@@ -303,56 +332,35 @@ class SellerActionsFragment : Fragment(), OnItemClickListener,
 
         }
         println(sum)
-        binding.toolbar.tvNoOfNotification.setText(Integer.toString(sum))
+        binding.toolbar.tvNoOfNotification.setText(sum.toString())
         binding.toolbar.rlNoOfNotification.isVisible = true
         binding.toolbar.tvNoOfNotification.isVisible = true
-        if(sum==0)
-        {
-            binding.toolbar.rlNoOfNotification.isVisible=false
-            binding.toolbar.tvNoOfNotification.isVisible=false
+        if (sum == 0) {
+            binding.toolbar.rlNoOfNotification.isVisible = false
+            binding.toolbar.tvNoOfNotification.isVisible = false
         }
-        sum=0
+        sum = 0
     }
-
-    private fun setClickListeners() {
-        binding.apply {
-            toolbar.ivToolbar.setOnClickListener {
-                navController.popBackStack()
-            }
-            binding.toolbar.ivSecond.setOnClickListener {
-                this@SellerActionsFragment.findNavController().navigate(R.id.notificationsFragment)
-            }
-        }
-    }
-
-    private fun setToolbarData() {
-        binding.toolbar.ivToolbar.setImageResource(R.drawable.ic_back)
-        binding.toolbar.ivToolbar.isVisible=true
-        binding.toolbar.tvToolbar.text = getString(R.string.str_seller_actions)
-        binding.toolbar.ivSecond.setImageResource(R.drawable.ic_notifications)
-        binding.toolbar.ivSecond.visibility = View.VISIBLE
-    //    counter(notificationsResponse)
-    }
-    private fun counter(response: NotificationsResponse){
-        var notify = response.data.apply {
-            count = count()
-        }
-        for (n in 0 until count) {
-                    if (notify[n].viewed == 0) {
-                        sum = sum + 1
-                        binding.toolbar.rlNoOfNotification.visibility.plus(sum)
-                        binding.toolbar.rlNoOfNotification.isVisible = true
-                    } else {
-                        binding.toolbar.rlNoOfNotification.isVisible = false
-                        println("is 1")
-                    }
-                }
-                println(sum)
-//                binding.toolbar.rlNoOfNotification.visibility.plus(sum)
-//                binding.toolbar.rlNoOfNotification.isVisible = true
-//            }
-        binding.toolbar.rlNoOfNotification.isVisible=true
-    }
+//    private fun counter(response: NotificationsResponse){
+//        var notify = response.data.apply {
+//            count = count()
+//        }
+//        for (n in 0 until count) {
+//                    if (notify[n].viewed == 0) {
+//                        sum = sum + 1
+//                        binding.toolbar.rlNoOfNotification.visibility.plus(sum)
+//                        binding.toolbar.rlNoOfNotification.isVisible = true
+//                    } else {
+//                        binding.toolbar.rlNoOfNotification.isVisible = false
+//                        println("is 1")
+//                    }
+//                }
+//                println(sum)
+////                binding.toolbar.rlNoOfNotification.visibility.plus(sum)
+////                binding.toolbar.rlNoOfNotification.isVisible = true
+////            }
+//        binding.toolbar.rlNoOfNotification.isVisible=true
+//    }
 
     override fun <T> onItemClick(item: T) {
         if (item is Int) {

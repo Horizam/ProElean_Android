@@ -99,26 +99,25 @@
             android:id="@+id/tv_click"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            tools:text="@string/fiftyDollar"
-            android:textColor="@color/colorAccent"
             android:layout_marginHorizontal="@dimen/_5sdp"
-            app:layout_constraintStart_toEndOf="@id/tv_click_title"
-            app:layout_constraintEnd_toStartOf="@id/view"
-            app:layout_constraintTop_toTopOf="@id/tv_click_title"
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/_9sdp"
             app:layout_constraintBottom_toBottomOf="@id/tv_click_title"
-            />
+            app:layout_constraintEnd_toStartOf="@+id/tv_order_title"
+            app:layout_constraintStart_toEndOf="@id/tv_click_title"
+            app:layout_constraintTop_toTopOf="@id/tv_click_title"
+            tools:text="mekmdekmdekmdk" />
 
         <View
             android:id="@+id/view"
-            android:layout_width="1dp"
-            android:layout_height="@dimen/_10sdp"
+            android:layout_width="6dp"
+            android:layout_height="5dp"
             android:background="@color/colorBlack"
             android:visibility="invisible"
-            app:layout_constraintStart_toEndOf="@id/iv_main"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tv_click_title"
             app:layout_constraintBottom_toBottomOf="@+id/tv_click_title"
-            />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/iv_main"
+            app:layout_constraintTop_toTopOf="@+id/tv_click_title" />
 
         <TextView
             android:id="@+id/tv_order_title"
@@ -137,6 +136,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             tools:text="@string/fiftyDollar"
+            android:textSize="@dimen/_9sdp"
             android:textColor="@color/colorAccent"
             android:layout_marginStart="@dimen/_5sdp"
             app:layout_constraintStart_toEndOf="@id/tv_order_title"

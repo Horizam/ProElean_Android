@@ -78,11 +78,6 @@
                 android:textColor="@color/colorBlack"
                 android:textSize="@dimen/_12ssp"/>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/colorGrey" />
-
             <TextView
                 android:id="@+id/tv_select_language"
                 android:layout_width="match_parent"

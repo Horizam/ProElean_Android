@@ -97,7 +97,6 @@
             android:layout_marginHorizontal="@dimen/_7sdp"
             android:layout_marginTop="@dimen/_5sdp"
             android:ellipsize="end"
-            android:maxLines="3"
             tools:text="@string/str_lorem_ipsum_is_simply_dummy_text_of_the_printing_and_typesetting"
             android:textColor="@color/colorBlack"
             android:textSize="@dimen/_12ssp"

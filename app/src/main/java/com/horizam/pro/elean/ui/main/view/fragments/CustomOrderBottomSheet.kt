@@ -57,6 +57,7 @@ class CustomOrderBottomSheet : BottomSheetDialogFragment(), AdapterView.OnItemSe
     }
 
     private fun setDeliveryDays() {
+
         daysAdapter = ArrayAdapter(
             requireContext(),
             android.R.layout.simple_spinner_item, deliveryDaysArrayList

@@ -66,13 +66,17 @@ class ActiveOrdersAdapter(val listener: OnItemClickListener) :
         fun bind(order: Order) {
             binding.apply {
                 tvUserName.text = order.username
-                tvDate.text = BaseUtils.utcToLocal(order.created_at)
+                tvDate.text =LocalDateTime.now().format(DateTimeFormatter.ofPattern("MMM-dd-yyyy"))
                 tvDescription.text = order.description
                 tvPrice.text = order.amount.toString().plus(Constants.CURRENCY)
                 Glide.with(itemView)
                     .load(Constants.BASE_URL.plus(order.image))
                     .error(R.drawable.bg_splash)
                     .into(ivUser)
+                Glide.with(itemView)
+                    .load(Constants.BASE_URL.plus(order.media))
+                    .error(R.drawable.bg_splash)
+                    .into(ivProfile)
                 when (order.status) {
                     SellerOrders.Active -> {
                         if(order.revision==order.revision_left)

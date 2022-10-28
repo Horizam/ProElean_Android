@@ -64,7 +64,7 @@ class ActiveSalesAdapter(val listener: OnItemClickListener) :
         fun bind(order: Order) {
             binding.apply {
                 tvUserName.text = order.username
-                tvDate.text = BaseUtils.utcToLocal(order.created_at)
+                tvDate.text =LocalDateTime.now().format(DateTimeFormatter.ofPattern("MMM-dd-yyyy"))
                 tvDescription.text = order.description
                 tvPrice.text = order.amount.toString().plus(Constants.CURRENCY)
                 Glide.with(itemView)

@@ -44,6 +44,7 @@ import com.horizam.pro.elean.utils.BaseUtils.Companion.hideKeyboard
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.internal.notifyAll
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -252,7 +253,7 @@ class EditProfileFragment : Fragment() {
                 setUiData(response)
                 if (check == 1) {
                     genericHandler.showSuccessMessage(getString(R.string.str_profile_sucessfully_upated))
-                    prefManager.userImage = response.image
+                    prefManager.userImage = response.image.toString()
                     updateProfileHandler.updateProfile()
                     this.findNavController().popBackStack()
                 }

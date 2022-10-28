@@ -1,11 +1,9 @@
 package com.horizam.pro.elean.ui.main.view.fragments
 
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,6 +38,7 @@ import com.horizam.pro.elean.utils.PrefManager
 import com.horizam.pro.elean.utils.Status
 import com.smarteist.autoimageslider.SliderAnimations
 import com.smarteist.autoimageslider.SliderView
+import kotlinx.android.synthetic.main.item_status.*
 
 
 @Suppress("DEPRECATION")
@@ -239,6 +238,10 @@ class HomeFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefre
     }
 
     private fun setClickListeners() {
+        binding.toolbar.ivToolbar.setOnClickListener {
+            hideKeyboard()
+            drawerHandler.openDrawer()
+        }
         binding.btnRetry.setOnClickListener {
             executeApi()
         }

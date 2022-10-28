@@ -12,8 +12,8 @@ android {
         applicationId "com.horizam.pro.elean"
         minSdkVersion 21
         targetSdkVersion 31
-        versionCode 28
-        versionName "3.7"
+        versionCode 32
+        versionName "4.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 

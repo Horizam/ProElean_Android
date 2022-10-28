@@ -241,17 +241,17 @@ class AboutUserFragment : Fragment(), OnItemClickListener {
                     .error(R.drawable.img_profile)
                     .into(ivUser)
                 tvUserName.text = profile.name
-                tvUserRating.text = profileInfo.user_rating.toString()
-                tvRatingNumber.text = "(".plus(profile.total_reviews.toString()).plus(")")
+                tvUserRating.text = profileInfo.userRating.toString()
+                tvRatingNumber.text = "(".plus(profile.totalReviews.toString()).plus(")")
                 tvLocation.text = profile.address
-                tvLanguage.text=profile.user_languages
+                tvLanguage.text= profile.languages.toString()
                 tvDescAboutUser.text=profile.description
-                tvResponse.text = profile.created_at
-                tvRecentDelivery.text = profile.recent_delivery
-                if (profile.user_languages==null) {
+                tvResponse.text = profile.createdAt
+                tvRecentDelivery.text = profile.recentDelivery
+                if (profile.languages==null) {
                     tvLanguage.text = getString(R.string.str_no_language_available)
                 } else {
-                    tvLanguage.text =profile.user_languages//.joinToString(separator = ", ")
+                    tvLanguage.text = profile.languages.toString()//.joinToString(separator = ", ")
                 }
 //                if (profile..isEmpty()) {
 //                    tvLanguage.text = getString(R.string.str_no_language_available)
@@ -264,11 +264,10 @@ class AboutUserFragment : Fragment(), OnItemClickListener {
 //                } else {
 //                    tvDescAboutUser.text = profile.description
 //                }
-                adapter.submitList(profile.user_skills)
+                adapter.submitList(profile.userSkills)
             }
         }
     }
-
     private fun setupViewModel() {
         viewModel = ViewModelProviders.of(
             requireActivity(),

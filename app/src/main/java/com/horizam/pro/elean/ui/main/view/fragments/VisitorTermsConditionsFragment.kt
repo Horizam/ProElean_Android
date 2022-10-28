@@ -1,6 +1,8 @@
 package com.horizam.pro.elean.ui.main.view.fragments
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -48,20 +50,15 @@ class VisitorTermsConditionsFragment : Fragment() {
 
     private fun setClickListeners() {
         binding.tvTerms.setOnClickListener {
-            if (this::privacyPolicyResponse.isInitialized){
-                val termsConditions = privacyPolicyResponse.data.termConditions.description
-                SettingsFragmentDirections.actionSettingsFragmentToTermsFragment(termsConditions).also { navDirections ->
-                    findNavController().navigate(navDirections)
-                }
-            }
+            val openURL = Intent(Intent.ACTION_VIEW)
+            openURL.data = Uri.parse("https://dex.proelean.com/general/en/terms-conditions")
+            startActivity(openURL)
+
         }
         binding.tvPrivacy.setOnClickListener {
-            if (this::privacyPolicyResponse.isInitialized){
-                val privacyPolicy = privacyPolicyResponse.data.privacyPolicy.description
-                SettingsFragmentDirections.actionSettingsFragmentToPrivacyFragment(privacyPolicy).also { navDirections ->
-                    findNavController().navigate(navDirections)
-                }
-            }
+            val openURL = Intent(Intent.ACTION_VIEW)
+            openURL.data = Uri.parse("https://dex.proelean.com/general/en/privacy-policy")
+            startActivity(openURL)
         }
         binding.toolbar.ivToolbar.setOnClickListener {
             findNavController().popBackStack()
@@ -71,7 +68,7 @@ class VisitorTermsConditionsFragment : Fragment() {
     private fun setToolbarData() {
         binding.toolbar.ivToolbar.setImageResource(R.drawable.ic_back)
         binding.toolbar.ivToolbar.isVisible=true
-        binding.toolbar.tvToolbar.text = App.getAppContext()!!.getString(R.string.str_settings)
+        binding.toolbar.tvToolbar.text = getString(R.string.str_settings)
     }
 
     private fun setupViewModel() {

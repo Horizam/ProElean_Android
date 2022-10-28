@@ -59,7 +59,7 @@ class UpdateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
     private lateinit var genericHandler: GenericHandler
     private lateinit var categoriesArrayList: List<SpinnerModel>
     private lateinit var subcategoriesArrayList: List<SpinnerModel>
-    private lateinit var daysArrayList: List<String>
+    private lateinit var daysArrayList: ArrayList<String>
     private lateinit var noOfRevisionArrayList: List<String>
     private lateinit var categoriesAdapter: ArrayAdapter<SpinnerModel>
     private lateinit var subcategoriesAdapter: ArrayAdapter<SpinnerModel>
@@ -350,8 +350,10 @@ class UpdateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
     }
 
     private fun setUIData(response: CategoriesCountriesResponse) {
+        var manager: PrefManager = PrefManager(App.getAppContext()!!)
+
         categoriesArrayList = response.categoriesCountriesData.categories.map { spinnerCategories ->
-            var manager: PrefManager = PrefManager(App.getAppContext()!!)
+
             if (manager.setLanguage == "0") {
                 SpinnerModel(id = spinnerCategories.id!!, value = spinnerCategories.title!!)
             } else {
@@ -362,7 +364,23 @@ class UpdateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
         val selectedCategoryPosition: Int = categoriesArrayList.indexOfFirst {
             it.id == args.serviceDetail.category.id
         }
-        daysArrayList = response.categoriesCountriesData.deliveryDays
+        for (i in 0..response.categoriesCountriesData.deliveryDays.size) {
+            if (i <= response.categoriesCountriesData.deliveryDays.lastIndex) {
+                var split = response.categoriesCountriesData.deliveryDays[i].split(" ")
+                if (manager.setLanguage == "0") {
+                    if (i == 0) {
+                        daysArrayList.add("${split[0]}" + " " + "day")
+                    }
+                    daysArrayList.add("${split[0]}" + " " + "days")
+
+                } else {
+                    if (i == 0) {
+                        daysArrayList.add("${split[0]}" + " " + "päivä")
+                    }
+                    daysArrayList.add("${split[0]}" + " " + "päiväa")
+                }
+            }
+        }
         val selectedDaysPosition: Int = daysArrayList.indexOfFirst {
             it == args.serviceDetail.delivery_time
         }

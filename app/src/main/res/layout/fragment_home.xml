@@ -6,14 +6,21 @@
     android:id="@+id/swipe_refresh"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar_layout" />
     <androidx.core.widget.NestedScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_below="@id/toolbar"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintHorizontal_bias="0.0"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/toolbar"
     app:layout_constraintVertical_bias="0.0"
     tools:ignore="MissingConstraints">
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -93,21 +100,19 @@
                     app:layout_constraintStart_toStartOf="@+id/bg_pic"
                     app:layout_constraintTop_toBottomOf="@id/autoComplete_text_view"
                     app:rippleColor="@color/colorLightBlue" />
-                <include
-                    android:id="@+id/toolbar"
-                    layout="@layout/toolbar_layout" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/bg_pic"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_420sdp"
-                    app:layout_constraintTop_toBottomOf="@id/toolbar"
+                    android:layout_height="@dimen/_440sdp"
+                    android:layout_marginTop="55dp"
                     android:background="@drawable/img_banner"
+                    app:layout_constraintTop_toTopOf="parent"
                     tools:ignore="MissingConstraints">
 
                     <View
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_450sdp"
+                        android:layout_height="match_parent"
                         android:background="#A6000000" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
                     <androidx.recyclerview.widget.RecyclerView
@@ -128,15 +133,15 @@
                     android:id="@+id/tv_title"
                     android:layout_width="@dimen/_170sdp"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_bold"
                     android:maxLines="5"
                     android:padding="@dimen/_10ssp"
-                    android:layout_marginStart="@dimen/_5ssp"
+                    android:layout_marginTop="@dimen/_50sdp"
                     android:text="@string/str_find_the_perfect_freelance"
                     android:textColor="@color/colorWhite"
                     android:textSize="@dimen/_25ssp"
                     android:textStyle="bold"
-                    android:fontFamily="@font/poppins_bold"
-                    app:layout_constraintTop_toBottomOf="@id/toolbar"
+                    app:layout_constraintTop_toTopOf="parent"
                     tools:ignore="MissingConstraints" />
 
                 <TextView
@@ -269,4 +274,5 @@
                 tools:visibility="visible" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

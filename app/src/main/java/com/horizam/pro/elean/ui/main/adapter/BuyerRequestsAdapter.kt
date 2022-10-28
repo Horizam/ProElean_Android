@@ -1,9 +1,11 @@
 package com.horizam.pro.elean.ui.main.adapter
 
+import android.os.Build
 import android.text.Html
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -17,6 +19,8 @@ import com.horizam.pro.elean.databinding.ItemBuyerRequestBinding
 import com.horizam.pro.elean.ui.main.callbacks.BuyerRequestsHandler
 import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
 import com.horizam.pro.elean.utils.PrefManager
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class BuyerRequestsAdapter(
     private val listener: OnItemClickListener,
@@ -30,13 +34,13 @@ class BuyerRequestsAdapter(
         return DataViewHolder(binding)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: DataViewHolder, position: Int) {
         val currentItem = getItem(position)
         if (currentItem != null) {
             holder.bind(currentItem)
         }
     }
-
     inner class DataViewHolder(private val binding: ItemBuyerRequestBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
@@ -70,12 +74,13 @@ class BuyerRequestsAdapter(
             }
         }
 
+        @RequiresApi(Build.VERSION_CODES.O)
         fun bind(buyerRequest: BuyerRequest) {
             var prefManager: PrefManager = PrefManager(App.getAppContext()!!)
             binding.apply {
                 try {
                     tvName.text = buyerRequest.user.username
-                    tvDate.text = buyerRequest.created_at
+                    tvDate.text = LocalDateTime.now().format(DateTimeFormatter.ofPattern("MMM-dd-yyyy"))
                     tvDuration.text = buyerRequest.delivery_time
                     tvDescription.setText(Html.fromHtml(Html.fromHtml(buyerRequest.description).toString()))
 
@@ -83,12 +88,12 @@ class BuyerRequestsAdapter(
                     if (buyerRequest.cinic.isEmpty()) {
                         if(prefManager.setLanguage=="0")
                         {
-                            tvOffers.text = buyerRequest.total_offers.toString().plus("offer sent")
+                            tvOffers.text = buyerRequest.total_offers.toString().plus(" offer sent")
                             tvDocument.text = "No Attachment"
                         }
                         else
                         {
-                            tvOffers.text = buyerRequest.total_offers.toString().plus("tarjous lähetetty")
+                            tvOffers.text = buyerRequest.total_offers.toString().plus (" tarjous lähetetty")
                             tvDocument.text = "Ei liitettä"
                         }
 
@@ -123,7 +128,6 @@ class BuyerRequestsAdapter(
                 }
             }
         }
-
     }
 
     companion object {

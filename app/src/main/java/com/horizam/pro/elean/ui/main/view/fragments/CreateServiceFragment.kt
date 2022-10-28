@@ -57,7 +57,7 @@ class CreateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
     private lateinit var genericHandler: GenericHandler
     private lateinit var categoriesArrayList: List<SpinnerModel>
     private lateinit var subcategoriesArrayList: List<SpinnerModel>
-    private lateinit var daysArrayList: List<String>
+    private lateinit var daysArrayList: java.util.ArrayList<String>
     private lateinit var noOfRevisionArrayList: List<String>
     private lateinit var categoriesAdapter: ArrayAdapter<SpinnerModel>
     private lateinit var subcategoriesAdapter: ArrayAdapter<SpinnerModel>
@@ -324,13 +324,35 @@ class CreateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
             binding.spinnerCategory.adapter = it
         }
 
-        daysArrayList = response.categoriesCountriesData.deliveryDays
+
+//        daysArrayList = response.categoriesCountriesData.deliveryDays
+            for (i in 0..response.categoriesCountriesData.deliveryDays.size) {
+                if (i <= response.categoriesCountriesData.deliveryDays.lastIndex) {
+                    var split = response.categoriesCountriesData.deliveryDays[i].split(" ")
+                    if (prefManager.setLanguage == "0") {
+                        if(i==0)
+                        {
+                            daysArrayList.add("${split[0]}" +" "+"day")
+                        }
+                        daysArrayList.add("${split[0]}" +" "+"days")
+
+                }
+                    else {
+                        if (i == 0) {
+                            daysArrayList.add("${split[0]}" + " " + "päivä")
+                        }
+                        daysArrayList.add("${split[0]}" + " " + "päiväa")
+                    }
+        }
+
+        }
         daysAdapter = ArrayAdapter(
             requireContext(),
             android.R.layout.simple_spinner_item, daysArrayList
         ).also {
             it.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
             binding.spinnerDeliveryTime.adapter = it
+
         }
 
         noOfRevisionArrayList = response.categoriesCountriesData.revisions

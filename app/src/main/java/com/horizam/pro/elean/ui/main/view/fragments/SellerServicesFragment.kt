@@ -28,6 +28,7 @@ import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
 import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
 import com.horizam.pro.elean.ui.main.callbacks.SendOfferHandler
 import com.horizam.pro.elean.ui.main.viewmodel.SellerServicesViewModel
+import com.horizam.pro.elean.utils.PrefManager
 import com.horizam.pro.elean.utils.Resource
 import com.horizam.pro.elean.utils.Status
 import java.lang.Exception
@@ -197,9 +198,25 @@ class SellerServicesFragment : Fragment(), OnItemClickListener, SendOfferHandler
 
     private fun handleDeliveryTimeResponse(categoriesCountriesResponse: CategoriesCountriesResponse) {
         try {
+            var manager: PrefManager = PrefManager(App.getAppContext()!!)
             if (categoriesCountriesResponse.categoriesCountriesData.deliveryDays.isNotEmpty()) {
-                deliveryDaysList =
-                    categoriesCountriesResponse.categoriesCountriesData.deliveryDays as ArrayList<String>
+                for (i in 0..categoriesCountriesResponse.categoriesCountriesData.deliveryDays.size) {
+                    if (i <= categoriesCountriesResponse.categoriesCountriesData.deliveryDays.lastIndex) {
+                        var split = categoriesCountriesResponse.categoriesCountriesData.deliveryDays[i].split(" ")
+                        if (manager.setLanguage == "0") {
+                            if (i == 0) {
+                                deliveryDaysList.add("${split[0]}" + " " + "day")
+                            }
+                            deliveryDaysList.add("${split[0]}" + " " + "days")
+
+                        } else {
+                            if (i == 0) {
+                                deliveryDaysList.add("${split[0]}" + " " + "päivä")
+                            }
+                            deliveryDaysList.add("${split[0]}" + " " + "päiväa")
+                        }
+                    }
+                }
             }
         } catch (e: Exception) {
             genericHandler.showErrorMessage(e.message.toString())

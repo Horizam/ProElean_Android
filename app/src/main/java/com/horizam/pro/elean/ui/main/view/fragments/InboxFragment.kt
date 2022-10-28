@@ -211,15 +211,17 @@ class InboxFragment : Fragment(), InboxHandler, SwipeRefreshLayout.OnRefreshList
 
     override fun <T> onItemClick(item: T) {
         if (item is Inbox) {
-            val userId = item.members.first {
+            val userId = item.members.firstOrNull() {
                 it != myId
             }
-            InboxFragmentDirections.actionInboxFragmentToMessagesFragment(
-                userName = "",
-                photo = "",
-                id = userId
-            ).also {
-                findNavController().navigate(it)
+            if (userId != null) {
+                InboxFragmentDirections.actionInboxFragmentToMessagesFragment(
+                    userName = "",
+                    photo = "",
+                    id = userId
+                ).also {
+                    findNavController().navigate(it)
+                }
             }
         }
     }

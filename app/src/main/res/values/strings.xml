@@ -169,7 +169,7 @@
     <string name="str_cancel_offer">Peruuta tarjous</string>
     <string name="str_area_chart">Aluekaavio</string>
     <string name="str_total_earnings">kokonaistulot</string>
-    <string name="str_balance">saldo</string>
+    <string name="str_balance">tasapaino</string>
     <string name="str_earning_this_month">Ansaita tässä kuussa</string>
     <string name="str_avg_order_price">Keskimääräinen tilaushinta</string>
     <string name="str_active_orders">Aktiiviset tilaukset</string>
@@ -382,4 +382,5 @@
     <string name="str_select_a_country">Valitse maa</string>
     <string name="str_create_a_new_account">luo uusi tili</string>
     <string name="str_go_to_inbox">Siirry postilaatikkoon</string>
+    <string name="str_days">päivä</string>
 </resources>

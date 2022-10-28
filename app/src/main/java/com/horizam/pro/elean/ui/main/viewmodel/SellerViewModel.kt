@@ -25,6 +25,9 @@ class SellerViewModel(private val mainRepository: MainRepository) : ViewModel() 
             }
         }
     }
+    fun SellerDataCall(request: String = "sellerData") {
+        sellerDataRequest.value = request
+    }
 
     companion object {
         const val DEFAULT_REQUEST = "sellerData"

@@ -1,9 +1,11 @@
 package com.horizam.pro.elean.ui.main.adapter
 
 import android.graphics.Color
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import androidx.paging.PagingDataAdapter
@@ -19,6 +21,8 @@ import com.horizam.pro.elean.databinding.ItemGigsBinding
 import com.horizam.pro.elean.databinding.ItemPostedJobBinding
 import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
 import com.horizam.pro.elean.ui.main.callbacks.PostedJobsHandler
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class PostedJobsAdapter(
     private val listener: OnItemClickListener,private val jobsListener:PostedJobsHandler) :
@@ -30,6 +34,7 @@ class PostedJobsAdapter(
         return DataViewHolder(binding)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: DataViewHolder, position: Int) {
         val currentItem = getItem(position)
         if (currentItem != null) {
@@ -70,6 +75,7 @@ class PostedJobsAdapter(
             }
         }
 
+        @RequiresApi(Build.VERSION_CODES.O)
         fun bind(job: PostedJob) {
             binding.apply {
                 tvDescription.text = job.description
@@ -78,7 +84,7 @@ class PostedJobsAdapter(
 //                cardViewStatus.setCardBackgroundColor(color)
                 tvDuration.text = job.delivery_time
                 tvBudgetList.text = job.budget.toString().plus(Constants.CURRENCY)
-                tvDate.text = job.created_at
+                tvDate.text = LocalDateTime.now().format(DateTimeFormatter.ofPattern("MMM-dd-yyyy"))
                 if (job.total_offers > 0) {
                     tvOffers.text = itemView.context.getString(R.string.str_review_offers)
                         .plus(" ").plus(job.total_offers.toString())

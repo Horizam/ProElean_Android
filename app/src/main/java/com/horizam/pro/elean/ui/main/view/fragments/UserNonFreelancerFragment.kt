@@ -141,16 +141,16 @@ class UserNonFreelancerFragment : Fragment(), OnItemClickListener {
                 .error(R.drawable.img_profile)
                 .into(binding.ivUser)
             tvUserName.text = profileInfo.username
-            tvUserRating.text = profileInfo.user_rating.toString()
-            tvRatingNumber.text = "(".plus(profileInfo.total_reviews.toString()).plus(")")
+            tvUserRating.text = profileInfo.userRating.toString()
+            tvRatingNumber.text = "(".plus(profileInfo.totalReviews.toString()).plus(")")
             tvLocation.text = profileInfo.address
-            tvResponse.text = profileInfo.created_at
-            tvRecentDelivery.text = profileInfo.recent_delivery
+            tvResponse.text = profileInfo.createdAt
+            tvRecentDelivery.text = profileInfo.recentDelivery
             tvPhone.text = profileInfo.phone
             tvEmail.text = profileInfo.email
-            tvLanguage.text = profileInfo.user_languages //.joinToString(separator = ", ")
+            tvLanguage.text = profileInfo.languages.toString()//.joinToString(separator = ", ")
             tvDescAboutUser.text = profileInfo.description
-            adapter.submitList(profileInfo.user_skills)
+            adapter.submitList(profileInfo.userSkills)
         }
     }
 

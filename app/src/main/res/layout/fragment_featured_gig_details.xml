@@ -144,7 +144,6 @@
                 android:layout_marginHorizontal="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_3sdp"
                 android:ellipsize="end"
-                android:maxLines="3"
                 android:text="@string/service_as_described"
                 android:textColor="@color/colorBlack"
                 android:textSize="@dimen/_11ssp"
