@@ -160,7 +160,14 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                     tvSellerTitle.isVisible = true
                 }
                 tvPrice.text = order.amount.toString().plus(order.currency)
-                tvDuration.text = order.delivery_time
+                if(prefManager.setLanguage==""||prefManager.setLanguage=="0") {
+                    tvDuration.text = order.delivery_time[0]+" "+"days"
+                }
+                    else
+                    {
+                        tvDuration.text  =order.delivery_time[0]+" "+"pavia"
+                    }
+
                 tvRevisions.text = order.revision.toString()
                 if(order.revision_left.toString() == (0).toString()) {
                     tvRevisionsLeft.text =getString(R.string.str_revision_finished)
@@ -171,9 +178,17 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                     tvRevisionsLeft.text=order.revision_left.toString()
                     btnRevision.isVisible=true
                 }
-                tvDelivery.text = if (order.delivery_note.isNotEmpty())
-                    order.delivery_note else getString(R.string.str_no_delivery_note
-                )
+                if (prefManager.setLanguage == "0"||prefManager.setLanguage=="") {
+                    tvDelivery.text = if (order.delivery_note.isNotEmpty())
+                        order.delivery_note else getString(R.string.str_no_delivery_note
+                    )
+                }
+                else
+                {
+                    tvDelivery.text = if (order.delivery_note.isNotEmpty())
+                        order.delivery_note else getString(R.string.str_no_delivery_note
+                    )
+                }
                 when (pair.first) {
                     Constants.BUYER_USER -> {
                         setBuyerData(pair)
@@ -695,7 +710,7 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
                 }
             }
             tvSeller.setOnClickListener {
-                if (prefManager.setLanguage == "0") {
+                if (prefManager.setLanguage =="0"||prefManager.setLanguage=="") {
                     Toast.makeText(requireActivity(),
                         "Please go to Desktop to download your file",
                         Toast.LENGTH_SHORT).show()
@@ -711,7 +726,7 @@ class OrderDetailsFragment(private val order: Order, private val pair: Pair<Int,
 //                    startActivity(it)
             }
             tvBuyer.setOnClickListener {
-                if (prefManager.setLanguage == "0") {
+                if (prefManager.setLanguage =="0"||prefManager.setLanguage=="") {
                     Toast.makeText(requireActivity(),
                         "Please go to Desktop to download your file",
                         Toast.LENGTH_SHORT).show()

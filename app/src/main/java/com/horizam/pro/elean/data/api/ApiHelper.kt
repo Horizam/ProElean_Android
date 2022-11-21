@@ -55,7 +55,8 @@ class ApiHelper(private val apiService: ApiService) {
     suspend fun deletePostedJob(id: String) = apiService.deletePostedJob(id)
     suspend fun getBuyerOrders(
         id: String,position: Int)
-    = apiService.getBuyerOrders(id,position)
+    = apiService.
+    getBuyerOrders(id,position)
     suspend fun getSellersOrders(id: String,position: Int,) = apiService.getSellersOrders(id,position)
     suspend fun deleteJobOffer(id: String) = apiService.deleteJobOffer(id)
     suspend fun deleteUserService(id: String) = apiService.deleteUserService(id)

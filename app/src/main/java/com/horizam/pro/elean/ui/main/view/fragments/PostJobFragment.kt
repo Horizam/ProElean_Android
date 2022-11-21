@@ -121,7 +121,7 @@ class PostJobFragment : Fragment(), AdapterView.OnItemSelectedListener {
                 }
                 etPrice.text.toString().toDouble() < Constants.MINIMUM_ORDER_PRICE -> {
                     var manager: PrefManager = PrefManager(App.getAppContext()!!)
-                    if (manager.setLanguage == "0") {
+                    if (manager.setLanguage == "0"||manager.setLanguage=="") {
                         genericHandler.showErrorMessage("Minimum ${Constants.MINIMUM_ORDER_PRICE}${Constants.CURRENCY} must be entered")
                     } else {
                         genericHandler.showErrorMessage("Minimi ${Constants.MINIMUM_ORDER_PRICE}${Constants.CURRENCY} on syötettävä")
@@ -212,7 +212,7 @@ class PostJobFragment : Fragment(), AdapterView.OnItemSelectedListener {
         subcategoriesArrayList = response.subcategoriesList.map {
                 spinnerSubcategories ->
             var manager: PrefManager = PrefManager(App.getAppContext()!!)
-                if (manager.setLanguage == "0") {
+                if (manager.setLanguage == "0"||manager.setLanguage=="") {
                     SpinnerModel(id = spinnerSubcategories.id, value = spinnerSubcategories.title)
                 } else {
                     SpinnerModel(id = spinnerSubcategories.id, value = spinnerSubcategories.fiTitle)
@@ -230,7 +230,7 @@ class PostJobFragment : Fragment(), AdapterView.OnItemSelectedListener {
     private fun setUIData(response: CategoriesCountriesResponse) {
         var manager: PrefManager = PrefManager(App.getAppContext()!!)
         categoriesArrayList = response.categoriesCountriesData.categories.map { spinnerCategories ->
-            if (manager.setLanguage == "0") {
+            if (manager.setLanguage =="0"||manager.setLanguage=="") {
                 SpinnerModel(id = spinnerCategories.id!!, value = spinnerCategories.title!!)
             } else {
                 SpinnerModel(id = spinnerCategories.id!!, value = spinnerCategories.fiTitle!!)
@@ -239,17 +239,21 @@ class PostJobFragment : Fragment(), AdapterView.OnItemSelectedListener {
         for (i in 0..response.categoriesCountriesData.deliveryDays.size) {
             if (i <= response.categoriesCountriesData.deliveryDays.lastIndex) {
                 var split = response.categoriesCountriesData.deliveryDays[i].split(" ")
-                if (manager.setLanguage == "0") {
+                if (manager.setLanguage == "0"||manager.setLanguage=="") {
                     if (i == 0) {
                         daysArrayList.add("${split[0]}" + " " + "day")
                     }
-                    daysArrayList.add("${split[0]}" + " " + "days")
+                    else {
+                        daysArrayList.add("${split[0]}" + " " + "days")
+                    }
 
                 } else {
                     if (i == 0) {
                         daysArrayList.add("${split[0]}" + " " + "päivä")
                     }
-                    daysArrayList.add("${split[0]}" + " " + "päiväa")
+                    else {
+                        daysArrayList.add("${split[0]}" + " " + "päiväa")
+                    }
                 }
             }
         }

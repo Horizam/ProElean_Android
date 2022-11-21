@@ -6,6 +6,8 @@
     android:layout_height="wrap_content"
     android:layout_marginLeft="@dimen/_6sdp"
     android:layout_marginRight="@dimen/_6sdp"
+    android:clickable="true"
+    android:foregroundTint="#FFF"
     android:layout_marginBottom="@dimen/_6sdp"
     android:layout_marginTop="@dimen/_3sdp"
     app:cardCornerRadius="@dimen/_10sdp">

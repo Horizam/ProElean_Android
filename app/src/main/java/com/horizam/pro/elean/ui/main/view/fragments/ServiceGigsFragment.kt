@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.gson.Gson
+import com.horizam.pro.elean.App
 import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.api.ApiHelper
@@ -53,7 +54,7 @@ import com.horizam.pro.elean.utils.Status
 
 class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
     ContactSellerHandler, AdapterView.OnItemSelectedListener, SwipeRefreshLayout.OnRefreshListener,
-    LogoutHandler, SavedGigsHandler {
+    LogoutHandler{
 
     private lateinit var binding: FragmentServiceGigsBinding
     private lateinit var adapter: GigsAdapter
@@ -85,7 +86,6 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
         binding = FragmentServiceGigsBinding.inflate(layoutInflater, container, false)
         initViews()
         setupViewModel()
-        setupFavoritesObservers()
         setupObservers()
         setRecyclerview()
         setSearchFieldsListener()
@@ -182,9 +182,8 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
     private fun initViews() {
         swipeRefreshLayout = binding.swipeRefresh
         swipeRefreshLayout.setOnRefreshListener(this)
-        splashActivity= SplashActivity()
         from = args.from
-        savedAdapter = SavedAdapter(this)
+//        savedAdapter = SavedAdapter(this)
         prefManager = PrefManager(requireContext())
         adapter = GigsAdapter(this, this, this, this, this)
         recyclerView = binding.rvServiceGigs
@@ -324,8 +323,7 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
         else {
             val request = SearchGigsRequest(
                 query = queryHome,
-                category = slug,
-                filter = filter,
+                category = slug, filter = filter,
                 filterValue = filterValue,
                 distance = ""
             )
@@ -419,8 +417,6 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
         viewModel.sub.observe(viewLifecycleOwner) {
             adapter.submitData(viewLifecycleOwner.lifecycle, it)
         }
-    }
-    private fun setupFavoritesObservers() {
         viewModel.makeFavourite.observe(viewLifecycleOwner, makeFavouriteObserver)
     }
     private val makeFavouriteObserver = Observer<Resource<GeneralResponse>> {
@@ -428,11 +424,8 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
             when (resource.status) {
                 Status.SUCCESS -> {
                     genericHandler.showProgressBar(false)
-                    resource.data?.let { response ->
-                        handleResponse(response)
-
-
-                    }
+//                    genericHandler.showSuccessMessage(it.message.toString())
+                    viewModelSaved.getSavedGigsCall()
                 }
                 Status.ERROR -> {
                     genericHandler.showProgressBar(false)
@@ -446,7 +439,15 @@ class ServiceGigsFragment : Fragment(), OnItemClickListener, FavouriteHandler,
     }
 //
     private fun handleResponse(response: GeneralResponse) {
+    var manager: PrefManager = PrefManager(App.getAppContext()!!)
+    if (manager.setLanguage == "0"||manager.setLanguage=="") {
         genericHandler.showSuccessMessage(response.message)
+
+    }
+    else
+    {
+        genericHandler.showSuccessMessage(getString(R.string.str_succesully))
+    }
         executeApi()
         viewModelSaved.getSavedGigsCall()
 

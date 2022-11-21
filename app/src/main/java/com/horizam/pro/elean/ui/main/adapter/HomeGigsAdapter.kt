@@ -52,7 +52,7 @@ class HomeGigsAdapter(val listener: OnItemClickListener) :
                     .error(R.drawable.bg_splash)
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .into(ivService)
-                if (manager.setLanguage == "0") {
+                if (manager.setLanguage == "0"||manager.setLanguage=="") {
                     tvServiceName.text = featuredGig.s_description
                 }
                 else

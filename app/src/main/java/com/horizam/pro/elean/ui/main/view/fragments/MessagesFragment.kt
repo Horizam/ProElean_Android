@@ -53,6 +53,7 @@ import com.stfalcon.imageviewer.StfalconImageViewer
 import com.horizam.pro.elean.data.model.*
 import com.horizam.pro.elean.data.model.requests.ChatOfferRequest
 import com.horizam.pro.elean.data.model.response.GeneralResponse
+import com.horizam.pro.elean.data.model.response.ServiceDetail
 import com.horizam.pro.elean.ui.main.callbacks.*
 import com.horizam.pro.elean.ui.main.viewmodel.FirebaseNotificationRequest
 import com.horizam.pro.elean.ui.main.viewmodel.NotificationMessage
@@ -72,17 +73,21 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
     private val args: MessagesFragmentArgs by navArgs()
     private lateinit var genericHandler: GenericHandler
     private var inbox: Inbox? = null
-    private var userId: String = ""     // othere user id (may be seller or may be buyer)
+    private var userId: String = "" // othere user id (may be seller or may be buyer)
+    private var userName: String = ""
     private var myId: String = ""
     private var myName = ""
     private var count = 0
+    private var name=""
     private var inboxCombinedId = ""
+    private lateinit var intent:Intent
     private var myInfo: MessageUser? = null
     private var userInfo: MessageUser? = null
     private var offerMessage: Message? = null
     private lateinit var viewModel: MessagesViewModel
     private var chatNotExist: Boolean = true
     private var referGig: Boolean = false
+    private var gig: ServiceDetail? = null
     private lateinit var dialogChooseAttachment: Dialog
     private lateinit var bindingChooseAttachmentDialog: DialogChooseAttachmentBinding
     private lateinit var dialogFileUpload: Dialog
@@ -95,20 +100,27 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+        savedInstanceState: Bundle?)
+    : View {
         binding = FragmentMessagesBinding.inflate(layoutInflater, container, false)
-        setToolbarData()
         initViews()
         setupViewModel()
 //        setupObservers()
-        getData()
+
         setRecyclerView(
             MessageUser("", "", "", ""),
             MessageUser("", "", "", ""),
         )
+        getData()
+        setToolbar()
         setClickListeners()
         return binding.root
+    }
+    private fun setToolbar()
+    {
+        binding.toolbar.ivToolbar.setImageResource(R.drawable.ic_back)
+        binding.toolbar.ivToolbar.isVisible = true
+        binding.toolbar.tvToolbar.text = userName
     }
 
     private fun setupViewModel() {
@@ -182,6 +194,7 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
         genericHandler.showProgressBar(true)
         try {
             userId = args.id
+            userName= args.userName
             referGig = args.refersGig
             myId = prefManager.userId
             myName = prefManager.username!!
@@ -200,6 +213,7 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
     }
 
     private fun checkIfChatExists() {
+
         val query: Query = inboxReference.whereArrayContains("members", myId)
             .orderBy("sentAt", Query.Direction.DESCENDING)
         query.get().addOnSuccessListener { queryDocumentSnapshots ->
@@ -225,8 +239,7 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
                         adapter.setMyInfo(myInfo!!)
                         adapter.setUserInfo(userInfo!!)
                         updateUsersInfo(true)
-                    }
-                    if (inbox1!!.membersInfo[0].id == myId && inbox1!!.membersInfo[1].id == userId) {
+                    } else if (inbox1!!.membersInfo[0].id == myId && inbox1!!.membersInfo[1].id == userId) {
                         inbox = inbox1
                         count++
                         myInfo = MessageUser(
@@ -248,6 +261,7 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
                     genericHandler.showErrorMessage(ex.message.toString())
                 }
             }
+
         }.addOnFailureListener {
             Log.i(MessagesFragment::class.java.simpleName, it.message.toString())
             genericHandler.showErrorMessage(it.message.toString())
@@ -279,15 +293,15 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
 //                disableMessageSend(true)
 //            }.addOnFailureListener {
 //                disableMessageSend(true)
-//                genericHandler.showMessage(it.message.toString())
+//                genericHandler.showErrorMessage(it.message.toString())
 //            }
     }
 
     private fun fetchMessages() {
         messagesReference = db.collection(Constants.FIREBASE_DATABASE_ROOT).document(inbox!!.id)
             .collection("Messages")
-        val query = messagesReference.orderBy("sentAt", Query.Direction.DESCENDING).limit(10)
-        //genericHandler.showProgressBar(true)
+        val query = messagesReference.orderBy("sentAt", Query.Direction.DESCENDING).limit(100)
+        genericHandler.showProgressBar(true)
         viewModel.getMessagesCall(query)
         observeMessages(query)
     }
@@ -320,8 +334,6 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
             genericHandler.showProgressBar(false)
         }
     }
-
-
     private fun setMessageRead() {
         var membersInfo = MembersInfo()
         for (item in inbox!!.membersInfo) {
@@ -410,6 +422,7 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
 
     private fun initViews() {
         //adapter = MessageAdapter(this)
+
         recyclerView = binding.rvMessages
         db = Firebase.firestore
         firebaseStorage = FirebaseStorage.getInstance()
@@ -449,10 +462,10 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
     private fun setAdapterLoadState(adapter: MessageAdapter) {
         adapter.addLoadStateListener { loadState ->
             binding.apply {
-//                genericHandler.showProgressBar(loadState.source.refresh is LoadState.Loading)
-//                recyclerView.isVisible = loadState.source.refresh is LoadState.NotLoading
+                genericHandler.showProgressBar(loadState.source.refresh is LoadState.Loading)
+                recyclerView.isVisible = loadState.source.refresh is LoadState.NotLoading
                 btnRetry.isVisible = loadState.source.refresh is LoadState.Error
-//                textViewError.isVisible = loadState.source.refresh is LoadState.Error
+                textViewError.isVisible = loadState.source.refresh is LoadState.Error
                 // no results
                 if (loadState.source.refresh is LoadState.NotLoading &&
                     loadState.append.endOfPaginationReached &&
@@ -474,11 +487,12 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
             }
             ivSend.setOnClickListener {
                 try {
+                    genericHandler.showProgressBar(true)
                     chatNotExist = count == 0
-                    hideKeyboard()
                     disableMessageSend(false)
                     validateMessage()
                 } catch (ex: Exception) {
+                    genericHandler.showProgressBar(false)
                     disableMessageSend(true)
                     genericHandler.showErrorMessage(ex.message.toString())
                 }
@@ -759,17 +773,17 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
     private fun disableMessageSend(disable: Boolean) {
         binding.etSendMessage.clearFocus()
         binding.ivSend.isEnabled = disable
-        binding.etSendMessage.isEnabled = disable
     }
 
     private fun validateMessage() {
         val msg = binding.etSendMessage.text.toString().trim()
         if (msg.isEmpty()) {
             binding.etSendMessage.error = getString(R.string.str_enter_valid_message)
-            binding.etSendMessage.requestFocus()
             disableMessageSend(true)
+            genericHandler.showProgressBar(false)
         } else {
             try {
+                genericHandler.showProgressBar(false)
                 // use local to gmt method for utc if nothing works (also tried Date().time)
                 val utcMilliseconds = Calendar.getInstance().timeInMillis
                 sendMessageToFirebase(
@@ -907,7 +921,7 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
         val firebaseNotification = FirebaseNotificationRequest(
             subject = myInfo!!.name,
             reciever_id = userId,
-            body = "sending you a message",
+            body = "send you a message",
             data = notificationMessage
         )
         viewModel.sendNotificationCall(firebaseNotification)
@@ -1021,12 +1035,6 @@ class MessagesFragment : Fragment(), MessagesHandler, CreateOfferHandler, Checko
         }
         hashMap["membersInfo"] = membersInfo
         return hashMap
-    }
-
-    private fun setToolbarData() {
-        binding.toolbar.ivToolbar.setImageResource(R.drawable.ic_back)
-        binding.toolbar.ivToolbar.isVisible=true
-        binding.toolbar.tvToolbar.text =getString(R.string.str_messages)
     }
 
     private fun downloadFile(fileUrl: String, fileType: String) {

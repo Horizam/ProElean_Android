@@ -2,7 +2,7 @@ package com.horizam.pro.elean.data.model
 
 data class Inbox(
     val membersInfo: List<MembersInfo> = ArrayList(),
-    val members: List<String> = ArrayList(),
+    val members: MutableList<String> = ArrayList(),
     val createdBy: String = "",
     val title: String = "",
     val lastMessage: String = "",
@@ -17,7 +17,7 @@ data class Inbox(
 
 data class MembersInfo(
     val id: String = "",
-    var hasReadLastMessage: Boolean = false,
+    var hasReadLastMessage: Boolean = true,
     var type: String = "",
     var photo: String = "",
     var name: String = "",

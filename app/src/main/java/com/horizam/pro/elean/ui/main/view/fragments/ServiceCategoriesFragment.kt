@@ -85,7 +85,7 @@ class ServiceCategoriesFragment : Fragment(), OnItemClickListener,
     private fun setRecyclerView() {
         recyclerView.let {
             it.setHasFixedSize(true)
-            val gridLayoutManager = GridLayoutManager(requireContext(), 2)
+            val gridLayoutManager = GridLayoutManager(requireContext(), 1)
             it.layoutManager = gridLayoutManager
             it.adapter = adapter.withLoadStateHeaderAndFooter(
                 header = MyLoadStateAdapter { adapter.retry() },

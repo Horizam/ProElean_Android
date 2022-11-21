@@ -1,6 +1,10 @@
 package com.horizam.pro.elean
 
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -12,131 +16,180 @@ import com.google.firebase.messaging.RemoteMessage
 import com.horizam.pro.elean.data.model.BottomNotification
 import com.horizam.pro.elean.ui.main.view.activities.HomeActivity
 import com.horizam.pro.elean.ui.main.view.activities.OrderDetailsActivity
+import com.horizam.pro.elean.ui.main.view.activities.SplashActivity
 import com.horizam.pro.elean.utils.NotificationUtils
 import com.horizam.pro.elean.utils.PrefManager
 import org.greenrobot.eventbus.EventBus
 
+
+
+
+const val channelId = "notificationChannel"
+const val channelName = "com.taaply.nfcShare"
+
 class MyFirebaseMessagingService : FirebaseMessagingService() {
-
-    override fun onMessageReceived(remoteMessage: RemoteMessage) {
-        Log.d(TAG, "From: ${remoteMessage.from}")
-
-        if (remoteMessage.data.isNotEmpty()) {
-            Log.d(TAG, "Message data payload: ${remoteMessage.data}")
-            scheduleJob(remoteMessage)
-
-        }
-        remoteMessage.notification?.let {
-            Log.d(TAG, "Message Notification Body: ${it.body}")
+    override fun onMessageReceived(message: RemoteMessage) {
+        super.onMessageReceived(message)
+        if (message.data != null) {
+            Log.e("notify_type", message.data.toString())
+            try {
+                getMessage(message,message.notification!!.title!!, message.notification!!.body!!)
+            }catch (e:Exception){
+                e.printStackTrace()
+            }
         }
     }
+
     override fun onNewToken(token: String) {
         Log.d(TAG, "Refreshed token: $token")
         sendRegistrationToServer(token)
 
     }
-    private fun scheduleJob(remoteMessage: RemoteMessage) {
-        when (remoteMessage.data[Constants.TYPE]) {
-            Constants.MESSAGE -> {
-                EventBus.getDefault().post(BottomNotification(Constants.MESSAGE))
-                val bundle = Bundle()
-                bundle.putString(
-                    Constants.TYPE,
-                    remoteMessage.data[Constants.TYPE]
 
-                )
-                bundle.putString(
-                    Constants.MESSAGE,
-                    remoteMessage.data[Constants.MESSAGE]
-                )
-                bundle.putString(
-                    Constants.SENDER_ID,
-                    remoteMessage.data[Constants.SENDER_ID]
-                )
-                val intent = Intent(this, OrderDetailsActivity::class.java)
-                intent.putExtras(bundle)
-                val pendingIntent = setPendingIntent(
-                    intent
-                )
-                NotificationUtils.showNotification(
-                    remoteMessage.data[Constants.SENDER_ID].toString(),
-                    applicationContext,
-                    remoteMessage.data[Constants.SENDER_NAME].toString(),
-                    remoteMessage.data[Constants.MESSAGE].toString(),
-                    pendingIntent
-                )
+        private fun getMessage(remoteMessage: RemoteMessage,title: String, message: String) {
+            val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                val notificationChannel =
+                    NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_HIGH)
+                notificationManager.createNotificationChannel(notificationChannel)
             }
-            Constants.CREATE_DISPUTE -> {
-                EventBus.getDefault().post(BottomNotification(Constants.CREATE_DISPUTE))
-                val bundle = Bundle()
-                bundle.putString(
-                    Constants.TYPE,
-                    remoteMessage.data[Constants.TYPE]
+            Log.e("Notification  : ", remoteMessage.data.toString())
+            when (remoteMessage.data[Constants.TYPE]) {
+                Constants.MESSAGE -> {
+                    EventBus.getDefault().post(BottomNotification(Constants.MESSAGE))
+                    val bundle = Bundle()
+                    bundle.putString(
+                        Constants.TYPE,
+                        remoteMessage.data[Constants.TYPE]
 
-                )
-                bundle.putString(
-                    Constants.CREATE_DISPUTE,
-                    remoteMessage.data[Constants.CREATE_DISPUTE]
-                )
-                bundle.putString(
-                    Constants.SENDER_ID,
-                    remoteMessage.data[Constants.SENDER_ID]
-                )
-                val intent = Intent(this, OrderDetailsActivity::class.java)
-                intent.putExtras(bundle)
-                val pendingIntent = setPendingIntent(
-                    intent
-                )
-                NotificationUtils.showNotification(
-                    remoteMessage.data[Constants.SENDER_ID].toString(),
-                    applicationContext,
-                    remoteMessage.data[Constants.SENDER_NAME].toString(),
-                    remoteMessage.data[Constants.CREATE_DISPUTE].toString(),
-                    pendingIntent
-                )
-            }
-            Constants.ORDER -> {
-                EventBus.getDefault().post(BottomNotification(Constants.ORDER))
-                val title = remoteMessage.data["subject"]
-                val message = remoteMessage.data["body"]
-                val contentID = remoteMessage.data[Constants.CONTENT_ID]
-                val bundle = Bundle()
-                bundle.putString(
-                    Constants.TYPE,
-                    remoteMessage.data[Constants.TYPE]
+                    )
+                    bundle.putString(
+                        Constants.MESSAGE,
+                        remoteMessage.data[Constants.MESSAGE]
+                    )
+                    bundle.putString(
+                        Constants.SENDER_ID,
+                        remoteMessage.data[Constants.SENDER_ID]
+                    )
 
-                )
-                bundle.putString(
-                    Constants.ORDER,
-                    remoteMessage.data[Constants.ORDER]
-                )
-                bundle.putString(
-                    Constants.SENDER_ID,
-                    remoteMessage.data[Constants.SENDER_ID]
-                )
-                val intent = Intent(this, OrderDetailsActivity::class.java)
-                intent.putExtras(bundle)
-                val pendingIntent = setPendingIntent(
-                    intent
-                )
-                NotificationUtils.showNotification(
-                    contentID.toString(),
-                    applicationContext,
-                    title!!,
-                    "$message",
-                    pendingIntent
-                )
-                NotificationUtils.showNotification(
-                    remoteMessage.data[Constants.SENDER_ID].toString(),
-                    applicationContext,
-                    remoteMessage.data[Constants.SENDER_NAME].toString(),
-                    remoteMessage.data[Constants.ORDER].toString(),
-                    pendingIntent
-                )
+                    val intent = Intent(this, HomeActivity::class.java)
+                    intent.putExtras(bundle)
+                    val pendingIntent = setPendingIntent(intent)
 
-            }
+                    NotificationUtils.showNotification(
+                        remoteMessage.data[Constants.SENDER_ID].toString(),
+                        applicationContext,
+                        remoteMessage.data[Constants.SENDER_NAME].toString(),
+                        remoteMessage.data[Constants.MESSAGE].toString(),
+                        pendingIntent = PendingIntent.getActivity(
+                            this, 0, intent,
+                            PendingIntent.FLAG_MUTABLE)
+                    )
+                }
+                Constants.CREATE_DISPUTE -> {
+                    EventBus.getDefault().post(BottomNotification(Constants.CREATE_DISPUTE))
+                    val bundle = Bundle()
+                    bundle.putString(
+                        Constants.TYPE,
+                        remoteMessage.data[Constants.TYPE]
+
+                    )
+                    bundle.putString(
+                        Constants.CREATE_DISPUTE,
+                        remoteMessage.data[Constants.CREATE_DISPUTE]
+                    )
+                    bundle.putString(
+                        Constants.CONTENT_ID,
+                        remoteMessage.data[Constants.CONTENT_ID]
+                    )
+                    val intent = Intent(this, SplashActivity::class.java)
+                    intent.putExtras(bundle)
+                    val pendingIntent = setPendingIntent(
+                        intent
+                    )
+                    remoteMessage.data[Constants.CONTENT_ID]?.let {
+                        NotificationUtils.showNotification(
+                            it,
+                            applicationContext,
+                            title!!,
+                            "$message",
+                            pendingIntent
+                        )
+                    }
+                }
+                Constants.ORDER->   {
+                    EventBus.getDefault().post(BottomNotification(Constants.ORDER))
+                    //get data from data notification
+                    val title = remoteMessage.data["subject"]
+                    val message = remoteMessage.data["body"]
+                    //choose activity where you want to move when click
+                    val bundle = Bundle()
+                    bundle.putString(
+                        Constants.CONTENT_ID,
+                        remoteMessage.data[Constants.CONTENT_ID]
+                    )
+                    bundle.putString(
+                        Constants.TYPE,
+                        remoteMessage.data[Constants.TYPE]
+                    )
+                    val intent = Intent(this, SplashActivity::class.java)
+                    intent.putExtras(bundle)
+                    val pendingIntent = setPendingIntent(
+                        intent
+                    )
+//            show notification in status bar
+                    remoteMessage.data[Constants.CONTENT_ID]?.let {
+                        NotificationUtils.showNotification(
+                            it,
+                            applicationContext,
+                            title!!,
+                            "$message",
+                            pendingIntent
+                        )
+                    }
+
+//            Constants.ORDER -> {
+//                EventBus.getDefault().post(BottomNotification(Constants.ORDER))
+//                val title = remoteMessage.data["subject"]
+//                val message = remoteMessage.data["body"]
+//                val contentID = remoteMessage.data[Constants.CONTENT_ID]
+//                val bundle = Bundle()
+//                bundle.putString(
+//                    Constants.TYPE,
+//                    remoteMessage.data[Constants.TYPE]
+//
+//                )
+//                bundle.putString(
+//                    Constants.CONTENT_ID,
+//                    remoteMessage.data[Constants.CONTENT_ID]
+//                )
+//                val intent = Intent(this,HomeActivity::class.java)
+//                intent.putExtras(bundle)
+//                val pendingIntent = setPendingIntent(
+//                    intent
+//                )
+//                NotificationUtils.showNotification(
+//                    contentID.toString(),
+//                    applicationContext,
+//                    title!!,
+//                    "$message",
+//                    pendingIntent= PendingIntent.getActivity(
+//                        this, 0, intent,
+//                        PendingIntent.FLAG_MUTABLE)
+//                )
+//                NotificationUtils.showNotification(
+//                    remoteMessage.data[Constants.CONTENT_ID].toString(),
+//                    applicationContext,
+//                    remoteMessage.data[Constants.SENDER_NAME].toString(),
+//                    remoteMessage.data[Constants.ORDER].toString(),
+//                    pendingIntent= PendingIntent.getActivity(
+//                        this, 0, intent,
+//                        PendingIntent.FLAG_MUTABLE)
+//                )
+
+                }
             Constants.REJECT_DISPUTE -> {
-                EventBus.getDefault().post(BottomNotification(Constants.REJECT_DISPUTE ))
+                EventBus.getDefault().post(BottomNotification(Constants.REJECT_DISPUTE))
                 val bundle = Bundle()
                 bundle.putString(
                     Constants.TYPE,
@@ -144,25 +197,27 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
                 )
                 bundle.putString(
-                    Constants.REJECT_DISPUTE ,
-                    remoteMessage.data[Constants.REJECT_DISPUTE ]
+                    Constants.REJECT_DISPUTE,
+                    remoteMessage.data[Constants.REJECT_DISPUTE]
                 )
                 bundle.putString(
-                    Constants.SENDER_ID,
-                    remoteMessage.data[Constants.SENDER_ID]
+                    Constants.CONTENT_ID,
+                    remoteMessage.data[Constants.CONTENT_ID]
                 )
-                val intent = Intent(this, OrderDetailsActivity::class.java)
+                val intent = Intent(this, SplashActivity::class.java)
                 intent.putExtras(bundle)
                 val pendingIntent = setPendingIntent(
                     intent
                 )
-                NotificationUtils.showNotification(
-                    remoteMessage.data[Constants.SENDER_ID].toString(),
-                    applicationContext,
-                    remoteMessage.data[Constants.SENDER_NAME].toString(),
-                    remoteMessage.data[Constants.REJECT_DISPUTE].toString(),
-                    pendingIntent
-                )
+                remoteMessage.data[Constants.CONTENT_ID]?.let {
+                    NotificationUtils.showNotification(
+                        it,
+                        applicationContext,
+                        title!!,
+                        "$message",
+                        pendingIntent
+                    )
+                }
             }
             Constants.ACCEPT_DISPUTE -> {
                 EventBus.getDefault().post(BottomNotification(Constants.ACCEPT_DISPUTE))
@@ -173,25 +228,27 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
                 )
                 bundle.putString(
-                    Constants.ACCEPT_DISPUTE ,
-                    remoteMessage.data[Constants.ACCEPT_DISPUTE ]
+                    Constants.ACCEPT_DISPUTE,
+                    remoteMessage.data[Constants.ACCEPT_DISPUTE]
                 )
                 bundle.putString(
-                    Constants.SENDER_ID,
-                    remoteMessage.data[Constants.SENDER_ID]
+                    Constants.CONTENT_ID,
+                    remoteMessage.data[Constants.CONTENT_ID]
                 )
-                val intent = Intent(this, OrderDetailsActivity::class.java)
+                val intent = Intent(this, SplashActivity::class.java)
                 intent.putExtras(bundle)
                 val pendingIntent = setPendingIntent(
                     intent
                 )
-                NotificationUtils.showNotification(
-                    remoteMessage.data[Constants.SENDER_ID].toString(),
-                    applicationContext,
-                    remoteMessage.data[Constants.SENDER_NAME].toString(),
-                    remoteMessage.data[Constants.ACCEPT_DISPUTE].toString(),
-                    pendingIntent
-                )
+                remoteMessage.data[Constants.CONTENT_ID]?.let {
+                    NotificationUtils.showNotification(
+                        it,
+                        applicationContext,
+                        title!!,
+                        "$message",
+                        pendingIntent
+                    )
+                }
             }
             Constants.EXTEND_REQUEST -> {
                 EventBus.getDefault().post(BottomNotification(Constants.EXTEND_REQUEST))
@@ -206,21 +263,23 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                     remoteMessage.data[Constants.EXTEND_REQUEST ]
                 )
                 bundle.putString(
-                    Constants.SENDER_ID,
-                    remoteMessage.data[Constants.SENDER_ID]
+                    Constants.CONTENT_ID,
+                    remoteMessage.data[Constants.CONTENT_ID]
                 )
-                val intent = Intent(this, OrderDetailsActivity::class.java)
+                val intent = Intent(this, SplashActivity::class.java)
                 intent.putExtras(bundle)
                 val pendingIntent = setPendingIntent(
                     intent
                 )
-                NotificationUtils.showNotification(
-                    remoteMessage.data[Constants.SENDER_ID].toString(),
-                    applicationContext,
-                    remoteMessage.data[Constants.SENDER_NAME].toString(),
-                    remoteMessage.data[Constants.EXTEND_REQUEST].toString(),
-                    pendingIntent
-                )
+                remoteMessage.data[Constants.CONTENT_ID]?.let {
+                    NotificationUtils.showNotification(
+                        it,
+                        applicationContext,
+                        title!!,
+                        "$message",
+                        pendingIntent
+                    )
+                }
             }
             Constants.REJECTED_TIME -> {
                 EventBus.getDefault().post(BottomNotification(Constants.REJECTED_TIME))
@@ -235,21 +294,23 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                     remoteMessage.data[Constants.REJECTED_TIME ]
                 )
                 bundle.putString(
-                    Constants.SENDER_ID,
-                    remoteMessage.data[Constants.SENDER_ID]
+                    Constants.CONTENT_ID,
+                    remoteMessage.data[Constants.CONTENT_ID]
                 )
-                val intent = Intent(this, OrderDetailsActivity::class.java)
+                val intent = Intent(this,SplashActivity::class.java)
                 intent.putExtras(bundle)
                 val pendingIntent = setPendingIntent(
                     intent
                 )
-                NotificationUtils.showNotification(
-                    remoteMessage.data[Constants.SENDER_ID].toString(),
-                    applicationContext,
-                    remoteMessage.data[Constants.SENDER_NAME].toString(),
-                    remoteMessage.data[Constants.REJECTED_TIME].toString(),
-                    pendingIntent
-                )
+                remoteMessage.data[Constants.CONTENT_ID]?.let {
+                    NotificationUtils.showNotification(
+                        it,
+                        applicationContext,
+                        title!!,
+                        "$message",
+                        pendingIntent
+                    )
+                }
             }
             Constants.ACCEPTED_TIME -> {
                 EventBus.getDefault().post(BottomNotification(Constants.ACCEPTED_TIME))
@@ -264,21 +325,23 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                     remoteMessage.data[Constants.ACCEPTED_TIME ]
                 )
                 bundle.putString(
-                    Constants.SENDER_ID,
-                    remoteMessage.data[Constants.SENDER_ID]
+                    Constants.CONTENT_ID,
+                    remoteMessage.data[Constants.CONTENT_ID]
                 )
-                val intent = Intent(this, OrderDetailsActivity::class.java)
+                val intent = Intent(this, SplashActivity::class.java)
                 intent.putExtras(bundle)
                 val pendingIntent = setPendingIntent(
                     intent
                 )
-                NotificationUtils.showNotification(
-                    remoteMessage.data[Constants.SENDER_ID].toString(),
-                    applicationContext,
-                    remoteMessage.data[Constants.SENDER_NAME].toString(),
-                    remoteMessage.data[Constants.ACCEPTED_TIME].toString(),
-                    pendingIntent
-                )
+                remoteMessage.data[Constants.CONTENT_ID]?.let {
+                    NotificationUtils.showNotification(
+                        it,
+                        applicationContext,
+                        title!!,
+                        "$message",
+                        pendingIntent
+                    )
+                }
             }
             Constants.DELIVER -> {
                 EventBus.getDefault().post(BottomNotification(Constants.DELIVER ))
@@ -293,21 +356,23 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                     remoteMessage.data[Constants.DELIVER]
                 )
                 bundle.putString(
-                    Constants.SENDER_ID,
-                    remoteMessage.data[Constants.SENDER_ID]
+                    Constants.CONTENT_ID,
+                    remoteMessage.data[Constants.CONTENT_ID]
                 )
-                val intent = Intent(this, OrderDetailsActivity::class.java)
+                val intent = Intent(this, SplashActivity::class.java)
                 intent.putExtras(bundle)
                 val pendingIntent = setPendingIntent(
                     intent
                 )
-                NotificationUtils.showNotification(
-                    remoteMessage.data[Constants.SENDER_ID].toString(),
-                    applicationContext,
-                    remoteMessage.data[Constants.SENDER_NAME].toString(),
-                    remoteMessage.data[Constants.DELIVER].toString(),
-                    pendingIntent
-                )
+                remoteMessage.data[Constants.CONTENT_ID]?.let {
+                    NotificationUtils.showNotification(
+                        it,
+                        applicationContext,
+                        title!!,
+                        "$message",
+                        pendingIntent
+                    )
+                }
             }
             Constants.COMPLETE -> {
                 EventBus.getDefault().post(BottomNotification(Constants.COMPLETE))
@@ -322,21 +387,23 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                     remoteMessage.data[Constants.COMPLETE ]
                 )
                 bundle.putString(
-                    Constants.SENDER_ID,
-                    remoteMessage.data[Constants.SENDER_ID]
+                    Constants.CONTENT_ID,
+                    remoteMessage.data[Constants.CONTENT_ID]
                 )
-                val intent = Intent(this, OrderDetailsActivity::class.java)
+                val intent = Intent(this, SplashActivity::class.java)
                 intent.putExtras(bundle)
                 val pendingIntent = setPendingIntent(
                     intent
                 )
-                NotificationUtils.showNotification(
-                    remoteMessage.data[Constants.SENDER_ID].toString(),
-                    applicationContext,
-                    remoteMessage.data[Constants.SENDER_NAME].toString(),
-                    remoteMessage.data[Constants.COMPLETE].toString(),
-                    pendingIntent
-                )
+                remoteMessage.data[Constants.CONTENT_ID]?.let {
+                    NotificationUtils.showNotification(
+                        it,
+                        applicationContext,
+                        title!!,
+                        "$message",
+                        pendingIntent
+                    )
+                }
             }
             Constants.REVISION -> {
                 EventBus.getDefault().post(BottomNotification(Constants.REVISION))
@@ -351,21 +418,23 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                     remoteMessage.data[Constants.REVISION]
                 )
                 bundle.putString(
-                    Constants.SENDER_ID,
-                    remoteMessage.data[Constants.SENDER_ID]
+                    Constants.CONTENT_ID,
+                    remoteMessage.data[Constants.CONTENT_ID]
                 )
-                val intent = Intent(this, OrderDetailsActivity::class.java)
+                val intent = Intent(this, SplashActivity::class.java)
                 intent.putExtras(bundle)
                 val pendingIntent = setPendingIntent(
                     intent
                 )
-                NotificationUtils.showNotification(
-                    remoteMessage.data[Constants.SENDER_ID].toString(),
-                    applicationContext,
-                    remoteMessage.data[Constants.SENDER_NAME].toString(),
-                    remoteMessage.data[Constants.REVISION].toString(),
-                    pendingIntent
-                )
+                remoteMessage.data[Constants.CONTENT_ID]?.let {
+                    NotificationUtils.showNotification(
+                        it,
+                        applicationContext,
+                        title!!,
+                        "$message",
+                        pendingIntent
+                    )
+                }
             }
             Constants.REVIEWED -> {
                 EventBus.getDefault().post(BottomNotification(Constants.REVIEWED ))
@@ -380,21 +449,23 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                     remoteMessage.data[Constants.REVIEWED]
                 )
                 bundle.putString(
-                    Constants.SENDER_ID,
-                    remoteMessage.data[Constants.SENDER_ID]
+                    Constants.CONTENT_ID,
+                    remoteMessage.data[Constants.CONTENT_ID]
                 )
-                val intent = Intent(this, OrderDetailsActivity::class.java)
+                val intent = Intent(this,SplashActivity::class.java)
                 intent.putExtras(bundle)
                 val pendingIntent = setPendingIntent(
                     intent
                 )
-                NotificationUtils.showNotification(
-                    remoteMessage.data[Constants.SENDER_ID].toString(),
-                    applicationContext,
-                    remoteMessage.data[Constants.SENDER_NAME].toString(),
-                    remoteMessage.data[Constants.REVIEWED].toString(),
-                    pendingIntent
-                )
+                remoteMessage.data[Constants.CONTENT_ID]?.let {
+                    NotificationUtils.showNotification(
+                        it,
+                        applicationContext,
+                        title!!,
+                        "$message",
+                        pendingIntent
+                    )
+                }
             }
             Constants.OFFER -> {
                 val title = remoteMessage.data["subject"]
@@ -419,11 +490,14 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                     applicationContext,
                     title!!,
                     "$message",
-                    pendingIntent
+                    pendingIntent= PendingIntent.getActivity(
+                        this, 0, intent,
+                        PendingIntent.FLAG_MUTABLE)
                 )
             }
         }
 }
+
     private fun setPendingIntent(
         intent: Intent,
     ): PendingIntent? {
@@ -442,6 +516,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             }
         return pendingIntent
     }
+
     private fun sendRegistrationToServer(token: String?) {
         Log.d(TAG, "sendRegistrationTokenToServer($token)")
         val tokenBuilder = OneTimeWorkRequestBuilder<MyWorker>()

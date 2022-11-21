@@ -5,15 +5,15 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.google.gms.google-services'
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 33
     buildToolsVersion "29.0.3"
 
     defaultConfig {
         applicationId "com.horizam.pro.elean"
         minSdkVersion 21
-        targetSdkVersion 31
-        versionCode 32
-        versionName "4.1"
+        targetSdkVersion 33
+        versionCode 35
+        versionName "4.6"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -52,7 +52,6 @@ dependencies {
     implementation 'androidx.work:work-runtime-ktx:2.7.1'
     implementation 'com.google.firebase:firebase-auth-ktx:21.0.7'
     implementation 'com.google.mlkit:common:18.5.0'
-    implementation 'com.google.firebase:firebase-messaging-ktx:23.0.6'
     annotationProcessor "com.github.bumptech.glide:compiler:4.13.1"
     //LifeCycle
     implementation 'androidx.lifecycle:lifecycle-common:2.3.1'
@@ -64,6 +63,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:4.3.1'
+    implementation 'com.github.chaya222:AndroidOtpView:0.0.2'
     //Coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.3'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
@@ -102,10 +102,11 @@ dependencies {
     implementation 'id.zelory:compressor:3.0.1'
     // Firebase
     implementation platform('com.google.firebase:firebase-bom:28.4.1')
-    implementation 'com.google.firebase:firebase-messaging'
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-firestore-ktx'
     implementation 'com.google.firebase:firebase-storage'
+    implementation 'com.google.firebase:firebase-messaging:23.1.0'
+    implementation 'com.google.firebase:firebase-iid:21.1.0'
     // Firestore FirebaseUI Library
     implementation 'com.firebaseui:firebase-ui-firestore:5.0.0'
     // Coroutines

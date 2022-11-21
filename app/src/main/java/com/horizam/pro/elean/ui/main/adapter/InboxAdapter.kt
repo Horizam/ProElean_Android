@@ -1,7 +1,10 @@
 package com.horizam.pro.elean.ui.main.adapter
 
+import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
+import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -31,7 +34,7 @@ class InboxAdapter(private val listener: InboxHandler) :
     override fun onBindViewHolder(holder: DataViewHolder, position: Int) {
         val currentItem = getItem(position)
         if (currentItem != null) {
-            holder.bind(currentItem , holder)
+            holder.bind(currentItem, holder)
         }
     }
 
@@ -87,6 +90,8 @@ class InboxAdapter(private val listener: InboxHandler) :
                             tvUserName.text = member.name
                             checkPhotoEmpty(member)
                         }
+//                        var bundle=Bundle()
+//                        bundle.putString("name", tvUserName.text.toString())
                     }
                 } catch (exception: Exception) {
                     Log.i("Exception", exception.message.toString())

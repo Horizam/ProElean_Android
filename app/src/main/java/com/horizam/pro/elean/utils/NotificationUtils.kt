@@ -9,13 +9,14 @@ import androidx.core.app.NotificationCompat
 import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
 import android.os.Build
+import com.horizam.pro.elean.channelId
 
 
 class NotificationUtils {
 
     companion object {
 
-        private val VIBRATE_PATTERN = longArrayOf(1000, 1000, 1000, 1000, 1000)
+        val VIBRATE_PATTERN = longArrayOf(1000, 1000, 1000, 1000, 1000)
 
 
         fun createNotification(context: Context, file: String) {
@@ -23,10 +24,10 @@ class NotificationUtils {
                 context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 val notificationChannel = NotificationChannel(
-                    Constants.NOTIFICATION_CHANNEL_ID,
+                    Constants.channelId,
                     Constants.DOWNLOAD_NOTIFICATION_CHANNEL_NAME,
-                    NotificationManager.IMPORTANCE_DEFAULT
-                )
+                    NotificationManager.IMPORTANCE_HIGH)
+                    notificationManager.createNotificationChannel(notificationChannel)
 
                 // Configure the notification channel.
                 notificationChannel.apply {
@@ -40,7 +41,7 @@ class NotificationUtils {
             }
 
             val notificationBuilder =
-                NotificationCompat.Builder(context, Constants.NOTIFICATION_CHANNEL_ID)
+                NotificationCompat.Builder(context, channelId)
             notificationBuilder.setAutoCancel(true)
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setContentTitle(context.getString(R.string.str_file_downloaded))
@@ -53,10 +54,8 @@ class NotificationUtils {
                 .setSound(null)
                 .setSmallIcon(R.mipmap.ic_launcher_round)
 
-            notificationManager.notify(
-                Constants.DOWNLOAD_NOTIFICATION_ID,
-                notificationBuilder.build()
-            )
+
+            notificationManager.notify(0, notificationBuilder.build())
         }
 
         fun showNotification(
@@ -67,8 +66,7 @@ class NotificationUtils {
             pendingIntent: PendingIntent?
         ) {
 
-            val notificationManager =
-                context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 val notificationChannel = NotificationChannel(
@@ -87,10 +85,9 @@ class NotificationUtils {
                 }
                 notificationManager.createNotificationChannel(notificationChannel)
             }
-
-            val notificationBuilder =
-                NotificationCompat.Builder(context, Constants.NOTIFICATION_CHANNEL_ID)
-            notificationBuilder.setAutoCancel(true)
+            val notificationBuilder = NotificationCompat.Builder(context, channelId)
+            notificationBuilder
+                .setAutoCancel(true)
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setContentTitle(title)
                 .setContentText(description)
@@ -100,11 +97,7 @@ class NotificationUtils {
                 .setSound(null)
                 .setContentIntent(pendingIntent)
                 .setSmallIcon(R.mipmap.ic_launcher_round)
-
-            notificationManager.notify(
-                Constants.GENERAL_NOTIFICATION_ID,
-                notificationBuilder.build()
-            )
+            notificationManager.notify(0,notificationBuilder.build())
         }
     }
 }

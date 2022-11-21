@@ -22,7 +22,8 @@ class MessagesViewModel(
         mainRepository.getMessages(query).cachedIn(viewModelScope)
     }
 
-    val chatOrder = chatOrderRequest.switchMap {
+
+    val chatOrder= chatOrderRequest.switchMap {
         liveData(Dispatchers.IO) {
             emit(Resource.loading(data = null))
             try {
@@ -33,7 +34,6 @@ class MessagesViewModel(
             }
         }
     }
-
     val sendNotification = notification.switchMap {
         liveData(Dispatchers.IO) {
             emit(Resource.loading(data = null))

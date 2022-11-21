@@ -191,22 +191,22 @@ class OrderMessagesFragment(var order: Order) : Fragment(), MessagesHandler, Cre
     }
 
     private fun getData() {
-        genericHandler.showProgressBar(true)
         try {
-            if (order.buyer_id == prefManager.userId) {
                 userId = order.seller_id
                 userName = order.username
                 userPhoto = order.image
-            }
-            referGig = false
             myId = prefManager.userId
             myName = prefManager.username!!
-            try {
-                checkIfChatExists()
+            if (userId != "" && myId != "") {
+                try {
+                    checkIfChatExists()
             } catch (ex: Exception) {
                 genericHandler.showErrorMessage(ex.message.toString())
             }
-        } catch (ex: Exception) {
+
+            }
+        }
+            catch (ex: Exception) {
             genericHandler.showProgressBar(false)
             genericHandler.showErrorMessage(ex.message.toString())
         }
@@ -217,11 +217,10 @@ class OrderMessagesFragment(var order: Order) : Fragment(), MessagesHandler, Cre
         chatRef.get().addOnSuccessListener { documentSnapshot ->
 //            chatNotExist = queryDocumentSnapshots.size() == 0
             count = 0
-            genericHandler.showProgressBar(false)
             val inbox1 = documentSnapshot.toObject(Inbox::class.java)
             if (inbox1 != null) {
                 try {
-                    if (inbox1!!.members[0] == userId && inbox1.members[1] == myId) {
+                    if (inbox1!!.membersInfo[0].id == userId && inbox1!!.membersInfo[1].id == myId) {
                         inbox = inbox1
                         count++
                         val myInfo = MessageUser(
@@ -238,7 +237,7 @@ class OrderMessagesFragment(var order: Order) : Fragment(), MessagesHandler, Cre
                         adapter.setUserInfo(userInfo)
                         updateUsersInfo(true)
                     }
-                    if (inbox1.members[0] == myId && inbox1.members[1] == userId) {
+                    if (inbox1!!.membersInfo[0].id == myId && inbox1!!.membersInfo[1].id == userId) {
                         inbox = inbox1
                         count++
                         val myInfo = MessageUser(
@@ -337,8 +336,7 @@ class OrderMessagesFragment(var order: Order) : Fragment(), MessagesHandler, Cre
     }
 
     private fun fetchMessages() {
-        messagesReference =
-            db.collection(Constants.FIREBASE_DATABASE_ORDERS_CONVERSATION).document(inbox!!.id)
+        messagesReference = db.collection(Constants.FIREBASE_DATABASE_ORDERS_CONVERSATION).document(inbox!!.id)
                 .collection("Messages")
         val query = messagesReference.orderBy("sentAt", Query.Direction.DESCENDING).limit(10)
         //genericHandler.showProgressBar(true)
@@ -347,16 +345,24 @@ class OrderMessagesFragment(var order: Order) : Fragment(), MessagesHandler, Cre
     }
 
     private fun observeMessages(query: Query) {
+        genericHandler.showProgressBar(true)
         query.addSnapshotListener { snapshots, e ->
             if (e != null) {
                 genericHandler.showProgressBar(false)
                 genericHandler.showErrorMessage(e.message.toString())
                 return@addSnapshotListener
             }
-
+//            var messageCount = 0
+//            var size = 0
+//            for (item in snapshots!!.documentChanges) {
+//                if (item.type == DocumentChange.Type.ADDED) {
+//                    size++
+//                }
+//            }
             for (dc in snapshots!!.documentChanges) {
                 when (dc.type) {
                     DocumentChange.Type.ADDED -> {
+                        adapter.refresh()
                     }
                     DocumentChange.Type.MODIFIED -> {
                     }
@@ -476,7 +482,6 @@ class OrderMessagesFragment(var order: Order) : Fragment(), MessagesHandler, Cre
             ivSend.setOnClickListener {
                 try {
                     chatNotExist = count == 0
-                    hideKeyboard()
                     disableMessageSend(false)
                     validateMessage()
                 } catch (ex: Exception) {
@@ -759,14 +764,12 @@ class OrderMessagesFragment(var order: Order) : Fragment(), MessagesHandler, Cre
     private fun disableMessageSend(disable: Boolean) {
         binding.etSendMessage.clearFocus()
         binding.ivSend.isEnabled = disable
-        binding.etSendMessage.isEnabled = disable
     }
 
     private fun validateMessage() {
         val msg = binding.etSendMessage.text.toString().trim()
         if (msg.isEmpty()) {
             binding.etSendMessage.error = getString(R.string.str_enter_valid_message)
-            binding.etSendMessage.requestFocus()
             disableMessageSend(true)
         } else {
             try {
@@ -869,10 +872,7 @@ class OrderMessagesFragment(var order: Order) : Fragment(), MessagesHandler, Cre
                 messageGig = null
             )
             referGig = false
-            messageSavedOrNot(
-                reference, messageModel, attachmentType, message, senderId,
-                sentAt, inboxReference
-            )
+            messageSavedOrNot(reference, messageModel, attachmentType, message, senderId, sentAt, inboxReference)
         }.addOnFailureListener {
             disableMessageSend(true)
         }
@@ -951,6 +951,7 @@ class OrderMessagesFragment(var order: Order) : Fragment(), MessagesHandler, Cre
     ) {
         when (attachmentType) {
             Constants.MESSAGE_TYPE_TEXT -> updateLastMessage(
+
                 message, senderId, myName,
                 sentAt, inboxReference.id, reference.id
             )

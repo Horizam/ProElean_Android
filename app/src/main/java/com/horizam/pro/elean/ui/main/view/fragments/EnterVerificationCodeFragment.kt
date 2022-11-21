@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.horizam.pro.elean.App
+import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
 import com.horizam.pro.elean.data.model.requests.ForgetChangePasswordRequest
@@ -17,6 +19,7 @@ import com.horizam.pro.elean.databinding.FragmentEnterVerificationCodeBinding
 import com.horizam.pro.elean.ui.base.ViewModelFactory
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
 import com.horizam.pro.elean.ui.main.viewmodel.ForgotPasswordViewModel
+import com.horizam.pro.elean.utils.PrefManager
 import com.horizam.pro.elean.utils.Status
 import com.horizam.pro.elean.utils.Validator
 import kotlinx.android.synthetic.main.fragment_enter_verification_code.*
@@ -69,7 +72,15 @@ class EnterVerificationCodeFragment : Fragment() {
     }
 
     private fun handleResponse(response: GeneralResponse) {
-        genericHandler.showSuccessMessage(response.message)
+        var manager: PrefManager = PrefManager(App.getAppContext()!!)
+        if (manager.setLanguage == "0"||manager.setLanguage=="") {
+            genericHandler.showSuccessMessage(response.message)
+
+        }
+        else
+        {
+            genericHandler.showSuccessMessage(getString(R.string.str_succesully))
+        }
         this.findNavController().popBackStack()
         this.findNavController().popBackStack()
     }

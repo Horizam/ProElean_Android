@@ -13,7 +13,7 @@ class PrefManager(_context: Context) {
     var pref: SharedPreferences = _context.getSharedPreferences(Constants.PREF_NAME, Context.MODE_PRIVATE)
     private val editor: SharedPreferences.Editor = pref.edit()
     var setLanguage: String?
-        get() = pref.getString(LANG,BaseUtils.lang)
+        get() = pref.getString(LANG,"")
         set(value) {
             if (value != null) {
                 editor.putString(LANG,value)

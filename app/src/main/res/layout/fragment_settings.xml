@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <include
@@ -21,37 +25,6 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_10sdp"
             android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/tv_terms"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:padding="@dimen/_12sdp"
-                android:text="@string/term_of_services"
-                android:textColor="@color/colorBlack"
-                android:textSize="@dimen/_12ssp" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/colorGrey" />
-
-            <TextView
-                android:id="@+id/tv_privacy"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:padding="@dimen/_12ssp"
-                android:text="@string/privacy_policy"
-                android:textColor="@color/colorBlack"
-                android:textSize="@dimen/_12ssp" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/colorGrey" />
-
             <TextView
                 android:id="@+id/tv_edit_profile"
                 android:layout_width="match_parent"
@@ -108,6 +81,7 @@
                 android:layout_height="1dp"
                 android:background="@color/colorGrey" />
 
+
             <TextView
                 android:id="@+id/tv_add_account"
                 android:layout_width="match_parent"
@@ -117,9 +91,131 @@
                 android:text="@string/str_withdrawal_account"
                 android:textColor="@color/colorBlack"
                 android:textSize="@dimen/_12ssp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorGrey" />
+            <TextView
+                android:id="@+id/tv_legal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:padding="@dimen/_12sdp"
+                android:text="@string/str_legal"
+                android:textColor="@color/colorGrey"
+                android:textSize="@dimen/_12ssp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorGrey" />
+            <TextView
+                android:id="@+id/tv_terms"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:padding="@dimen/_12sdp"
+                android:text="@string/str_terms_and_condition"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/_12ssp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorGrey" />
+
+            <TextView
+                android:id="@+id/tv_privacy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:padding="@dimen/_12ssp"
+                android:text="@string/privacy_policy"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/_12ssp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:visibility="gone"
+                android:background="@color/colorGrey" />
+            <TextView
+                android:id="@+id/tv_career"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:visibility="gone"
+                android:padding="@dimen/_12sdp"
+                android:text="@string/str_careers"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/_12ssp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorGrey" />
+            <TextView
+                android:id="@+id/tv_intellectual"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:padding="@dimen/_12sdp"
+                android:text="@string/str_intellectual_property_rights"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/_12ssp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorGrey" />
+            <TextView
+                android:id="@+id/tv_help"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:padding="@dimen/_12sdp"
+                android:text="@string/str_help_and_support"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/_12ssp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorGrey" />
+            <TextView
+                android:id="@+id/tv_trust"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:padding="@dimen/_12sdp"
+                android:text="@string/str_trust_and_safety"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/_12ssp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorGrey" />
+            <TextView
+                android:id="@+id/tv_selling_proelean"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:padding="@dimen/_12sdp"
+                android:text="@string/str_selling_on_pro_elean"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/_12ssp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorGrey" />
+            <TextView
+                android:id="@+id/tv_buying_proelean"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:padding="@dimen/_12sdp"
+                android:text="@string/str_buying_on_pro_elean"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/_12ssp" />
 
         </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

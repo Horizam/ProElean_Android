@@ -104,7 +104,7 @@ class SupportFragment : Fragment() {
     private fun setToolbarData() {
         binding.toolbar.ivToolbar.setImageResource(R.drawable.ic_back)
         binding.toolbar.ivToolbar.isVisible=true
-        binding.toolbar.tvToolbar.text = App.getAppContext()!!.getString(R.string.str_support)
+        binding.toolbar.tvToolbar.text =getString(R.string.str_support)
     }
 
     private fun setupViewModel() {

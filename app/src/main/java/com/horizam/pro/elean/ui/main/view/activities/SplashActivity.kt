@@ -34,7 +34,7 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         var manager: PrefManager = PrefManager(App.getAppContext()!!)
-            if (manager.setLanguage == "0") {
+            if (manager.setLanguage ==""||manager.setLanguage=="0") {
                 setLocal("en")
             } else {
                 setLocal("fi")
@@ -48,9 +48,7 @@ class SplashActivity : AppCompatActivity() {
         configuration.locale = locale
         baseContext.resources.updateConfiguration(
             configuration,
-            baseContext.resources.displayMetrics
-        )
-
+            baseContext.resources.displayMetrics)
         if (intent!!.hasExtra(Constants.TYPE)) {
             if (intent.getStringExtra(Constants.TYPE).toString() == Constants.MESSAGE) {
                 bundle.putString(
@@ -63,10 +61,11 @@ class SplashActivity : AppCompatActivity() {
                 )
                 bundle.putString(
                     Constants.SENDER_ID,
-                    intent.getStringExtra(Constants.SENDER_ID).toString()
-                )
+                    intent.getStringExtra(Constants.SENDER_ID).toString())
                 loadInitialActivityWithBundle()
-            } else if (intent.getStringExtra(Constants.TYPE).toString() == Constants.ORDER) {
+            }
+
+            else if (intent.getStringExtra(Constants.TYPE).toString() == Constants.ORDER) {
                 val contentID = intent.getStringExtra(Constants.CONTENT_ID)
                 bundle.putString(
                     Constants.TYPE,
@@ -74,8 +73,7 @@ class SplashActivity : AppCompatActivity() {
                 )
                 bundle.putString(
                     Constants.CONTENT_ID,
-                    contentID
-                )
+                    contentID)
                 val intent = Intent(this, HomeActivity::class.java)
                 intent.putExtras(bundle)
                 startActivity(intent)

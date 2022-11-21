@@ -219,7 +219,7 @@ class BecomeFreelancerOneFragment : Fragment(), AdapterView.OnItemSelectedListen
     private fun setUIData(response: CategoriesCountriesResponse) {
         categoriesArrayList = response.categoriesCountriesData.categories.map{
                 spinnerCategories ->
-            if(prefManager.setLanguage=="0")
+            if(prefManager.setLanguage=="0"||prefManager.setLanguage=="")
             {
                 SpinnerModel(  id = spinnerCategories.id!!, value = spinnerCategories.title!!)
             }

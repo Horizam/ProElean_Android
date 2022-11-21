@@ -32,7 +32,6 @@ class SettingsFragment : Fragment() {
     private lateinit var genericHandler: GenericHandler
     private lateinit var privacyPolicyResponse: PrivacyPolicyResponse
     private lateinit var languageAndCurrencyResponse: LanguageAndCurrencyResponse1
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
         genericHandler = context as GenericHandler
@@ -50,16 +49,27 @@ class SettingsFragment : Fragment() {
         setClickListeners()
         return binding.root
     }
-
-
     private fun exeApi() {
         viewModel.getLanguageAndCurrency("data")
     }
 
     private fun setClickListeners() {
         binding.tvTerms.setOnClickListener {
+//            findNavController().navigate(R.id.webViewFragment)
             val openURL = Intent(Intent.ACTION_VIEW)
             openURL.data = Uri.parse("https://dex.proelean.com/general/terms-conditions")
+            startActivity(openURL)
+//            if (this::privacyPolicyResponse.isInitialized) {
+//                val termsConditions = privacyPolicyResponse.data.termConditions.description
+//                SettingsFragmentDirections.actionSettingsFragmentToTermsFragment(termsConditions)
+//                    .also { navDirections ->
+//                        findNavController().navigate(navDirections)
+//                    }
+//            }
+        }
+        binding.tvCareer.setOnClickListener {
+            val openURL = Intent(Intent.ACTION_VIEW)
+            openURL.data = Uri.parse("https://dex.proelean.com/general/careers")
             startActivity(openURL)
 //            if (this::privacyPolicyResponse.isInitialized) {
 //                val termsConditions = privacyPolicyResponse.data.termConditions.description
@@ -80,6 +90,31 @@ class SettingsFragment : Fragment() {
 //                        findNavController().navigate(navDirections)
 //                    }
 //            }
+        }
+        binding.tvIntellectual.setOnClickListener {
+            val openURL = Intent(Intent.ACTION_VIEW)
+            openURL.data = Uri.parse("https://dex.proelean.com/general/intellectual-property-rights")
+            startActivity(openURL)
+        }
+        binding.tvHelp.setOnClickListener {
+            val openURL = Intent(Intent.ACTION_VIEW)
+            openURL.data = Uri.parse("https://dex.proelean.com/general/help-support")
+            startActivity(openURL)
+        }
+        binding.tvTrust.setOnClickListener {
+            val openURL = Intent(Intent.ACTION_VIEW)
+            openURL.data = Uri.parse("https://dex.proelean.com/general/trust-safety")
+            startActivity(openURL)
+        }
+        binding.tvSellingProelean.setOnClickListener {
+            val openURL = Intent(Intent.ACTION_VIEW)
+            openURL.data = Uri.parse("https://dex.proelean.com/general/selling-on-proelean")
+            startActivity(openURL)
+        }
+        binding.tvBuyingProelean.setOnClickListener {
+            val openURL = Intent(Intent.ACTION_VIEW)
+            openURL.data = Uri.parse("https://dex.proelean.com/general/buying-on-proelean")
+            startActivity(openURL)
         }
         binding.tvEditProfile.setOnClickListener {
             findNavController().navigate(R.id.editProfileFragment)

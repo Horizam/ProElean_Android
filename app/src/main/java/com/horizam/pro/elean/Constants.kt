@@ -11,6 +11,7 @@ class Constants {
 
         //const val BASE_URL = "https://5e510330f2c0d300147c034c.mockapi.io/"
         const val BASE_URL = "https://api.dex.proelean.com/"
+       const val USER_OBJECT="user"
         const val LANG = "language"
         const val STRIPE_PUBLISH_KEY =
             "pk_test_51JjiUJEo1VO7fqooIIFHdo9uVkpnmnG5BkshucX4IxQ9M5A6Z4rRpuBe6B4wZrkAivLQURv0u5891hkqW5y8LAg500wyyLYrYT"
@@ -29,6 +30,8 @@ class Constants {
         var GENERAL_NOTIFICATION_ID = 199
         const val DOWNLOAD_NOTIFICATION_CHANNEL_NAME = "Download Completed"
         const val STATUS_OK = 200
+        const val channelId = "notificationChannel"
+        const val channelName = "com.taaply.nfcShare"
         const val REQUEST_CODE = 1211
         const val RESULT_CODE = 1212
         const val LOADING_ITEM = 0
@@ -36,7 +39,8 @@ class Constants {
         const val DATA_ITEM = 1
         const val STARTING_PAGE_INDEX = 1
         const val STARTING_ARRAY_INDEX = 0
-        const val MESSAGE_TYPE_TEXT = 0
+        var MESSAGE_TYPE_TEXT = 0
+        const val NORMAL_MESSAGE_TYPE_TEXT = 0
         const val MESSAGE_TYPE_IMAGE = 1
         const val MESSAGE_TYPE_VIDEO = 2
         const val MESSAGE_TYPE_AUDIO = 3

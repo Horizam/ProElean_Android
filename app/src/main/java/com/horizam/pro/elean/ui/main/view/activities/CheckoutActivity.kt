@@ -12,6 +12,7 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
+import com.horizam.pro.elean.App
 import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.api.ApiHelper
@@ -24,6 +25,7 @@ import com.horizam.pro.elean.databinding.DialogOrderSuccessBinding
 import com.horizam.pro.elean.ui.base.ViewModelFactory
 import com.horizam.pro.elean.ui.main.viewmodel.CheckOutViewModel
 import com.horizam.pro.elean.utils.BaseUtils.Companion.hideKeyboard
+import com.horizam.pro.elean.utils.PrefManager
 import com.horizam.pro.elean.utils.Status
 import com.stripe.android.PaymentConfiguration
 import com.stripe.android.Stripe
@@ -104,7 +106,15 @@ class CheckoutActivity : AppCompatActivity(), CoroutineScope {
     }
 
     private fun handleResponse(response: GeneralResponse) {
-        showMessage(response.message)
+        var manager: PrefManager = PrefManager(App.getAppContext()!!)
+        if (manager.setLanguage == "0"||manager.setLanguage=="") {
+            showMessage(response.message)
+
+        }
+        else
+        {
+            showMessage(getString(R.string.str_order_placed_successfully))
+        }
         dialogOrderStatus.show()
     }
 
@@ -163,8 +173,7 @@ class CheckoutActivity : AppCompatActivity(), CoroutineScope {
     private fun getData() {
         val gson = Gson()
         customOrderRequest = gson.fromJson(
-            intent.getStringExtra(Constants.CUSTOM_ORDER_KEY),
-            CustomOrderRequest::class.java
+            intent.getStringExtra(Constants.CUSTOM_ORDER_KEY), CustomOrderRequest::class.java
         )
 
         intent?.let {

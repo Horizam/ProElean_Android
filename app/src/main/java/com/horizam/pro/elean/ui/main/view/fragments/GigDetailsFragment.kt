@@ -314,7 +314,7 @@ class GigDetailsFragment : Fragment(), OnItemClickListener,
             }
             tvCategoryPrice.text = Constants.CURRENCY.plus(" ").plus(serviceDetail.price.toString())
             tvServiceDetailTitle.text = serviceDetail.s_description
-            if(prefManager.setLanguage=="0")
+            if(prefManager.setLanguage=="0"||prefManager.setLanguage=="")
             {
                 tvCategoryName.text = serviceDetail.category.title
                 tvSubcategoryName.text = serviceDetail.sub_category.title

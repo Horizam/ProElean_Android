@@ -194,7 +194,7 @@ class HomeFragment : Fragment(), OnItemClickListener, SwipeRefreshLayout.OnRefre
         if (response.data.categories?.isNotEmpty()!!) {
             generalServicesArrayList = response.data.categories
             servicesArrayList = generalServicesArrayList.map { spinnerServices ->
-                if(prefManager.setLanguage=="0")
+                if(prefManager.setLanguage=="0"||prefManager.setLanguage=="")
                 {
                     SpinnerModel(id = spinnerServices.slug, value = spinnerServices.title)
 

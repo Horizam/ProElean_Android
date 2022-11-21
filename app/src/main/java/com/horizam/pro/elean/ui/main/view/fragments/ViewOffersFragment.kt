@@ -53,6 +53,9 @@ class ViewOffersFragment : Fragment(), OnItemClickListener, ViewOffersHandler, C
     private lateinit var bindingDialogOrderSuccessBinding: DialogOrderSuccessBinding
     private val args: ViewOffersFragmentArgs by navArgs()
     private var offerId: String = ""
+    private var deliveryTime:String=""
+    private var revision:String=""
+    private var price:String=""
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -160,7 +163,7 @@ class ViewOffersFragment : Fragment(), OnItemClickListener, ViewOffersHandler, C
     private fun setToolbarData() {
         binding.toolbar.ivToolbar.setImageResource(R.drawable.ic_back)
         binding.toolbar.ivToolbar.isVisible=true
-        binding.toolbar.tvToolbar.text = App.getAppContext()!!.getString(R.string.str_view_offers)
+        binding.toolbar.tvToolbar.text = getString(R.string.str_view_offers)
     }
 
     private fun setupViewModel() {
@@ -273,6 +276,9 @@ class ViewOffersFragment : Fragment(), OnItemClickListener, ViewOffersHandler, C
             bindingDeleteDialog.btnYes.setOnClickListener {
                 dialogDelete.dismiss()
                 offerId = item.id
+                deliveryTime=item.delivery_time
+                revision=item.revision
+                price= item.price.toString()
                 val checkoutBottomSheet = CheckoutBottomSheet(this)
                 checkoutBottomSheet.show(
                     requireActivity().supportFragmentManager,
@@ -287,8 +293,11 @@ class ViewOffersFragment : Fragment(), OnItemClickListener, ViewOffersHandler, C
         if (offerId != "") {
             genericHandler.showProgressBar(true)
             val acceptOrderRequest = AcceptOrderRequest(
-                offer_id = offerId,
-                token = token
+                service_id= offerId,
+                token = token,
+                deliveryTime = deliveryTime,
+                revision = revision,
+                price = price
             )
             viewModel.acceptOrderCall(acceptOrderRequest)
         }

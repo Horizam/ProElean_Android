@@ -17,6 +17,7 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.horizam.pro.elean.App
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
@@ -30,6 +31,7 @@ import com.horizam.pro.elean.ui.main.callbacks.BuyerRequestsHandler
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
 import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
 import com.horizam.pro.elean.ui.main.viewmodel.BuyerRequestsViewModel
+import com.horizam.pro.elean.utils.PrefManager
 import com.horizam.pro.elean.utils.Resource
 import com.horizam.pro.elean.utils.Status
 
@@ -196,7 +198,15 @@ class BuyerRequestsFragment : Fragment(), OnItemClickListener, BuyerRequestsHand
     }
 
     private fun handleResponse(response: GeneralResponse) {
-        genericHandler.showSuccessMessage(response.message)
+        var manager: PrefManager = PrefManager(App.getAppContext()!!)
+        if (manager.setLanguage == "0"||manager.setLanguage=="") {
+            genericHandler.showSuccessMessage(response.message)
+
+        }
+        else
+        {
+            genericHandler.showSuccessMessage(getString(R.string.str_offer_removed))
+        }
         exeApi()
     }
 

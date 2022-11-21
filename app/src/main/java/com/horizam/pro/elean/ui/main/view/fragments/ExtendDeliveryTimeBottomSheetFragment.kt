@@ -45,7 +45,7 @@ class ExtendDeliveryTimeBottomSheetFragment(var orderDetailsFragment: OrderDetai
     private fun setNoOfDaysSpinner() {
         var manager: PrefManager = PrefManager(App.getAppContext()!!)
         for (pos in 0 until 59) {
-            if (manager.setLanguage == "0") {
+            if (manager.setLanguage == "0"||manager.setLanguage=="") {
 
                 if(pos >1)
                 {

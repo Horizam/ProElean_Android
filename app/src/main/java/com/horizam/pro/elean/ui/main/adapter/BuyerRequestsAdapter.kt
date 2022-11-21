@@ -80,20 +80,33 @@ class BuyerRequestsAdapter(
             binding.apply {
                 try {
                     tvName.text = buyerRequest.user.username
-                    tvDate.text = LocalDateTime.now().format(DateTimeFormatter.ofPattern("MMM-dd-yyyy"))
-                    tvDuration.text = buyerRequest.delivery_time
-                    tvDescription.setText(Html.fromHtml(Html.fromHtml(buyerRequest.description).toString()))
+                    tvDate.text =
+                        LocalDateTime.now().format(DateTimeFormatter.ofPattern("MMM-dd-yyyy"))
+                    if (prefManager.setLanguage == "0" || prefManager.setLanguage == "") {
 
-                    tvBudget.text = buyerRequest.budget.toString().plus(Constants.CURRENCY)
+                        tvDuration.text = buyerRequest.delivery_time[0] + " " + "day"
+                    } else {
+                        tvDuration.text = buyerRequest.delivery_time[0] + " " + "priva"
+                    }
+//                    else{
+//                       if(buyerRequest.delivery_time[0].equals(1)){
+//                           tvDuration.text = buyerRequest.delivery_time[0] + " " + "priva"
+//                       }
+//                       else{
+//
+//                           tvDuration.text = buyerRequest.delivery_time[0] + " " + "privaa"
+//                       }
+//                    }
+
+                    tvDescription.setText(Html.fromHtml(Html.fromHtml(buyerRequest.description).toString()))
+                    tvBudget.text = "€"+buyerRequest.budget.toString()
                     if (buyerRequest.cinic.isEmpty()) {
-                        if(prefManager.setLanguage=="0")
-                        {
+                        if (prefManager.setLanguage == "0"||prefManager.setLanguage=="") {
                             tvOffers.text = buyerRequest.total_offers.toString().plus(" offer sent")
                             tvDocument.text = "No Attachment"
-                        }
-                        else
-                        {
-                            tvOffers.text = buyerRequest.total_offers.toString().plus (" tarjous lähetetty")
+                        } else {
+                            tvOffers.text =
+                                buyerRequest.total_offers.toString().plus(" tarjous lähetetty")
                             tvDocument.text = "Ei liitettä"
                         }
 

@@ -203,17 +203,20 @@ class SellerServicesFragment : Fragment(), OnItemClickListener, SendOfferHandler
                 for (i in 0..categoriesCountriesResponse.categoriesCountriesData.deliveryDays.size) {
                     if (i <= categoriesCountriesResponse.categoriesCountriesData.deliveryDays.lastIndex) {
                         var split = categoriesCountriesResponse.categoriesCountriesData.deliveryDays[i].split(" ")
-                        if (manager.setLanguage == "0") {
+                        if (manager.setLanguage =="0"||manager.setLanguage=="") {
                             if (i == 0) {
                                 deliveryDaysList.add("${split[0]}" + " " + "day")
                             }
-                            deliveryDaysList.add("${split[0]}" + " " + "days")
+                            else {
+                                deliveryDaysList.add("${split[0]}" + " " + "days")
+                            }
 
                         } else {
                             if (i == 0) {
                                 deliveryDaysList.add("${split[0]}" + " " + "päivä")
+                            } else {
+                                deliveryDaysList.add("${split[0]}" + " " + "päiväa")
                             }
-                            deliveryDaysList.add("${split[0]}" + " " + "päiväa")
                         }
                     }
                 }

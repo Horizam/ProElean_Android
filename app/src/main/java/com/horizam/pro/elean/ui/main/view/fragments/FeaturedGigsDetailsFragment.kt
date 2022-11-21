@@ -118,9 +118,10 @@ class FeaturedGigsDetailsFragment : Fragment(), OnItemClickListener,
             btnContactSeller.setOnClickListener {
                 try {
                     if (prefManager.userId != userId && userId != "") {
+                      bundle.putString("seller_username", serviceDetail.service_user.username)
                         FeaturedGigsDetailsFragmentDirections.actionFeaturedGigsDetailsFragmentToMessagesFragment(
-                            userName = serviceDetail.service_user.username,
-                            photo = serviceDetail.service_user.image,
+                            userName = "",
+                            photo = "",
                             id = userId
                         ).also {
                             findNavController().navigate(it)
@@ -208,7 +209,7 @@ class FeaturedGigsDetailsFragment : Fragment(), OnItemClickListener,
             tvUserName.text = serviceDetail.service_user.username
             tvCategoryPrice.text = Constants.CURRENCY.plus(" ").plus(serviceDetail.price.toString())
             tvServiceDetailTitle.text = serviceDetail.s_description
-            if(prefManager.setLanguage=="0")
+            if(prefManager.setLanguage=="0"||prefManager.setLanguage=="")
             {
                 tvCategoryName.text = serviceDetail.category.title
                 tvSubcategoryName.text = serviceDetail.sub_category.title

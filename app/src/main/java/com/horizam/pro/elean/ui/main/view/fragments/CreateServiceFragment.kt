@@ -133,7 +133,7 @@ class CreateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
                 }
                 etPrice.text.toString().toDouble() < Constants.MINIMUM_ORDER_PRICE -> {
                     var manager: PrefManager = PrefManager(App.getAppContext()!!)
-                        if (manager.setLanguage == "0") {
+                        if (manager.setLanguage =="0"||manager.setLanguage=="") {
                             genericHandler.showErrorMessage("Minimum ${Constants.MINIMUM_ORDER_PRICE}${Constants.CURRENCY} must be entered")
                         } else {
                             genericHandler.showErrorMessage("Minimi ${Constants.MINIMUM_ORDER_PRICE}${Constants.CURRENCY} on syötettävä")
@@ -291,7 +291,7 @@ class CreateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
 
     private fun setSpinnerSubcategories(response: SubcategoriesDataResponse) {
         subcategoriesArrayList = response.subcategoriesList.map { spinnerSubcategories ->
-            if (prefManager.setLanguage == "0") {
+            if (prefManager.setLanguage =="0"||prefManager.setLanguage=="") {
                 SpinnerModel(id = spinnerSubcategories.id, value = spinnerSubcategories.title)
 
             } else {
@@ -309,7 +309,7 @@ class CreateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
 
     private fun setUIData(response: CategoriesCountriesResponse) {
         categoriesArrayList = response.categoriesCountriesData.categories.map { spinnerCategories ->
-            if (prefManager.setLanguage == "0") {
+            if (prefManager.setLanguage =="0"||prefManager.setLanguage=="") {
                 SpinnerModel(id = spinnerCategories.id!!, value = spinnerCategories.title!!)
 
             } else {
@@ -329,19 +329,21 @@ class CreateServiceFragment : Fragment(), AdapterView.OnItemSelectedListener, Im
             for (i in 0..response.categoriesCountriesData.deliveryDays.size) {
                 if (i <= response.categoriesCountriesData.deliveryDays.lastIndex) {
                     var split = response.categoriesCountriesData.deliveryDays[i].split(" ")
-                    if (prefManager.setLanguage == "0") {
+                    if (prefManager.setLanguage =="0"||prefManager.setLanguage=="") {
                         if(i==0)
                         {
-                            daysArrayList.add("${split[0]}" +" "+"day")
+                            daysArrayList.add("${split[0]}" + " " +"day")
                         }
-                        daysArrayList.add("${split[0]}" +" "+"days")
-
+                        else {
+                            daysArrayList.add("${split[0]}" + " " + "days")
+                        }
                 }
                     else {
                         if (i == 0) {
                             daysArrayList.add("${split[0]}" + " " + "päivä")
+                        } else {
+                            daysArrayList.add("${split[0]}" + " " + "päiväa")
                         }
-                        daysArrayList.add("${split[0]}" + " " + "päiväa")
                     }
         }
 

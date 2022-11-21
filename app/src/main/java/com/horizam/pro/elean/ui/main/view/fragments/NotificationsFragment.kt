@@ -1,6 +1,7 @@
 package com.horizam.pro.elean.ui.main.view.fragments
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.horizam.pro.elean.App
+import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
@@ -26,6 +28,9 @@ import com.horizam.pro.elean.ui.main.adapter.NotificationsAdapter
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
 import com.horizam.pro.elean.ui.main.callbacks.NotificationsHandler
 import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
+import com.horizam.pro.elean.ui.main.view.activities.HomeActivity
+import com.horizam.pro.elean.ui.main.view.activities.SplashActivity
+import com.horizam.pro.elean.ui.main.view.activities.UserGigDetailsActivity
 import com.horizam.pro.elean.ui.main.viewmodel.NotificationsViewModel
 import com.horizam.pro.elean.utils.Status
 import kotlinx.android.synthetic.main.item_manage_service.view.*
@@ -184,7 +189,31 @@ class NotificationsFragment : Fragment(), NotificationsHandler, OnItemClickListe
 
     override fun <T> onItemClick(item: T) {
         if (item is Notification) {
+            val content_id = item.content_id
+            val sender_id=item.sender_id
+            val type=item.type
+            if(type=="ORDER") {
+                val bundle = Bundle()
+                bundle.putString(Constants.TYPE, type)
+                bundle.putString(Constants.CONTENT_ID, content_id)
+                val int = Intent(context, HomeActivity::class.java)
+                int.putExtras(bundle)
+                startActivity(int)
+            }
+            else if(type=="MESSAGE")
+            {
+                val action =NotificationsFragmentDirections.actionNotificationsFragmentToMessagesFragment(sender_id)
+                findNavController().navigate(action)
+            }
+            else if(type=="OFFER")
+            {
+                val action =NotificationsFragmentDirections.actionNotificationsFragmentToMessagesFragment(sender_id)
+                findNavController().navigate(action)
+            }
+            else
+            {
 
+            }
         }
     }
 

@@ -45,6 +45,18 @@
         <argument
             android:name="notification_detail"
             app:argType="string" />
+        <action
+            android:id="@+id/action_notificationsFragment_to_orderDetailsFragment"
+            app:destination="@id/orderDetailsFragment" />
+        <action
+            android:id="@+id/action_notificationsFragment_to_messagesFragment"
+            app:destination="@id/messagesFragment" />
+        <action
+            android:id="@+id/action_notificationsFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_notificationsFragment_to_manageOrdersFragment"
+            app:destination="@id/manageOrdersFragment" />
     </fragment>
     <fragment
         android:id="@+id/savedFragment"
@@ -151,6 +163,9 @@
         <argument
             android:name="uid"
             app:argType="string" />
+        <argument
+            android:name="username"
+            app:argType="string" />
         <action
             android:id="@+id/action_featuredGigsDetailsFragment_to_messagesFragment"
             app:destination="@id/messagesFragment" />
@@ -244,7 +259,6 @@
             app:argType="com.horizam.pro.elean.data.model.MessageGig"
             app:nullable="true" />
     </fragment>
-
     <fragment
         android:id="@+id/buyerActionsFragment"
         android:name="com.horizam.pro.elean.ui.main.view.fragments.BuyerActionsFragment"
@@ -429,5 +443,9 @@
             android:id="@+id/action_orderDetailsFragment_to_messagesFragment"
             app:destination="@id/messagesFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/webViewFragment"
+        android:name="com.horizam.pro.elean.ui.main.view.fragments.WebViewFragment"
+        android:label="WebViewFragment" />
 
 </navigation>

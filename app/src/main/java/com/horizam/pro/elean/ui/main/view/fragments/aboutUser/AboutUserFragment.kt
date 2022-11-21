@@ -1,5 +1,6 @@
 package com.horizam.pro.elean.ui.main.view.fragments.aboutUser
 
+import android.R.array
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
@@ -17,6 +18,7 @@ import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
+import com.horizam.pro.elean.data.model.LanguageList
 import com.horizam.pro.elean.data.model.SellerActionModel
 import com.horizam.pro.elean.data.model.response.ProfileInfo
 import com.horizam.pro.elean.data.model.response.UserReviewsResponse
@@ -34,6 +36,7 @@ import com.horizam.pro.elean.utils.BaseUtils
 import com.horizam.pro.elean.utils.PrefManager
 import com.horizam.pro.elean.utils.Status
 import kotlinx.android.synthetic.main.dialog_delete.*
+
 
 class AboutUserFragment : Fragment(), OnItemClickListener {
 
@@ -61,7 +64,7 @@ class AboutUserFragment : Fragment(), OnItemClickListener {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         binding = FragmentUserAboutBinding.inflate(layoutInflater, container,
             false)
@@ -244,14 +247,21 @@ class AboutUserFragment : Fragment(), OnItemClickListener {
                 tvUserRating.text = profileInfo.userRating.toString()
                 tvRatingNumber.text = "(".plus(profile.totalReviews.toString()).plus(")")
                 tvLocation.text = profile.address
-                tvLanguage.text= profile.languages.toString()
+                tvLanguage.text= profile.languages[0].toString()
                 tvDescAboutUser.text=profile.description
                 tvResponse.text = profile.createdAt
-                tvRecentDelivery.text = profile.recentDelivery
+                if(profile.recentDelivery=="No recent delivery")
+                {
+                    tvRecentDelivery.text = getString(R.string.str_no_recent_delivery)
+                }
+                else
+                {
+                    tvRecentDelivery.text = profile.recentDelivery
+                }
                 if (profile.languages==null) {
                     tvLanguage.text = getString(R.string.str_no_language_available)
                 } else {
-                    tvLanguage.text = profile.languages.toString()//.joinToString(separator = ", ")
+                    tvLanguage.text = profile.languages[0].toString()
                 }
 //                if (profile..isEmpty()) {
 //                    tvLanguage.text = getString(R.string.str_no_language_available)

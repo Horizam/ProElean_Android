@@ -38,6 +38,8 @@ import android.text.Spannable
 import android.text.style.ForegroundColorSpan
 
 import android.text.SpannableString
+import android.widget.ImageView
+import com.bumptech.glide.Glide
 import okhttp3.OkHttpClient
 import java.time.LocalTime
 
@@ -54,9 +56,21 @@ class BaseUtils {
         var screenHeight: Int = 0
         var screenWidth: Int = 0
         var DEVICE_ID: String = ""
-        var lang="1"
+        var lang=""
         var isUserProfileScreen: Boolean = false
+        fun changeMiliSecondToTime(milliSeconds: Long, dateFormat: String?): String? {
+            val formatter = SimpleDateFormat(dateFormat)
+            val calendar = Calendar.getInstance()
+            calendar.timeInMillis = milliSeconds
+            return formatter.format(calendar.time)
+        }
 
+        fun loadImage(context: Context, url: String, view: ImageView) {
+
+            Glide.with(context).load(url)
+                .placeholder(R.drawable.ic_dialog_alert)
+                .into(view)
+        }
         fun isInternetAvailable(context: Context): Boolean {
             var result = false
             val connectivityManager =

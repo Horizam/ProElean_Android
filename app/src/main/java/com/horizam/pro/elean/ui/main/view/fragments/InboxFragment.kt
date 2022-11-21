@@ -31,6 +31,9 @@ import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
 import com.horizam.pro.elean.data.model.BottomNotification
 import com.horizam.pro.elean.data.model.Inbox
+import com.horizam.pro.elean.data.model.MembersInfo
+import com.horizam.pro.elean.data.model.MessageUser
+import com.horizam.pro.elean.data.model.response.ServiceDetail
 import com.horizam.pro.elean.databinding.FragmentInboxBinding
 import com.horizam.pro.elean.ui.base.ViewModelFactory
 import com.horizam.pro.elean.ui.main.adapter.InboxAdapter
@@ -40,21 +43,29 @@ import com.horizam.pro.elean.ui.main.callbacks.InboxHandler
 import com.horizam.pro.elean.ui.main.view.activities.AuthenticationActivity
 import com.horizam.pro.elean.ui.main.viewmodel.InboxViewModel
 import com.horizam.pro.elean.utils.PrefManager
+import kotlinx.android.synthetic.main.item_inbox.*
 import org.greenrobot.eventbus.EventBus
+import kotlin.system.measureNanoTime
 
 
 class InboxFragment : Fragment(), InboxHandler, SwipeRefreshLayout.OnRefreshListener {
 
     private lateinit var binding: FragmentInboxBinding
+    private var gig: ServiceDetail? = null
     private lateinit var adapter: InboxAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var db: FirebaseFirestore
     private lateinit var inboxReference: CollectionReference
     private lateinit var prefManager: PrefManager
     private lateinit var genericHandler: GenericHandler
+    private  var member: MembersInfo? = null
+    private  var inbox: Inbox? = null
     private var myId: String = ""
+    private var name:String=""
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private lateinit var viewModel: InboxViewModel
+    private var myInfo: MessageUser? = null
+    private var userInfo: MessageUser? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -68,6 +79,7 @@ class InboxFragment : Fragment(), InboxHandler, SwipeRefreshLayout.OnRefreshList
         binding = FragmentInboxBinding.inflate(layoutInflater, container, false)
         setToolbarData()
         initViews()
+
 
         if (prefManager.accessToken.isEmpty()) {
             this.findNavController().popBackStack()
@@ -147,12 +159,13 @@ class InboxFragment : Fragment(), InboxHandler, SwipeRefreshLayout.OnRefreshList
         recyclerView.itemAnimator = null
         adapter = InboxAdapter(this)
         db = Firebase.firestore
+//        val arg = this.arguments
+//        name = arg!!.get("name").toString()
         swipeRefreshLayout = binding.swipeRefresh
         swipeRefreshLayout.setOnRefreshListener(this)
         inboxReference = db.collection(Constants.FIREBASE_DATABASE_ROOT)
         prefManager = PrefManager(requireContext())
     }
-
     private fun setRecyclerView() {
         recyclerView.let {
             it.layoutManager = LinearLayoutManager(requireContext())
@@ -169,6 +182,7 @@ class InboxFragment : Fragment(), InboxHandler, SwipeRefreshLayout.OnRefreshList
             )
         }
         setAdapterLoadState(adapter)
+
     }
 
     private fun setAdapterLoadState(adapter: InboxAdapter) {
@@ -211,21 +225,49 @@ class InboxFragment : Fragment(), InboxHandler, SwipeRefreshLayout.OnRefreshList
 
     override fun <T> onItemClick(item: T) {
         if (item is Inbox) {
+//            val username: String = item.membersInfo.toString()
+//            val bundle = Bundle()
+//            bundle.putString("username", username)
             val userId = item.members.firstOrNull() {
                 it != myId
             }
-            if (userId != null) {
-                InboxFragmentDirections.actionInboxFragmentToMessagesFragment(
-                    userName = "",
-                    photo = "",
-                    id = userId
-                ).also {
-                    findNavController().navigate(it)
-                }
+            if (item!!.membersInfo[0].id == userId && item!!.membersInfo[1].id == myId) {
+                inbox = item
+                myInfo = MessageUser(
+                    inbox!!.membersInfo[1].id,
+                    inbox!!.membersInfo[1].name,
+                    inbox!!.membersInfo[1].photo
+                )
+                userInfo = MessageUser(
+                    inbox!!.membersInfo[0].id,
+                    inbox!!.membersInfo[0].name,
+                    inbox!!.membersInfo[0].photo
+                )
             }
-        }
+               else if (item!!.membersInfo[0].id == myId && item!!.membersInfo[1].id == userId) {
+                inbox = item
+                    myInfo = MessageUser(
+                        inbox!!.membersInfo[0].id,
+                        inbox!!.membersInfo[0].name,
+                        inbox!!.membersInfo[0].photo
+                    )
+                    userInfo = MessageUser(
+                        inbox!!.membersInfo[1].id,
+                        inbox!!.membersInfo[1].name,
+                        inbox!!.membersInfo[1].photo
+                    )
+                }
+                    if (userId != null) {
+                        InboxFragmentDirections.actionInboxFragmentToMessagesFragment(
+                            userName = userInfo!!.name,
+                            photo = "",
+                            id = userId
+                        ).also {
+                            findNavController().navigate(it)
+                        }
+                    }
+                }
     }
-
     override fun onRefresh() {
         if (swipeRefreshLayout.isRefreshing) {
             swipeRefreshLayout.isRefreshing = false

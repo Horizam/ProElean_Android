@@ -263,24 +263,6 @@ class EditProfileFragment : Fragment() {
         }
     }
 
-    private fun setUiData(profileInfo: ProfileInfo) {
-
-        binding.apply {
-            Glide.with(this@EditProfileFragment)
-                .load(Constants.BASE_URL.plus(profileInfo.image))
-                .error(R.drawable.img_profile)
-                .placeholder(R.drawable.img_loading)
-                .into(binding.ivProfile)
-            etAddress==null
-            etAddress.setText(profileInfo.address)
-            etPhone==null
-            etFullName.setText(profileInfo.name)
-            etPhone.setText(profileInfo.phone)
-            etDescription.setText(profileInfo.description)
-            //etCarrierNumber.setText(profile.phone)
-        }
-    }
-
     private fun onClickRequestPermission() {
         when {
             ContextCompat.checkSelfPermission(
@@ -315,6 +297,24 @@ class EditProfileFragment : Fragment() {
                     Manifest.permission.READ_EXTERNAL_STORAGE
                 )
             }
+        }
+    }
+
+    private fun setUiData(profileInfo: ProfileInfo) {
+
+        binding.apply {
+            Glide.with(this@EditProfileFragment)
+                .load(Constants.BASE_URL.plus(profileInfo.image))
+                .error(R.drawable.img_profile)
+                .placeholder(R.drawable.img_loading)
+                .into(binding.ivProfile)
+            etAddress==null
+            etAddress.setText(profileInfo.address)
+            etPhone==null
+            etFullName.setText(profileInfo.name)
+            etPhone.setText(profileInfo.phone)
+            etDescription.setText(profileInfo.description)
+            //etCarrierNumber.setText(profile.phone)
         }
     }
 

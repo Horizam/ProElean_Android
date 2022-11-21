@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import com.horizam.pro.elean.App
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.api.ApiHelper
 import com.horizam.pro.elean.data.api.RetrofitBuilder
@@ -19,6 +20,7 @@ import com.horizam.pro.elean.ui.base.ViewModelFactory
 import com.horizam.pro.elean.ui.main.callbacks.GenericHandler
 import com.horizam.pro.elean.ui.main.viewmodel.SettingsViewModel
 import com.horizam.pro.elean.utils.BaseUtils.Companion.hideKeyboard
+import com.horizam.pro.elean.utils.PrefManager
 import com.horizam.pro.elean.utils.Status
 
 class ChangePasswordFragment : Fragment() {
@@ -71,7 +73,15 @@ class ChangePasswordFragment : Fragment() {
 
     private fun handleResponse(response: GeneralResponse) {
         hideKeyboard()
-        genericHandler.showSuccessMessage(response.message)
+        var manager: PrefManager = PrefManager(App.getAppContext()!!)
+        if (manager.setLanguage == "0"||manager.setLanguage=="") {
+            genericHandler.showSuccessMessage(response.message)
+
+        }
+        else
+        {
+            genericHandler.showSuccessMessage(getString(R.string.str_succesully))
+        }
         navController.popBackStack()
     }
 

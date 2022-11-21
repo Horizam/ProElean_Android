@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.horizam.pro.elean">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -32,8 +33,14 @@
         android:usesCleartextTraffic="true"
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
+        tools:ignore="DataExtractionRules"
+        tools:replace="allowBackup"
+        tools:targetApi="m"
+        android:configChanges="locale"
+        android:largeHeap="true"
+        android:screenOrientation="portrait"
         android:foregroundServiceType='mediaProjection'
-    android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme">
         <activity
             android:name=".ui.main.view.activities.CheckoutActivity"
             android:exported="true"
@@ -63,26 +70,20 @@
         </activity>
         <activity
             android:name=".ui.main.view.activities.HomeActivity"
-            android:windowSoftInputMode="adjustPan"
+            android:windowSoftInputMode="adjustResize"
             android:screenOrientation="portrait"/>
 
         <activity android:name=".ui.main.view.activities.AuthenticationActivity"
             android:screenOrientation="portrait"/>
 
-        <service
-            android:name=".MyFirebaseMessagingService"
-            android:exported="false"
-            android:directBootAware="true">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service> <!-- Set custom default icon -->
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/ic_person" /> <!-- Set color used with incoming notification messages -->
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_color"
-            android:resource="@color/colorAccent" />
+<!--        <service-->
+<!--            android:name=".MyService"-->
+<!--            android:exported="false">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="com.google.firebase.MESSAGING_EVENT" />-->
+<!--            </intent-filter>-->
+<!--        </service> &lt;!&ndash; Set custom default icon &ndash;&gt;-->
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
@@ -95,6 +96,20 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_person" /> <!-- Set color used with incoming notification messages -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:resource="@string/default_notification_channel_id" />
+        <service
+            android:name=".MyFirebaseMessagingService"
+            android:exported="false"
+            tools:ignore="Instantiatable">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

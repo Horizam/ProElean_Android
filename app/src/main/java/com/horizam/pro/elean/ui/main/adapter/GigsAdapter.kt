@@ -99,12 +99,13 @@ class GigsAdapter(
                                 item.favourite=1
                             }
                             favouriteHandler.addRemoveWishList(item)
-
                         }
+
                     }
+
                     else{
-//
                     }
+
                 }
                 tvTitleGig.text = serviceDetail.s_description
                 tvDescriptionGig.setText(Html.fromHtml(Html.fromHtml(serviceDetail.description).toString()))

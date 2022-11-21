@@ -114,7 +114,7 @@ class CreateOfferBottomSheet(private val createOfferHandler: CreateOfferHandler)
                 return
             } else if (etPrice.text.toString().toDouble() < Constants.MINIMUM_ORDER_PRICE) {
                 var manager: PrefManager = PrefManager(App.getAppContext()!!)
-                if (manager.setLanguage == "0") {
+                if (manager.setLanguage =="0"||manager.setLanguage=="") {
                     etPrice.error = "Minimum ${Constants.MINIMUM_ORDER_PRICE}${Constants.CURRENCY} must be entered"
                 } else {
                     etPrice.error = "Minimi ${Constants.MINIMUM_ORDER_PRICE}${Constants.CURRENCY}  on syötettävä"
@@ -233,24 +233,26 @@ class CreateOfferBottomSheet(private val createOfferHandler: CreateOfferHandler)
             }
         }
     }
-
     private fun setRevisionAndDaysData(response: CategoriesCountriesResponse) {
         if (response.categoriesCountriesData.deliveryDays.isNotEmpty()) {
 //            deliveryDaysArrayList = response.categoriesCountriesData.deliveryDays
             for (i in 0..response.categoriesCountriesData.deliveryDays.size) {
                 if (i <= response.categoriesCountriesData.deliveryDays.lastIndex) {
                     var split = response.categoriesCountriesData.deliveryDays[i].split(" ")
-                    if (prefManager.setLanguage == "0") {
+                    if (prefManager.setLanguage == "0"||prefManager.setLanguage=="") {
                         if (i == 0) {
                             deliveryDaysArrayList.add("${split[0]}" + " " + "day")
                         }
-                        deliveryDaysArrayList.add("${split[0]}" + " " + "days")
-
+                        else {
+                            deliveryDaysArrayList.add("${split[0]}" + " " + "days")
+                        }
                     } else {
                         if (i == 0) {
                             deliveryDaysArrayList.add("${split[0]}" + " " + "päivä")
                         }
+                        else{
                         deliveryDaysArrayList.add("${split[0]}" + " " + "päiväa")
+                    }
                     }
                 }
             }

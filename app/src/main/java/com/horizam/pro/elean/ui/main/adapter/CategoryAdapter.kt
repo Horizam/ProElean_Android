@@ -12,6 +12,7 @@ import com.horizam.pro.elean.Constants
 import com.horizam.pro.elean.R
 import com.horizam.pro.elean.data.model.response.Subcategory
 import com.horizam.pro.elean.databinding.ItemServicesCategoryBinding
+import com.horizam.pro.elean.databinding.ItemSubCategoryBinding
 import com.horizam.pro.elean.ui.main.callbacks.OnItemClickListener
 import com.horizam.pro.elean.utils.PrefManager
 
@@ -20,7 +21,7 @@ class CategoryAdapter(private val listener: OnItemClickListener) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder {
         val binding =
-            ItemServicesCategoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemSubCategoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return DataViewHolder(binding)
     }
 
@@ -35,7 +36,7 @@ class CategoryAdapter(private val listener: OnItemClickListener) :
         return if (position == itemCount) Constants.DATA_ITEM else Constants.LOADING_ITEM
     }
 
-    inner class DataViewHolder(private val binding: ItemServicesCategoryBinding) :
+    inner class DataViewHolder(private val binding: ItemSubCategoryBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         init {
@@ -57,9 +58,9 @@ class CategoryAdapter(private val listener: OnItemClickListener) :
                     .load("${Constants.BASE_URL}${subcategory.banner}")
                     .centerCrop()
                     .transition(DrawableTransitionOptions.withCrossFade())
-                    .error(R.drawable.ic_error)
+                    .error(R.drawable.ic_progress)
                     .into(ivService)
-                if (manager.setLanguage == "0") {
+                if (manager.setLanguage == "0"||manager.setLanguage=="") {
                     tvServiceName.text = subcategory.title
                 }
                 else

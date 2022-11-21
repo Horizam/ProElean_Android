@@ -55,7 +55,7 @@ class ServicesAdapter(val listener: OnItemClickListener) :
                     .error(R.drawable.ic_error)
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .into(ivService)
-                if (manager.setLanguage == "0") {
+                if (manager.setLanguage == "0"||manager.setLanguage=="") {
                     tvServiceName.text = category.title
                 }
                 else

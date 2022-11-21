@@ -195,7 +195,7 @@ class ServiceDetailsFragment : Fragment(), BaseSliderView.OnSliderClickListener,
             tvDeliveryTime.text = serviceDetail.delivery_time
             ratingBar.rating = serviceDetail.service_rating.toFloat()
             tvRatingValue.text = " (${serviceDetail.total_reviews})"
-            if(prefManager.setLanguage=="0")
+            if(prefManager.setLanguage=="0"||prefManager.setLanguage=="")
             {
                 tvCategoryTitle.text = serviceDetail.category.title
                 tvSubcategoryTitle.text = serviceDetail.sub_category.title

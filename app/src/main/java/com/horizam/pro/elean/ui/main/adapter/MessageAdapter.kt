@@ -19,6 +19,8 @@ import com.horizam.pro.elean.databinding.ItemMessageRightBinding
 import com.horizam.pro.elean.ui.main.callbacks.MessagesHandler
 
 import com.bumptech.glide.request.RequestOptions
+import com.horizam.pro.elean.App
+import com.horizam.pro.elean.utils.PrefManager
 
 
 class MessageAdapter(val listener: MessagesHandler, myInfo: MessageUser?, userInfo: MessageUser?) :
@@ -65,6 +67,7 @@ class MessageAdapter(val listener: MessagesHandler, myInfo: MessageUser?, userIn
 
     fun setMyInfo(user: MessageUser) {
         myInfo = user
+
     }
 
     inner class DataViewHolderLeft(private val binding: ItemMessageLeftBinding) :
@@ -113,6 +116,7 @@ class MessageAdapter(val listener: MessagesHandler, myInfo: MessageUser?, userIn
         }
 
         fun bind(message: Message) {
+            var manager: PrefManager = PrefManager(App.getAppContext()!!)
             binding.apply {
                 if (Constants.MESSAGE_TYPE_TEXT == message.attachmentType) {
                     tvSenderMessage.text = message.message
@@ -161,7 +165,14 @@ class MessageAdapter(val listener: MessagesHandler, myInfo: MessageUser?, userIn
                             tvOfferDescription.text = offer.description
                             tvOfferPrice.text = itemView.context.getString(R.string.str_offer_price_new)
                                 .plus(" ").plus(offer.totalOffer.toString()).plus(Constants.CURRENCY)
-                            tvOfferTime.text = offer.deliveryDays
+                            if(manager.setLanguage=="0"||manager.setLanguage=="")
+                            {
+                                tvOfferTime.text = offer.deliveryDays
+                            }
+                            else{
+                                tvOfferTime.text = offer.deliveryDays[0]+" "+"pavia"
+                            }
+
                             tvOfferRevisions.text = offer.revisions.plus(" ").plus(itemView.context.getString(R.string.str_revisions))
                             tvOfferDescription.text = offer.description
                             if (offer.offerSenderId == myInfo!!.id){
@@ -227,6 +238,7 @@ class MessageAdapter(val listener: MessagesHandler, myInfo: MessageUser?, userIn
                 }
                 if(Constants.MESSAGE_TYPE_TEXT == message.attachmentType)
                 binding.layoutGigRefer.isVisible = message.refersGig
+
             }
         }
 
@@ -300,7 +312,16 @@ class MessageAdapter(val listener: MessagesHandler, myInfo: MessageUser?, userIn
                         textMessage = true, image = false, video = false,
                         document = false,offer = false
                     )
-                } else if (Constants.MESSAGE_TYPE_IMAGE == message.attachmentType) {
+                }else if(Constants.NORMAL_MESSAGE_TYPE_TEXT==message.attachmentType)
+                {
+                    tvReceiverMessage.text = message.message
+                    changeViewsVisibility(
+                        textMessage = true, image = false, video = false,
+                        document = false,offer = false
+                    )
+
+                }
+                else if (Constants.MESSAGE_TYPE_IMAGE == message.attachmentType) {
                     changeViewsVisibility(
                         textMessage = false, image = true, video = false,
                         document = false,offer = false

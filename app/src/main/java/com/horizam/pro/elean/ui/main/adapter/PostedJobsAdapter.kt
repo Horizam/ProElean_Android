@@ -83,6 +83,8 @@ class PostedJobsAdapter(
 //                tvStatus.text = status
 //                cardViewStatus.setCardBackgroundColor(color)
                 tvDuration.text = job.delivery_time
+
+
                 tvBudgetList.text = job.budget.toString().plus(Constants.CURRENCY)
                 tvDate.text = LocalDateTime.now().format(DateTimeFormatter.ofPattern("MMM-dd-yyyy"))
                 if (job.total_offers > 0) {

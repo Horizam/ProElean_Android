@@ -27,8 +27,8 @@ data class MessageOffer(
     val totalOffer: Double = 0.0
 )@Parcelize
 data class MessageGig(
-    val gigId: String = "",
-    val gigImage: String = "",
-    val gigTitle: String = "",
-    val gigUsername: String = "",
+    var gigId: String = "",
+    var gigImage: String = "",
+    var gigTitle: String = "",
+    var gigUsername: String = "",
 ) : Parcelable

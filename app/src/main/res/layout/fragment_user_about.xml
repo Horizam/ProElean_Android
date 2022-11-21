@@ -197,8 +197,8 @@
 
             <TextView
                 android:id="@+id/tv_response"
-                android:layout_width="2dp"
-                android:layout_height="6dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_7sdp"
                 android:ellipsize="end"
                 android:maxWidth="@dimen/_80sdp"
